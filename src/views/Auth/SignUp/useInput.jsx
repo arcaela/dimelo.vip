@@ -48,8 +48,8 @@ export default function useInput(){
             ((!keys.length || keys.indexOf(key)>-1)&&error)?_.concat(error):_
         ),[])
     };
-
-    const [step, _setStep] = React.useState(1);
+    // busca aqui
+    const [step, _setStep] = React.useState(3);
     const setStep = (e)=>_setStep(e);
     const nextStep = ()=>setStep(p=>p+1);
     const prevStep = (callback=()=>{})=>setStep(p=>p>0?p-1:callback());
