@@ -68,7 +68,14 @@ export default function PageTest(){
   }
   return (<Layout>
     <Container maxWidth="xs" className={classes.root} >
-        { step===0 && (<article>
+        { step===0 && (<article style={{
+          height: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+          textAlign: 'center',
+          alignItems: 'center',
+        }}>
             <img src={WelcomeImage} alt="Bienvenido al test de personalidad"/>
             <Typography paragraph>
               Lorem ipsum dolor sit amet,
