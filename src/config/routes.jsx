@@ -13,7 +13,7 @@ config.routes.push(
 
 Route('/', Auth);
 Route('/signup', Auth);
+Route('/login', require('../views/LoginPage/LoginPage').default);
 Route('/news', require('../views/NewsPage').default);
 Route('/test', require('../views/TestPage').default);
 Route('/red', require('../views/RedPage/RedPage').default);
-Route('/login', require('../views/LoginPage/LoginPage').default);
