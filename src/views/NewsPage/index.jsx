@@ -6,10 +6,10 @@ import Layout from '../layout';
 export default function NewsPage( { ...req } ) {
 
   const { match } = req;
-  
+
   return (
     <Layout >
-     {([{title:'Titulo'}, {title:'Titulo'}]).map((element, key) => <CardNews key={key} {...element} />)}
+     {([{title:'Boris'}, {title:'Jesus'}]).map((element, key) => <CardNews key={key} {...element} />)}
     </Layout>
   );
 }
