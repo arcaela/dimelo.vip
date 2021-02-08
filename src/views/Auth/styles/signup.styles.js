@@ -23,15 +23,18 @@ export const useStylesSingUp = makeStyles(theme=>({
     body:{
         margin:'auto',
         alignItems:'center',
+        '& .MuiFormControl-fullWidth':{
+            width: '100% !important'
+        },
         '& [role="tabpanel"]:not([hidden])':{
             display:'flex',
             flexWrap:'wrap',
             '& .MuiFormControl-root':{
-                width:250,
+                width:'100% !important',
                 maxWidth:'45%',
                 marginBottom:20,
                 '&:nth-child(odd)':{ marginRight:'auto', },
-                '&:only-child':{ width:250, maxWidth:'99%', margin:'auto', },
+                '&:only-child':{ width:'100% !important', maxWidth:'99%', margin:'auto', },
             },
             '& > .legend':{
                 flexGrow: 1,
