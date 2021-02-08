@@ -96,7 +96,6 @@ let Inputs = {
 export default function useTest(){
     const [ inputs, _reset ] = React.useState(Inputs);
     const setInputs = newObject=>_reset({...(Inputs=merge(Inputs, newObject))});
-    
     const [step, setStep] = React.useState(0);
     const nextStep = ()=>setStep(p=>p+1);
     const prevStep = ()=>setStep(p=>(p<1?0:p-1));
@@ -104,12 +103,10 @@ export default function useTest(){
         inputs,
         setInputs,
         step,
-
         setStep,
         nextStep,
         prevStep,
     };
-    
     hooks.StepComponent = ({ steps=[], offset=0 })=>{
         if(step<offset || step>steps.length ) return null;
         const Component = steps[step-offset];
