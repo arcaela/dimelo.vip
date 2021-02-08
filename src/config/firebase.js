@@ -1,4 +1,6 @@
-import { FirebaseLoad } from '@arcaela/aurora/firebase'
+import { firebase, FirebaseLoad } from '@arcaela/aurora/firebase'
+import 'firebase/auth'
+import 'firebase/firestore'
 FirebaseLoad({
     '[DEFAULT]':{
         apiKey: "AIzaSyBntYCJH39TRORGUSYpYHHrcg4Etk8Y208",
@@ -10,3 +12,4 @@ FirebaseLoad({
       },
     firestore:null,
 });
+export default firebase;
