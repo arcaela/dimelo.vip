@@ -15,6 +15,7 @@ import BrandPNG from '../../../dist/images/brand.svg';
 import Wizard from './Wizard';
 import Regions from './votes_regions';
 import { useStylesSingUpMore } from '../styles/singupmore.styles';
+import MapGetLocation from '../components/MapGetLocation';
 
 export default function SignUpMore({ useInput, ...req }) {
 
@@ -76,6 +77,7 @@ export default function SignUpMore({ useInput, ...req }) {
     />
   ) : (
     <div className={classes.root}>
+      <MapGetLocation />
       <Container maxWidth='sm' className={classes.container}>
         <img alt='Brand' src={BrandPNG} className={classes.brand} />
         <div className={classes.header}>
@@ -102,9 +104,7 @@ export default function SignUpMore({ useInput, ...req }) {
               label='Municipio donde resides'
               disabled={!inputs.departamento.value}
               options={
-                inputs.departamento.value in Regions
-                  ? Object.keys(Regions[inputs.departamento.value])
-                  : []
+                Object.keys(Regions[inputs.departamento.value] || [])
               }
             />
             <Autocomplete
@@ -112,13 +112,12 @@ export default function SignUpMore({ useInput, ...req }) {
               label='Comuna o Corregimiento (Si Aplica)'
               InputLabelProps={{ style: { fontSize: 13 } }}
               disabled={!inputs.municipio.value}
-              options={
-                inputs.departamento.value && inputs.municipio.value
-                  ? Object.keys(
-                      Regions[inputs.departamento.value][inputs.municipio.value]
-                    )
-                  : []
-              }
+              options={Object.keys(
+                (!!inputs.departamento.value && !!inputs.municipio.value
+                  && inputs.municipio.value in Regions)
+                ?(Regions[inputs.departamento.value][inputs.municipio.value] ||[])
+                :[]
+              )}
             />
             <InputField name='direccion' label='Dirección de residencia' />
             <InputField name='phone' label='Teléfono fijo' type='number' />
