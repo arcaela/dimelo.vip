@@ -10,58 +10,57 @@ import Typography from '@material-ui/core/Typography';
 import Photogrid from "react-facebook-photo-grid";
 import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutlined';
 import ShareIcon from '@material-ui/icons/Share';
-import {Box} from '@material-ui/core';
+import { Box, Container } from '@material-ui/core';
 import { useCardStyles } from './cardNews.styles';
 
 import AvatarImg from '../../../../dist/images/avatar.jpg'
-import Video from '../../../../dist/images/search.mp4'
-export default function CardNews({ title }) {
-  const img = [AvatarImg,AvatarImg,Video,AvatarImg]
+import { Favorite } from '@material-ui/icons';
+
+export default function CardNews({ likes = 0, like = false, autor: { name }, title, description, pictures }) {
+  const img = [AvatarImg, AvatarImg, AvatarImg]
   const classes = useCardStyles();
-
+  const [favorite, _setFav] = React.useState({ like, likes })
+  const setFav = (o) => _setFav(p => ({...p,...o}))
   return (
-    <Card className={classes.root}>
-      <CardHeader
-        avatar={
-          <Avatar alt="Jesús Ramírez" src={AvatarImg} />
-        }
-        title={title}
-        subheader='22 Dic 2020 at 3:46 PM'
-      />
-      <CardContent>
-        <Typography variant="h6" component="h2" gutterBottom>
-          Lorem ipsum dolor sit amet, consetetur sadipscing elitr
-        </Typography>
-        <Typography variant='body2' color='textSecondary' component='p'>
-          Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
-        </Typography>
-
-      </CardContent>
-      <Box m={2}>
-      <Photogrid
-        className={classes.media}
-        images={img} //required
-        // width='96%'
-      ></Photogrid>
-      </Box>
-      <CardActions className={classes.actions} disableSpacing>
-        <div>
-          <IconButton aria-label='add to favorites'>
-            <FavoriteBorderOutlinedIcon />
-          </IconButton>
-          <span>
-            59
+    <Container maxWidth='sm'>
+      <Card className={classes.root}>
+        <CardHeader
+          avatar={
+            <Avatar alt={name} src={AvatarImg} />
+          }
+          title={name}
+          subheader='22 Dic 2020 at 3:46 PM'
+        />
+        <CardContent>
+          <Typography variant="h6" children={title} component="h2" gutterBottom />
+          <Typography variant='body2' children={description} color='textSecondary' component='p' />
+        </CardContent>
+        <Box m={2}>
+          <Photogrid
+            className={classes.media}
+            images={pictures} //required
+          // width='96%'
+          ></Photogrid>
+        </Box>
+        <CardActions className={classes.actions} disableSpacing>
+          <div>
+            <IconButton onClick={() => setFav({likes:(favorite.likes + (favorite.like ? -1:1 )),like: !favorite.like})} aria-label='add to favorites' color='secondary' >
+              {favorite.like ? <Favorite /> : <FavoriteBorderOutlinedIcon />}
+            </IconButton>
+            <span>
+              {favorite.likes}
+            </span>
+          </div>
+          <div>
+            <span>
+              Compartir
           </span>
-        </div>
-        <div>
-          <span>
-            Compartir
-          </span>
-          <IconButton aria-label='share'>
-            <ShareIcon color='secondary' />
-          </IconButton>
-        </div>
-      </CardActions>
-    </Card>
+            <IconButton aria-label='share'>
+              <ShareIcon color='secondary' />
+            </IconButton>
+          </div>
+        </CardActions>
+      </Card>
+    </Container>
   );
 }
