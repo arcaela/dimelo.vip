@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react'
+import React, { useRef, useEffect } from 'react'
 import { Loader } from 'google-maps';
 import { makeStyles } from '@material-ui/core';
 import Modal from '@material-ui/core/Modal';
@@ -37,7 +37,7 @@ export default function MapGetLocation({
     openModel, 
     setOpenModal, 
     location = { lat: 4.570868, lng: -74.297333 },
-    setInput
+    setInputs
 }) {
 
     const refDiv = useRef();
@@ -83,9 +83,16 @@ export default function MapGetLocation({
                         location: data
                     }, (results, status) => {
                         if (status === "OK" && results[0]) {
-                            setInput('direccion', { coords : data, value : results[0].formatted_address })
-                        } else {
-                        }
+                            setInputs({
+                                gps:{
+                                    name: 'gps',
+                                    value: data
+                                },
+                                direccion : {
+                                    value : results[0].formatted_address
+                                }
+                            });
+                        } else {}
                       });
                     
                     setTimeout( () => { setOpenModal(!openModel) }, 1500 );

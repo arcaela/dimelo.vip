@@ -90,15 +90,18 @@ export default async function Wizard (useHooks){
                 });
                 if(!hasErrors('people_depend','people_join')){
                     await setLoading(true);
-                    await firestore.collection('users').doc()
-                        .set(Object.values(inputs).reduce((_, {name,value})=>{
+
+                    const client =  Object.values(inputs).reduce((_, {name,value})=>{
                             _[name]=value;
                             return _;
-                        },{}));
+                        },{})
+                    
                     await setInputs(Object.keys(inputs).reduce((_, k)=>{
                         _[k]={value:'',error:null};
                         return _;
                     },{}));
+                    
+
                     await setLoading(false);
                     await nextStep();
                 }

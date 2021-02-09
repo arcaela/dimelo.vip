@@ -38,6 +38,7 @@ export default function SignUpMore({ useInput, ...req }) {
     prevStep,
     loading,
     setInput,
+    setInputs,
     firestore,
     InputField,
     Autocomplete,
@@ -111,7 +112,7 @@ export default function SignUpMore({ useInput, ...req }) {
             style={{ marginTop: 10 }}
           >
             <Typography color='inherit' component='span'>
-              Registrar otra persona
+              Iniciar
             </Typography>
           </Button>
         </Container>
@@ -119,7 +120,7 @@ export default function SignUpMore({ useInput, ...req }) {
     />
   ) : (
     <div className={classes.root}>
-      <MapGetLocation google={google} setInput={setInput} location={direccion} openModel={ open } setOpenModal={ setOpen } />
+      <MapGetLocation google={google} setInputs={setInputs} location={direccion} openModel={ open } setOpenModal={ setOpen } />
       <Container maxWidth='sm' className={classes.container}>
         <img alt='Brand' src={BrandPNG} className={classes.brand} />
         <div className={classes.header}>
