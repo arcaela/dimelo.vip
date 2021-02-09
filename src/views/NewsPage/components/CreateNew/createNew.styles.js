@@ -3,13 +3,14 @@ import { red } from '@material-ui/core/colors';
 
 export const useCardStyles = makeStyles((theme) => ({
     root: {
-
+      minWidth: '30vw',
+      marginLeft: 'auto',
+      marginRight: 'auto',
+      marginBottom: 25
     },
-    media: {
-      height: 0,
-      paddingTop: '56.25%', // 16:9,
-      margin:'3%',
-      borderRadius:'15px'
+    input: {
+      width: '100%',
+     
 
     },
     avatar: {

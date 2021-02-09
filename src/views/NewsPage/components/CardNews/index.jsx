@@ -2,69 +2,65 @@ import React from 'react';
 
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
-import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import Photogrid from "react-facebook-photo-grid";
-import FavoriteIcon from '@material-ui/icons/Favorite';
+import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutlined';
 import ShareIcon from '@material-ui/icons/Share';
+import { Box, Container } from '@material-ui/core';
 import { useCardStyles } from './cardNews.styles';
 
 import AvatarImg from '../../../../dist/images/avatar.jpg'
-import CardImg from '../../../../dist/images/avatar.jpg'
-export default function CardNews({title}) {
+import { Favorite } from '@material-ui/icons';
 
+export default function CardNews({ likes = 0, like = false, autor: { name }, title, description, pictures }) {
+  const img = [AvatarImg, AvatarImg, AvatarImg]
   const classes = useCardStyles();
-
+  const [favorite, _setFav] = React.useState({ like, likes })
+  const setFav = (o) => _setFav(p => ({...p,...o}))
   return (
-    <Card className={classes.root}>
-      <CardHeader
-        avatar={
-          <Avatar alt="Jesús Ramírez" src={ AvatarImg } />
-        }
-        title={title}
-        subheader='22 Dic 2020 at 3:46 PM'
-      />
-      <CardContent>
-        <Typography variant="h6" component="h2" gutterBottom>
-            Lorem ipsum dolor sit amet, consetetur sadipscing elitr
-        </Typography>
-        <Typography variant='body2' color='textSecondary' component='p'>
-        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
-        </Typography>
-
-      </CardContent>
-      {/* <CardMedia
-        className={classes.media}
-        image={CardImg}
-        title='Paella dish'
-      /> */}
-       <Photogrid
-      images={CardImg} //required
-    // width={600} //optional according to your need
-    maxWidth={400} //optional according to your need
-    ></Photogrid>
-      <CardActions className={ classes.actions } disableSpacing>
-        <div>
-          <IconButton aria-label='add to favorites'>
-            <FavoriteIcon />
-          </IconButton>
-          <span>
-            59
+    <Container maxWidth='sm'>
+      <Card className={classes.root}>
+        <CardHeader
+          avatar={
+            <Avatar alt={name} src={AvatarImg} />
+          }
+          title={name}
+          subheader='22 Dic 2020 at 3:46 PM'
+        />
+        <CardContent>
+          <Typography variant="h6" children={title} component="h2" gutterBottom />
+          <Typography variant='body2' children={description} color='textSecondary' component='p' />
+        </CardContent>
+        <Box m={2}>
+          <Photogrid
+            className={classes.media}
+            images={pictures} //required
+          // width='96%'
+          ></Photogrid>
+        </Box>
+        <CardActions className={classes.actions} disableSpacing>
+          <div>
+            <IconButton onClick={() => setFav({likes:(favorite.likes + (favorite.like ? -1:1 )),like: !favorite.like})} aria-label='add to favorites' color='secondary' >
+              {favorite.like ? <Favorite /> : <FavoriteBorderOutlinedIcon />}
+            </IconButton>
+            <span>
+              {favorite.likes}
+            </span>
+          </div>
+          <div>
+            <span>
+              Compartir
           </span>
-        </div>
-        <div>
-          <span>
-            Compartir
-          </span>
-          <IconButton aria-label='share'>
-            <ShareIcon />
-          </IconButton>
-        </div>
-      </CardActions>
-    </Card>
+            <IconButton aria-label='share'>
+              <ShareIcon color='secondary' />
+            </IconButton>
+          </div>
+        </CardActions>
+      </Card>
+    </Container>
   );
 }
