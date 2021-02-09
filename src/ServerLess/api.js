@@ -1,5 +1,5 @@
 import firebase from '../config/firebase'
-import { get, has } from 'lodash'
+import { get } from 'lodash'
 import pathToRegex from 'path-to-regex';
 export { firebase };
 
@@ -37,7 +37,7 @@ export const routes = (function _routes(object, prepend=''){
     },
     news:{
         // index(){ },
-        async [':id'](props={}){
+        async ':id'(props={}){
             return props.id;
         },
 
