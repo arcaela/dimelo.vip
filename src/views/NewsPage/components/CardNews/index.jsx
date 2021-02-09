@@ -8,7 +8,7 @@ import CardActions from '@material-ui/core/CardActions';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-
+import Photogrid from "react-facebook-photo-grid";
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 import { useCardStyles } from './cardNews.styles';
@@ -37,11 +37,16 @@ export default function CardNews({title}) {
         </Typography>
 
       </CardContent>
-      <CardMedia
+      {/* <CardMedia
         className={classes.media}
         image={CardImg}
         title='Paella dish'
-      />
+      /> */}
+       <Photogrid
+      images={CardImg} //required
+    // width={600} //optional according to your need
+    maxWidth={400} //optional according to your need
+    ></Photogrid>
       <CardActions className={ classes.actions } disableSpacing>
         <div>
           <IconButton aria-label='add to favorites'>

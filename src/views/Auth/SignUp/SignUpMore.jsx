@@ -97,15 +97,13 @@ export default function SignUpMore({ useInput, ...req }) {
               name='departamento'
               label='Departamento donde resides'
               options={Object.keys(Regions)}
-              onChange={() => setInput('municipio', { value: '' })}
+              onChange={()=>setInput('municipio',{value:''})}
             />
             <Autocomplete
               name='municipio'
               label='Municipio donde resides'
               disabled={!inputs.departamento.value}
-              options={
-                Object.keys(Regions[inputs.departamento.value] || [])
-              }
+              options={Object.keys(Regions[inputs.departamento.value]||{})}
             />
             <Autocomplete
               name='comuna'
@@ -113,10 +111,7 @@ export default function SignUpMore({ useInput, ...req }) {
               InputLabelProps={{ style: { fontSize: 13 } }}
               disabled={!inputs.municipio.value}
               options={Object.keys(
-                (!!inputs.departamento.value && !!inputs.municipio.value
-                  && inputs.municipio.value in Regions)
-                ?(Regions[inputs.departamento.value][inputs.municipio.value] ||[])
-                :[]
+                (Regions[inputs.departamento.value]||{})[inputs.municipio.value]||{}
               )}
             />
             <InputField name='direccion' label='Dirección de residencia' />
@@ -128,16 +123,12 @@ export default function SignUpMore({ useInput, ...req }) {
               name='voting_dep'
               label='Departamento donde votas'
               options={Object.keys(Regions)}
-              onChange={() => setInput('municipio', { value: '' })}
+              onChange={()=>setInput('voting_mun',{value:''})}
             />
             <Autocomplete
               name='voting_mun'
               label='Municipio donde votas'
-              options={
-                inputs.voting_dep.value in Regions
-                  ? Object.keys(Regions[inputs.voting_dep.value])
-                  : []
-              }
+              options={Object.keys(Regions[inputs.voting_dep.value]||{})}
             />
             <Autocomplete
               name='voting_point'
