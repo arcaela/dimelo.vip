@@ -1,5 +1,4 @@
 import React from 'react';
-
 // import CardNews from './components/CardNews';
 import Layout from '../layout';
 import CreateNew from './components/CreateNew';
