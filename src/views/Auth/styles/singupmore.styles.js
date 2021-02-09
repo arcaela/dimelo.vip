@@ -27,6 +27,9 @@ export const useStylesSingUpMore = makeStyles(theme=>({
             '& > img':{ margin:'0 auto', },
         },
     },
+    w100:{
+        '& .MuiFormControl-fullWidth':{ width: '100% !important' }
+    },
     header:{
         display:'flex',
         flexWrap:'wrap',
@@ -42,7 +45,7 @@ export const useStylesSingUpMore = makeStyles(theme=>({
         '& [role="tabpanel"]:not([hidden])':{
             display:'flex',
             flexWrap:'wrap',
-            '& .MuiFormControl-root':{
+            '& > .MuiFormControl-root':{
                 width:250,
                 maxWidth:'45%',
                 marginBottom:20,
