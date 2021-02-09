@@ -15,7 +15,6 @@ export default function Sidebar( { path, mobileOpen, setMobileOpen } ) {
 
     let history = useHistory();
 
-    let container;
 
     const hadlerNavigation = (path) => {
       history.push(path)
@@ -25,9 +24,6 @@ export default function Sidebar( { path, mobileOpen, setMobileOpen } ) {
       setMobileOpen(!mobileOpen);
     }
 
-    React.useEffect(() => {
-      container = window !== undefined ? () => window().document.body : undefined;
-    }, [])
 
     const Navigation = () => {
       return (
@@ -70,16 +66,11 @@ export default function Sidebar( { path, mobileOpen, setMobileOpen } ) {
         </Hidden>
         <Hidden smUp implementation="css">
           <Drawer
-            container={container}
             variant="temporary"
             open={mobileOpen}
             onClose={handleDrawerToggle}
-            classes={{
-              paper: classes.drawerPaper,
-            }}
-            ModalProps={{
-              keepMounted: true, // Better open performance on mobile.
-            }}
+            ModalProps={{ keepMounted: true, }}
+            classes={{ paper: classes.drawerPaper, }}
           >
             <Navigation />
           </Drawer>
