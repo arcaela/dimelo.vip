@@ -14,12 +14,12 @@ export default function useAuth(){
         });
         return ()=>{ unsubscribed(); FireStoreOff=()=>{} };
     }, []);
-    return current?{
+    return current && {
         profile:current, // UserData
         update(newData,callback=()=>{}){ // FireStore Update
             if(!current) return null;
             return users.doc(`${current.uid}`).update(newData).then(callback);
         },
         followers:users.where('leader', '==', current.uid).get, // FireStore Snapshot(s)
-    }:null;
+    };
 }
