@@ -17,7 +17,6 @@ import AvatarImg from '../../../../dist/images/avatar.jpg'
 import { Favorite } from '@material-ui/icons';
 
 export default function CardNews({ likes = 0, like = false, autor: { name }, title, description, pictures }) {
-  const img = [AvatarImg, AvatarImg, AvatarImg]
   const classes = useCardStyles();
   const [favorite, _setFav] = React.useState({ like, likes })
   const setFav = (o) => _setFav(p => ({...p,...o}))

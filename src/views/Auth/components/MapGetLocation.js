@@ -105,7 +105,7 @@ export default function MapGetLocation({
 
         setMAp();
 
-    }, [openModel]);
+    }, [setOpenModal,openModel,location, setInputs]);
 
     return ( 
         <Modal

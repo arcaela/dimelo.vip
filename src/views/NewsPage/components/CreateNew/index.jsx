@@ -1,5 +1,4 @@
 import React from 'react'
-import api from '../../../../ServerLess/api'
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
@@ -9,7 +8,7 @@ import { useCardStyles } from './createNew.styles';
 import CardNews from '../CardNews'
 export default function CreateNew() {
     const classes = useCardStyles();
-    const [posts, setPosts] = React.useState([{likes:56, like:true, autor:{name:'Boris'},title:'Titulo', description:'Description', pictures:[]}]);
+    const [posts, /* setPosts */] = React.useState([{likes:56, like:true, autor:{name:'Boris'},title:'Titulo', description:'Description', pictures:[]}]);
     React.useEffect(() => {
         console.log('Componente renderizado')
         // api('news/recent')

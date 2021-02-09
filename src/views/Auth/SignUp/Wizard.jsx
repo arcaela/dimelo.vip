@@ -90,18 +90,14 @@ export default async function Wizard (useHooks){
                 });
                 if(!hasErrors('people_depend','people_join')){
                     await setLoading(true);
-
-                    const client =  Object.values(inputs).reduce((_, {name,value})=>{
-                            _[name]=value;
-                            return _;
-                        },{})
-                    
+                    // const client =  Object.values(inputs).reduce((_, {name,value})=>{
+                        // _[name]=value;
+                        // return _;
+                    // },{})
                     await setInputs(Object.keys(inputs).reduce((_, k)=>{
                         _[k]={value:'',error:null};
                         return _;
                     },{}));
-                    
-
                     await setLoading(false);
                     await nextStep();
                 }
