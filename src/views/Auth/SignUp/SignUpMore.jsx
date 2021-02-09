@@ -15,6 +15,7 @@ import BrandPNG from '../../../dist/images/brand.svg';
 import Wizard from './Wizard';
 import Regions from './votes_regions';
 import { useStylesSingUpMore } from '../styles/singupmore.styles';
+import MapGetLocation from '../components/MapGetLocation';
 
 export default function SignUpMore({ useInput, ...req }) {
 
@@ -76,6 +77,7 @@ export default function SignUpMore({ useInput, ...req }) {
     />
   ) : (
     <div className={classes.root}>
+      <MapGetLocation />
       <Container maxWidth='sm' className={classes.container}>
         <img alt='Brand' src={BrandPNG} className={classes.brand} />
         <div className={classes.header}>
