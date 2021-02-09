@@ -20,32 +20,14 @@ export default async function Wizard (useHooks){
                         await setError('cedula','La cedula ya está registrada');
                         return null;
                     };
-                    return await fetch("https://api.misdatos.com.co/api/co/consultarNombres",{
-                        method:'POST',
-                        redirect:'follow',
-                        headers:new Headers({
-                            "Authorization":([
-                                'xfjjbqqt7lnr36le1ako2yc9mnw4lugq14ouzyqbqt5yafww',
-                                '4rccwa6ls0tmgd4pbawm8cvfc8lkjrxxt1ji8czzaa7rr55i',
-                                'd4alsheb1nixmq9rqu9ultjlphfv7u7at4b7rxy10riy4gvn',
-                                'rnu16w5qb25de1f7m7nn7he0v2wrcapelkry7gtpp770nb5y',
-                                '24u5a0cyf2qbd4uxendniy4bxd2hhrhx83289muehp56iupu',
-                                '2ecek3oivbdqaryi2l6s77senk2db7jorzxr8kpy7jdnxm6a',
-                                'rssxjqwljg4shuce98oohe6xfbt3xvmn0llgjc7v9f3y6pfk',
-                                'o1vlqkzuu4g5i7ik9neefyxr8nytf9j1ziqn5kcxhjhfog3a',
-                                '1gq38u0t40f23iyc5i9l3xmmtc0h3pvg3s81i7yap6pjpcjo',
-                            ]).sort(()=>Math.random()-0.5)[0],
-                            "Content-Type":"application/x-www-form-urlencoded",
-                        }),
-                        body:new URLSearchParams({ documentType:"CC", documentNumber:inputs.cedula.value, }),
-                    }).then(res=>res.ok?res.json():null)
-                    .then(res=>(res&&res.data)?(res.data.firstName?res.data:null):null)
+                    return await fetch("http://34.232.131.9:8080/" + inputs.cedula.value).then(res=>res.ok?res.json():null)
+                    .then( res => ( res&&res.name ) ? res :null)
                 });
             await setLoading(false);
             if(client){
                 await setInputs({
-                    name:{value:client?client.firstName:inputs.name.value},
-                    lastname:{value:client?client.lastName:inputs.lastname.value},
+                    name:{value:client?client.name:inputs.name.value},
+                    lastname:{value:client?client.lastname:inputs.lastname.value},
                 });
                 await nextStep();
             }
