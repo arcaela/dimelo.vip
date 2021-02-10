@@ -11,9 +11,12 @@ const routes = {
         signIn: async ({email, password, remember=false})=>
             firebase.auth().setPersistence(firebase.auth.Auth.Persistence[!!remember?'LOCAL':'SESSION']).then(
                 ()=>firebase.auth().signInWithEmailAndPassword(email, password).then(
-                    ({user :{ uid } })=>CollectionsUsers.doc(uid).get())),
+                    ({user :{ uid } })=>CollectionsUsers.doc(uid).get().then(snap=>snap.data()))),
         signOut: async (callback=()=>{})=>firebase.auth().signOut().then(callback),
     },
+
+    news:{},
+
 };
 
 export default routes;
