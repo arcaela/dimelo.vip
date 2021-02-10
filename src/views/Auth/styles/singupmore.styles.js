@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core';
 
-import WatermarkDarkIMG from '../../../dist/images/watermark-dark.svg';
+import WatermarkDarkIMG from '../../../assets/images/watermark-dark.svg';
 
 export const useStylesSingUpMore = makeStyles(theme=>({
     root:{

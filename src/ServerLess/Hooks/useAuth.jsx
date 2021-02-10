@@ -9,7 +9,7 @@ export default function useAuth(){
     React.useEffect(()=>{
         if(listen.current) listen.current();
         const unsubscribed = firebase.auth().onAuthStateChanged(async state=>{
-            if(state && !!state !== user){
+            if(state && !!state !== !!user){
                 listen.current = CollectionsUsers.doc(`${state.uid}`).onSnapshot(snap=>setUser({
                     ...state.providerData[0],
                     ...snap.data(),

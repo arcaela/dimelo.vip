@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button, Grid, Typography } from '@material-ui/core'
-import Picture from '../../../dist/images/test/indeciso.svg'
+import Picture from '../../../assets/images/test/indeciso.svg'
 
 export default function StepIndeciso({ card, nextStep, }) {
     /*  @props

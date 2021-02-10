@@ -1,5 +1,5 @@
 import React from 'react'
-import Img from '../../dist/images/test/Independiente - Automotivado.svg'
+import Img from '../../assets/images/test/Independiente - Automotivado.svg'
 import { useResultPage } from './testResult.styles'
 
 export default function TestResult() {

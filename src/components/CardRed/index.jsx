@@ -12,11 +12,11 @@ import InstagramIcon from '@material-ui/icons/Instagram';
 import TwitterIcon from '@material-ui/icons/Twitter';
 import FacebookIcon from '@material-ui/icons/Facebook';
 
-import Delete from '../../dist/images/trash.svg';
-import Edit from '../../dist/images/edit.svg';
+import Delete from '../../assets/images/trash.svg';
+import Edit from '../../assets/images/edit.svg';
 import { useCardRed } from './cardRed.styles';
 
-import AvatarImg from '../../dist/images/avatar.jpg'
+import AvatarImg from '../../assets/images/avatar.jpg'
 
 
 

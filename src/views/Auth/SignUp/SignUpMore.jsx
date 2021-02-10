@@ -12,7 +12,7 @@ import {
   Typography,
 } from '@material-ui/core';
 import { FiberManualRecord, Info } from '@material-ui/icons';
-import BrandPNG from '../../../dist/images/brand.svg';
+import BrandPNG from '../../../assets/images/brand.svg';
 
 import Wizard from './Wizard';
 import Regions from './votes_regions';
@@ -35,7 +35,6 @@ export default function SignUpMore({ useInput, ...req }) {
   const {
     step,
     inputs,
-    setStep,
     prevStep,
     loading,
     setInput,

@@ -1,6 +1,6 @@
 import React from 'react'
-import Activo from '../../../dist/images/test/activo_energetico.svg'
-import Inactivo from '../../../dist/images/test/inactivo.svg'
+import Activo from '../../../assets/images/test/activo_energetico.svg'
+import Inactivo from '../../../assets/images/test/inactivo.svg'
 import { Button, Grid, Typography } from '@material-ui/core'
 
 export default function StepEnergico({ card, nextStep, }) {
