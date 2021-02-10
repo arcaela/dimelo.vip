@@ -14,7 +14,7 @@ const routes = {
                 return users.doc(client.uid).set(client).then(()=>client);
             });
         },
-        async signIn: ({email, password, remember=false})=>firebase.auth()
+        signIn: async ({email, password, remember=false})=>firebase.auth()
             .setPersistence(firebase.auth.Auth.Persistence[!!remember?'LOCAL':'SESSION'])
             .then(firebase.auth().signInWithEmailAndPassword(email, password)
                 .then(user=>users.doc(user.uid).get))
