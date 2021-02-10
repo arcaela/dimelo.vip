@@ -12,7 +12,15 @@ export const loginStyles = makeStyles((theme) => ({
     },
     title:{
         fontSize: 40,
-        color: theme.palette.primary.main
+        color: theme.palette.primary.main,
+        [theme.breakpoints.down('sm')]:{
+            color: '#fff'
+        }
+    },
+    input:{
+        [theme.breakpoints.down('sm')]:{
+            color: '#fff'
+        }
     },
     formControl:{
         width: '100%',

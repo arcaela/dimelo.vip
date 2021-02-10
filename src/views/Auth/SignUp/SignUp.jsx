@@ -9,6 +9,7 @@ import {
 import Wizard from './Wizard';
 import { useStylesSingUp } from '../styles/signup.styles';
 import DialogTermsConditions from './DialogTermsConditions';
+import { Link } from 'react-router-dom';
 
 const ucfirst = (str) =>
   str
@@ -99,7 +100,10 @@ export default function SignUp({ useInput, ...req }) {
       </div>
       {true && (
         <Toolbar className={classes.Toolbar}>
-          ¿Ya tienes una cuenta? &nbsp; <Typography>Ingresa</Typography>
+          ¿Ya tienes una cuenta? &nbsp; 
+          <Typography>
+            <Link to="/login">Ingresa</Link>
+          </Typography>
         </Toolbar>
       )}
     </div>

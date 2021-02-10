@@ -1,143 +1,127 @@
-import React, { useState } from 'react'
-import FormControl from '@material-ui/core/FormControl'
+import React from 'react';
+import FormControl from '@material-ui/core/FormControl';
 
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-
-import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
-import { loginStyles } from './login.styles';
-import CircularProgress from '@material-ui/core/CircularProgress'; 
+
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import api from '../../ServerLess/api';
 
+import { useStylesSingUp } from '../../views/Auth/styles/signup.styles';
+import useInput  from '../../views/Auth/SignUp/useInput'
+import { useHistory } from 'react-router-dom';
+
+
+
 export default function Login() {
+  const loginStyle = useStylesSingUp();
 
-    const loginStyle = loginStyles()
+  const router = useHistory()
 
-    const [values, setValues] = useState({
-        email: '',
-        password: '',
-        remenber: false,
-    })
 
-    const [sending, setSending] = useState(false)
-    const [email, setEmail] = useState(false)
-    const [password, setPassword] = useState(false)
+  const {
+    InputField,
+    hasErrors,
+    inputs:{
+        email,
+        password,
+        remember
+    },
+    setInputs,
+    StepComponent,
+    loading, 
+    setLoading 
+  } = useInput()
 
-    const checkValues = () =>{
-
-        if ( values.email === '' ) {
-            setEmail(true)
-        }
+  const handlerSubmit = async (e) => {
+    e.preventDefault();
+    if(hasErrors('email', 'password')) return;
+    try {
+        await setLoading(true);
         
-        if ( values.password.length === 0 ) {
-            setPassword(true)
-        }
-
-        return;
-
-    }
-
-    const handlerChange = (e)=>{
-        setValues({
-            ...values,
-            [e.target.name]: e.target.value
+        const user = await api('auth/signin', { 
+          email: email.value, 
+          password: password.value, 
+          remember: true
         })
-    }
-
-    const handlerRemember = ()=>{
-        setValues({
-            ...values,
-            'remenber': !values.remenber
+        setInputs({
+          email:{
+            value: '',
+            error: null
+          },
+          password:{
+            value: '',
+            error: null
+          }
         })
-    }
 
+        router.push('/news');
+        
+    } catch (e) {
 
-    const handlerSubmit = async (e) => {
-        e.preventDefault()
+      console.log(e);
 
-        setEmail(false)
-        setPassword(false)
+    } finally { setLoading(false); }
+  };
 
+  return (
+    <div className={loginStyle.container}>
+      <h2 className={loginStyle.title}>Iniciar sesión</h2>
+      <form onSubmit={(e) => handlerSubmit(e)}>
+        <StepComponent step={1}>
+          <InputField
+            name='email'
+            label='Correo'
+            helperText=''
+            variant='outlined'
+            inputProps={{ style: { textAlign: 'center' } }}
+            type='email'
+          />
+          <InputField
+            name='password'
+            label='Contraseña'
+            helperText=''
+            variant='outlined'
+            inputProps={{ style: { textAlign: 'center' } }}
+            type='password'
+          />
+        </StepComponent>
 
-        checkValues()
+{/* 
+        <FormControl className={loginStyle.formControl}>
+          <CssTextField
+            value={values.password}
+            onChange={(e) => handlerChange(e)}
+            id='password'
+            name='password'
+            variant='outlined'
+            type='password'
+            error={password}
+            helperText={password ? 'Campo Obligatorio' : ''}
+            label='Contraseña'
+          />
+        </FormControl>
 
-        setSending(true)
-
-        if(email || password){
-            setSending(false)
-            return;
-        }
-
-        try {
-            const data = await api('auth/signin', values);
-
-            console.log('hola',data)
-
-            setSending(false)
-            
-        } catch (e) {
-            console.log(e)
-            setSending(false)
-        }
-    }
-
-    return (
-        <div className={  loginStyle.container }>
-            <h2 className={ loginStyle.title }>Iniciar sesión</h2>
-            <form onSubmit={ e => handlerSubmit(e) }>
-
-                <FormControl 
-                    className={loginStyle.formControl}
-                >
-                    <TextField
-                    value={ values.email }
-                    onChange={ e => handlerChange(e) }
-                    id="email"
-                    name="email"
-                    variant="outlined"
-                    type="email"
-                    error={email}
-                    helperText={email ? "Campo Obligatorio" : ''}
-                    label="Correo" />
-                </FormControl>
-
-                <FormControl
-                    className={loginStyle.formControl}
-                >
-                    <TextField
-                    value={ values.password }
-                    onChange={ e => handlerChange(e) }
-                    id="password"
-                    name="password"
-                    variant="outlined"
-                    type="password"
-                    error={ password }
-                    helperText={ password ? "Campo Obligatorio" : '' }
-                    label="Contraseña" />
-                </FormControl>
-
-                <FormControl
-                    className={ `${ loginStyle.formControl } ${ loginStyle.ps }` }
-                >
-                    <FormControlLabel 
-                    control={<Checkbox onClick={ e => handlerRemember( e ) } name="remenber" value={ values.remenber } />}
-                    label="Recordarme"
-                    />
-                    <span className={ loginStyle.p }>
-                        Olvide mi contraseña
-                    </span>
-                </FormControl>
-                <FormControl className={ loginStyle.formControl }>
-                    <Button 
-                    className={ loginStyle.button } 
-                    type="submit">
-                        { sending ? <CircularProgress color="secondary" /> : 'Ingresar' }
-                    </Button>
-                </FormControl>
-            </form>
-        </div>
-    )
+        <FormControl className={`${loginStyle.formControl} ${loginStyle.ps}`}>
+          <FormControlLabel
+            control={
+              <Checkbox
+                onClick={(e) => handlerRemember(e)}
+                name='remenber'
+                value={values.remenber}
+              />
+            }
+            label='Recordarme'
+          /> */}
+          {/* <span className={loginStyle.p}>Olvide mi contraseña</span> */}
+        {/* </FormControl> */}
+        <FormControl className={loginStyle.formControl}>
+          <Button className={loginStyle.button} type='submit'>
+            {loading ? <CircularProgress color='secondary' /> : 'Ingresar'}
+          </Button>
+        </FormControl>
+      </form>
+    </div>
+  );
 }
