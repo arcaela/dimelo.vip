@@ -17,3 +17,7 @@ Route('/login', require('../views/LoginPage/LoginPage').default);
 Route('/news', require('../views/NewsPage').default);
 Route('/test', require('../views/TestPage').default);
 Route('/red', require('../views/RedPage/RedPage').default);
+
+
+Route('/admin', require('../views/AdminPage').default);
+Route('/admin/movimiento', require('../views/AdminPage/Movimiento').default);
