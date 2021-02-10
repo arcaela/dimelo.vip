@@ -1,8 +1,8 @@
 import React from 'react'
-import { firebase, users } from './api'
+import firebase from '../config/firebase';
 
 
-
+export const users = firebase.firestore().collection('users');
 export default function useAuth(){
     const [ current, setCurrent ] = React.useState(null);
     let FireStoreOff = ()=>{};
