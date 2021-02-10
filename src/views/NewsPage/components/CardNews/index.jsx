@@ -24,12 +24,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { clamp } from 'lodash';
 
-<<<<<<< HEAD
 export default function CardNews({ likes = 0, like = false, autor: { name }, title, description, pictures, date }) {
-=======
-export default function CardNews({ likes = 0, like = false, autor: { name }, title, description, pictures }) {
-  const classes = useCardStyles();
->>>>>>> 44a67613db36d241f7e91fbb427af9f94a1f0303
   const [favorite, _setFav] = React.useState({ like, likes })
   const [copy, setCopy] = React.useState(false)
   const [open, setOpen] = React.useState(false);
