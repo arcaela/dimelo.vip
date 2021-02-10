@@ -8,8 +8,7 @@ import {
     makeStyles
 } from '@material-ui/core';
 import Skeleton from '@material-ui/lab/Skeleton';
-import useAuth from '../../ServerLess/useAuth';
-
+import useAuth from '../../ServerLess/Hooks/useAuth';
 const styles = makeStyles((theme)=>({
   content:{
     minWidth: 300,

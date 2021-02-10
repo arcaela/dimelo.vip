@@ -14,7 +14,7 @@ export const routes = (function _(_ob_, prefix=''){
 })(_routes);
 const routeValues = Object.values(routes);
 
-export default async function api(path='', ...props){
+export default async function api(path, ...props){
     path = path.replace(/(\/|\.)+/gi,'/').replace(/^(\.|\/)?(.*)(\.|\/)+?$/gi, "$2").toLowerCase();
     const route = routeValues.reduce((_ob_, route)=>{
         if(_ob_) return _ob_;

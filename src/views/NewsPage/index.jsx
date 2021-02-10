@@ -1,12 +1,14 @@
 import React from 'react';
 import api from '../../ServerLess/api'
+import CardNews from './components/CardNews';
 import Layout from '../layout';
 import { CircularProgress } from '@material-ui/core';
 import { NoNews } from './components/NoNews';
+import ShareNew from'./components/ShareNew';
 // import CreateNew from './components/CreateNew';
 
 export default function NewsPage({ ...req }) {
-  const [posts, ] = React.useState([{ autor: { name: 'Boris' }, title: 'El presidente dicto cuarentena hasta nuevo aviso', description: 'Por lo general, las aplicaciones de React nuevas tienen un único componente App en lo más alto. Sin embargo, si se integra React en una aplicación existente, se podría empezar de abajo hacia arriba con un pequeño componente como Button y poco a poco trabajar el camino a la cima de la jerarquía de la vista.', date: 5432904400, likes: 3, like: true },
+  const [posts, _setPosts] = React.useState([{ autor: { name: 'Boris' }, title: 'El presidente dicto cuarentena hasta nuevo aviso', description: 'Por lo general, las aplicaciones de React nuevas tienen un único componente App en lo más alto. Sin embargo, si se integra React en una aplicación existente, se podría empezar de abajo hacia arriba con un pequeño componente como Button y poco a poco trabajar el camino a la cima de la jerarquía de la vista.', date: 5432904400, likes: 3, like: true },
   { autor: { name: 'Luis' }, title: 'Mañana juega la seleccion nacional', description: 'Por lo general, las aplicaciones de React nuevas tienen un único componente App en lo más alto. Sin embargo, si se integra React en una aplicación existente, se podría empezar de abajo hacia arriba con un pequeño componente como Button y poco a poco trabajar el camino a la cima de la jerarquía de la vista.', date: 4422904428, likes: 3, like: true },
   { autor: { name: 'Manuel' }, title: 'Despiden al vice presidente de la asamblea nacional', description: 'e la jerarquía de la vista.', date: 2312904410, likes: 3, like: true }]);
   const [loading, setLoading] = React.useState(false)
