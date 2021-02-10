@@ -27,7 +27,7 @@ import StepEnd from './Components/StepEnd';
 
 import { TestButton } from './Components/TestButton';
 
-import WelcomeImage from '../../dist/images/test/welcome.svg'
+import WelcomeImage from '../../assets/images/test/welcome.svg'
 
 
 const useStyles = makeStyles(()=>({

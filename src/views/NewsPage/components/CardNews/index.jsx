@@ -1,5 +1,4 @@
 import React from 'react';
-
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
@@ -10,109 +9,77 @@ import Typography from '@material-ui/core/Typography';
 import Photogrid from "react-facebook-photo-grid";
 import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutlined';
 import ShareIcon from '@material-ui/icons/Share';
-import { Box, Container } from '@material-ui/core';
-import { useCardStyles } from './cardNews.styles';
+import { Box, Container, makeStyles } from '@material-ui/core';
 import useFormatDate from '../../hooks/useFormatDate'
-import AvatarImg from '../../../../../assets/avatar.jpg'
+import AvatarImg from '../../../../assets/images/avatar.jpg'
 import { Favorite } from '@material-ui/icons';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-export default function CardNews({ likes = 0, like = false, autor: { name }, title, description, pictures, date }) {
-  const [favorite, _setFav] = React.useState({ like, likes })
-  const [copy, setCopy] = React.useState(false)
+import clsx from 'clsx';
+import { red } from '@material-ui/core/colors';
+
+
+
+
+const useStyles = makeStyles({
+  root: { margin:'20px 0px', },
+  media: { height: 0, paddingTop: '56.25%', margin:'3%', borderRadius:'15px' },
+  avatar: { backgroundColor: red[500], },
+  actions: { justifyContent: 'space-between' },
+  description:{
+    overflow: 'hidden',
+    display: '-webkit-box',
+    WebkitLineClamp: 3,
+    textOverflow: 'ellipsis',
+    WebkitBoxOrient: 'vertical',
+    '& .is-block':{ WebkitLineClamp: 'none', },
+  },
+});
+
+
+
+export default function CardNews({
+  autor:{name, photoURL},
+  title,
+  date,
+  description,
+  pictures,
+  like:{ count = 0, me = false, },
+  openDialog = ()=>{},
+}) {
+  const classes = useStyles();
+  date = useFormatDate(date)
+
+
+  const [ like , _setLike] = React.useState(like);
+  const setLike = (s)=>_setLike(p=>({...p,...s}));
+  const onLike = ()=>{};
+
   const [open, setOpen] = React.useState(false);
-  const [lineClamp, setLineClamp] = React.useState(true);
-  const classes = useCardStyles();
-  const setFav = (o) => _setFav(p => ({ ...p, ...o }))
-  const newDate = useFormatDate(date)
-  const img = [AvatarImg, AvatarImg, AvatarImg]
-  const copyLink = () => {
-    var copyText = document.querySelector("#copy-text");
-    copyText.select();
-    document.execCommand("copy");
-    setCopy(true)
-    setTimeout(() => setCopy(false), 4000)
-  }
-  return (
-    <Container maxWidth='sm'>
-      <Card className={classes.root}>
-        <CardHeader
-          avatar={
-            <Avatar alt={name} src={AvatarImg} />
-          }
-          title={name}
-          subheader={newDate}
-        />
-        <CardContent>
-          <Typography variant="h6" children={title} component="h2" gutterBottom />
-          <Typography style={!lineClamp ? {} : {
-            display: '-webkit-box',
-            WebkitBoxOrient: 'vertical',
-            WebkitLineClamp: 3,
-            overflow: 'hidden',
-            textOverflow: 'ellipsis'
-          }}
-            variant='body2' children={description} color='textSecondary' component='p' />
-          {lineClamp && description.length > 300 && <Typography component="span" color="primary" onClick={() => setLineClamp(false)} style={{ fontSize: '16px', cursor:'pointer' }} children="Leer más" />}
-        </CardContent>
-        <Box m={2}>
-          <Photogrid
-            className={classes.media}
-            images={img} //required
-          // width='96%'
-          ></Photogrid>
-        </Box>
+
+
+  return (<Container maxWidth="sm">
+    <Card className={classes.root}>
+      <CardHeader avatar={<Avatar alt={name} src={photoURL} />} title={name} subheader={date} />
+      <CardContent>
+        <Typography variant="h6" children={title} component="h2" gutterBottom />
+        <Typography className={clsx(classes.description, display && 'is-block')} variant='body2' children={description} color='textSecondary' component='p' />
+        <Box m={2} children={<Photogrid className={classes.media} images={pictures} />} />
         <CardActions className={classes.actions} disableSpacing>
           <div>
-            <IconButton onClick={() => setFav({ likes: (favorite.likes + (favorite.like ? -1 : 1)), like: !favorite.like })} aria-label='add to favorites' color='secondary' >
-              {favorite.like ? <Favorite /> : <FavoriteBorderOutlinedIcon />}
+            <IconButton onClick={onLike} aria-label='add to favorites' color='secondary' >
+              { like.me ? <Favorite /> : <FavoriteBorderOutlinedIcon />}
             </IconButton>
-            <span>
-              {favorite.likes}
-            </span>
+            <span>{ like.count }</span>
           </div>
           <div>
-            <span>
-              Compartir
-          </span>
-            <IconButton onClick={() => setOpen(!open)} aria-label='share'>
+            <span> Compartir </span>
+            <IconButton onClick={()=>dialogToggle()} aria-label='share'>
               <ShareIcon color='secondary' />
             </IconButton>
           </div>
         </CardActions>
-      </Card>
-      <div>
-        <Dialog open={open} onClose={() => setOpen(!open)} aria-labelledby="form-dialog-title">
-          <DialogTitle id="form-dialog-title">Compartir</DialogTitle>
-          <DialogContent style={{ width: '360px' }}>
-            <DialogContentText>
-              Para compartir esta noticia copie el link
-          </DialogContentText>
-            <TextField
-              readonly
-              id="copy-text"
-              onClick={copyLink}
-              autoFocus
-              margin="dense"
-              value='https://dimelo.vip/share-new/2nw9cwhc9wh81bc19cwbc81bwc9b'
-              label="Link"
-              type="text"
-              fullWidth
-            />
-            {copy && <span children="Copiado" style={{ color: 'gray' }} />}
-          </DialogContent>
-          <DialogActions>
-            <Button variant="contained" onClick={copyLink} color="primary">
-              Copiar
-          </Button>
-          </DialogActions>
-        </Dialog>
-      </div>
-    </Container>
-  );
+      </CardContent>
+    </Card>
+  </Container>);
 }

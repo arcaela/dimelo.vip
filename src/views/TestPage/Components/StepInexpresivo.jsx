@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button, Grid, Typography } from '@material-ui/core'
-import Picture from '../../../dist/images/test/inespresivo.svg'
+import Picture from '../../../assets/images/test/inespresivo.svg'
 
 export default function StepInexpresivo({ card, nextStep, }) {
     /*  @props

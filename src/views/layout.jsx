@@ -15,7 +15,7 @@ import {
   Menu as MenuIcon,
 } from '@material-ui/icons';
 import { Link, useRouteMatch } from 'react-router-dom';
-import Logo from '../dist/images/brand.svg'
+import Logo from '../assets/images/brand.svg'
 import ButtonProfile from '../components/ButtonProfile';
 
 

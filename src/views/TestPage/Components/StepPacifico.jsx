@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button, Grid, Typography } from '@material-ui/core'
-import Picture from '../../../dist/images/test/pacifico.svg'
+import Picture from '../../../assets/images/test/pacifico.svg'
 
 export default function StepPacifico({ card, nextStep, }) {
     /*  @props

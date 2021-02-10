@@ -98,11 +98,8 @@ export default async function Wizard (useHooks){
             });
             if(!hasErrors('people_depend','people_join')){
                 await setLoading(true);
-
                 const client =  Object.values(inputs).reduce((_, {name,value})=>({..._,[name]:value}),{})
-
-                const resp = await api('auth/signup', client)
-
+                await api('auth/signup', client)
                 await setInputs(Object.keys(inputs).reduce((_, k)=>{
                     _[k]={value:'',error:null};
                     return _;
