@@ -8,9 +8,7 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-  Toolbar,
-  Avatar,
-  Button,
+  Toolbar
 } from '@material-ui/core';
 import {
   Notifications,
@@ -18,6 +16,7 @@ import {
 } from '@material-ui/icons';
 import { Link, useRouteMatch } from 'react-router-dom';
 import Logo from '../dist/images/brand.svg'
+import ButtonProfile from '../components/ButtonProfile';
 
 
 
@@ -98,10 +97,9 @@ export default function Layout({ children }){
             </IconButton>
             <span className="flex-grow" />
             <IconButton> <Notifications /> </IconButton>
-            <Button aria-controls="simple-menu" aria-haspopup="true">
-              <span>Alejandro Reyes</span>&nbsp;
-              <Avatar children="A" />
-            </Button>
+
+            <ButtonProfile />
+
           </Toolbar>
         </AppBar>
         <Drawer

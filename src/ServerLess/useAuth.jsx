@@ -1,16 +1,18 @@
 import React from 'react'
-import { firebase, users } from './api'
+import firebase from '../config/firebase';
 
 
-
+export const users = firebase.firestore().collection('users');
 export default function useAuth(){
     const [ current, setCurrent ] = React.useState(null);
     let FireStoreOff = ()=>{};
     React.useEffect(()=>{
         const unsubscribed = firebase.auth().onAuthStateChanged(async state=>{
             await FireStoreOff();
-            if (state) FireStoreOff=users.doc(`${state.uid}`)
-                .onSnapshot( ({data})=>setCurrent({...state.providerData[0], ...data(),}) );
+            if (state) FireStoreOff=users.doc(`${state.uid}`).onSnapshot(snap=>setCurrent({
+                ...state.providerData[0],
+                ...snap.data()||{}
+            }))
         });
         return ()=>{ unsubscribed(); FireStoreOff=()=>{} };
     }, []);
