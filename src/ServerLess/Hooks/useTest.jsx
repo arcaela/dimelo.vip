@@ -1,7 +1,7 @@
 import React from 'react'
 import { merge } from 'lodash';
 
-import './api';
+import '../api';
 
 
 let Inputs = {

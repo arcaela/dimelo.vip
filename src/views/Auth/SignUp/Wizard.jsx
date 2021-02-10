@@ -1,4 +1,11 @@
+import api from '../../../ServerLess/api'
+
+
+
 export default async function Wizard (useHooks){
+
+    
+
     const {
         step,
         inputs,
@@ -9,6 +16,7 @@ export default async function Wizard (useHooks){
         firestore,
         setLoading,
     } = useHooks;
+
 
     switch (step) {
         case 1:
@@ -83,26 +91,27 @@ export default async function Wizard (useHooks){
             if(!hasErrors('voting_dep','voting_mun','voting_point','voting_table','voting_leader'))
                 await nextStep();
             break;
-            case 5:
-                await setInputs({
-                    people_depend:{error:!inputs.people_depend.value?'Te agradecemos una respuesta':null},
-                    people_join:{error:(!inputs.people_join.value)?'Se requiere una respuesta':null},
-                });
-                if(!hasErrors('people_depend','people_join')){
-                    await setLoading(true);
-                    // const client =  Object.values(inputs).reduce((_, {name,value})=>{
-                        // _[name]=value;
-                        // return _;
-                    // },{})
-                    await setInputs(Object.keys(inputs).reduce((_, k)=>{
-                        _[k]={value:'',error:null};
-                        return _;
-                    },{}));
-                    await setLoading(false);
-                    await nextStep();
-                }
-                break;
-            default:
+        case 5:
+            await setInputs({
+                people_depend:{error:!inputs.people_depend.value?'Te agradecemos una respuesta':null},
+                people_join:{error:(!inputs.people_join.value)?'Se requiere una respuesta':null},
+            });
+            if(!hasErrors('people_depend','people_join')){
+                await setLoading(true);
+
+                const client =  Object.values(inputs).reduce((_, {name,value})=>({..._,[name]:value}),{})
+
+                const resp = await api('auth/signup', client)
+
+                await setInputs(Object.keys(inputs).reduce((_, k)=>{
+                    _[k]={value:'',error:null};
+                    return _;
+                },{}));
+                await setLoading(false);
+                await nextStep();
+            }
+            break;
+        default:
             break;
     }
 }

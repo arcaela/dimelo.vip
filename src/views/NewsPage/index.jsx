@@ -1,5 +1,6 @@
 import React from 'react';
 import api from '../../ServerLess/api'
+import CardNews from './components/CardNews';
 import Layout from '../layout';
 import { CircularProgress } from '@material-ui/core';
 import { NoNews } from './components/NoNews';
