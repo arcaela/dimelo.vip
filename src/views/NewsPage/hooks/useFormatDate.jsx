@@ -26,7 +26,6 @@ export default function useFormatDate(timeStamp) {
     let year = dateFormat.getFullYear();
     let hour = dateFormat.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
     setDate(`${day} ${month} ${year} ${hour}`);
-    console.log(date)
   }
 
    React.useEffect(() => {
