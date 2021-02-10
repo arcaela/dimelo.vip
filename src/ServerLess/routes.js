@@ -17,6 +17,7 @@ const routes = {
             .then(firebase.auth().signInWithEmailAndPassword(email, password)
                 .then(user=>CollectionsUsers.doc(user.uid).get()))
             .catch(error=>{ throw new Error(error.replace('auth/',''))}),
+        signOut: async (callback=()=>{})=>firebase.auth().signOut().then(callback),
     },
 };
 
