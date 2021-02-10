@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Button,
   CircularProgress,
   ClickAwayListener,
   Container,
+  FormControl,
+  FormHelperText,
   IconButton,
   Toolbar,
   Tooltip,
@@ -16,6 +18,10 @@ import Wizard from './Wizard';
 import Regions from './votes_regions';
 import { useStylesSingUpMore } from '../styles/singupmore.styles';
 import MapGetLocation from '../components/MapGetLocation';
+
+import { Loader } from 'google-maps';
+
+const google = ( new Loader('AIzaSyBntYCJH39TRORGUSYpYHHrcg4Etk8Y208', {}) ).load();
 
 export default function SignUpMore({ useInput, ...req }) {
 
@@ -32,13 +38,14 @@ export default function SignUpMore({ useInput, ...req }) {
     prevStep,
     loading,
     setInput,
+    setInputs,
     firestore,
     InputField,
     Autocomplete,
     StepComponent,
   } = useInput;
 
-  const handleBack = () => (step === 2 ? req.history.goBack() : prevStep());
+  const handleBack = () => ( step === 2 ? req.history.goBack() : prevStep() );
 
   React.useEffect(() => {
     if (!leaders.length)
@@ -47,6 +54,42 @@ export default function SignUpMore({ useInput, ...req }) {
         .get()
         .then((snap) => setLeaders(snap.docs.map((e) => e.data().name)));
   }, [leaders, firestore]);
+
+  const [direccion, setDireccion] = useState(null)
+
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+      const setMAp = async () => {
+
+            if(!inputs.municipio.value) return;
+
+            const geocoder = new ( await google ).maps.Geocoder();
+    
+            geocoder.geocode({ 
+              address: inputs.municipio.value,
+              componentRestrictions: {
+                country: "CO",
+              }
+            }, (results, status) => {
+
+              if (status === "OK" && results[0]) {
+                
+                const latlng = {
+                  lat: results[0].geometry.location.lat(),
+                  lng: results[0].geometry.location.lng(),
+                }
+                console.log(latlng)
+
+                setDireccion( latlng );
+
+              } else {}
+
+            });
+    }
+
+    setMAp();
+  }, [inputs.municipio.value])
 
   return step > 5 ? (
     <div
@@ -69,7 +112,7 @@ export default function SignUpMore({ useInput, ...req }) {
             style={{ marginTop: 10 }}
           >
             <Typography color='inherit' component='span'>
-              Registrar otra persona
+              Iniciar
             </Typography>
           </Button>
         </Container>
@@ -77,7 +120,7 @@ export default function SignUpMore({ useInput, ...req }) {
     />
   ) : (
     <div className={classes.root}>
-      <MapGetLocation />
+      <MapGetLocation google={google} setInputs={setInputs} location={direccion} openModel={ open } setOpenModal={ setOpen } />
       <Container maxWidth='sm' className={classes.container}>
         <img alt='Brand' src={BrandPNG} className={classes.brand} />
         <div className={classes.header}>
@@ -91,21 +134,24 @@ export default function SignUpMore({ useInput, ...req }) {
               : 'Solo faltan estos campos...'}
           </Typography>
         </div>
-        <div className={classes.body}>
+        <div className={ classes.body }>
           <StepComponent step={3}>
             <Autocomplete
+              className={ classes.w100 }
               name='departamento'
               label='Departamento donde resides'
               options={Object.keys(Regions)}
-              onChange={()=>setInput('municipio',{value:''})}
+              onChange={ () =>  setInput( 'municipio', { value: '' } ) }
             />
             <Autocomplete
+              className={ classes.w100 }
               name='municipio'
               label='Municipio donde resides'
               disabled={!inputs.departamento.value}
               options={Object.keys(Regions[inputs.departamento.value]||{})}
             />
             <Autocomplete
+              className={ classes.w100 }
               name='comuna'
               label='Comuna o Corregimiento (Si Aplica)'
               InputLabelProps={{ style: { fontSize: 13 } }}
@@ -114,7 +160,10 @@ export default function SignUpMore({ useInput, ...req }) {
                 (Regions[inputs.departamento.value]||{})[inputs.municipio.value]||{}
               )}
             />
-            <InputField name='direccion' label='Dirección de residencia' />
+            <FormControl>
+              <FormHelperText onClick={ ()=> setOpen( !open ) } >Para Ver Mapa Clic Aquí</FormHelperText>
+              <InputField name='direccion' label='Dirección de residencia' />
+            </FormControl>
             <InputField name='phone' label='Teléfono fijo' type='number' />
             <InputField name='movil' label='Teléfono celular' type='number' />
           </StepComponent>
@@ -122,13 +171,13 @@ export default function SignUpMore({ useInput, ...req }) {
             <Autocomplete
               name='voting_dep'
               label='Departamento donde votas'
-              options={Object.keys(Regions)}
-              onChange={()=>setInput('voting_mun',{value:''})}
+              options={ Object.keys(Regions) }
+              onChange={ ()=>setInput('voting_mun',{value:''}) }
             />
             <Autocomplete
               name='voting_mun'
               label='Municipio donde votas'
-              options={Object.keys(Regions[inputs.voting_dep.value]||{})}
+              options={ Object.keys(Regions[inputs.voting_dep.value]||{}) }
             />
             <Autocomplete
               name='voting_point'

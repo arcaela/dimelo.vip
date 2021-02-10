@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react'
+import React, { useRef, useEffect } from 'react'
 import { Loader } from 'google-maps';
 import { makeStyles } from '@material-ui/core';
 import Modal from '@material-ui/core/Modal';
@@ -33,7 +33,12 @@ function getModalStyle() {
     };
   }
 
-export default function MapGetLocation() {
+export default function MapGetLocation({ 
+    openModel, 
+    setOpenModal, 
+    location = { lat: 4.570868, lng: -74.297333 },
+    setInputs
+}) {
 
     const refDiv = useRef();
 
@@ -43,12 +48,12 @@ export default function MapGetLocation() {
 
     const classes = useStyles();
 
-    const [open, setOpen] = useState(true);
+
 
     useEffect(() => {
 
         const setMAp = async () => {
-            if(open){
+            if(openModel){
                 const loader = new Loader('AIzaSyBntYCJH39TRORGUSYpYHHrcg4Etk8Y208', options);
     
                 const google = await loader.load();
@@ -56,20 +61,18 @@ export default function MapGetLocation() {
                 const geocoder = new google.maps.Geocoder();
         
                 const map = new google.maps.Map(refDiv.current, {
-
-                    center: { lat: 4.570868, lng: -74.297333 },
-                    zoom: 13,        
-
+                    center: location,
+                    zoom: 13
                 });
 
                 google.maps.event.addListener(map, "click", (event) => {
 
-                    const latlng = {
+                    const data = {
                         lat: event.latLng.lat(),
                         lng: event.latLng.lng(),
                     };
 
-                    console.log( latlng );
+                    console.log( data );
 
                     new google.maps.Marker({
                         position: event.latLng,
@@ -77,20 +80,22 @@ export default function MapGetLocation() {
                     });
 
                     geocoder.geocode({ 
-                        location: latlng
+                        location: data
                     }, (results, status) => {
                         if (status === "OK" && results[0]) {
-                            console.log(results[0].formatted_address);
-                        } else {
-                        }
+                            setInputs({
+                                gps:{
+                                    name: 'gps',
+                                    value: data
+                                },
+                                direccion : {
+                                    value : results[0].formatted_address
+                                }
+                            });
+                        } else {}
                       });
                     
-
-
-                    setTimeout(() => {
-                        setOpen(!open)
-                    }, 3000);
-
+                    setTimeout( () => { setOpenModal(!openModel) }, 1500 );
 
                 });
 
@@ -100,11 +105,11 @@ export default function MapGetLocation() {
 
         setMAp();
 
-    }, [open]);
+    }, [setOpenModal,openModel,location, setInputs]);
 
     return ( 
         <Modal
-        open={open}
+        open={openModel}
         >
             <div style={ centerModal } className={ classes.paper }>
                 <div className={ modal.map } ref={ refDiv }></div>
