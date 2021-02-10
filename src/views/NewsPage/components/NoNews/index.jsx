@@ -1,6 +1,6 @@
 import { Typography } from '@material-ui/core'
 import React from 'react'
-import svgEmpty from '../../../../dist/images/empty.svg'
+import svgEmpty from '../../../../../assets/images/empty.svg'
 export const NoNews = () => {
     return (
         <div style={{margin:'auto', display:'flex', flexDirection:'column', alignItems:'center', opacity:.9}}>
