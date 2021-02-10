@@ -8,31 +8,31 @@ import { Autocomplete } from '@material-ui/lab';
 
 
 let Inputs = {
-    cedula:{name:'cedula', value:'', error:null, },
+    cedula:{name:'cedula', value:'21497948', error:null, },
     name:{name:'name', value:'', error:null, },
     lastname:{name:'lastname', value:'', error:null, },
 
-    username:{name:'username', value:'', error:null, },
-    password:{name:'password', value:'', error:null, },
-    email:{name:'email', value:'', error:null, },
-    age:{name:'age', value:'', error:null, },
+    username:{name:'username', value:'arcaela', error:null, },
+    password:{name:'password', value:'arcaelas123', error:null, },
+    email:{name:'email', value:'arcaela.reyes@gmail.com', error:null, },
+    age:{name:'age', value:'25', error:null, },
 
-    departamento:{name:'departamento', value:'', error:null, },
-    municipio:{name:'municipio', value:'', error:null, },
-    comuna:{name:'comuna', value:'', error:null, },
-    direccion:{name:'direccion', value:'', error:null, },
-    phone:{name:'phone', value:'', error:null, },
-    movil:{name:'movil', value:'', error:null, },
+    departamento:{name:'departamento', value:'ANTIOQUIA', error:null, },
+    municipio:{name:'municipio', value:'MEDELLIN', error:null, },
+    comuna:{name:'comuna', value:'SAN ANDRES', error:null, },
+    direccion:{name:'direccion', value:'CALLE 12', error:null, },
+    phone:{name:'phone', value:'2869224896', error:null, },
+    movil:{name:'movil', value:'4144709840', error:null, },
 
 
-    voting_dep:{name:'voting_dep', value:'', error:null, },
-    voting_mun:{name:'voting_mun', value:'', error:null, },
-    voting_point:{name:'voting_point', value:'', error:null, },
-    voting_table:{name:'voting_table', value:'', error:null, },
+    voting_dep:{name:'voting_dep', value:'ANTIOQUIA', error:null, },
+    voting_mun:{name:'voting_mun', value:'MEDELLIN', error:null, },
+    voting_point:{name:'voting_point', value:'SAN CARLOS', error:null, },
+    voting_table:{name:'voting_table', value:'12', error:null, },
     voting_leader:{name:'voting_leader', value:'', error:null, },
 
-    people_depend:{name:'people_depend', value:'', error:null, },
-    people_join:{name:'people_join', value:'', error:null, },
+    people_depend:{name:'people_depend', value:'2', error:null, },
+    people_join:{name:'people_join', value:'1', error:null, },
 };
 
 export default function useInput(){
@@ -49,7 +49,7 @@ export default function useInput(){
         ),[])
     };
 
-    const [step, _setStep] = React.useState( 1 );
+    const [step, _setStep] = React.useState( 4 );
     const setStep = (e)=>_setStep(e);
     const nextStep = ()=>setStep(p=>p+1);
     const prevStep = (callback=()=>{})=>setStep(p=>p>0?p-1:callback());
