@@ -9,6 +9,10 @@ import {
 } from '@material-ui/core';
 import Skeleton from '@material-ui/lab/Skeleton';
 import useAuth from '../../ServerLess/Hooks/useAuth';
+
+import api from '../../ServerLess/api';
+import { useHistory } from 'react-router-dom';
+
 const styles = makeStyles((theme)=>({
   content:{
     minWidth: 300,
@@ -34,6 +38,8 @@ export default function ButtonProfile() {
 
   const [anchorEl, setAnchorEl] = useState(null);
 
+  const router = useHistory(); 
+
   const  profile  = useAuth()
 
   console.log( profile )
@@ -47,6 +53,17 @@ export default function ButtonProfile() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const signOut = async () =>{
+
+    try {
+      await api('auth/signout')
+      router.push('/')
+    } catch (e) {
+      
+    }
+
+  }
 
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
@@ -85,6 +102,7 @@ export default function ButtonProfile() {
                 <h4 className={ classes.subtitle }>{ profile && profile.email }</h4>
               </div>
               <Button
+              onClick={ ()=> signOut() }
               className={ classes.button }
               variant="contained" 
               color="primary" 
