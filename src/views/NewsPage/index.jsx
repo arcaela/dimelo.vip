@@ -4,7 +4,6 @@ import CardNews from './components/CardNews';
 import Layout from '../layout';
 import { CircularProgress } from '@material-ui/core';
 import { NoNews } from './components/NoNews';
-import CardNews from './components/CardNews'
 export default function NewsPage({ ...req }) {
   const [posts, setPosts ] = React.useState([]);
   const [loading, setLoading] = React.useState(false)
