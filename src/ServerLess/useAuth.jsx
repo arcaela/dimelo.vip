@@ -9,8 +9,10 @@ export default function useAuth(){
     React.useEffect(()=>{
         const unsubscribed = firebase.auth().onAuthStateChanged(async state=>{
             await FireStoreOff();
-            if (state) FireStoreOff=users.doc(`${state.uid}`)
-                .onSnapshot( ({data})=>setCurrent({...state.providerData[0], ...data(),}) );
+            if (state) FireStoreOff=users.doc(`${state.uid}`).onSnapshot(snap=>setCurrent({
+                ...state.providerData[0],
+                ...snap.data()||{}
+            }))
         });
         return ()=>{ unsubscribed(); FireStoreOff=()=>{} };
     }, []);
