@@ -22,8 +22,6 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { clamp } from 'lodash';
-
 export default function CardNews({ likes = 0, like = false, autor: { name }, title, description, pictures, date }) {
   const [favorite, _setFav] = React.useState({ like, likes })
   const [copy, setCopy] = React.useState(false)
