@@ -87,9 +87,9 @@ export const useStylesSingUpMore = makeStyles(theme=>({
         '& .MuiButton-root':{ color:'#fff', marginLeft:'auto', },
         '& .MuiButton-containedPrimary':{backgroundColor:'#1c4f75',},
         '& .MuiSvgIcon-root':{ fontSize:15, },
-        '& > .active-step-2':{ '& .MuiSvgIcon-root:nth-child(1)':{color:theme.palette.secondary.main} },
-        '& > .active-step-3':{ '& .MuiSvgIcon-root:nth-child(2)':{color:theme.palette.secondary.main} },
-        '& > .active-step-4':{ '& .MuiSvgIcon-root:nth-child(3)':{color:theme.palette.secondary.main} },
+        '& > .active-step-3':{ '& .MuiSvgIcon-root:nth-child(1)':{color:theme.palette.secondary.main} },
+        '& > .active-step-4':{ '& .MuiSvgIcon-root:nth-child(2)':{color:theme.palette.secondary.main} },
+        '& > .active-step-5':{ '& .MuiSvgIcon-root:nth-child(3)':{color:theme.palette.secondary.main} },
     },
     welcome:{
         margin:'auto',
