@@ -13,7 +13,7 @@ import ShareIcon from '@material-ui/icons/Share';
 import { Box, Container } from '@material-ui/core';
 import { useCardStyles } from './cardNews.styles';
 import useFormatDate from '../../hooks/useFormatDate'
-import AvatarImg from '../../../../dist/images/avatar.jpg'
+import AvatarImg from '../../../../../assets/avatar.jpg'
 import { Favorite } from '@material-ui/icons';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';

@@ -2,20 +2,24 @@ import React from 'react'
 import firebase from '../../config/firebase';
 import CollectionsUsers from '../Collections/Users'
 
+
 export default function useAuth(){
-    const [ current, setCurrent ] = React.useState(null);
-    const FireStoreOff = React.useRef(null);
+    const [ user, setUser ] = React.useState(null);
+    const listen = React.useRef(null);
     React.useEffect(()=>{
+        if(listen.current) listen.current();
         const unsubscribed = firebase.auth().onAuthStateChanged(async state=>{
-            if (state) FireStoreOff.current=CollectionsUsers.doc(`${state.uid}`).onSnapshot(snap=>setCurrent({
-                ...state.toJSON(),
-                ...snap.data()
-            }))
+            if(state && !!state !== user){
+                listen.current = CollectionsUsers.doc(`${state.uid}`).onSnapshot(snap=>setUser({
+                    ...state.providerData[0],
+                    ...snap.data(),
+                }));
+            }
         });
-        return ()=>{ unsubscribed(); return (FireStoreOff.current && FireStoreOff.current()); };
-    }, [ FireStoreOff ]);
-    return current && {
-        ...current, // UserData
-        followers:()=>CollectionsUsers.where('leader', '==', current.uid).get(), // FireStore Snapshot(s)
+        return () => unsubscribed();
+    });
+    return user && {
+        ...user, // UserData
+        followers:()=>CollectionsUsers.where('voting_leader', '==', user.uid).get(), // FireStore Snapshot(s)
     };
 }
