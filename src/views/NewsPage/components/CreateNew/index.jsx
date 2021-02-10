@@ -9,9 +9,8 @@ import { useCardStyles } from './createNew.styles';
 import CardNews from '../CardNews'
 export default function CreateNew() {
     const classes = useCardStyles();
-    const [posts, setPosts] = React.useState([{likes:56, like:true, autor:{name:'Boris'},title:'Titulo', description:'Description', pictures:[]}]);
     React.useEffect(() => {
-        console.log('Componente renderizado')
+        console.log('Componente create renderizado')
         // api('news/recent')
         //     .then(result => setPosts(result))
         //     .catch()
@@ -20,18 +19,16 @@ export default function CreateNew() {
     const setPost = (object) => _setPost(p => ({...p, ...object}))
     const getImg = ({target}) => {
         const reader = new FileReader();
-        reader.onload = ({target:{result}}) => {
-            setPost({pictures:[result]})
+        reader.onload = ({target}) => {
+            console.log(target)
         }
         reader.readAsDataURL(target.files[0]);
     } 
     const create = () => {
-        
         // api('news/publish', post).then(post => setPosts(p => p.concat(post?[post]:[]))).catch(err => console.log(err))
     };
-    console.log(posts, post)
     return (
-        <React.Fragment>
+        <>
             <Card className={classes.root}>
                 <CardHeader
                     title={'Crear noticia'}
@@ -59,7 +56,6 @@ export default function CreateNew() {
                         </Box>
                 </CardContent>
             </Card>
-            {posts.map((post, key) => <CardNews {...post} key={key} />)}
-        </React.Fragment>
+        </>
     )
 }
