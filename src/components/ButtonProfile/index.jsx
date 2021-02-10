@@ -56,10 +56,10 @@ export default function ButtonProfile() {
       <Button aria-describedby={id} onClick={handleClick} aria-haspopup='true'>
         <span>
            { !profile && <Skeleton width={120} height={40} variant="text" /> }
-           { profile && profile.profile.name }
+           { profile && profile.name }
         </span>&nbsp;
         {!profile && <Skeleton variant="circle" width={40} height={40} />}
-        { profile && <Avatar children={profile.profile.name[0]} />}
+        { profile && <Avatar children={profile.name[0]} />}
       </Button>
       {profile && <Popover
         id={id}
@@ -78,11 +78,11 @@ export default function ButtonProfile() {
           <Card className={ classes.content }>
             <CardContent>
               <div className="">
-                {profile && <Avatar className={ classes.avatar } children={profile.profile.name[0]} />}
+                {profile && <Avatar className={ classes.avatar } children={profile.name[0]} />}
               </div>
               <div className="">
-                <h3 className={ classes.tile }>{ profile && profile.profile.name }</h3>
-                <h4 className={ classes.subtitle }>{ profile && profile.profile.email }</h4>
+                <h3 className={ classes.tile }>{ profile && profile.name }</h3>
+                <h4 className={ classes.subtitle }>{ profile && profile.email }</h4>
               </div>
               <Button
               className={ classes.button }
