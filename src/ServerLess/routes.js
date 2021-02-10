@@ -9,8 +9,9 @@ const routes = {
         signUp({email, password, ...props}){
             // @errors | https://firebase.google.com/docs/reference/js/firebase.auth.Error?hl=es
             return firebase.auth().createUserWithEmailAndPassword(email, password)
-            .then(({ user })=>{
-                const client={ ...user, email, role:'user', ...props};
+            .then((snap)=>{
+                console.log(snap)
+                const client={ ...snap.user.providerData[0],uid:snap.user.uid, email, role:'user', ...props};
                 return users.doc(client.uid).set(client).then(()=>client);
             });
         },
