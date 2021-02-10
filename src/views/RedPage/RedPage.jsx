@@ -25,16 +25,16 @@ export default function RedPage(  { ...req }  ) {
           <NavBarRed />
           <div className={ grid.root }>
             <Grid container spacing={3} >
-              <Grid key={1} item xs={12} sm={6}>
+              <Grid key={1} item xs={12} md={6}>
                 <CardRed />
               </Grid>
-              <Grid key={2} item xs={12} sm={6}>
+              <Grid key={2} item xs={12} md={6}>
                 <CardRed />
               </Grid>
-              <Grid key={3} item xs={12} sm={6}>
+              <Grid key={3} item xs={12} md={6}>
                 <CardRed />
               </Grid>
-              <Grid key={4} item xs={12} sm={6}>
+              <Grid key={4} item xs={12} md={6}>
                 <CardRed />
               </Grid>
             </Grid>

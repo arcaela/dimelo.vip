@@ -31,7 +31,7 @@ function getModalStyle() {
       left: `${left}%`,
       transform: `translate(-${top}%, -${left}%)`,
     };
-  }
+}
 
 export default function MapGetLocation({ 
     openModel, 
