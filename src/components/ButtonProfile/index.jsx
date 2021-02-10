@@ -4,16 +4,41 @@ import {
     Button, 
     Popover,
     Card,
-    CardContent   
+    CardContent,
+    makeStyles
 } from '@material-ui/core';
+import Skeleton from '@material-ui/lab/Skeleton';
 import useAuth from '../../ServerLess/Hooks/useAuth';
+const styles = makeStyles((theme)=>({
+  content:{
+    minWidth: 300,
+    textAlign: 'center'
+  },
+  tile:{
+    marginBottom: 5
+  },
+  subtitle:{
+    margin:0
+  },
+  avatar:{
+    margin: 'auto',
+    width: theme.spacing(8),
+    height: theme.spacing(8),
+  },
+  button:{
+    marginTop: 15
+  }
+}))
 
 export default function ButtonProfile() {
+
   const [anchorEl, setAnchorEl] = useState(null);
 
   const  profile  = useAuth()
 
   console.log( profile )
+
+  const classes = styles()
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -29,10 +54,14 @@ export default function ButtonProfile() {
   return (
     <div>
       <Button aria-describedby={id} onClick={handleClick} aria-haspopup='true'>
-        <span>Alejandro Reyes</span>&nbsp;
-        <Avatar children='A' />
+        <span>
+           { !profile && <Skeleton width={120} height={40} variant="text" /> }
+           { profile && profile.profile.name }
+        </span>&nbsp;
+        {!profile && <Skeleton variant="circle" width={40} height={40} />}
+        { profile && <Avatar children={profile.profile.name[0]} />}
       </Button>
-      <Popover
+      {profile && <Popover
         id={id}
         open={open}
         anchorEl={anchorEl}
@@ -46,12 +75,23 @@ export default function ButtonProfile() {
           horizontal: 'right',
         }}
       >
-          <Card>
+          <Card className={ classes.content }>
             <CardContent>
-                <h1>Hola</h1>
+              <div className="">
+                {profile && <Avatar className={ classes.avatar } children={profile.profile.name[0]} />}
+              </div>
+              <div className="">
+                <h3 className={ classes.tile }>{ profile && profile.profile.name }</h3>
+                <h4 className={ classes.subtitle }>{ profile && profile.profile.email }</h4>
+              </div>
+              <Button
+              className={ classes.button }
+              variant="contained" 
+              color="primary" 
+              disableElevation>Cerrar Sesión</Button>
             </CardContent>
           </Card>
-      </Popover>
+      </Popover>}
     </div>
   );
 }
