@@ -18,7 +18,7 @@ const routes = {
         signIn: async ({email, password, remember=false})=>firebase.auth()
             .setPersistence(firebase.auth.Auth.Persistence[!!remember?'LOCAL':'SESSION'])
             .then(firebase.auth().signInWithEmailAndPassword(email, password)
-                .then(user=>users.doc(user.uid).get))
+                .then(user=>users.doc(user.uid).get()))
             .catch(error=>{ throw new Error(error.replace('auth/',''))}),
     },
 };
