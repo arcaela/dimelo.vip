@@ -20,6 +20,7 @@ import { useStylesSingUpMore } from '../styles/singupmore.styles';
 import MapGetLocation from '../components/MapGetLocation';
 
 import { Loader } from 'google-maps';
+import { Redirect } from 'react-router-dom';
 
 const google = ( new Loader('AIzaSyBntYCJH39TRORGUSYpYHHrcg4Etk8Y208', {}) ).load();
 
@@ -43,6 +44,7 @@ export default function SignUpMore({ useInput, ...req }) {
     InputField,
     Autocomplete,
     StepComponent,
+    nextStep
   } = useInput;
 
   const handleBack = () => ( step === 2 ? req.history.goBack() : prevStep() );
@@ -91,33 +93,34 @@ export default function SignUpMore({ useInput, ...req }) {
     setMAp();
   }, [inputs.municipio.value])
 
-  return step > 5 ? (
-    <div
-      className={classes.root}
-      children={
-        <Container maxWidth='xs' className={classes.welcome}>
-          <img alt='Brand' src={BrandPNG} />
-          <Typography variant='h5' color='initial'>
-            ¡Registro exitoso!
+  return step >= 6 ? (
+    step > 6 ? <Redirect from={window.location.pathname} to="/test" /> : <div
+    className={classes.root}
+    children={
+      <Container maxWidth='xs' className={classes.welcome}>
+        <img alt='Brand' src={BrandPNG} />
+        <Typography variant='h5' color='initial'>
+          ¡Registro exitoso!
+        </Typography>
+        <Typography variant='subtitle2' color='initial'>
+          Gracias por completar el registro. <br />A tu correo electrónico te
+          llegará una notificación.{' '}
+        </Typography>
+        <Button
+          color='secondary'
+          variant='contained'
+          component='span'
+          onClick={() => nextStep()}
+          style={{ marginTop: 10 }}
+        >
+          <Typography color='inherit' component='span'>
+            Iniciar
           </Typography>
-          <Typography variant='subtitle2' color='initial'>
-            Gracias por completar el registro. <br />A tu correo electrónico te
-            llegará una notificación.{' '}
-          </Typography>
-          <Button
-            color='secondary'
-            variant='contained'
-            component='span'
-            onClick={() => setStep(1)}
-            style={{ marginTop: 10 }}
-          >
-            <Typography color='inherit' component='span'>
-              Iniciar
-            </Typography>
-          </Button>
-        </Container>
-      }
-    />
+        </Button>
+      </Container>
+    }
+  />
+
   ) : (
     <div className={classes.root}>
       <MapGetLocation google={google} setInputs={setInputs} location={direccion} openModel={ open } setOpenModal={ setOpen } />
