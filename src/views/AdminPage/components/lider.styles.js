@@ -19,15 +19,25 @@ export const useCardLider = makeStyles((theme) => ({
     pr:{
         position: 'relative',
     },
+    truncate:{
+        width: 270,
+        whiteSpace: 'nowrap',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis'
+    },
     group:{
         fontSize: 20,
-        right: 0,
+        right: 60,
         bottom: 0,
+        top: 0,
         position: 'absolute',
-        padding: 24,
+        padding: 0,
         color: theme.palette.secondary.dark,
         cursor: 'pointer',
-        display: 'flex'
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: 65
     },
     icon:{
         fontSize: 22,
@@ -45,8 +55,8 @@ export const useCardLider = makeStyles((theme) => ({
         padding: '13px',
     },
     large: {
-        width: theme.spacing(12),
-        height: theme.spacing(12),
+        width: 50,
+        height: 50,
     },
     cardContainer:{
         flex: '1 1 auto'
@@ -64,5 +74,9 @@ export const useCardLider = makeStyles((theme) => ({
     },
     textModal:{
         fontSize: 20,
+    },
+    body:{
+        display: 'flex',
+        width: '100%'
     }
 }))

@@ -15,8 +15,9 @@ import { useCardLider } from './lider.styles';
 
 import Delete from '../../../images/trash.svg';
 
-import AvatarImg from '../../../images/avatar.jpg';
 import LiderCardModal from './LiderCardModal';
+
+
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -29,41 +30,55 @@ const useStyles = makeStyles((theme) => ({
       outline: 'none !important',
     },
   },
+  list: {
+    maxHeight: 216,
+    position: 'relative',
+    overflow: 'auto'
+  }
 }));
 
 function getModalStyle() {
-  const top = 50;
-  const left = 50;
-
   return {
-    top: `${top}%`,
-    left: `${left}%`,
-    transform: `translate(-${top}%, -${left}%)`,
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    background: 'transparent',
+    padding: '1rem',
   };
 }
 
-export default function LiderModal({ open, setOpen }) {
-
+export default function LiderModal({ open, setOpen, followers, leader }) {
   const classes = useCardLider();
 
   const centerModal = getModalStyle();
 
   const modalStyle = useStyles();
 
+  const {
+    direccion = '',
+    email = '',
+    movil = '',
+    voting_point = '',
+    name = '',
+    lastname = '',
+  } = leader;
+
+
   const handleClose = () => {
     setOpen(false);
   };
+
 
   return (
     <Modal onClose={handleClose} open={open}>
       <div style={centerModal} className={modalStyle.paper}>
         <Card className={classes.container}>
           <div className={classes.avatarContainer}>
-            <Avatar className={classes.large} src={AvatarImg} />
+            <Avatar className={classes.large} children={ name ? name[0] : lastname[0] } />
           </div>
           <div className={classes.cardContainer}>
             <div className={classes.pRelative}>
-              <CardHeader title='Maria Perez' />
+              <CardHeader title={ `${name} ${lastname}` } />
               <div className={classes.actionsHeader}>
                 <IconButton>
                   <img src={Delete} alt='eliminar' />
@@ -75,16 +90,16 @@ export default function LiderModal({ open, setOpen }) {
             </div>
             <CardContent className={classes.pr}>
               <Typography color='textSecondary'>
-                Dirección: Los Colores - Medellín
+                Dirección: { direccion }
               </Typography>
               <Typography color='textSecondary'>
-                Teléfono : +578715674877
+                Teléfono : { movil }
               </Typography>
               <Typography color='textSecondary'>
-                Email: maria125d@gmail.com
+                Email: { email }
               </Typography>
               <Typography color='textSecondary'>
-                Punto de votación: Escuela Bustamante
+                Punto de votación: { voting_point }
               </Typography>
               <Typography color='secondary'>
                 Pensamiento introvertido
@@ -95,7 +110,7 @@ export default function LiderModal({ open, setOpen }) {
             style={{
               paddingTop: 0,
             }}
-            className={classes.pRelative}
+            className={ classes.pRelative }
           >
             <Typography
               className={classes.textModal}
@@ -103,12 +118,13 @@ export default function LiderModal({ open, setOpen }) {
               variant='h4'
               component='h4'
             >
-              Red - 56 miembros
+              Red - { followers.length } miembros
             </Typography>
-            <List>
-              <LiderCardModal key={1} />
-              <LiderCardModal key={2} />
-              <LiderCardModal key={3} />
+            <List className={ modalStyle.list } >
+              { followers && followers.map(follower =>(
+                <LiderCardModal key={ follower.uid } user={ follower } />
+              ))}
+              
             </List>
           </CardContent>
         </Card>

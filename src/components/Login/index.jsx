@@ -35,7 +35,6 @@ export default function Login() {
         password
     },
     setInputs,
-    StepComponent,
     loading, 
     setLoading 
   } = useInput()
