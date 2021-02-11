@@ -24,7 +24,9 @@ export default function LoginPage() {
                     </Typography>
                 </Grid>
             </Hidden>
-            <Grid item xs={12} md={6} className={`${ body.body } ${ classes.gridRight }  ${ loginStyle.root }`}>
+            <Grid item xs={12} md={6} style={{
+                margin: 'unset'
+            }} className={`${ body.body } ${ classes.gridRight }  ${ loginStyle.root }`}>
                 <Login />
             </Grid>
         </Grid>
