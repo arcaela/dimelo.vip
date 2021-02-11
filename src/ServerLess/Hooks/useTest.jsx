@@ -88,10 +88,22 @@ let Inputs = {
         },
     },
     profiles:{
-        dominancia:{ points:0, alter:'control', }, // Red
-        control:{ points:0, alter:'dominancia', }, // Blue
-        influencia:{ points:0, alter:'estabilidad', }, // Yellow
-        estabilidad:{ points:0, alter:'influencia', }, // Green
+        dominancia:{
+            label:"independiente-automotivado",
+            points:10,
+        },
+        control:{
+            label:"analista-pensador",
+            points:10,
+        },
+        influencia:{
+            label:"promotor-amigable",
+            points:10,
+        },
+        estabilidad:{
+            label:"planificador-perseverante",
+            points:10,
+        }
     },
 };
 
