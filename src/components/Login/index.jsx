@@ -32,8 +32,7 @@ export default function Login() {
     hasErrors,
     inputs:{
         email,
-        password,
-        remember
+        password
     },
     setInputs,
     StepComponent,
@@ -64,7 +63,7 @@ export default function Login() {
           }
         })
 
-        router.push('/news');
+        router.push('/test');
         
     } catch (e) {
 
@@ -77,9 +76,9 @@ export default function Login() {
     <div className={loginStyle.container}>
       <h2 className={loginStyle.title}>Iniciar sesión</h2>
       <form onSubmit={(e) => handlerSubmit(e)}>
-        <StepComponent className={full.container} style={{
+        <div role="tabpanel" className={full.container} style={{
           width: '100%'
-        }} step={1}>
+        }} >
           <InputField
             style={{
               width: '100%',
@@ -104,7 +103,7 @@ export default function Login() {
             inputProps={{ style: { textAlign: 'center' } }}
             type='password'
           />
-        </StepComponent>
+        </div>
 
         <FormControl
         
@@ -132,9 +131,9 @@ export default function Login() {
       <Toolbar style={{
         justifyContent: 'center'
       }} className={loginStyle.Toolbar}>
-          ¿Ya tienes una cuenta? &nbsp; 
+          ¿No tienes una cuenta? &nbsp; 
           <Typography>
-            <Link to="/">Ingresa</Link>
+            <Link to="/signup">Regístrate</Link>
           </Typography>
       </Toolbar>
     </div>
