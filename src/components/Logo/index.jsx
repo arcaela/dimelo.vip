@@ -2,7 +2,7 @@ import React from 'react'
 
 import { logoStyles } from './logo.styles';
 
-import src from '../../assets/images/brand.svg';
+import src from '../../images/brand.svg';
 
 export default function Logo() {
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button, Grid, Typography } from '@material-ui/core'
-import Picture from '../../../assets/images/test/organizado.svg'
+import Picture from '../../../images/test/organizado.svg'
 
 export default function StepOrganizado({ card, nextStep, }) {
     /*  @props

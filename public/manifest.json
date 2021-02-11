@@ -3,22 +3,22 @@
   "name": "Aurora WebApp",
   "icons": [
     {
-      "src": "/images/16x16.png",
+      "src": "/images/logo/16x16.png",
       "sizes": "16x16",
       "type": "image/png"
     },
     {
-      "src": "/images/32x32.png",
+      "src": "/images/logo/32x32.png",
       "sizes": "32x32",
       "type": "image/png"
     },
     {
-      "src": "/images/192x192.png",
+      "src": "/images/logo/195x195.png",
       "type": "image/png",
-      "sizes": "192x192"
+      "sizes": "195x195"
     },
     {
-      "src": "/images/250x250.png",
+      "src": "/images/logo/250x250.png",
       "type": "image/png",
       "sizes": "250x250"
     }

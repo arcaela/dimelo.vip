@@ -11,7 +11,7 @@ import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutline
 import ShareIcon from '@material-ui/icons/Share';
 import { Box, Container, makeStyles } from '@material-ui/core';
 import useFormatDate from '../../hooks/useFormatDate'
-import AvatarImg from '../../../../assets/images/avatar.jpg'
+import AvatarImg from '../../../../images/avatar.jpg'
 import { Favorite } from '@material-ui/icons';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';

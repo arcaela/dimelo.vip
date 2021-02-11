@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button, Grid, Typography } from '@material-ui/core'
-import Picture from '../../../assets/images/test/cuestion.svg'
+import Picture from '../../../images/test/cuestion.svg'
 
 export default function StepCuestionador({ card, nextStep, }) {
     /*  @props

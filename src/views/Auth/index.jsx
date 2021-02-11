@@ -9,7 +9,7 @@ import {
 // Formularios
 import SignUp from './SignUp/SignUp';
 import SignUpMore from './SignUp/SignUpMore';
-import useInput from './SignUp/useInput';
+import useInput from '../../ServerLess/Hooks/useInput';
 import { useStylesIndex } from './styles/index.styles';
 
 

@@ -12,7 +12,7 @@ import {
   makeStyles,
   CircularProgress,
 } from '@material-ui/core';
-import ImageEmpty from '../../assets/images/empty.svg'
+import ImageEmpty from '../../images/empty.svg'
 
 
 // import api from '../../ServerLess/api'

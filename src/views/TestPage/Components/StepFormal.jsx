@@ -1,8 +1,8 @@
 import React from 'react'
 import { Button, Grid, Typography } from '@material-ui/core'
 
-import Formal from '../../../assets/images/test/formal.svg'
-import Informal from '../../../assets/images/test/informal.svg'
+import Formal from '../../../images/test/formal.svg'
+import Informal from '../../../images/test/informal.svg'
 
 export default function StepFormal({ card, nextStep, }) {
     /*  @props
