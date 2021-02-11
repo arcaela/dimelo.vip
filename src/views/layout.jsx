@@ -14,9 +14,10 @@ import {
   Notifications,
   Menu as MenuIcon,
 } from '@material-ui/icons';
-import { Link, useRouteMatch } from 'react-router-dom';
-import Logo from '../assets/images/brand.svg'
+import { Link, useLocation, useRouteMatch } from 'react-router-dom';
+import Logo from '../images/brand.svg'
 import ButtonProfile from '../components/ButtonProfile';
+import useAuth from '../ServerLess/Hooks/useAuth';
 
 
 
@@ -89,6 +90,11 @@ export default function Layout({ children }){
           <ListItemText primary={label} />
       </ListItem>);
     };
+
+    const context = {
+      auth:useAuth(),
+      location:useLocation(),
+    };
     return (<div className={classes.root}>
         <AppBar color="inherit" variant="outlined" position="fixed" className={classes.appBar}>
           <Toolbar variant="dense" className={classes.toolbar}>
@@ -97,9 +103,7 @@ export default function Layout({ children }){
             </IconButton>
             <span className="flex-grow" />
             <IconButton> <Notifications /> </IconButton>
-
             <ButtonProfile />
-
           </Toolbar>
         </AppBar>
         <Drawer
@@ -109,7 +113,11 @@ export default function Layout({ children }){
             ModalProps={{ keepMounted: true, }}
             variant={config.isDesktop?'permanent':'temporary'}>
             <img src={Logo} alt="Logo" style={{maxWidth:'90%',margin:'10px auto'}} />
-            <List children={config.routes.map(route=><Go {...route} key={route.path} />)} />
+            <List children={config.routes.filter(route=>{
+              return route.show?(
+                typeof route.show==='function'?route.show(context):true
+              ):route.show!==false;
+            }).map(route=><Go {...route} key={route.path} />)} />
         </Drawer>
         <main className={classes.content} children={children} />
     </div>);

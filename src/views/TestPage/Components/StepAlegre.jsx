@@ -1,8 +1,8 @@
 import React from 'react'
 import { Button, Grid, Typography } from '@material-ui/core'
 
-import Alegre from '../../../assets/images/test/alegre.svg'
-import Triste from '../../../assets/images/test/triste-1.svg'
+import Alegre from '../../../images/test/alegre.svg'
+import Triste from '../../../images/test/triste-1.svg'
 
 export default function StepAlegre({ card, nextStep, }) {
     /*  @props

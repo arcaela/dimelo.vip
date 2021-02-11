@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button, Grid, Typography } from '@material-ui/core'
-import Picture from '../../../assets/images/test/popular.svg'
+import Picture from '../../../images/test/popular.svg'
 
 export default function StepPopular({ card, nextStep, }) {
     /*  @props

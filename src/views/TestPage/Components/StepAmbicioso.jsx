@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button, Grid, Typography } from '@material-ui/core'
-import Picture from '../../../assets/images/test/persistente.svg'
+import Picture from '../../../images/test/persistente.svg'
 
 export default function StepAmbicioso({ card, nextStep, }) {
     /*  @props

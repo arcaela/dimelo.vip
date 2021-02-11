@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button, Grid, Typography } from '@material-ui/core'
-import Picture from '../../../assets/images/test/poeta.svg'
+import Picture from '../../../images/test/poeta.svg'
 
 export default function StepPoetico({ card, nextStep, }) {
     /*  @props

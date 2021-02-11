@@ -1,8 +1,8 @@
 import { makeStyles } from '@material-ui/core';
 
-import WatermarkIMG from '../../../assets/images/watermark.svg';
-import WatermarkDarkIMG from '../../../assets/images/watermark-dark.svg';
-import BrandIMG from '../../../assets/images/brand.svg';
+import WatermarkIMG from '../../../images/watermark.svg';
+import WatermarkDarkIMG from '../../../images/watermark-dark.svg';
+import BrandIMG from '../../../images/brand.svg';
 
 export const useStylesIndex = makeStyles(theme=>({
     root:{ minHeight:'100vh', },

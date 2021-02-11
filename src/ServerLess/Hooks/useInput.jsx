@@ -1,7 +1,6 @@
 import React from 'react'
 import { merge } from 'lodash';
-import { firebase } from '@arcaela/aurora/firebase'
-import 'firebase/firestore'
+import firebase from '~/config/firebase'
 import { FormControl, FormHelperText, IconButton, InputAdornment, TextField } from '@material-ui/core';
 import { Visibility, VisibilityOff } from '@material-ui/icons';
 import { Autocomplete } from '@material-ui/lab';

@@ -23,8 +23,8 @@ import StepReflexivo from './Components/StepReflexivo';
 import { TestButton } from './Components/TestButton';
 
 import useTest from '../../ServerLess/Hooks/useTest';
-import WelcomeImage from '../../assets/images/test/welcome.svg'
-import Dimelo from '../../assets/images/test/dimelo.svg'
+import WelcomeImage from '../../images/test/welcome.svg'
+import Dimelo from '../../images/test/dimelo.svg'
 import {
   Container,
   withStyles,

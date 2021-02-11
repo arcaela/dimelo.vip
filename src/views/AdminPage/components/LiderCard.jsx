@@ -14,9 +14,9 @@ import FacebookIcon from '@material-ui/icons/Facebook';
 import MessageIcon from '@material-ui/icons/Message';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 
-import Delete from '../../../assets/images/trash.svg';
+import Delete from '../../../images/trash.svg';
 
-import AvatarImg from '../../../assets/images/avatar.jpg'
+import AvatarImg from '../../../images/avatar.jpg'
 
 import { useCardLider } from './lider.styles';
 import LiderModal from './LiderModal';

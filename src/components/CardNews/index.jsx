@@ -13,7 +13,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 import { useCardStyles } from './cardNews.styles';
 
-import AvatarImg from '../../assets/images/avatar.jpg'
+import AvatarImg from '../../images/avatar.jpg'
 
 export default function CardNews() {
 

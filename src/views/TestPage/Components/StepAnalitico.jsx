@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button, Grid, Typography } from '@material-ui/core'
-import Picture from '../../../assets/images/test/undraw_Analytics_re_dkf8.svg'
+import Picture from '../../../images/test/undraw_Analytics_re_dkf8.svg'
 
 export default function StepAnalitico({ card, nextStep, }) {
     /*  @props

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import {
   Button,
   CircularProgress,
@@ -12,7 +12,7 @@ import {
   Typography,
 } from '@material-ui/core';
 import { FiberManualRecord, Info } from '@material-ui/icons';
-import BrandPNG from '../../../assets/images/brand.svg';
+import BrandPNG from '../../../images/brand.svg';
 
 import Wizard from './Wizard';
 import Regions from './votes_regions';
@@ -57,11 +57,11 @@ export default function SignUpMore({ useInput, ...req }) {
         .then((snap) => setLeaders(snap.docs.map((e) => e.data().name)));
   }, [leaders, firestore]);
 
-  const [direccion, setDireccion] = useState(null)
+  const [direccion, setDireccion] = React.useState(null)
 
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = React.useState(false);
 
-  useEffect(() => {
+  React.useEffect(() => {
       const setMAp = async () => {
 
             if(!inputs.municipio.value) return;

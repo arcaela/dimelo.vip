@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import api from '../../ServerLess/api';
 import { useStylesSingUp } from '../../views/Auth/styles/signup.styles';
-import useInput  from '../../views/Auth/SignUp/useInput'
+import useInput  from '../../ServerLess/Hooks/useInput'
 import { Link, useHistory } from 'react-router-dom';
 import { Toolbar, Typography } from '@material-ui/core';
 

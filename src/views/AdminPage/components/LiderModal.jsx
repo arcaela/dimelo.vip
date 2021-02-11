@@ -13,9 +13,9 @@ import List from '@material-ui/core/List';
 import { makeStyles } from '@material-ui/core/styles';
 import { useCardLider } from './lider.styles';
 
-import Delete from '../../../assets/images/trash.svg';
+import Delete from '../../../images/trash.svg';
 
-import AvatarImg from '../../../assets/images/avatar.jpg';
+import AvatarImg from '../../../images/avatar.jpg';
 import LiderCardModal from './LiderCardModal';
 
 const useStyles = makeStyles((theme) => ({

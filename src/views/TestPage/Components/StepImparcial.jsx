@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button, Grid, Typography } from '@material-ui/core'
-import Picture from '../../../assets/images/test/imparcial@2x.png'
+import Picture from '../../../images/test/imparcial@2x.png'
 
 export default function StepImparcial({ card, nextStep, }) {
     /*  @props
