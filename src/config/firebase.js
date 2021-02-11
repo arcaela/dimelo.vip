@@ -12,4 +12,5 @@ FirebaseLoad({
       },
     firestore:null,
 });
+console.log(firebase)
 export default firebase;
