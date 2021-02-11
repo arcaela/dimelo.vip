@@ -23,7 +23,10 @@ export default function StepFormal({ card, nextStep, }) {
     };
     return (<Grid container justify="space-between" alignItems="flex-end" style={{height:'100%',textAlign:'center'}}>
         <Grid item xs={6}>
-            <img src={ Informal } onClick={card.no} alt="Informal" style={card.value===false?actived:{}}/>
+            <img src={ Informal } onClick={card.no} alt="Informal" style={{
+                padding:23,
+                ...(card.value===false && actived)
+            }}/>
         </Grid>
         <Grid item xs={6}>
             <img src={ Formal } onClick={card.yes} alt="Formal" style={card.value?actived:{}}/>

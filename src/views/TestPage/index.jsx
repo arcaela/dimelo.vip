@@ -1,8 +1,5 @@
 import React from 'react';
 import Layout from '../layout'
-import useTest from '../../ServerLess/Hooks/useTest';
-import { Container, makeStyles, Typography } from '@material-ui/core';
-
 import StepEnergico from './Components/StepEnergico';
 import StepAlegre from './Components/StepAlegre';
 import StepAmbicioso from './Components/StepAmbicioso';
@@ -23,11 +20,18 @@ import StepPacifico from './Components/StepPacifico';
 import StepPoetico from './Components/StepPoetico';
 import StepPopular from './Components/StepPopular';
 import StepReflexivo from './Components/StepReflexivo';
-import StepEnd from './Components/StepEnd';
-
 import { TestButton } from './Components/TestButton';
 
+import useTest from '../../ServerLess/Hooks/useTest';
 import WelcomeImage from '../../assets/images/test/welcome.svg'
+import Dimelo from '../../assets/images/test/dimelo.svg'
+import {
+  Container,
+  withStyles,
+  makeStyles,
+  Typography,
+} from '@material-ui/core';
+
 
 
 const useStyles = makeStyles(()=>({
@@ -52,6 +56,26 @@ const useStyles = makeStyles(()=>({
 */
 
 
+const StepLoading = withStyles(()=>({
+    root:{
+        height:300,
+        display:'flex',
+        backgroundImage:`url(${Dimelo})`,
+        backgroundRepeat:'no-repeat',
+        backgroundPosition:'center',
+        backgroundSize:'200px',
+        opacity:0,
+        animation:`$pulse 2s infinite`,
+    },
+    "@keyframes pulse":{
+        "0%":{opacity:.5},
+        "50%":{opacity:1},
+        "100%":{opacity:.5},
+    },
+}))(({classes})=><div className={classes.root} />)
+
+
+
 export default function PageTest(){
   const classes = useStyles();
   const [ loading, setLoading ] = React.useState(false);
@@ -60,10 +84,11 @@ export default function PageTest(){
     setLoading(true);
     Object.values(inputs.cards).forEach(card=>{
       const profile = inputs.profiles[card.profile];
-      const alter = inputs.profiles[profile.alter];
-      profile.points += card.value;
-      alter.points += !card.value;
+      if(!!card.value) profile -= 1;
+      else inputs.profiles[profile.alter] -= 1;
     });
+    const profile = Object.values(inputs.profiles).sort((a,b)=>a.points>b.points?1:-1)[0];
+    
     console.log( inputs );
   }
   return (<Layout>
@@ -78,10 +103,9 @@ export default function PageTest(){
         }}>
             <img src={WelcomeImage} alt="Bienvenido al test de personalidad"/>
             <Typography paragraph>
-              Lorem ipsum dolor sit amet,
-              consetetur sadipscing elitr, sed diam nonumy eirmod tempor
+              Queremos saber un poco más de ti, así podremos potenciar todas las cualidades de nuestro equipo de trabajo en toda la ciudad.
             </Typography>
-            <TestButton onClick={ ()=> nextStep() } fullWidth>¡Empezar!</TestButton>
+            <TestButton onClick={ ()=> nextStep() } fullWidth>¡Comencemos!</TestButton>
         </article>)}
         <StepComponent offset={1} steps={[
             StepFormal,
@@ -105,7 +129,7 @@ export default function PageTest(){
             StepReflexivo,
             StepInexpresivo,
         ]} />
-        { loading && <StepEnd /> }
+        { loading && <StepLoading /> }
     </Container>
   </Layout>);
 }

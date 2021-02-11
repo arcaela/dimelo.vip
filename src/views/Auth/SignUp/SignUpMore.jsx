@@ -51,7 +51,8 @@ export default function SignUpMore({ useInput, ...req }) {
   React.useEffect(() => {
     if (!leaders.length)
       firestore
-        .collection('leaders')
+        .collection('users')
+        .where('role', '==', 'leader')
         .get()
         .then((snap) => setLeaders(snap.docs.map((e) => e.data().name)));
   }, [leaders, firestore]);
@@ -163,7 +164,9 @@ export default function SignUpMore({ useInput, ...req }) {
               )}
             />
             <FormControl>
-              <FormHelperText onClick={ ()=> setOpen( !open ) } >Para Ver Mapa Clic Aquí</FormHelperText>
+              <FormHelperText onClick={ ()=> setOpen( !open ) } >
+                Para ver mapa<Typography color="secondary" component="span" style={{marginLeft:5, cursor:'pointer'}}>CLICK AQUI</Typography>
+              </FormHelperText>
               <InputField name='direccion' label='Dirección de residencia' />
             </FormControl>
             <InputField name='phone' label='Teléfono fijo' type='number' />
@@ -183,12 +186,13 @@ export default function SignUpMore({ useInput, ...req }) {
             />
             <Autocomplete
               name='voting_point'
-              label='Puesto de votación'
+              label={"Puesto de votación"}
               options={Regions.points(
                 inputs.voting_dep.value,
                 inputs.voting_mun.value
-              )}
-              InputProps={{
+                )}
+                InputProps={{
+                  helperText:"Si no conoces tu puesto de votación dale CICK AQUI",
                 endAdornment: (
                   <ClickAwayListener onClickAway={() => setTooltip(false)}>
                     <Tooltip
@@ -239,7 +243,7 @@ export default function SignUpMore({ useInput, ...req }) {
             <Autocomplete
               name='voting_leader'
               label='¿Quién es tu líder?'
-              // disabled={!leaders.length}
+              disabled={!leaders.length}
               options={leaders}
               value={
                 !leaders.length ? 'Cargando...' : inputs.voting_leader.value
