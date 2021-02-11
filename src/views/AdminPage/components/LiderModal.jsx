@@ -15,8 +15,9 @@ import { useCardLider } from './lider.styles';
 
 import Delete from '../../../assets/images/trash.svg';
 
-import AvatarImg from '../../../assets/images/avatar.jpg';
 import LiderCardModal from './LiderCardModal';
+
+
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -29,20 +30,24 @@ const useStyles = makeStyles((theme) => ({
       outline: 'none !important',
     },
   },
+  list: {
+    maxHeight: 216,
+    position: 'relative',
+    overflow: 'auto'
+  }
 }));
 
 function getModalStyle() {
-  const top = 50;
-  const left = 50;
-
   return {
-    top: `${top}%`,
-    left: `${left}%`,
-    transform: `translate(-${top}%, -${left}%)`,
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    background: 'transparent',
+    padding: '1rem',
   };
 }
 
-export default function LiderModal({ open, setOpen, leader }) {
+export default function LiderModal({ open, setOpen, followers, leader }) {
   const classes = useCardLider();
 
   const centerModal = getModalStyle();
@@ -56,14 +61,13 @@ export default function LiderModal({ open, setOpen, leader }) {
     voting_point = '',
     name = '',
     lastname = '',
-    uid = null,
   } = leader;
 
-  console.log( uid )
 
   const handleClose = () => {
     setOpen(false);
   };
+
 
   return (
     <Modal onClose={handleClose} open={open}>
@@ -106,7 +110,7 @@ export default function LiderModal({ open, setOpen, leader }) {
             style={{
               paddingTop: 0,
             }}
-            className={classes.pRelative}
+            className={ classes.pRelative }
           >
             <Typography
               className={classes.textModal}
@@ -114,12 +118,13 @@ export default function LiderModal({ open, setOpen, leader }) {
               variant='h4'
               component='h4'
             >
-              Red - 56 miembros
+              Red - { followers.length } miembros
             </Typography>
-            <List>
-              <LiderCardModal key={1} />
-              <LiderCardModal key={2} />
-              <LiderCardModal key={3} />
+            <List className={ modalStyle.list } >
+              { followers && followers.map(follower =>(
+                <LiderCardModal key={ follower.uid } user={ follower } />
+              ))}
+              
             </List>
           </CardContent>
         </Card>

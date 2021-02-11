@@ -24,14 +24,20 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function LiderCardModal() {
+export default function LiderCardModal({ user }) {
 
   const classes = useStyles();
+
+  const{
+    name = '',
+    lastname = '',
+    voting_point = ''
+  } = user;
 
   return (
     <ListItem alignItems='flex-start' className={classes.container}>
         <ListItemAvatar>
-          <Avatar alt='Remy Sharp' src='/static/images/avatar/1.jpg' />
+          <Avatar alt='Remy Sharp' children={ name ? name[0] : lastname[0] } />
         </ListItemAvatar>
         <ListItemText
           primary='Pedro Perez'
@@ -42,7 +48,7 @@ export default function LiderCardModal() {
                 variant='body2'
                 color='textSecondary'
               >
-                Punto de votación: Escuela Bustamante
+                Punto de votación: { voting_point }
               </Typography>
             </>
           }
