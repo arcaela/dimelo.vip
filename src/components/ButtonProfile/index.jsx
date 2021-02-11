@@ -42,8 +42,6 @@ export default function ButtonProfile() {
 
   const  profile  = useAuth()
 
-  console.log( profile )
-
   const classes = styles()
 
   const handleClick = (event) => {

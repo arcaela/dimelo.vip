@@ -23,55 +23,71 @@ import LiderModal from './LiderModal';
 
 
 
-export default function LiderCard() {
+export default function LiderCard({ leader }) {
 
     const classes = useCardLider()
 
     const [open, setOpen] = useState(false)
 
 
+    const {
+        direccion = '',
+        email = '',
+        movil = '',
+        voting_point = '',
+        name = '',
+        lastname = '',
+        uid = null
+     } = leader;
+
 
     return (
         <>        
-            <Card className={ classes.container }>
-                <div className={ classes.avatarContainer }>
-                    <Avatar className={ classes.large } src={ AvatarImg } />
-                </div>
-                <div className={ classes.cardContainer }>
-                    <div className={ classes.pRelative }>
-                        <CardHeader title="Maria Perez"/>
-                        <div className={ classes.actionsHeader } >
-                            <IconButton>
-                                <img src={ Delete } alt="eliminar"/>
-                            </IconButton>
-                        </div>
+            <Card className={ ` ${ classes.container } ${ classes.pRelative } `}>
+                <div className={ classes.body }>
+                    <div className={ classes.avatarContainer }>
+                        
+                        <Avatar 
+                        className={ classes.large }
+                        children={ name ? name[0] : lastname[0] } />
                     </div>
-                    <CardContent className={ classes.pr }>
-                        <Typography color="textSecondary">
-                            Dirección: Los Colores - Medellín
-                        </Typography>
-                        <Typography color="textSecondary">
-                            Teléfono : +578715674877
-                        </Typography>
-                        <Typography color="textSecondary">
-                            Email: maria125d@gmail.com
-                        </Typography>
-                        <Typography color="textSecondary">
-                            Punto de votación: Escuela Bustamante
-                        </Typography>
-                        <div onClick={ ()=>{ setOpen(!open) } } className={ classes.group }>
-                            <span className={ classes.iconContainer }>
-                                <PeopleAltIcon className={ classes.icon } />
-                            </span>
-                            <span>
-                                +56
-                            </span>
+                    <div className={ classes.cardContainer }>
+                        <div >
+                            <CardHeader className={ classes.truncate } title={ ` ${ name } ${ lastname } ` } />
+                            <div className={ classes.actionsHeader } >
+                                <IconButton>
+                                    <img src={ Delete } alt="eliminar"/>
+                                </IconButton>
+                            </div>
+                            <div onClick={ ()=>{ setOpen(!open) } } className={ classes.group }>
+                                <span className={ classes.iconContainer }>
+                                    <PeopleAltIcon className={ classes.icon } />
+                                </span>
+                                <span>
+                                    +56
+                                </span>
+                            </div>
                         </div>
-                    </CardContent>
+                        <CardContent>
+                            <Typography color="textSecondary">
+                                Dirección: { direccion }
+                            </Typography>
+                            <Typography color="textSecondary">
+                                Teléfono : { movil }
+                            </Typography>
+                            <Typography color="textSecondary">
+                                Email: { email }
+                            </Typography>
+                            <Typography color="textSecondary">
+                                Punto de votación: { voting_point }
+                            </Typography>
+
+                        </CardContent>
+                    </div>
                 </div>
                 <div className={ classes.pRelative }>
                     <CardActions>
-                        <IconButton>
+                        {/* <IconButton>
                             <InstagramIcon />
                         </IconButton>
                         <IconButton>
@@ -79,7 +95,7 @@ export default function LiderCard() {
                         </IconButton>
                         <IconButton>
                             <FacebookIcon />
-                        </IconButton>
+                        </IconButton> */}
                         <IconButton>
                             <MessageIcon />
                         </IconButton>
@@ -89,7 +105,7 @@ export default function LiderCard() {
                     </span>
                 </div>
             </Card>
-            <LiderModal open={ open } setOpen={ setOpen } />
+            <LiderModal leader={leader} open={ open } setOpen={ setOpen } />
         </>
     )
 }

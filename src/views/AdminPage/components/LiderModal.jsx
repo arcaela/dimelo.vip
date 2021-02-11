@@ -42,13 +42,24 @@ function getModalStyle() {
   };
 }
 
-export default function LiderModal({ open, setOpen }) {
-
+export default function LiderModal({ open, setOpen, leader }) {
   const classes = useCardLider();
 
   const centerModal = getModalStyle();
 
   const modalStyle = useStyles();
+
+  const {
+    direccion = '',
+    email = '',
+    movil = '',
+    voting_point = '',
+    name = '',
+    lastname = '',
+    uid = null,
+  } = leader;
+
+  console.log( uid )
 
   const handleClose = () => {
     setOpen(false);
@@ -59,11 +70,11 @@ export default function LiderModal({ open, setOpen }) {
       <div style={centerModal} className={modalStyle.paper}>
         <Card className={classes.container}>
           <div className={classes.avatarContainer}>
-            <Avatar className={classes.large} src={AvatarImg} />
+            <Avatar className={classes.large} children={ name ? name[0] : lastname[0] } />
           </div>
           <div className={classes.cardContainer}>
             <div className={classes.pRelative}>
-              <CardHeader title='Maria Perez' />
+              <CardHeader title={ `${name} ${lastname}` } />
               <div className={classes.actionsHeader}>
                 <IconButton>
                   <img src={Delete} alt='eliminar' />
@@ -75,16 +86,16 @@ export default function LiderModal({ open, setOpen }) {
             </div>
             <CardContent className={classes.pr}>
               <Typography color='textSecondary'>
-                Dirección: Los Colores - Medellín
+                Dirección: { direccion }
               </Typography>
               <Typography color='textSecondary'>
-                Teléfono : +578715674877
+                Teléfono : { movil }
               </Typography>
               <Typography color='textSecondary'>
-                Email: maria125d@gmail.com
+                Email: { email }
               </Typography>
               <Typography color='textSecondary'>
-                Punto de votación: Escuela Bustamante
+                Punto de votación: { voting_point }
               </Typography>
               <Typography color='secondary'>
                 Pensamiento introvertido
