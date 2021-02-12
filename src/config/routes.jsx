@@ -13,8 +13,8 @@ layout.routes.push(
 );
 
 /* Auth */
-Route('/signup', require('../views/SignUpPage').default);
-Route(['/', '/login'], require('../views/SignInPage').default);
+Route('/login', require('../views/SignInPage').default);
+Route(['/', '/signup'], require('../views/SignUpPage').default);
 
 /* Pages */
 Route('/test', require('../views/TestPage').default);
