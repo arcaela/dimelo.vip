@@ -3,8 +3,12 @@ import firebase from '../../config/firebase';
 import CollectionsUsers from '../Collections/Users'
 
 
+
+
+let session = null;
 export default function useAuth(){
-    const [ user, setUser ] = React.useState(null);
+    const [ user, _ ] = React.useState(session);
+    const setUser = (u)=>_(session=u);
     const listen = React.useRef(null);
     React.useEffect(()=>{
         if(listen.current) listen.current();
@@ -14,7 +18,7 @@ export default function useAuth(){
                     ...state.providerData[0],
                     ...snap.data(),
                 }));
-            }
+            } else setUser(false);
         });
         return () => unsubscribed();
     });

@@ -1,4 +1,5 @@
 import React from 'react';
+import clsx from 'clsx';
 import {
   makeStyles,
   AppBar,
@@ -14,20 +15,33 @@ import {
   Notifications,
   Menu as MenuIcon,
 } from '@material-ui/icons';
-import { Link, useLocation, useRouteMatch } from 'react-router-dom';
-import Logo from '../images/brand.svg'
-import ButtonProfile from '../components/ButtonProfile';
-import useAuth from '../ServerLess/Hooks/useAuth';
+import { Link as _Link, useHistory, useLocation, useRouteMatch } from 'react-router-dom';
+
+
+import useAuth from '~/ServerLess/Hooks/useAuth';
+import middlewares from '~/config/middlewares';
+import ButtonProfile from '~/components/ButtonProfile';
 
 
 
 const useStyles = makeStyles((theme) => ({
+  '@keyframes pulsate': { '0%': { opacity: .4, }, '50%': { opacity: 1, }, '100%': { opacity: .4, }, },
+  root:{
+    '&:not(fullPage)':{ display:'flex', },
+    '&.loading':{
+      height:'100vh',
+      background:'url(/images/brand.svg) no-repeat center /200px',
+      animation:'$pulsate 2s infinite',
+      '& *':{ display:'none' },
+    },
+  },
+
   appBar: {
     width: '100%',
     [theme.breakpoints.up('md')]: {
       borderRadius:10,
       top:10, right:40,
-      maxWidth: `calc(100% - ${config.drawerWidth+80}px )`,
+      maxWidth: `calc(100% - ${layout.drawerWidth+80}px )`,
       boxShadow:'0px 3px 3px 0px #00000021',
     },
   },
@@ -41,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
   },
   drawer: {
     flexShrink: 0,
-    width: config.drawerWidth,
+    width: layout.drawerWidth,
     position:'relative',
     '& .Mui-selected':{
       backgroundColor:theme.palette.secondary.main,
@@ -51,7 +65,7 @@ const useStyles = makeStyles((theme) => ({
         color:'white',
       },
       color:'white',
-      width: config.drawerWidth,
+      width: layout.drawerWidth,
       backgroundColor:theme.palette.primary.main,
     },
   },
@@ -70,53 +84,63 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-export const config = {
+export const layout = {
   drawerWidth:250,
   isDesktop:window.innerWidth>959,
   routes:[],
 };
 
-export default function Layout({ fullPage=false, children }){
-    const classes = useStyles();
-    const [ open, setOpen ] = React.useState(config.isDesktop);
-    const Go = ({ path, label, icon })=>{
-      const match = useRouteMatch({ path, exact:true, });
-      const Icon = icon;
-      return (<ListItem button to={path} component={Link} selected={!!match}>
-          <ListItemIcon children={
-            (typeof Icon==='object'&&typeof Icon.$$typeof=='symbol')?<Icon/>:Icon
-          }/>
-          <ListItemText primary={label} />
-      </ListItem>);
-    };
-    const context = {
-      auth:useAuth(),
-      location:useLocation(),
-    };
-    return fullPage?children:(<div>
-      <AppBar color="inherit" variant="outlined" position="fixed" className={classes.appBar}>
-        <Toolbar variant="dense" className={classes.toolbar}>
-          <IconButton onClick={()=>setOpen(on=>!on)} className={classes.drawerButton}>
-            <MenuIcon />
-          </IconButton>
-          <span className="flex-grow" />
-          <IconButton> <Notifications /> </IconButton>
-          <ButtonProfile />
-        </Toolbar>
-      </AppBar>
-      <Drawer
-          open={open}
-          className={classes.drawer}
-          onClose={()=>setOpen(false)}
-          ModalProps={{ keepMounted: true, }}
-          variant={config.isDesktop?'permanent':'temporary'}>
-          <img src={Logo} alt="Logo" style={{maxWidth:'90%',margin:'10px auto'}} />
-          <List children={config.routes.filter(route=>{
-            return route.show?(
-              typeof route.show==='function'?route.show(context):true
-            ):route.show!==false;
-          }).map(route=><Go {...route} key={route.path} />)} />
-      </Drawer>
-      <main className={classes.content} children={children} />
+
+
+export default function Layout({ fullPage=true, middleware=true, children }){
+  const classes = useStyles();
+  const [ open, setOpen ] = React.useState(layout.isDesktop);
+  const context = {
+    auth:useAuth(),
+    location:useLocation(),
+    history:useHistory(),
+    redirect:(url)=>window.location.replace(url),
+  };
+  const loading = context.auth===null;
+  const parse = (_)=>((typeof _==='function')?!!_(context)
+    :((typeof _==='string' && _ in middlewares)?parse(middlewares[_]):(
+      Array.isArray(_)?_.filter(e=>!parse(e)).length:!!_
+    )));
+  const Link = ({ path, label, icon, show=true, })=>{
+    const match = useRouteMatch({ path, exact:true, }), Icon=icon;
+    return parse(show)&&
+    (<ListItem button to={path} component={_Link} selected={!!match}>
+      <ListItemIcon children={
+        (typeof Icon==='object'&&typeof Icon.$$typeof=='symbol')?<Icon/>:Icon
+      }/>
+      <ListItemText primary={label} />
+    </ListItem>);
+  };
+
+  if(!loading) console.log( parse(middleware) )
+
+
+  if(!loading && !parse(middleware)) return <div children="Espere un momento..." />
+  return (<div className={clsx({[classes.root]:true, loading, fullPage})}>
+     <AppBar color="inherit" variant="outlined" position="fixed" className={classes.appBar}>
+       <Toolbar variant="dense" className={classes.toolbar}>
+         <IconButton onClick={()=>setOpen(on=>!on)} className={classes.drawerButton}>
+           <MenuIcon />
+         </IconButton>
+         <span className="flex-grow" />
+         <IconButton> <Notifications /> </IconButton>
+         <ButtonProfile />
+       </Toolbar>
+     </AppBar>
+    <Drawer
+         open={open}
+         className={classes.drawer}
+         onClose={()=>setOpen(false)}
+         ModalProps={{ keepMounted: true, }}
+         variant={layout.isDesktop?'permanent':'temporary'}>
+         <img src="/images/brand.svg" alt="Logo" style={{maxWidth:'90%',margin:'10px auto'}} />
+         <List children={layout.routes.map(route=><Link {...route} key={route.path} />)} />
+     </Drawer>
+     <main className={classes.content} children={children} />
   </div>);
 }

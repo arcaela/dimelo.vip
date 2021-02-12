@@ -45,8 +45,7 @@ const useStyles = makeStyles(()=>({
 export default function PageTest(){
   const classes = useStyles();
   const { inputs, step, setStep, nextStep, StepComponent } =  useTest();
-
-  return (<Layout>
+  return (<Layout middleware={'auth'}>
     <Container maxWidth="xs" className={classes.root} >
       { step === 0 && (<article style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', textAlign: 'center', alignItems: 'center', }}>
         <img src={WelcomeImage} alt="Bienvenido al test de personalidad"/>

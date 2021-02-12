@@ -1,12 +1,12 @@
 const { Route } = require('@arcaela/aurora/hooks');
-const { config } = require('../views/layout');
+const { layout } = require('../views/layout');
 const { NaturePeople, PeopleAlt, PeopleAltOutlined, Message } = require('@material-ui/icons');
 
 
 
 
 const isAdmin = ({ auth })=>(auth && auth.role==='admin');
-config.routes.push(
+layout.routes.push(
     {path:'/news',icon:NaturePeople,label:'Noticias'},
     {path:'/admin',icon:PeopleAltOutlined,label:'Líderes de primer nivel', show:isAdmin},
     {path:'/admin/movimiento',icon:PeopleAlt,label:'Movimiento', show:isAdmin},
