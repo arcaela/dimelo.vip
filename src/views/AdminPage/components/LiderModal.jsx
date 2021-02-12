@@ -47,7 +47,7 @@ function getModalStyle() {
   };
 }
 
-export default function LiderModal({ open, setOpen, followers, leader }) {
+export default function LiderModal({ open, setOpen, followers, leader, patron }) {
   const classes = useCardLider();
 
   const centerModal = getModalStyle();
@@ -73,38 +73,44 @@ export default function LiderModal({ open, setOpen, followers, leader }) {
     <Modal onClose={handleClose} open={open}>
       <div style={centerModal} className={modalStyle.paper}>
         <Card className={classes.container}>
-          <div className={classes.avatarContainer}>
-            <Avatar className={classes.large} children={ name ? name[0] : lastname[0] } />
-          </div>
-          <div className={classes.cardContainer}>
-            <div className={classes.pRelative}>
-              <CardHeader title={ `${name} ${lastname}` } />
-              <div className={classes.actionsHeader}>
-                <IconButton>
-                  <img src={Delete} alt='eliminar' />
-                </IconButton>
-                <IconButton onClick={() => setOpen(!open)}>
-                  <CloseIcon />
-                </IconButton>
-              </div>
+          <div style={{
+            display: 'flex'
+          }}>
+            <div className={classes.avatarContainer}>
+              <Avatar className={classes.large} children={ name ? name[0] : lastname[0] } />
             </div>
-            <CardContent className={classes.pr}>
-              <Typography color='textSecondary'>
-                Dirección: { direccion }
-              </Typography>
-              <Typography color='textSecondary'>
-                Teléfono : { movil }
-              </Typography>
-              <Typography color='textSecondary'>
-                Email: { email }
-              </Typography>
-              <Typography color='textSecondary'>
-                Punto de votación: { voting_point }
-              </Typography>
-              <Typography color='secondary'>
-                Pensamiento introvertido
-              </Typography>
-            </CardContent>
+            <div className={classes.cardContainer}>
+              <div  className={classes.pRelative}>
+                <CardHeader title={ `${name} ${lastname}` } />
+                <div className={classes.actionsHeader}>
+                  <IconButton>
+                    <img src={Delete} alt='eliminar' />
+                  </IconButton>
+                  <IconButton onClick={() => setOpen(!open)}>
+                    <CloseIcon />
+                  </IconButton>
+                </div>
+              </div>
+              <CardContent style={{
+                paddingTop: 0 
+              }} className={classes.pr}>
+                <Typography color='textSecondary'>
+                  Dirección: { direccion }
+                </Typography>
+                <Typography color='textSecondary'>
+                  Teléfono : { movil }
+                </Typography>
+                <Typography color='textSecondary'>
+                  Email: { email }
+                </Typography>
+                <Typography color='textSecondary'>
+                  Punto de votación: { voting_point }
+                </Typography>
+                <Typography color='secondary'>
+                  { patron && patron }
+                </Typography>
+              </CardContent>
+            </div>
           </div>
           <CardContent
             style={{

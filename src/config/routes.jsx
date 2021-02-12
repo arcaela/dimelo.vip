@@ -12,6 +12,7 @@ config.routes.push(
     {path:'/admin/movimiento',icon:PeopleAlt,label:'Movimiento', show:isAdmin},
     {path:'/messages',icon:Message,label:'Mensajes', show:isAdmin},
     {path:'/test',icon:NaturePeople,label:'Test de personalidad'},
+    {path:'/red',icon:NaturePeople,label:'Red'},
 );
 
 /* Auth */
@@ -23,3 +24,4 @@ Route(['/', '/login'], require('../views/LoginPage/LoginPage').default);
 Route('/test', require('../views/TestPage').default);
 Route('/admin', require('../views/AdminPage').default);
 Route('/admin/movimiento', require('../views/AdminPage/Movimiento').default);
+Route('/red', require('../views/RedPage').default);
