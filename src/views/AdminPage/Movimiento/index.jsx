@@ -8,6 +8,7 @@ import Tab from '@material-ui/core/Tab';
 import { Box } from '@material-ui/core';
 import LiderTab from './LiderTab';
 import firebase from '../../../config/firebase';
+import UserTab from './UserTab';
 
 const StyledTabs = withStyles(theme => ({
     indicator: {
@@ -64,6 +65,7 @@ export default function Movimiento(){
 
     const [value, setValue] = useState(0);
     const [leaders, setLeaders] = useState([]);
+    const [users, setUsers] = useState([]);
 
     const handleChange = (event, newValue) => {
       setValue(newValue);
@@ -87,6 +89,24 @@ export default function Movimiento(){
       };
       getLeaders();
     }, []);
+
+    useEffect(() => {
+      const getUsers = async () => {
+        try {
+          const leaders = firebase.firestore();
+  
+          const users = await leaders
+            .collection('users')
+            .where('role', '==', 'user')
+            .get();
+  
+            setUsers(users.docs.map((e) => e.data()));
+        } catch (e) {
+          console.log(e);
+        }
+      };
+      getUsers();
+    }, []);
     
     return (
         <Layout>
@@ -107,7 +127,7 @@ export default function Movimiento(){
                 <LiderTab leaders={leaders} />
             </TabPanel>
             <TabPanel value={value} index={1}>
-                Item Two
+                <UserTab users={users} />
             </TabPanel>
         </Layout>
     )

@@ -8,58 +8,72 @@ import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 
 import IconButton from '@material-ui/core/IconButton';
-import InstagramIcon from '@material-ui/icons/Instagram';
-import TwitterIcon from '@material-ui/icons/Twitter';
-import FacebookIcon from '@material-ui/icons/Facebook';
+// import InstagramIcon from '@material-ui/icons/Instagram';
+// import TwitterIcon from '@material-ui/icons/Twitter';
+// import FacebookIcon from '@material-ui/icons/Facebook';
 
 import Delete from '../../images/trash.svg';
-import Edit from '../../images/edit.svg';
-import { useCardRed } from './cardRed.styles';
 
-import AvatarImg from '../../images/avatar.jpg'
+import { useCardLider } from '~/views/AdminPage/components/lider.styles';
 
+ 
 
+export default function CardRed({ users }) {
 
-export default function CardRed() {
+    const classes = useCardLider() 
 
-    const classes = useCardRed() 
+    const {
+        direccion = '',
+        email = '',
+        movil = '',
+        voting_point = '',
+        name = '',
+        lastname = '',
+        uid = null
+     } = users;
 
     return (
-        <Card className={ classes.container }>
-            <div className={ classes.avatarContainer }>
-                <Avatar className={ classes.large } src={ AvatarImg } />
-            </div>
+        <>        
+            <Card className={ ` ${ classes.container } ${ classes.pRelative } `}>
+                <div className={ classes.body }>
+                    <div className={ classes.avatarContainer }>
+                        
+                        <Avatar 
+                        className={ classes.large }
+                        children={ name ? name[0] : lastname[0] } />
+                    </div>
+                    <div className={ classes.cardContainer }>
+                        <div >
+                            <CardHeader className={ classes.truncate } title={ ` ${ name } ${ lastname } ` } />
+                            <div className={ classes.actionsHeader } >
+                                <IconButton>
+                                    <img src={ Delete } alt="eliminar"/>
+                                </IconButton>
+                            </div>
+                        </div>
+                        <CardContent>
+                            <Typography color="textSecondary">
+                                Dirección: { direccion }
+                            </Typography>
+                            <Typography color="textSecondary">
+                                Teléfono : { movil }
+                            </Typography>
+                            <Typography color="textSecondary">
+                                Email: { email }
+                            </Typography>
+                            <Typography color="textSecondary">
+                                Punto de votación: { voting_point }
+                            </Typography>
 
-            <div className={ classes.cardContainer }>
-
-                <div className={ classes.pRelative }>
-                    <CardHeader title="Maria Perez"/>
-                    <div className={ classes.actionsHeader } >
-                        <IconButton>
-                            <img src={ Edit } alt="Editar"/>
-                        </IconButton>
-                        <IconButton>
-                            <img src={ Delete } alt="eliminar"/>
-                        </IconButton>
+                        </CardContent>
                     </div>
                 </div>
-                <CardContent>
-                    <Typography color="textSecondary">
-                        Dirección: Los Colores - Medellín
-                    </Typography>
-                    <Typography color="textSecondary">
-                        Teléfono : +578715674877
-                    </Typography>
-                    <Typography color="textSecondary">
-                        Email: maria125d@gmail.com
-                    </Typography>
-                    <Typography color="textSecondary">
-                        Punto de votación: Escuela Bustamante
-                    </Typography>
-                </CardContent>
                 <div className={ classes.pRelative }>
-                    <CardActions>
-                        <IconButton>
+                    <CardActions style={{
+                        padding: 0,
+                        justifyContent: 'flex-end'
+                    }}>
+                        {/* <IconButton>
                             <InstagramIcon />
                         </IconButton>
                         <IconButton>
@@ -67,14 +81,16 @@ export default function CardRed() {
                         </IconButton>
                         <IconButton>
                             <FacebookIcon />
-                        </IconButton>
-                    </CardActions>
-                    <span className={ classes.perfil }>
+                        </IconButton> 
+                        <IconButton>
+                            <MessageIcon />
+                        </IconButton> */}
+                    <span className={ classes.newPerfil }>
                         Pensamiento introvertido
                     </span>
+                    </CardActions>
                 </div>
-            </div>
-
-        </Card>
+            </Card>
+        </>
     )
 }

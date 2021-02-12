@@ -72,6 +72,13 @@ export const useCardLider = makeStyles((theme) => ({
         borderRadius: '10px 0 0 0',
         color: '#fff'
     },
+    newPerfil:{
+        padding: 20,
+        fontSize: 15,
+        background: '#04E120',
+        borderRadius: '10px 0 0 0',
+        color: '#fff'
+    },
     textModal:{
         fontSize: 20,
     },
