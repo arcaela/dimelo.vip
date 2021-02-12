@@ -6,10 +6,10 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import api from '~/ServerLess/api';
 import { useStylesSingUp } from '~/views/SignUpPage/styles/signup.styles';
 import useInput  from '~/ServerLess/Hooks/useInput'
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Toolbar, Typography } from '@material-ui/core';
 
-const style = makeStyles( theme =>({
+const style = makeStyles( () =>({
   container:{
     '& .MuiFormControl-root':{
       width: '100% !important',
@@ -64,8 +64,12 @@ export default function Login() {
   };
 
   return (
-    <div className={loginStyle.container}>
-      <h2 className={loginStyle.title}>Iniciar sesión</h2>
+    <div className={loginStyle.container} style={{
+      display:'flex',
+      height:'100%',
+      flexDirection:'column',
+    }}>
+      <h2 className={loginStyle.title} style={{marginTop:'auto'}}>Iniciar sesión</h2>
       <form onSubmit={(e) => handlerSubmit(e)}>
         <div role="tabpanel" className={full.container} style={{
           width: '100%'
@@ -120,7 +124,8 @@ export default function Login() {
         </FormControl>
       </form>
       <Toolbar style={{
-        justifyContent: 'center'
+        justifyContent: 'center',
+        marginTop:'auto',
       }} className={loginStyle.Toolbar}>
           ¿No tienes una cuenta? &nbsp; 
           <Typography>

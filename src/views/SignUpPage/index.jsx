@@ -10,7 +10,7 @@ export default function Auth({...req}){
     req.useInput = useInput();
     const { step } = req.useInput;
     return (<Layout fullPage middleware={['guest']}>
-        {step > 2 && <SignUpMore />}
+        {step > 2 && <SignUpMore {...req} />}
         {step < 3 && (<Grid container className={classes.root}>
             <Hidden smDown>
                 <Grid item xs={12} md={6} className={classes.gridLeft}>

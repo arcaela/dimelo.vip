@@ -48,7 +48,7 @@ export default function useInput(){
         ),[])
     };
 
-    const [step, _setStep] = React.useState(1);
+    const [step, _setStep] = React.useState(4);
     const setStep = (e)=>_setStep(e);
     const nextStep = ()=>setStep(p=>p+1);
     const prevStep = (callback=()=>{})=>setStep(p=>p>0?p-1:callback());
@@ -75,7 +75,7 @@ export default function useInput(){
         ErrorsOf,
         firestore:firebase.app('firestore').firestore(),
         hasErrors:(..._keys)=>Boolean(ErrorsOf(..._keys).length>0),
-        Autocomplete:({label='N/D',InputLabelProps,InputProps, ...props})=>{
+        Autocomplete:({label='N/D',InputLabelProps,TextFieldProps={},InputProps, ...props})=>{
             const input = inputs[props.name];
             return (<FormControl variant="outlined">
                 <FormHelperText>{ input.error || label }</FormHelperText>
@@ -85,10 +85,11 @@ export default function useInput(){
                     disableClearable
                     options={[]}
                     getOptionSelected={(o)=>o===input.value}
-                    renderInput={(params)=>(<TextField {...params} InputProps={{
+                    renderInput={(params)=>(<TextField {...params} {...TextFieldProps} InputProps={{
                         ...params.InputProps,
                         ...InputProps,
-                    }} InputLabelProps={InputLabelProps} variant="outlined" />)}
+                    }}
+                    InputLabelProps={InputLabelProps} variant="outlined" />)}
                     {...props}
                     value={props.disabled ? '- - - - - -' : (input.value || props.value) }
                     onChange={async (e,value)=>{

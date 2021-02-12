@@ -28,7 +28,7 @@ import Invitar from '~/components/Inivitar';
 const useStyles = makeStyles((theme) => ({
   '@keyframes pulsate': { '0%': { opacity: .4, }, '50%': { opacity: 1, }, '100%': { opacity: .4, }, },
   root:{
-    '&:not(fullPage)':{ display:'flex', },
+    '&:not(.fullPage)':{ display:'flex', },
     '&.loading':{
       height:'100vh',
       background:'url(/images/brand.svg) no-repeat center /200px',
@@ -50,6 +50,10 @@ const useStyles = makeStyles((theme) => ({
     display:'flex',
     justifyContent:'flex-end',
     '& .flex-grow':{ flexGrow:1, },
+    '& .brand':{
+      maxHeight:20,
+      [theme.breakpoints.up("md")]:{ display:'none', },
+    },
     '& > *':{ margin:'0 10px 0 0', },
     '& > *:last-child':{ marginRight:0, },
     '& .MuiAvatar-root':{ marginLeft:10, width:30, height:30, },
@@ -117,17 +121,16 @@ export default function Layout({ fullPage=false, middleware=true, children }){
       <ListItemText primary={label} />
     </ListItem>);
   };
-
   const Page = (props)=><div className={clsx({[classes.root]:true, loading, fullPage})} {...props} />;
   if(!loading && !parse(middleware)) return <div children="403 | Forbidden" />;
   else if(!loading && fullPage) return <Page children={children} />
-
   return (<Page>
     <AppBar color="inherit" variant="outlined" position="fixed" className={classes.appBar}>
        <Toolbar variant="dense" className={classes.toolbar}>
          <IconButton onClick={()=>setOpen(on=>!on)} className={classes.drawerButton}>
            <MenuIcon />
          </IconButton>
+         <img alt="" src="/images/brand.svg" className="brand" />
          <span className="flex-grow" />
          <Invitar />
          <ButtonProfile />
