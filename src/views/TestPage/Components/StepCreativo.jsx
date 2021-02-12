@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button, Grid, Typography } from '@material-ui/core'
-import Picture from '../../../images/test/creativo.svg'
+import Picture from '~/images/test/creativo.svg'
 
 export default function StepCreativo({ card, nextStep, }) {
     /*  @props

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button, Grid, Typography } from '@material-ui/core'
-import Picture from '../../../images/test/amigable.svg'
+import Picture from '~/images/test/amigable.svg'
 
 export default function StepAmigable({ card, nextStep, }) {
     /*  @props

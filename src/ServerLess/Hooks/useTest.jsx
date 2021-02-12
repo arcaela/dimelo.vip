@@ -89,24 +89,35 @@ let Inputs = {
     },
     profiles:{
         dominancia:{
+            name:"dominancia",
+            alter:"control",
             label:"independiente-automotivado",
-            points:10,
+            points:0,
+            color:'#FC004B',
         },
         control:{
+            name:"control",
+            alter:"dominancia",
             label:"analista-pensador",
-            points:10,
+            points:0,
+            color:'#3002AF',
         },
         influencia:{
+            name:"influencia",
+            alter:"estabilidad",
             label:"promotor-amigable",
-            points:10,
+            points:0,
+            color:'#FFCC00',
         },
         estabilidad:{
+            name:"estabilidad",
+            alter:"influencia",
             label:"planificador-perseverante",
-            points:10,
+            points:0,
+            color:'#04E120',
         }
     },
 };
-
 
 export default function useTest(){
     const [ inputs, _reset ] = React.useState(Inputs);
@@ -119,8 +130,8 @@ export default function useTest(){
         setInputs,
         step,
         setStep,
-        nextStep,
         prevStep,
+        nextStep,
     };
     hooks.StepComponent = ({ steps=[], offset=0 })=>{
         if(step<offset || step>steps.length ) return null;

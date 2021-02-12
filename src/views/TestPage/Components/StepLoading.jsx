@@ -1,6 +1,6 @@
 import React from 'react'
 import { withStyles } from '@material-ui/core'
-import Dimelo from '../../../images/test/dimelo.svg'
+import Dimelo from '~/images/test/dimelo.svg'
 export default withStyles(()=>({
     root:{
         height:300,

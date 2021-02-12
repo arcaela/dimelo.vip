@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button, Grid, Typography } from '@material-ui/core'
-import Picture from '../../../images/test/conciliador.svg'
+import Picture from '~/images/test/conciliador.svg'
 
 export default function StepConciliador({ card, nextStep, }) {
     /*  @props

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button, Grid, Typography } from '@material-ui/core'
-import Picture from '../../../images/test/arriesgado@2x.png'
+import Picture from '~/images/test/arriesgado@2x.png'
 
 export default function StepArriesgado({ card, nextStep, }) {
     /*  @props

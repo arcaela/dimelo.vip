@@ -1,8 +1,8 @@
 import React from 'react'
 import { Button, Grid, Typography } from '@material-ui/core'
 
-import Callado1 from '../../../images/test/callado-1@2x.png'
-import Callado2 from '../../../images/test/callado@2x.png'
+import Callado1 from '~/images/test/callado-1@2x.png'
+import Callado2 from '~/images/test/callado@2x.png'
 
 export default function StepCallado({ card, nextStep, }) {
     /*  @props
