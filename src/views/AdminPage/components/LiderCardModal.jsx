@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: 0,
     paddingRight: 0,
     position: 'relative',
-    curso: 'pointer'
+    cursor: 'pointer'
   },
   perfil:{
     position: 'absolute',
@@ -40,7 +40,7 @@ export default function LiderCardModal({ user }) {
           <Avatar alt='Remy Sharp' children={ name ? name[0] : lastname[0] } />
         </ListItemAvatar>
         <ListItemText
-          primary='Pedro Perez'
+          primary={ `${name} ${lastname}` }
           secondary={
             <>
               <Typography
