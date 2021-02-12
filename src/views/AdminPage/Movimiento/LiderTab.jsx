@@ -3,7 +3,6 @@ import React from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import { useEffect, useState } from 'react';
 import LiderCard from '../components/LiderCard';
 
 const gridStyles = makeStyles((theme) => ({
