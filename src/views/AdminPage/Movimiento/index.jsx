@@ -109,7 +109,7 @@ export default function Movimiento(){
     }, []);
     
     return (
-        <Layout>
+        <Layout middleware={['auth']}>
             <TitlePage title="Movimiento" />
             <div className="">
             <StyledTabs value={value} onChange={handleChange} aria-label="styled tabs example">

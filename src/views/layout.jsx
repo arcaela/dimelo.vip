@@ -92,20 +92,20 @@ export const layout = {
 
 
 
-export default function Layout({ fullPage=true, middleware=true, children }){
+export default function Layout({ fullPage=false, middleware=true, children }){
   const classes = useStyles();
   const [ open, setOpen ] = React.useState(layout.isDesktop);
   const context = {
     auth:useAuth(),
     location:useLocation(),
     history:useHistory(),
-    redirect:(url)=>window.location.replace(url),
+    redirect:(redirect)=>(window.location.replace(redirect) && false),
   };
   const loading = context.auth===null;
-  const parse = (_)=>((typeof _==='function')?!!_(context)
-    :((typeof _==='string' && _ in middlewares)?parse(middlewares[_]):(
-      Array.isArray(_)?_.filter(e=>!parse(e)).length:!!_
-    )));
+  const parse = (_,__=false)=>((typeof _ === 'function')?_({...context}):(
+    (typeof _ ==='string'&&_ in middlewares&&!!__)?parse(middlewares[_])
+    :((Array.isArray(_))?_.map(c=>parse(c,true)):!!_)
+  ));
   const Link = ({ path, label, icon, show=true, })=>{
     const match = useRouteMatch({ path, exact:true, }), Icon=icon;
     return parse(show)&&
@@ -117,12 +117,12 @@ export default function Layout({ fullPage=true, middleware=true, children }){
     </ListItem>);
   };
 
-  if(!loading) console.log( parse(middleware) )
+  const Page = (props)=><div className={clsx({[classes.root]:true, loading, fullPage})} {...props} />;
+  if(!loading && !parse(middleware)) return <div children="403 | Forbidden" />;
+  else if(!loading && fullPage) return <Page children={children} />
 
-
-  if(!loading && !parse(middleware)) return <div children="Espere un momento..." />
-  return (<div className={clsx({[classes.root]:true, loading, fullPage})}>
-     <AppBar color="inherit" variant="outlined" position="fixed" className={classes.appBar}>
+  return (<Page>
+    <AppBar color="inherit" variant="outlined" position="fixed" className={classes.appBar}>
        <Toolbar variant="dense" className={classes.toolbar}>
          <IconButton onClick={()=>setOpen(on=>!on)} className={classes.drawerButton}>
            <MenuIcon />
@@ -142,5 +142,8 @@ export default function Layout({ fullPage=true, middleware=true, children }){
          <List children={layout.routes.map(route=><Link {...route} key={route.path} />)} />
      </Drawer>
      <main className={classes.content} children={children} />
-  </div>);
+  </Page>);
 }
+
+
+

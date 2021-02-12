@@ -3,9 +3,9 @@ import FormControl from '@material-ui/core/FormControl';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import api from '../../ServerLess/api';
-import { useStylesSingUp } from '../../views/Auth/styles/signup.styles';
-import useInput  from '../../ServerLess/Hooks/useInput'
+import api from '~/ServerLess/api';
+import { useStylesSingUp } from '~/views/SignUpPage/styles/signup.styles';
+import useInput  from '~/ServerLess/Hooks/useInput'
 import { Link, useHistory } from 'react-router-dom';
 import { Toolbar, Typography } from '@material-ui/core';
 
@@ -19,14 +19,8 @@ const style = makeStyles( theme =>({
 }))
 
 export default function Login() {
-  
   const full = style()
-
   const loginStyle = useStylesSingUp();
-
-  const router = useHistory()
-
-
   const {
     InputField,
     hasErrors,
@@ -61,9 +55,7 @@ export default function Login() {
             error: null
           }
         })
-
-        router.push('/test');
-        
+        window.location.replace('/test');
     } catch (e) {
 
       console.log(e);

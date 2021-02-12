@@ -1,21 +1,16 @@
 import { Grid, Hidden, Typography } from '@material-ui/core';
 import React from 'react'
-import Login from '../../components/Login';
-import { loginStyles } from '../../components/Login/login.styles';
-import { useStylesIndex } from '../Auth/styles/index.styles';
-import { useStylesSingUp } from '../Auth/styles/signup.styles';
-
-
+import Login from './Form';
+import { loginStyles } from './Form/login.styles';
+import { useStylesIndex } from '../SignUpPage/styles/index.styles';
+import { useStylesSingUp } from '../SignUpPage/styles/signup.styles';
+import Layout from '../layout';
 export default function LoginPage() {
-
     const classes = useStylesIndex();
-
     const loginStyle = loginStyles(); 
-
     const body  = useStylesSingUp();
-
-    return (
-        <Grid container className={ classes.root }>
+    return (<Layout fullPage middleware={['guest']}>
+        <Grid container className={classes.root}>
             <Hidden smDown>
                 <Grid item xs={12} md={6} className={classes.gridLeft}>
                     <Typography variant="h3">Bienvenido</Typography>
@@ -30,5 +25,5 @@ export default function LoginPage() {
                 <Login />
             </Grid>
         </Grid>
-    )
+    </Layout>)
 }
