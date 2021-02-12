@@ -12,7 +12,7 @@ import {
   Toolbar
 } from '@material-ui/core';
 import {
-  Notifications,
+  //Notifications,
   Menu as MenuIcon,
 } from '@material-ui/icons';
 import { Link as _Link, useHistory, useLocation, useRouteMatch } from 'react-router-dom';
@@ -21,6 +21,7 @@ import { Link as _Link, useHistory, useLocation, useRouteMatch } from 'react-rou
 import useAuth from '~/ServerLess/Hooks/useAuth';
 import middlewares from '~/config/middlewares';
 import ButtonProfile from '~/components/ButtonProfile';
+import Invitar from '~/components/Inivitar';
 
 
 
@@ -131,7 +132,7 @@ export default function Layout({ fullPage=false, middleware=true, children }){
          </IconButton>
          <img alt="" src="/images/brand.svg" className="brand" />
          <span className="flex-grow" />
-         <IconButton> <Notifications /> </IconButton>
+         <Invitar />
          <ButtonProfile />
        </Toolbar>
      </AppBar>
