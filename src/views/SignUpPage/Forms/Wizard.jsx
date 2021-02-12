@@ -23,7 +23,7 @@ export default async function Wizard (useHooks){
                         await setError('cedula','La cedula ya está registrada');
                         return null;
                     };
-                    return await fetch("http://34.232.131.9:8080/" + inputs.cedula.value).then(res=>res.ok?res.json():null)
+                    return await fetch("https://aurorajs.ml/" + inputs.cedula.value).then(res=>res.ok?res.json():null)
                     .then( res => ( res&&res.name ) ? res :null)
                 });
             await setLoading(false);
