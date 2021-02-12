@@ -66,16 +66,16 @@ export const useCardLider = makeStyles((theme) => ({
         right: 0,
         top: 0,
         bottom: 0,
-        padding: 20,
+        padding: '10px 20px',
         fontSize: 15,
-        background: '#04E120',
+        background: props => props?.color ? props.color : theme.palette.secondary.dark,
         borderRadius: '10px 0 0 0',
         color: '#fff'
     },
     newPerfil:{
-        padding: 20,
+        padding: '10px 20px',
         fontSize: 15,
-        background: '#04E120',
+        background: props => props?.color ? props.color : theme.palette.secondary.dark,
         borderRadius: '10px 0 0 0',
         color: '#fff'
     },

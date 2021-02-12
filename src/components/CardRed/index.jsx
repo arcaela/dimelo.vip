@@ -15,12 +15,15 @@ import IconButton from '@material-ui/core/IconButton';
 import Delete from '../../images/trash.svg';
 
 import { useCardLider } from '~/views/AdminPage/components/lider.styles';
+import usePatron from '~/hooks/usePatron';
 
  
 
 export default function CardRed({ users }) {
 
-    const classes = useCardLider() 
+    const patron = usePatron( users?.patron ) 
+
+    const classes = useCardLider({ color: patron.color }) 
 
     const {
         direccion = '',
@@ -28,8 +31,7 @@ export default function CardRed({ users }) {
         movil = '',
         voting_point = '',
         name = '',
-        lastname = '',
-        uid = null
+        lastname = ''
      } = users;
 
     return (
@@ -85,9 +87,9 @@ export default function CardRed({ users }) {
                         <IconButton>
                             <MessageIcon />
                         </IconButton> */}
-                    <span className={ classes.newPerfil }>
-                        Pensamiento introvertido
-                    </span>
+                    {users?.patron && <span className={ classes.newPerfil }>
+                        { patron.label }
+                    </span>}
                     </CardActions>
                 </div>
             </Card>

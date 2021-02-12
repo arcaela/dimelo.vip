@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -11,7 +11,7 @@ import IconButton from '@material-ui/core/IconButton';
 // import InstagramIcon from '@material-ui/icons/Instagram';
 // import TwitterIcon from '@material-ui/icons/Twitter';
 // import FacebookIcon from '@material-ui/icons/Facebook';
-import MessageIcon from '@material-ui/icons/Message';
+//import MessageIcon from '@material-ui/icons/Message';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 
 import Delete from '../../../images/trash.svg';
@@ -19,100 +19,106 @@ import Delete from '../../../images/trash.svg';
 import { useCardLider } from './lider.styles';
 import LiderModal from './LiderModal';
 
-import firebase from '../../../config/firebase.js'
+import firebase from '../../../config/firebase.js';
+import usePatron from '~/hooks/usePatron';
 
 export default function LiderCard({ leader }) {
 
-    const classes = useCardLider()
+  const patron = usePatron(leader?.patron);
 
-    const [open, setOpen] = useState(false)
-    
-    const [followers, setFollowers] = useState(null)
+  const classes = useCardLider({ color: patron.color });
 
-    const handlerOpen = () => {
-        if(followers.length === 0) return;
-        setOpen(!open)
-    }
+  const [open, setOpen] = useState(false);
 
+  const [followers, setFollowers] = useState(null);
 
-    const {
-        direccion = '',
-        email = '',
-        movil = '',
-        voting_point = '',
-        name = '',
-        lastname = '',
-        uid = null
-     } = leader;
+  const handlerOpen = () => {
+    if (followers.length === 0) return;
+    setOpen(!open);
+  };
 
+  const {
+    direccion = '',
+    email = '',
+    movil = '',
+    voting_point = '',
+    name = '',
+    lastname = '',
+    uid = null,
+  } = leader;
 
-     useEffect(() => {
-        const getLeaders = async () => {
-          if(!uid)return;
-          try {
-            const leaders = firebase.firestore();
-    
-            const users = await leaders.collection('users').where('voting_leader', '==', uid).get();
-    
-            setFollowers( users.docs.map( e =>e.data() ) )
-    
-          } catch (e) {
-            console.log(e)
-          }
-        }
-        getLeaders();
-      }, [uid])
+  useEffect(() => {
+    const getLeaders = async () => {
+      if (!uid) return;
+      try {
+        const leaders = firebase.firestore();
 
+        const users = await leaders
+          .collection('users')
+          .where('voting_leader', '==', uid)
+          .get();
 
-    return (
-        <>        
-            <Card className={ ` ${ classes.container } ${ classes.pRelative } `}>
-                <div className={ classes.body }>
-                    <div className={ classes.avatarContainer }>
-                        
-                        <Avatar 
-                        className={ classes.large }
-                        children={ name ? name[0] : lastname[0] } />
-                    </div>
-                    <div className={ classes.cardContainer }>
-                        <div >
-                            <CardHeader className={ classes.truncate } title={ ` ${ name } ${ lastname } ` } />
-                            <div className={ classes.actionsHeader } >
-                                <IconButton>
-                                    <img src={ Delete } alt="eliminar"/>
-                                </IconButton>
-                            </div>
-                            {followers && (  
-                                <div onClick={ ()=>{ handlerOpen() } } className={ classes.group }>
-                                    <span className={ classes.iconContainer }>
-                                        <PeopleAltIcon className={ classes.icon } />
-                                    </span>
-                                    <span>
-                                        +{followers.length}
-                                    </span>
-                                </div>
-                            )}
-                        </div>
-                        <CardContent>
-                            <Typography color="textSecondary">
-                                Dirección: { direccion }
-                            </Typography>
-                            <Typography color="textSecondary">
-                                Teléfono : { movil }
-                            </Typography>
-                            <Typography color="textSecondary">
-                                Email: { email }
-                            </Typography>
-                            <Typography color="textSecondary">
-                                Punto de votación: { voting_point }
-                            </Typography>
+        setFollowers(users.docs.map((e) => e.data()));
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    getLeaders();
+  }, [uid]);
 
-                        </CardContent>
-                    </div>
+  return (
+    <>
+      <Card className={` ${classes.container} ${classes.pRelative} `}>
+        <div className={classes.body}>
+          <div className={classes.avatarContainer}>
+            <Avatar
+              className={classes.large}
+              children={name ? name[0] : lastname[0]}
+            />
+          </div>
+          <div className={classes.cardContainer}>
+            <div>
+              <CardHeader
+                className={classes.truncate}
+                title={` ${name} ${lastname} `}
+              />
+              <div className={classes.actionsHeader}>
+                <IconButton>
+                  <img src={Delete} alt='eliminar' />
+                </IconButton>
+              </div>
+              {followers && (
+                <div
+                  onClick={() => {
+                    handlerOpen();
+                  }}
+                  className={classes.group}
+                >
+                  <span className={classes.iconContainer}>
+                    <PeopleAltIcon className={classes.icon} />
+                  </span>
+                  <span>+{followers.length}</span>
                 </div>
-                <div className={ classes.pRelative }>
-                    <CardActions>
-                        {/* <IconButton>
+              )}
+            </div>
+            <CardContent>
+              <Typography color='textSecondary'>
+                Dirección: {direccion}
+              </Typography>
+              <Typography color='textSecondary'>Teléfono : {movil}</Typography>
+              <Typography color='textSecondary'>Email: {email}</Typography>
+              <Typography color='textSecondary'>
+                Punto de votación: {voting_point}
+              </Typography>
+            </CardContent>
+          </div>
+        </div>
+        <div className={classes.pRelative}>
+          <CardActions style={{
+              padding: 0,
+              justifyContent: 'flex-end'
+          }}>
+            {/* <IconButton>
                             <InstagramIcon />
                         </IconButton>
                         <IconButton>
@@ -121,16 +127,24 @@ export default function LiderCard({ leader }) {
                         <IconButton>
                             <FacebookIcon />
                         </IconButton> */}
-                        <IconButton>
-                            <MessageIcon />
-                        </IconButton>
-                    </CardActions>
-                    <span className={ classes.perfil }>
-                        Pensamiento introvertido
-                    </span>
-                </div>
-            </Card>
-            { open && <LiderModal leader={leader} followers={followers} open={ open } setOpen={ setOpen } /> }
-        </>
-    )
+            {/* <IconButton>
+              <MessageIcon />
+            </IconButton> */}
+            {leader.patron && (
+                <span className={classes.newPerfil}>{patron.label}</span>
+            )}
+          </CardActions>
+        </div>
+      </Card>
+      {open && (
+        <LiderModal
+          leader={leader}
+          followers={followers}
+          open={open}
+          setOpen={setOpen}
+          patron={patron.label}
+        />
+      )}
+    </>
+  );
 }
