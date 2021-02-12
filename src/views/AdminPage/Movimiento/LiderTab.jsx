@@ -4,6 +4,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import LiderCard from '../components/LiderCard';
+import Loading from '~/components/Loading';
 
 const gridStyles = makeStyles((theme) => ({
   root: {
@@ -16,6 +17,7 @@ export default function LiderTab({leaders}) {
   return (
     <div className={grid.root}>
         <Grid container spacing={3}>
+        { (leaders.length === 0) && <Loading />}
         { leaders.map( leader => (
             <Grid key={ leader.uid } item xs={12} md={6}>
                 <LiderCard leader={ leader } />

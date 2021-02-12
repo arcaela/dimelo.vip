@@ -7,6 +7,7 @@ import {
   makeStyles,
 } from '@material-ui/core';
 import React from 'react';
+import usePatron from '~/hooks/usePatron';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -16,15 +17,14 @@ const useStyles = makeStyles((theme) => ({
     cursor: 'pointer'
   },
   perfil:{
-    position: 'absolute',
-    right: 0,
     lineHeight: 1.5,
-    padding: 10,
     color: theme.palette.secondary.dark
   }
 }));
 
 export default function LiderCardModal({ user }) {
+
+  const patron = usePatron( user?.patron )
 
   const classes = useStyles();
 
@@ -39,22 +39,20 @@ export default function LiderCardModal({ user }) {
         <ListItemAvatar>
           <Avatar alt='Remy Sharp' children={ name ? name[0] : lastname[0] } />
         </ListItemAvatar>
-        <ListItemText
-          primary={ `${name} ${lastname}` }
-          secondary={
-            <>
-              <Typography
-                component='span'
-                variant='body2'
-                color='textSecondary'
-              >
-                Punto de votación: { voting_point }
-              </Typography>
-            </>
-          }
-        />
-        <div className={ classes.perfil }>
-            Pensamiento extrovertido
+        <div className="">
+          <ListItemText
+            primary={ `${name} ${lastname}` }
+          />
+          {user?.patron && <div className={ classes.perfil } >
+              {patron.label}
+          </div>}
+          <Typography
+            component='span'
+            variant='body2'
+            color='textSecondary'
+          >
+              Punto de votación: { voting_point }
+          </Typography>
         </div>
     </ListItem>
   );
