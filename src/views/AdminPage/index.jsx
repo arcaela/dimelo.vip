@@ -1,4 +1,3 @@
-import Layout from '../layout';
 import TitlePage from '../../components/TitlePage';
 
 import firebase from '../../config/firebase';
@@ -7,6 +6,7 @@ import Grid from '@material-ui/core/Grid';
 import LiderCard from './components/LiderCard';
 import { useEffect, useState } from 'react';
 import SelectSearch from '~/components/SelectSearch';
+import Layout from '../layout';
 
 const gridStyles = makeStyles((theme) => ({
   root: {
@@ -85,7 +85,7 @@ export default function AdminPage() {
   }, [])
 
   return (
-    <Layout>
+    <Layout middleware={['auth']}>
       <TitlePage title='Lideres de primer nivel' />
       <div style={{
         marginTop: 30,

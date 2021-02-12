@@ -3,21 +3,17 @@ const { layout } = require('../views/layout');
 const { NaturePeople, PeopleAlt, PeopleAltOutlined, Message } = require('@material-ui/icons');
 
 
-
-
-const isAdmin = ({ auth })=>(auth && auth.role==='admin');
 layout.routes.push(
     {path:'/news',icon:NaturePeople,label:'Noticias'},
-    {path:'/admin',icon:PeopleAltOutlined,label:'Líderes de primer nivel', show:isAdmin},
-    {path:'/admin/movimiento',icon:PeopleAlt,label:'Movimiento', show:isAdmin},
-    {path:'/messages',icon:Message,label:'Mensajes', show:isAdmin},
+    {path:'/messages',icon:Message,label:'Mensajes', show({auth}){ return auth && auth.role=='admin'; }},
+    {path:'/admin',icon:PeopleAltOutlined,label:'Líderes de primer nivel', show({auth}){return auth && auth.role=='admin';}},
+    {path:'/admin/movimiento',icon:PeopleAlt,label:'Movimiento', show({auth}){return auth && auth.role!='user';}},
     {path:'/test',icon:NaturePeople,label:'Test de personalidad'},
 );
 
 /* Auth */
-Route('/signup', require('../views/Auth').default);
-Route(['/', '/login'], require('../views/LoginPage/LoginPage').default);
-
+Route('/signup', require('../views/SignUpPage').default);
+Route(['/', '/login'], require('../views/SignInPage').default);
 
 /* Pages */
 Route('/test', require('../views/TestPage').default);

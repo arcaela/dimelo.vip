@@ -1,15 +1,9 @@
 import React from 'react';
-
-import {
-  Button,
-  CircularProgress,
-  Toolbar,
-  Typography,
-} from '@material-ui/core';
-import Wizard from './Wizard';
-import { useStylesSingUp } from '../styles/signup.styles';
+import { Button, CircularProgress, Toolbar, Typography, } from '@material-ui/core';
 import DialogTermsConditions from './DialogTermsConditions';
+import { useStylesSingUp } from '../styles/signup.styles';
 import { Link } from 'react-router-dom';
+import Wizard from './Wizard';
 
 const ucfirst = (str) =>
   str

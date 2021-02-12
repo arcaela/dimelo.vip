@@ -1,11 +1,6 @@
-import api from '../../../ServerLess/api'
-
-
+import api from '~/ServerLess/api'
 
 export default async function Wizard (useHooks){
-
-    
-
     const {
         step,
         inputs,

@@ -3,7 +3,7 @@ import Drawer from '@material-ui/core/Drawer';
 import Logo from '../Logo';
 import List from '@material-ui/core/List';
 import { useStyles } from './sidebar.styles';
-import NavItem from '../../components/NavItem';
+import NavItem from '../_NavItem';
 import Hidden from '@material-ui/core/Hidden';
 import { useHistory } from "react-router-dom";
 
@@ -49,7 +49,6 @@ export default function Sidebar( { path, mobileOpen, setMobileOpen } ) {
       </div>
       )
     }
-
     return (
 
       <nav className={classes.drawer} aria-label="mailbox folders">

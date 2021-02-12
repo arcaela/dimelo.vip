@@ -3,27 +3,35 @@ import firebase from '../../config/firebase';
 import CollectionsUsers from '../Collections/Users'
 
 
+const $store = {
+    user:null,
+    firestore:false,
+    unsubscribed:false,
+    async flush(){
+        if(this.unsubscribed) this.unsubscribed=await this.unsubscribed() && false;
+        if(this.firestore) this.firestore=await this.firestore() && false;
+        return;
+    },
+};
 
-
-let session = null;
 export default function useAuth(){
-    const [ user, _ ] = React.useState(session);
-    const setUser = (u)=>_(session=u);
-    const listen = React.useRef(null);
+    const [ user, _ ] = React.useState($store.user);
+    const setUser = u=>_(()=>$store.user=u);
     React.useEffect(()=>{
-        if(listen.current) listen.current();
-        const unsubscribed = firebase.auth().onAuthStateChanged(async state=>{
-            if(state && !!state !== !!user){
-                listen.current = CollectionsUsers.doc(`${state.uid}`).onSnapshot(snap=>setUser({
-                    ...state.providerData[0],
-                    ...snap.data(),
-                }));
-            } else setUser(false);
-        });
-        return () => unsubscribed();
-    });
+        if(user===false) $store.flush();
+        else if(user===null){
+            $store.unsubscribed = firebase.auth().onAuthStateChanged(auth=>{
+                if(!auth && user===null) setUser(false);
+                else if(auth)
+                    $store.firestore = CollectionsUsers.doc(auth.uid).onSnapshot(snap=>setUser({
+                        ...auth.providerData[0],
+                        ...snap.data(),
+                    }));
+            });
+        }
+    }, [ user ]);
     return user && {
         ...user, // UserData
-        followers:()=>CollectionsUsers.where('voting_leader', '==', user.uid).get(), // FireStore Snapshot(s)
+        followers:()=>CollectionsUsers.where('voting_leader', '==', user.cedula).get(), // FireStore Snapshot(s)
     };
 }
