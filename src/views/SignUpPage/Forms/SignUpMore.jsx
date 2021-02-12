@@ -127,7 +127,7 @@ export default function SignUpMore({ useInput, ...req }) {
         <img alt='Brand' src={BrandPNG} className={classes.brand} />
         <div className={classes.header}>
           <Typography variant='h5' color='initial'>
-            {step < 5 ? 'Un poco más...' : '¡Casi terminamos!'}
+            {step < 5 ? 'Un poco más...' : 'Cuéntanos sobre tu familia...'}
           </Typography>
           <span onClick={handleBack}>Volver</span>
           <Typography variant='subtitle2' color='initial'>
@@ -240,11 +240,11 @@ export default function SignUpMore({ useInput, ...req }) {
           <StepComponent step={5}>
             <InputField
               name='people_depend'
-              label='¿Cuántas personas de tu núcleo familiar son mayores de edad?'
+              label='¿Cuántas personas son mayores de edad?'
               type='number' />
             <InputField
               name='people_join'
-              label='Número de personas con las que contarías para que nos acompañen en la votación'
+              label='¿Cuántos te apoyan en esta meta?'
               type='number' />
           </StepComponent>
         </div>
