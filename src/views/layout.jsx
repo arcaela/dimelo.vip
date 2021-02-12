@@ -22,7 +22,6 @@ import useAuth from '../ServerLess/Hooks/useAuth';
 
 
 const useStyles = makeStyles((theme) => ({
-  root: { display: 'flex', },
   appBar: {
     width: '100%',
     [theme.breakpoints.up('md')]: {
@@ -72,12 +71,12 @@ const useStyles = makeStyles((theme) => ({
 
 
 export const config = {
-    drawerWidth:250,
-    isDesktop:window.innerWidth>959,
-    routes:[],
+  drawerWidth:250,
+  isDesktop:window.innerWidth>959,
+  routes:[],
 };
 
-export default function Layout({ children }){
+export default function Layout({ fullPage=false, children }){
     const classes = useStyles();
     const [ open, setOpen ] = React.useState(config.isDesktop);
     const Go = ({ path, label, icon })=>{
@@ -90,35 +89,34 @@ export default function Layout({ children }){
           <ListItemText primary={label} />
       </ListItem>);
     };
-
     const context = {
       auth:useAuth(),
       location:useLocation(),
     };
-    return (<div className={classes.root}>
-        <AppBar color="inherit" variant="outlined" position="fixed" className={classes.appBar}>
-          <Toolbar variant="dense" className={classes.toolbar}>
-            <IconButton onClick={()=>setOpen(on=>!on)} className={classes.drawerButton}>
-              <MenuIcon />
-            </IconButton>
-            <span className="flex-grow" />
-            <IconButton> <Notifications /> </IconButton>
-            <ButtonProfile />
-          </Toolbar>
-        </AppBar>
-        <Drawer
-            open={open}
-            className={classes.drawer}
-            onClose={()=>setOpen(false)}
-            ModalProps={{ keepMounted: true, }}
-            variant={config.isDesktop?'permanent':'temporary'}>
-            <img src={Logo} alt="Logo" style={{maxWidth:'90%',margin:'10px auto'}} />
-            <List children={config.routes.filter(route=>{
-              return route.show?(
-                typeof route.show==='function'?route.show(context):true
-              ):route.show!==false;
-            }).map(route=><Go {...route} key={route.path} />)} />
-        </Drawer>
-        <main className={classes.content} children={children} />
-    </div>);
+    return fullPage?children:(<div>
+      <AppBar color="inherit" variant="outlined" position="fixed" className={classes.appBar}>
+        <Toolbar variant="dense" className={classes.toolbar}>
+          <IconButton onClick={()=>setOpen(on=>!on)} className={classes.drawerButton}>
+            <MenuIcon />
+          </IconButton>
+          <span className="flex-grow" />
+          <IconButton> <Notifications /> </IconButton>
+          <ButtonProfile />
+        </Toolbar>
+      </AppBar>
+      <Drawer
+          open={open}
+          className={classes.drawer}
+          onClose={()=>setOpen(false)}
+          ModalProps={{ keepMounted: true, }}
+          variant={config.isDesktop?'permanent':'temporary'}>
+          <img src={Logo} alt="Logo" style={{maxWidth:'90%',margin:'10px auto'}} />
+          <List children={config.routes.filter(route=>{
+            return route.show?(
+              typeof route.show==='function'?route.show(context):true
+            ):route.show!==false;
+          }).map(route=><Go {...route} key={route.path} />)} />
+      </Drawer>
+      <main className={classes.content} children={children} />
+  </div>);
 }
