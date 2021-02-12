@@ -48,7 +48,7 @@ export default function useInput(){
         ),[])
     };
 
-    const [step, _setStep] = React.useState(4);
+    const [step, _setStep] = React.useState(1);
     const setStep = (e)=>_setStep(e);
     const nextStep = ()=>setStep(p=>p+1);
     const prevStep = (callback=()=>{})=>setStep(p=>p>0?p-1:callback());
