@@ -12,7 +12,7 @@ import {
   Typography,
 } from '@material-ui/core';
 import { FiberManualRecord, Info } from '@material-ui/icons';
-import BrandPNG from '../../../images/brand.svg';
+import BrandPNG from '~/images/brand.svg';
 
 import Wizard from './Wizard';
 import Regions from './votes_regions';

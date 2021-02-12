@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button, Grid, Typography } from '@material-ui/core'
-import Picture from '../../../images/test/competitivo.svg'
+import Picture from '~/images/test/competitivo.svg'
 
 export default function StepCompetitivo({ card, nextStep, }) {
     /*  @props

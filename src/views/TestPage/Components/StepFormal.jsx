@@ -1,8 +1,8 @@
 import React from 'react'
 import { Button, Grid, Typography } from '@material-ui/core'
 
-import Formal from '../../../images/test/formal.svg'
-import Informal from '../../../images/test/informal.svg'
+import Formal from '~/images/test/formal.svg'
+import Informal from '~/images/test/informal.svg'
 
 export default function StepFormal({ card, nextStep, }) {
     /*  @props
@@ -21,15 +21,22 @@ export default function StepFormal({ card, nextStep, }) {
         backgroundColor: '#62a21d3b',
         borderRadius:10,
     };
+
+
+
     return (<Grid container justify="space-between" alignItems="flex-end" style={{height:'100%',textAlign:'center'}}>
         <Grid item xs={6}>
             <img src={ Informal } onClick={card.no} alt="Informal" style={{
                 padding:23,
+                maxHeight:271,
                 ...(card.value===false && actived)
             }}/>
         </Grid>
         <Grid item xs={6}>
-            <img src={ Formal } onClick={card.yes} alt="Formal" style={card.value?actived:{}}/>
+            <img src={ Formal } onClick={card.yes} alt="Informal" style={{
+                maxHeight:271,
+                ...(card.value&&actived)
+            }}/>
         </Grid>
         <Grid item xs={12} style={{display:'flex',padding:'20px 0',}}>
             <Typography variant="h5" color="primary" style={{margin:'auto'}} children={ card.label } />

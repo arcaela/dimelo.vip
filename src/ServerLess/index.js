@@ -11,5 +11,3 @@ export const reference = (path='/')=>{
     const col = firestore.collection(table);
     return doc.length?col.doc(doc.join('/')):col;
 };
-
-export const public_path = (path)=>`${process.env.PUBLIC_URL}/${_slug(path).join('/')}`;
