@@ -7,10 +7,12 @@ import {
   FormControl,
   FormHelperText,
   IconButton,
+  TextField,
   Toolbar,
   Tooltip,
   Typography,
 } from '@material-ui/core';
+import { Autocomplete as RealAutocomplate } from '@material-ui/lab';
 import { FiberManualRecord, Info } from '@material-ui/icons';
 import BrandPNG from '~/images/brand.svg';
 
@@ -21,6 +23,7 @@ import MapGetLocation from '../components/MapGetLocation';
 
 import { Loader } from 'google-maps';
 import { Redirect } from 'react-router-dom';
+import { reference } from '~/ServerLess';
 
 const google = ( new Loader('AIzaSyBntYCJH39TRORGUSYpYHHrcg4Etk8Y208', {}) ).load();
 
@@ -30,7 +33,6 @@ export default function SignUpMore({ useInput, ...req }) {
 
   const [tooltip, setTooltip] = React.useState(false);
 
-  const [leaders, setLeaders] = React.useState([]);
 
   const {
     step,
@@ -39,7 +41,6 @@ export default function SignUpMore({ useInput, ...req }) {
     loading,
     setInput,
     setInputs,
-    firestore,
     InputField,
     Autocomplete,
     StepComponent,
@@ -48,26 +49,23 @@ export default function SignUpMore({ useInput, ...req }) {
 
   const handleBack = () => ( step === 2 ? req.history.goBack() : prevStep() );
 
-  React.useEffect(() => {
-    if (!leaders.length)
-      firestore
-        .collection('users')
-        .where('role', '==', 'leader')
+  const [leaders, setLeaders] = React.useState(null);
+  React.useEffect(()=>{
+    if(!leaders){
+      reference('leaders')
         .get()
-        .then((snap) => setLeaders(snap.docs.map((e) => e.data().name)));
-  }, [leaders, firestore]);
+        .then(snap=>setLeaders(snap.docs.map(e=>e.data()).reduce((_,o)=>{_[o.cedula]=o;return _},{})));
+    }
+  }, [ leaders ]);
 
-  const [direccion, setDireccion] = React.useState(null)
 
   const [open, setOpen] = React.useState(false);
+  const [direccion, setDireccion] = React.useState(null)
 
   React.useEffect(() => {
       const setMAp = async () => {
-
             if(!inputs.municipio.value) return;
-
             const geocoder = new ( await google ).maps.Geocoder();
-    
             geocoder.geocode({ 
               address: inputs.municipio.value,
               componentRestrictions: {
@@ -91,7 +89,8 @@ export default function SignUpMore({ useInput, ...req }) {
     }
 
     setMAp();
-  }, [inputs.municipio.value])
+  }, [inputs.municipio.value]);
+
 
   return step >= 6 ? (
     step > 6 ? <Redirect from={window.location.pathname} to="/test" /> : <div
@@ -187,99 +186,66 @@ export default function SignUpMore({ useInput, ...req }) {
             <Autocomplete
               name='voting_point'
               label={"Puesto de votación"}
-              options={Regions.points(
-                inputs.voting_dep.value,
-                inputs.voting_mun.value
-                )}
-                InputProps={{
-                  helperText:"Si no conoces tu puesto de votación dale CICK AQUI",
+              options={Regions.points( inputs.voting_dep.value, inputs.voting_mun.value )}
+              TextFieldProps={{
+                helperText:(<span>
+                  <Typography variant="caption">
+                    Puedes consultar esa información 
+                  </Typography>
+                  <Typography component="a" target='_blank' rel='noreferrer'
+                    href='https://wsp.registraduria.gov.co/censo/consultar/'
+                    variant="caption" color='secondary' children=" AQUÍ" />
+                </span>),
+              }}
+              InputProps={{
                 endAdornment: (
                   <ClickAwayListener onClickAway={() => setTooltip(false)}>
-                    <Tooltip
-                      interactive
-                      PopperProps={{ disablePortal: true }}
-                      open={tooltip}
-                      title={
-                        <div>
-                          <Typography
-                            color='secondary'
-                            variant='h6'
-                            component='div'
-                          >
+                    <Tooltip arrow placement='top-start' interactive PopperProps={{ disablePortal: true }} open={tooltip}
+                      title={<div>
+                          <Typography color='secondary' variant='h6' component='div' >
                             IMPORTANTE
                           </Typography>
                           <Typography color='inherit' variant='subtitle2'>
-                            Si no tienes clara esta información, en{' '}
-                            <Typography
-                              variant='body2'
-                              component='span'
-                              color='secondary'
-                            >
-                              <a
-                                href='https://wsp.registraduria.gov.co/censo/consultar/'
-                                target='_blank'
-                                rel='noreferrer'
-                              >
-                                este enlace
-                              </a>
-                            </Typography>{' '}
-                            puedes acceder a la página de la Registraduría.
+                            {'Si no tienes clara esta información, en '}
+                            <Typography target='_blank' rel='noreferrer'
+                              href='https://wsp.registraduria.gov.co/censo/consultar/'
+                              component="a" variant='body2' color='secondary' children=" este enlace " />
+                            {' puedes acceder a la página de la Registraduría.'}
                           </Typography>
                         </div>
-                      }
-                      arrow
-                      placement='top-start'
-                    >
-                      <IconButton
-                        onClick={() => setTooltip(true)}
-                        color='inherit'
-                        children={<Info />}
-                      />
+                      }>
+                      <IconButton size="small" color='inherit'
+                        onClick={()=>setTooltip(true)}
+                        children={<Info />}/>
                     </Tooltip>
                   </ClickAwayListener>
                 ),
-              }}
-            />
-            <Autocomplete
-              name='voting_leader'
-              label='¿Quién es tu líder?'
-              disabled={!leaders.length}
-              options={leaders}
-              value={
-                !leaders.length ? 'Cargando...' : inputs.voting_leader.value
-              }
-            />
-            <InputField
-              name='voting_table'
-              label='Mesa de votación'
-              type='number'
-            />
-            {/* 
-                    <FormControl variant="outlined" error={Boolean(inputs.voting_leader.error)}>
-                        <FormHelperText id="label-voting_leader">¿Quien es tu líder?</FormHelperText>
-                        <Autocomplete
-                            fullWidth
-                            disableClearable
-                            options={leaders}
-                            disabled={!leaders.length}
-                            getOptionSelected={()=>true}
-                            value={!leaders.length?'Cargando...':inputs.voting_leader.value}
-                            onChange={(e,value)=>setInput('voting_leader',{value})}
-                            renderInput={(params)=><TextField {...params} variant="outlined" />}
-                        />
-                    </FormControl> */}
+              }}/>
+
+            <FormControl variant="outlined" error={inputs.voting_leader.error}>
+              <FormHelperText>{ inputs.voting_leader.error || '¿Quien es tu líder?' }</FormHelperText>
+              <RealAutocomplate
+                fullWidth
+                freeSolo={false}
+                autoHighlight
+                disableClearable
+                getOptionLabel={o=>o.name}
+                options={Object.values(leaders||{})}
+                renderInput={(params)=>(<TextField {...params} variant="outlined" />)}
+                onChange={(o,value)=>console.log(inputs.voting_leader.value=value.cedula)}
+              />
+            </FormControl>
+            <InputField name='voting_table' label='Mesa de votación' type='number' />
           </StepComponent>
           <StepComponent step={5}>
             <InputField
               name='people_depend'
               label='¿Cuántas personas de tu núcleo familiar son mayores de edad?'
-              type='number'
-            />
+              type='number' />
             <InputField
               name='people_join'
               label='Número de personas con las que contarías para que nos acompañen en la votación'
-              type='number'
-            />
+              type='number' />
           </StepComponent>
         </div>
         <div className={classes.actions}>
