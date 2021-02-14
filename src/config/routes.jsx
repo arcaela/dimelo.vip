@@ -1,7 +1,7 @@
 const { Route } = require('@arcaela/aurora/hooks');
 const { NaturePeople, PeopleAlt, PeopleAltOutlined, Message } = require('@material-ui/icons');
 
-require('~/views/layout').routes.push(
+require('~/views/layout').layout.routes.push(
     {path:'/news',icon:NaturePeople,label:'Noticias'},
     {path:'/messages',icon:Message,label:'Mensajes', show({auth}){ return auth && auth.role==='admin'; }},
     {path:'/admin',icon:PeopleAltOutlined,label:'Líderes de primer nivel', show({auth}){return auth && auth.role==='admin';}},
