@@ -79,7 +79,6 @@ export default function SignUpMore({ useInput, ...req }) {
                   lat: results[0].geometry.location.lat(),
                   lng: results[0].geometry.location.lng(),
                 }
-                console.log(latlng)
 
                 setDireccion( latlng );
 

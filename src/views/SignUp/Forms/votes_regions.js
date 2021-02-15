@@ -1,7 +1,293 @@
 const regions = {
     "Antioquia": {
-        "Medellin": {},
-        "Apartado": {},
+        "Medellin": {
+            "Popular": {
+                "Sec Esc La Esperanza No 2": ["35"],
+                "Insteduc La Candelaria": ["53"],
+                "Iemaria De Los Angeles Cano Marquez": ["20"],
+                "Sec Esc Medellin": ["24"],
+                "Iefe Y Alegria Granizal": ["4"],
+                "Ie La Avanzada": ["2"],
+                "Sec Esc Carpinelo Amapolita": ["1"],
+                "Ie Antonio Derka": ["3"],
+                "Secesc Pablo Vi": ["72"],
+                "Sec Esc Divina Providencia": ["36"],
+                "Secescagripina Montes Del Valle": ["45"],
+                "Iefederico Carrasquilla": ["5"],
+                "Ieguadalupe": ["5"]
+            },
+            "Santa Cruz": {
+                "Inst Educ Asia Ignaciana": ["39"],
+                "Secesc  Manuel Uribe Angel": ["36"],
+                "Secesc Repub De Nicaragua": ["24"],
+                "Iefe Y Alegria Jmaria Velaz": ["6"],
+                "Ie Barrio Santa Cruz": ["24"],
+                "Sec Esc Arzobispo Garcia": ["27"],
+                "Ie Republica De Honduras": ["21"]
+            },
+            "Manrique": {
+                "Ie Republica De Barbados": ["41"],
+                "Ie San Lorenzo De Aburra": ["25"],
+                "Ie Manuela Beltran": ["53"],
+                "Secescsan Joseie Man Bel": ["35"],
+                "Ieramon Munera Lopera": ["7"],
+                "Ie Bello Oriente": ["3"],
+                "Ie Jose Roberto Vasquez": ["1"],
+                "Ie Jose Antonio Galan": ["33"],
+                "Ie Hernan Toro Agudelo": ["34"],
+                "Sec Esc Susana Diazie Rodrigo L Bonilla": ["23"],
+                "Ie San Juan Bautista De La Salle": ["3"]
+            },
+            "Aranjuez": {
+                "Col Agustiniano De San Nicola": ["43"],
+                "Ie Monsenor Fco Cristobal T": ["36"],
+                "Ie Gilberto Alzate Avendano": ["37"],
+                "Ie Campo Valdes": ["25"],
+                "Iesan Juan Bosco": ["5"],
+                "Ie Alfonso Mora Naranjo": ["33"],
+                "Ie Jose Maria Bravo Marquez": ["20"],
+                "Ie Francisco Miranda": ["51"],
+                "Ie Javiera Londono": ["32"],
+                "Ie El Bosque": ["10"],
+                "Ie Francisco Miranda Sd Julio Arboleda": ["3"]
+            },
+            "Castilla": {
+                "Ie Julio Cesar Garcia": ["34"],
+                "Sec Esc Eduardo Uribe Botero": ["30"],
+                "Ie Pbro Antonio Jose Bernal": ["51"],
+                "Iesebastian De Belalcazar": ["6"],
+                "Ie Tricentenario": ["23"],
+                "Sec Esc Toscana": ["3"],
+                "Ie Maria Montessori": ["32"],
+                "Ie Maestro Arenas Betancur": ["39"],
+                "Ie Dinamarca": ["8"],
+                "Inst Edu Republica De Urugua": ["39"],
+                "Ie Felix De Bedout Moreno": ["5"]
+            },
+            "Doce De Octubre": {
+                "Ie Ciudadela Las Americas": ["30"],
+                "Col Vida Y Paz Progresar Unid": ["24"],
+                "Sec Esc Leon De Greiff": ["23"],
+                "Ie Doce De Octubre": ["24"],
+                "Casd Jose Maria Espinosa Prieto": ["4"],
+                "Ie El Triunfo Santa Teresa": ["4"],
+                "Ie Santa Juana De Lestonacc": ["19"],
+                "Ie Jesus Maria Valle Jaramillo": ["4"],
+                "Iemaestro Fernando Botero": ["34"],
+                "Iealfredo Cock Arango": ["32"],
+                "Secescsan Martin De Porres": ["20"],
+                "Ie Kennedy": ["36"],
+                "Secconcentracion Educkennedy": ["19"],
+                "Iejorge Eliecer Gaitanppal": ["6"],
+                "Se Esc Pedregal": ["8"],
+                "Iela Esperanza": ["6"]
+            },
+            "Robledo": {
+                "Ie San Vicente De Paul": ["33"],
+                "Secesc El Diamante": ["32"],
+                "Ieel Diamante sede Bto": ["17"],
+                "Iefe Y Alegria Villa De La C": ["40"],
+                "Iefe Y Alegria San Jose": ["10"],
+                "Tecnologico De Antioquia": ["18"],
+                "Ie Jesus Rey": ["5"],
+                "Ie Aures": ["4"],
+                "Iemon Gerardo Valencia Can": ["12"],
+                "Ie Jorge Robledo": ["41"],
+                "Iemariscal Robledo": ["23"],
+                "Secesc Santa Margarita": ["20"],
+                "Colegio Ferrini": ["15"],
+                "Iecamilo Mora Carrasquilla": ["6"],
+                "Col Mayor De Antioquia": ["3"],
+                "Ie Barrio Olaya Herrera": ["2"]
+            },
+            "Villa Hermosa": {
+                "Ie Juan De Dios Carvajal": ["32"],
+                "Ie Juan De La Cruz Posada": ["14"],
+                "Iejose Celestino Mutis": ["8"],
+                "Instmetropolitano itm": ["3"],
+                "Secescjulia Agudelo": ["66"],
+                "Secescnino Jesus De Praga": ["7"],
+                "Iesol Del Oriente": ["6"],
+                "Ie Luis Carlos Galan Sarmiento Ppal": ["2"],
+                "Ie Villa Turbay": ["12"],
+                "Secescuela Las Estancias": ["10"],
+                "Secescsor Maria Luisa Courb": ["25"],
+                "Ie San Francisco De Asis": ["19"],
+                "Ie Felix Henao Botero": ["18"]
+            },
+            "Buenos Aires": {
+                "Ieguadalupano La Salle": ["32"],
+                "Ie Merceditas Gomez Martine": ["29"],
+                "Ie Manuel Jose Caicedo": ["24"],
+                "Ie La Milagrosa": ["59"],
+                "Colegio Eucaristico": ["4"],
+                "Sena Sd Buenos Aires": ["1"],
+                "Ie Loreto Gabriela Gomez Ca": ["19"],
+                "Insteducativa Federico Ozana": ["44"],
+                "Escuela Normal Superior Ant": ["21"],
+                "Sec Esc Jose De San Martin": ["30"],
+                "Sec Esc Juan Cancio Restrepo": ["1"]
+            },
+            "La Candelaria": {
+                "Ie Tulio Ospina": ["40"],
+                "Secescagustin Nieto Caballe": ["9"],
+                "Colegio Salesiano El Sufragio": ["51"],
+                "Ie Cefa": ["43"],
+                "Ie Hector Abad Gomez": ["26"],
+                "Ie Javier A Londono": ["3"],
+                "Itm prado Centro": ["3"],
+                "Centro Comercial San Diego": ["56"],
+                "Alcaldia Municipal sotano": ["41"],
+                "Sena": ["19"],
+                "Universidad Claretiana": ["3"]
+            },
+            "Laureles": {
+                "Instituto Jorge Robledo": ["27"],
+                "Insteduc Mater Dei": ["37"],
+                "Ie Marco Fidel Suarez": ["35"],
+                "Colegio Calasanz Femenino": ["16"],
+                "Col San Ignacio Sd Mayores": ["3"],
+                "Sec Esc Carlos Obando Velasco": ["2"],
+                "Secesc Agrupacion Colombia": ["39"],
+                "Ie Lucrecio Jaramillo Velez": ["56"],
+                "Colegio Betlehemitas": ["10"],
+                "Colsan Ignacio secinfantil": ["6"],
+                "Universidad Adventista": ["4"],
+                "Universidad Pontificia Bolivariana": ["4"]
+            },
+            "La America": {
+                "Sec Esc Santa Lucia": ["37"],
+                "Ie Concejo De Medellin": ["66"],
+                "Inst Educ La Piedad": ["30"],
+                "Iesanta Rosa De Lima": ["7"],
+                "Ie Lola Gonzalez": ["3"],
+                "Ie Rafael Uribe Uribe": ["32"],
+                "Secescrafael Uribe Uribe": ["14"],
+                "Sec Esc Pedro De Castro": ["44"],
+                "Iefrancisco Antonio Zea": ["10"],
+                "Ie America": ["6"],
+                "Iesamuel Barrientos": ["3"],
+                "Liceo Salazar Y Herrera": ["4"]
+            },
+            "San Javier": {
+                "Ie Blanquizal en Admon Cr": ["14"],
+                "Sec Esc Republica De Panama": ["18"],
+                "Ie Juan Xxiii": ["7"],
+                "Sec Esc Monsenor Perdomo": ["36"],
+                "Secescpio Xii": ["28"],
+                "Iestella Velez Londono": ["4"],
+                "Iela Independencia": ["44"],
+                "Secescel Socorro": ["27"],
+                "Secescmixta Betania": ["26"],
+                "Ieel Corazon": ["6"],
+                "Ieeduardo Santos": ["6"],
+                "Iecarlos Vieco": ["11"],
+                "Sede Amor Al Nino": ["3"]
+            },
+            "El Poblado": {
+                "Colsanta Maria Del Rosario": ["26"],
+                "Colmarymount": ["15"],
+                "Colegio Palermo De San Jose": ["43"],
+                "Colegio San Lucas": ["2"],
+                "Esc Guillermo Echavarria Misas": ["3"],
+                "Politecnico Jaime Isaza Cadavi": ["26"],
+                "Ieinem Jose Felix De Restrep": ["35"],
+                "Universidad Eafit": ["53"],
+                "Col De La Cia De Maria La Ense": ["6"],
+                "San Jose De Las Vegas": ["3"]
+            },
+            "Guayabal": {
+                "Secescsantisima Trinidad": ["21"],
+                "Iebenjamin Herrera": ["21"],
+                "Iecristo Rey": ["38"],
+                "Seccion Esc Republica De Costa Rica": ["25"],
+                "Secescla Colina": ["14"],
+                "Ie La Salle Campo Amor": ["11"],
+                "Sec Esc Cristo Rey Apolo": ["2"]
+            },
+            "Belen": {
+                "Ie Fatima Nutibara": ["27"],
+                "Escsofia Ospina De Navarro": ["22"],
+                "Iejuan Maria Cespedes": ["60"],
+                "Ie Guillermo Valencia": ["26"],
+                "Uniddeportiva Andres Escobar": ["6"],
+                "Liceo San Rafael": ["15"],
+                "Colegio San Juan Bosco": ["2"],
+                "Secescjackeline Kennedy": ["20"],
+                "Iejose Maria Bernal": ["28"],
+                "Instsan Carlos De La Salle": ["41"],
+                "Iealcaldia De Medellin": ["39"],
+                "Colegio Padre Manyanet": ["14"],
+                "Iecampillas Del Rosario": ["6"],
+                "Ie Antonio Ricaurte": ["3"],
+                "Ieramon Giraldo Ceballos": ["37"],
+                "Universidad De Medellin": ["52"],
+                "Ie Horacio Munoz Suescun": ["27"],
+                "Ierepublica De Venezuela": ["24"],
+                "I E San Roberto Belarmino": ["5"],
+                "Instituto Pedro Justo Berrio": ["1"]
+            },
+            "Altavista": {
+                "Ie Debora Arango Perez": ["22"]
+            },
+            "San Antonio De Prado": {
+                "Ie Fe Y Alegria El Limonar": ["23"],
+                "Ie San Antonio De Prado": ["55"],
+                "Iemanuel De Jbetancur": ["48"],
+                "Ie Monsenor Victor Wiedemann": ["3"]
+            },
+            "Palmitas": {
+                "Ie Hector Rogelio Montoya": ["7"]
+            },
+            "Santa Elena": {
+                "Casa De Gobierno Santa Elena": ["17"]
+            },
+            "San Cristobal": {
+                "Ie San Cristobal": ["44"],
+                "Parque Biblioteca Fernando Botero": ["43"],
+                "Ie Lusitania": ["13"],
+                "Ie Presbitero Juan J Escobar": ["3"],
+                "Ie Loma Hermosa": ["4"]
+            }
+        },
+        "Apartado": {
+            "Bernardo Jaramillo": {
+                "Ie Alfonso Lopez": ["23"],
+                "Ie Policarpa Salavarrieta": ["23"],
+                "Ie La Paz": ["13"],
+                "Ie La Paz 20 De Enero": ["5"]
+            },
+            "Ocho De Febrero": {
+                "I E San Francisco De Asis": ["25"],
+                "I E San Pedro Claver": ["21"],
+                "Hogar Infantil Los Girasoles": ["12"],
+                "I E Santa Maria La Antigua": ["3"]
+            },
+            "Pueblo Nuevo": {
+                "Ie Heraclio Mena Padilla": ["23"],
+                "Colegio Adventista": ["15"],
+                "Ie Cadena Las Playas": ["2"]
+            },
+            "Jose Joaquin Velez": {
+                "Ie Campo Alegre": ["5"],
+                "Ie Madre Laura": ["14"],
+                "Col Cooperativo": ["18"],
+                "Ie Jose Joaquin Velez": ["24"],
+                "Ie Jose Celestino Mutis": ["11"]
+            },
+            "Churido Pueblo": {
+                "Churido": ["4"]
+            },
+            "Puerto Giron": {
+                "Puerto Giron": ["2"]
+            },
+            "San Jose De Apartado": {
+                "San Jose De Apartado": ["5"]
+            },
+            "El Reposo": {
+                "El Reposo": ["13"]
+            }
+        },
         "Barbosa": {
             "El Hatillo": {
                 "El Hatillo": ["14"]
@@ -95,16 +381,47 @@ const regions = {
                 "Aguas Claras": ["4"]
             }
         },
-        "Ebejico": {},
-        "Gomez Plata": {},
+        "Ebejico": {
+            "Brasil": {
+                "Brasil": ["4"]
+            },
+            "El Zarzal": {
+                "El Zarzal": ["1"]
+            },
+            "Guayabal": {
+                "Guayabal": ["1"]
+            },
+            "La Clara": {
+                "La Clara": ["2"]
+            },
+            "Sevilla": {
+                "Sevilla": ["7"]
+            }
+        },
+        "Gomez Plata": {
+            "El Salto": {
+                "El Salto": ["2"]
+            },
+            "San Matias": {
+                "San Matias": ["2"]
+            },
+            "La Estrella": {
+                "La Estrella": ["1"]
+            }
+        },
         "Granada": {
             "Santa Ana": {
                 "Santa Ana": ["2"]
             }
         },
-        "Itagui": {},
+        "Itagui": {
+            "El Manzanillo": {
+                "El Manzanillo": ["23"],
+                "Ie Maria Josefa Escobar": ["5"]
+            }
+        },
         "Ituango": {
-            "01corr Santa Rita De Sinitave": {
+            "Santa Rita De Sinitave": {
                 "Santa Rita De Ituango": ["7"]
             }
         },
@@ -113,7 +430,11 @@ const regions = {
                 "San Jose": ["5"]
             }
         },
-        "La Union": {},
+        "La Union": {
+            "Mesopotamia": {
+                "Mesopotamia": ["2"]
+            }
+        },
         "Remedios": {
             "La Cruzadas": {
                 "La Cruzada": ["10"]
@@ -123,25 +444,25 @@ const regions = {
             }
         },
         "Rionegro": {
-            "01libono Mejia": {
+            "Libono Mejia": {
                 "Ie Josefina Munoz Gonzalez": ["26"],
                 "Ie Julio Sanin": ["25"],
                 "Coliseo Ruben Dario Quintero": ["15"],
                 "Esc Juan Manuel Gonzalez": ["13"],
-                "Escuela Unida": ["17"],
+                "Esc Unida": ["17"],
                 "Col Quebrada Arriba": ["12"],
                 "Coliseo Alto Del Medio": ["13"]
             },
-            "02san Antonio": {
+            "San Antonio": {
                 "Conc Edu San Antonio": ["24"],
                 "It Santiago De Arma": ["18"],
                 "Ie El Triangulo": ["1"]
             },
-            "03mons Alfonos Uribe Jaramillo": {
+            "Mons Alfonso Uribe Jaramillo": {
                 "Esc Cuatro Esquinas": ["17"],
                 "Esc Carmela Bianchetti": ["9"]
             },
-            "04el Porvenir": {
+            "El Porvenir": {
                 "Esc Eduardo Uribe Botero": ["18"],
                 "Lic Consejo Municipal": ["21"],
                 "Esc Pascuala Munoz": ["11"]
@@ -150,21 +471,61 @@ const regions = {
                 "Del Sur": ["18"],
                 "Col Cabeceras correg Del Sur": ["1"]
             },
-            "06cto Jose Maria Cordova M": {
+            "Jose Maria Cordova Munoz": {
                 "Jose Maria Cordova Munoz": ["7"],
                 "Auditorio Aeropuerto Corr Jmc": ["9"]
             },
-            "07cto Centro Casimiro Garcia": {
+            "Centro Casimiro Garcia": {
                 "Centro": ["3"],
                 "Esc San Jose De Las Cuchillas": ["2"]
             },
-            "08cto Norte Nestor E Sanint Alv": {
+            "Norte Nestor E Sanint Alv": {
                 "Norte": ["2"],
                 "Ie Ana Gomez De Sierra": ["10"]
             }
         },
-        "Sonson": {},
-        "Vegachi": {},
+        "Sonson": {
+            "Alto De Sabanas": {
+                "Alto De Sabanas": ["3"],
+                "El Salto": ["1"],
+                "La Loma": ["1"],
+                "Llanada Santa Clara": ["2"],
+                "Roblal Arriba": ["1"]
+            },
+            "Dantas": {
+                "Dantas": ["6"],
+                "La Mesa": ["1"]
+            },
+            "San Miguel": {
+                "San Miguel": ["4"]
+            },
+            "Los Medios": {
+                "Los Medios": ["2"],
+                "Las Cruces": ["1"],
+                "Arenillal": ["1"]
+            },
+            "Los Potreros": {
+                "Los Planes": ["1"],
+                "Los Potreros": ["1"]
+            },
+            "Rio Verde De Los Henaos": {
+                "El Salado": ["1"],
+                "La Torre": ["1"],
+                "Rioverde De Los Henaos": ["1"]
+            },
+            "Jerusalen La Florida": {
+                "Jerusalen La Florida": ["2"]
+            },
+            "Rioverde De Los Montes": {
+                "Brasilal": ["1"],
+                "Rioverde De Los Montes": ["2"]
+            }
+        },
+        "Vegachi": {
+            "El Tigre": {
+                "El Tigre": ["3"]
+            }
+        },
         "Abejorral": {},
         "Abriaqui": {},
         "Alejandria": {},
@@ -277,41 +638,155 @@ const regions = {
         "Zaragoza": {}
     },
     "Atlantico": {
-        "Baranoa": {},
-        "Barranquilla": {},
-        "Campo De La Cruz": {},
-        "Candelaria": {},
-        "Galapa": {},
-        "Juan De Acosta": {},
-        "Luruaco": {},
-        "Malambo": {},
-        "Manati": {},
-        "Palmar De Varela": {},
-        "Piojo": {},
-        "Polonuevo": {},
-        "Ponedera": {},
-        "Puerto Colombia": {},
-        "Repelon": {},
-        "Sabanagrande": {},
-        "Sabanalarga": {},
-        "Santa Lucia": {},
-        "Santo Tomas": {},
-        "Soledad": {},
-        "Suan": {},
-        "Tubara": {},
-        "Usiacuri": {}
+        "Barranquilla": {
+            "Sur Occidente": {
+                "Ins Dis Desar Intnva Granada": ["34"],
+                "Ideth Sede Principal Sede Ii": ["15"],
+                "Coldtal Olayaant Ceb108": ["15"],
+                "Col Hilda Munoz": ["27"],
+                "Colegio Jorge Nicolas Abello": ["58"],
+                "Ideth Sede I Primaria": ["25"],
+                "Inteducativo Dtallos Pinos": ["19"],
+                "Colegio Nazareth Lucero": ["10"],
+                "Jorge Nicolas Abello Sd 2": ["2"],
+                "Ie Distrital La Merced": ["22"],
+                "Col Dtaljose Eusebio Caro": ["41"],
+                "Colcamilo Torres": ["5"],
+                "Col Dtal Juan Jose Rondon": ["34"],
+                "Ied Javier Sanchez": ["24"],
+                "Col Distrital Maria Inmaculad": ["36"],
+                "Esnormal Superior La Hacienda": ["39"],
+                "Colegio Americano": ["8"],
+                "Cdtalel Silencioant Ceb 050": ["22"],
+                "Iedinocencio Chinca": ["16"],
+                "Colsofia Camargo De Llerasb": ["35"],
+                "Colsofia Camargo De Llerasp": ["20"],
+                "Cdistsarit Arteta De Vasquez": ["38"],
+                "Instlas Mercedes Colsan Pabl": ["29"],
+                "Colegio Cristiano Peniel": ["24"],
+                "Iedel Pueblo": ["31"],
+                "Col Alberto Assa": ["14"],
+                "Centro De Educacion Basica Ceb161": ["3"],
+                "Iedsonia Ahumada": ["25"],
+                "Iemundo Bolivariano": ["33"],
+                "Iclas Malvinas": ["32"],
+                "Ied Zapata Olivella": ["29"],
+                "Juan Acosta Solera": ["36"],
+                "Coltecsan Carlos Borromeo": ["15"],
+                "Colmanuel Elkin Patarroyo Sd 2": ["20"],
+                "Col Manuel Elkin Patarroyo Sd 1": ["2"],
+                "Coljose Raimundo Sojo mega": ["4"],
+                "Edevaristo Sourdis Sede 1": ["21"],
+                "Edevaristo Sourdis Sede 2": ["22"],
+                "Iedjose Maria Velaz Sede 2": ["35"],
+                "Coldtalla Salle": ["29"],
+                "Juan Mina": ["16"]
+            },
+            "Metropolitana": {
+                "Instecdistcruzada Social": ["29"],
+                "Inst Educ Dist Simon Bolivar": ["22"],
+                "Cebmedia No103": ["24"],
+                "Col Dist De Bquilla Gabriel Garcia M": ["35"],
+                "Iedla Victoria": ["9"],
+                "Nuevo Col Tec Del Santuario": ["43"],
+                "Ide Costa Caribe": ["24"],
+                "Jose Consuegra Higgins": ["38"],
+                "Idestamariamegacolegio": ["30"],
+                "Coldistde Bquilla San Luis": ["39"],
+                "Iedlas Americas": ["19"],
+                "Colegio Golda Meir": ["15"],
+                "Megacolegio Las Cayenas": ["47"],
+                "Colcomunitadtalpablo Neruda": ["44"],
+                "Idecolciudestudant 186": ["10"],
+                "Iedreuven Feuerstein": ["5"],
+                "Colmiguel Angel Builes Blq1": ["34"],
+                "Colmiguel Angel Builes Blq2": ["18"],
+                "Iedciudadela 20 De Julio": ["50"],
+                "Megacolegio Ciudadela 20 Julio": ["61"]
+            },
+            "Sur Oriente": {
+                "Ie Distrital Paulo Freire": ["28"],
+                "Colla Presentacion": ["31"],
+                "Centro Social Don Bosco": ["51"],
+                "Coltecdistrde Rebolo": ["6"],
+                "Centro Social Don Bosco Sd 2": ["2"],
+                "Sena San Jose Multiple Bilingue": ["21"],
+                "Col San Jose Sd 1": ["25"],
+                "Coldtalsan Gabriel Sede No1": ["19"],
+                "Iedla Union Sede 2": ["3"],
+                "Ied Des Humano Maria Cano": ["32"],
+                "Coloctavio Paz": ["29"],
+                "Iedlos Laureles": ["6"],
+                "Iedmarco Fidel Suarez": ["32"],
+                "Iedntrasra De Las Nieves": ["17"],
+                "Colegio Santa Teresita": ["26"],
+                "Iedcalixto Alvarez": ["28"],
+                "Ied Jose Marti": ["33"],
+                "Intdtalcastillo La Alboraya": ["37"],
+                "Coldtalbuenos Airescodiba": ["4"],
+                "Coldtalmaria Auxiliadora": ["27"],
+                "Colegio De Comfamiliar": ["24"],
+                "Instelena De Chauvin": ["26"],
+                "Instituto Presbiteriano Nazareth": ["24"],
+                "Collas Nieves Sede 2": ["24"],
+                "Ied San Miguel Arcangel": ["27"],
+                "Iedbarrio Simon Bolivarbto": ["27"],
+                "Iedluz Del Caribe": ["16"],
+                "Coldistrital Jorge Isaac": ["21"],
+                "Idistsimon Bolivar Primaria": ["20"]
+            },
+            "Norte Centro Hi": {
+                "Colmayorbquilla Y Del Caribe": ["30"],
+                "Iedvillanueva": ["10"],
+                "Enorsuperior Del Dto Bquilla": ["15"],
+                "Instla Salle": ["29"],
+                "Inst Tecde Comercio De Barranquilla": ["8"],
+                "It De Comercio De Bquilla Sd 2": ["1"],
+                "Ied Nuestra Senora Del Rosa": ["26"],
+                "Iu Itsa Sede Bquilla": ["25"],
+                "Inst Tec Nacional De Comerci": ["25"],
+                "Antonio Jose De Sucre Sede 2": ["22"],
+                "Indeportes": ["2"],
+                "Iedpestalozzi": ["19"],
+                "Nuevo Colegio Del Prado": ["36"],
+                "Ied La Concepcion": ["2"],
+                "Colntrasenora De Nazareth": ["18"],
+                "Colntrasenora De Lourdes": ["24"],
+                "Colbarranquilla Codeba": ["36"],
+                "Coldistrital Boston": ["8"],
+                "Colsagrada Familia": ["23"],
+                "Colmilitar Acolsure": ["35"],
+                "Semconciliar San Luis Beltran": ["26"],
+                "Colinstariano": ["4"],
+                "Coljorge Isaac": ["12"],
+                "Colhebreo Union": ["47"],
+                "Corporacion El Litoral Sd Ii": ["6"]
+            },
+            "Riomar": {
+                "Colliceo Cervantes": ["43"],
+                "Colel Buen Concejo": ["23"],
+                "Collindon B Johnson School": ["31"],
+                "Universidad Autonoma Del Caribe": ["3"],
+                "Instituto Las Americas": ["18"],
+                "Iedsan Salvador inedissa": ["14"],
+                "Cedlibertador Simon Bolivar": ["24"],
+                "Ie Distrital Ied San Salvador Sd C": ["2"],
+                "Colla Medalla Milagrosa": ["16"],
+                "Colbifi La Salle": ["45"],
+                "Colla Ensenanza": ["28"],
+                "La Playa": ["38"]
+            }
+        }
     },
     "Bolivar": {
         "Achi": {},
         "Altos Del Rosario": {},
         "Arenal": {},
-        "Arjona": {},
         "Arroyohondo": {},
         "Barranco De Loba": {},
         "Brazuelo De Papayal": {},
         "Calamar": {},
         "Cantagallo": {},
-        "Cartagena De Indias": {},
         "Cicuco": {},
         "Clemencia": {},
         "Cordoba": {},
@@ -319,7 +794,6 @@ const regions = {
         "El Guamo": {},
         "El Penon": {},
         "Hatillo De Loba": {},
-        "Magangue": {},
         "Mahates": {},
         "Margarita": {},
         "Maria La Baja": {},
@@ -345,10 +819,275 @@ const regions = {
         "Soplaviento": {},
         "Talaigua Nuevo": {},
         "Tiquisio": {},
-        "Turbaco": {},
         "Turbana": {},
         "Villanueva": {},
-        "Zambrano": {}
+        "Zambrano": {},
+        "Cartagena De Indias": {
+            "Historica Y Del Caribe": {
+                "Centro Comercial Bocagrande": ["43"],
+                "Univ Tecnolg De Bolivar  Ma": ["43"],
+                "Ludoteca Parque Centenario": ["3"],
+                "Col Eucaristico De Santa Teresa": ["7"],
+                "Colegio De La Esperanza": ["29"],
+                "Colegio Naval De Crespo": ["40"],
+                "Colegio El Carmelo": ["16"],
+                "Colegio Bervelly Hills": ["5"],
+                "Club Universitario De Profesionales": ["3"],
+                "Colegio Liceo Bolivar": ["31"],
+                "Ie Sta Maria Sede Sagrado Corazon": ["31"],
+                "Iecorazon De Maria": ["17"],
+                "Ie Corazon De Maria S S J Clav": ["14"],
+                "Ie Santa Maria": ["6"],
+                "Eucarist Ntra Sra Del Carmen De Torices": ["41"],
+                "Colegio Jose De La Vega": ["44"],
+                "Ie Her Antonio Ramos De La Salle": ["6"],
+                "Inst Ed Ana Maria Velez De Trujillo": ["8"],
+                "Cecon Piedra De Bol Univ Cgena": ["39"],
+                "Colegio Comfenalco": ["34"],
+                "Inst Ed Madre Laura": ["9"],
+                "Sena 4 Vientos": ["6"],
+                "Ie Nuevo Bosque": ["55"],
+                "Col Alberto Elias Fernandez": ["40"],
+                "Ie Nuevo Bosque Sede Jose Maria Cordoba": ["11"],
+                "Inst Ed Fernando De La Vega": ["6"],
+                "E Normal Superior De Cartagena D Indias": ["8"],
+                "Ie San Juan De Damasco": ["42"],
+                "Ie Olga Gonzalez Arraut": ["35"],
+                "Ie Manuela Beltran  Sed Hijos": ["12"],
+                "Seminario Cartagena": ["5"],
+                "Universidad Antonio Narino": ["6"],
+                "Universidad De Cartagena Cs": ["40"],
+                "Col Salesianos San Pedro Clave": ["18"],
+                "Ie Antonia Santos": ["41"],
+                "Univ De Cartagena Claustro La Merced": ["2"],
+                "Fundacion Universitaria Los Libertadores": ["10"],
+                "Colmayor Inst Tecnologica": ["35"],
+                "Escuela Bellas Artes": ["18"],
+                "Escuelas Profesionales Salesianas": ["15"],
+                "Santa Cruz Del Islote": ["2"],
+                "Baru": ["6"],
+                "Bocachica": ["16"],
+                "Cano De Loro": ["6"],
+                "Isla Fuerte": ["3"],
+                "Islas Del Rosario": ["2"],
+                "Santa Ana": ["12"],
+                "Tierrabomba": ["8"]
+            },
+            "La Virgen Y Turistica": {
+                "Ie Fe Y Alegria Las Gaviotas": ["55"],
+                "Ie Las Gaviotas Sede Moises Go": ["13"],
+                "Ie Las Gaviotas Sede El Nino Jesus": ["11"],
+                "Centro De Ensenanza Hijos De Bolivar": ["8"],
+                "Ie Foco Rojo": ["43"],
+                "Colegio Almirante Colon S Olaya": ["26"],
+                "Ie Playas De Acapulco": ["17"],
+                "Ie Nuestra Senora Perpetuo Socorro": ["3"],
+                "Ie Francisco De Paula Santande": ["35"],
+                "Ie Maria Reina": ["26"],
+                "Escuela Ciudad De Tunja": ["37"],
+                "Ie Corazon De Maria  Lazaro Martinez": ["6"],
+                "Ie Antonio Narino": ["9"],
+                "Ie Pedro Heredia": ["8"],
+                "Ie Camilo Torres": ["53"],
+                "Centro Colombiaton Gustavo Pulecio": ["37"],
+                "Ie La Libertad": ["10"],
+                "Ie Nuestro Esfuerzo": ["9"],
+                "Ie Clemente Manuel Zabala": ["3"],
+                "Ie Jorge Garcia Usta": ["7"],
+                "Escuela Gabriela San Martin": ["52"],
+                "Col Fe Y Alegria Las Americas": ["39"],
+                "Centro Cultural Las Palmeras": ["15"],
+                "Ie De Fredonia": ["7"],
+                "Ie Fulgencio Lequerica Velez": ["26"],
+                "Nuestra Senora Del Carmen": ["33"],
+                "Ie Fulgencio Lequerica Velez  Ecuador": ["9"],
+                "Fund Univ Colombo Internacional": ["6"],
+                "Arroyo Grande": ["5"],
+                "Arroyo De Piedra": ["6"],
+                "Bayunca": ["29"],
+                "La Boquilla": ["30"],
+                "Pontezuela": ["5"],
+                "Punta Canoa": ["3"]
+            },
+            "Industrial De La Bahia": {
+                "Colegio Inem": ["43"],
+                "Cent Recreacional Napoleon Perea": ["32"],
+                "Ie Jose M Rodriguez S Isabel La Catolica": ["13"],
+                "Ie Jose Manuel Rjardin Inf  Caracoles": ["7"],
+                "Ie 20 De Julio": ["32"],
+                "Ie Bertha Gedeon De Baladi": ["32"],
+                "Colegio Almirante Colon  Vista Hermosa": ["6"],
+                "Ie Luis Carlos Lopez": ["43"],
+                "Ie Ternera": ["33"],
+                "Ie Soledad Acosta De Samper": ["4"],
+                "Universidad San Buenaventura": ["15"],
+                "Col Fe Y Alegria El Progreso": ["33"],
+                "Ie San Francisco Asis  Hijo De Los Agri": ["25"],
+                "Corporacion Minuto De Dios": ["4"],
+                "Ie Policarpa Salavarrieta": ["3"],
+                "Ie Mercedes Abrego": ["62"],
+                "Col Suenos Y Oportunidades Jes": ["34"],
+                "Ie Mercedes Abrego Sede Medellin": ["12"],
+                "Ie Ciudadela 2000": ["6"],
+                "Ie Salvador Mandela": ["8"],
+                "Ie Rosedal": ["8"],
+                "Ie Jhon F Kennedy": ["47"],
+                "Inst Femenino Promocion Social": ["47"],
+                "Ie Nuestra Senora De La Consolata": ["6"],
+                "Ie Juan Jose Nieto": ["10"],
+                "Colegio Comfamiliar": ["37"],
+                "Esc Ana Maria Perez Otero": ["44"],
+                "Ie Prom Social De Cgena Sd La Consolata": ["5"],
+                "Ie Ambientalista Cartagena De Indias": ["10"],
+                "Ie Sede Emiliano Alcala Romero": ["3"],
+                "Pasacaballos": ["29"],
+                "Pasacaballos  Membrillal": ["3"]
+            }
+        },
+        "Arjona": {
+            "05corr Puerto Badel Cano Salado": {
+                "Puerto Badel cano Salado": ["4"]
+            },
+            "De Gambote": {
+                "Gambote": ["4"]
+            },
+            "De Rocha": {
+                "Rocha": ["7"]
+            },
+            "De Sincerin": {
+                "Sincerin": ["9"]
+            }
+        },
+        "Magangue": {
+            "Barbosa": {
+                "Barbosa": ["4"]
+            },
+            "Barranca De Yuca": {
+                "Barranca De Yuca": ["6"]
+            },
+            "Betania": {
+                "Betania": ["2"]
+            },
+            "Bocas De San Ant": {
+                "Bocas De San Antonio": ["2"]
+            },
+            "10 Cascajal": {
+                "Cascajal": ["11"]
+            },
+            "11  Ceibal": {
+                "Ceibal": ["3"]
+            },
+            "12  Coyongal": {
+                "Coyongal": ["3"]
+            },
+            "13  El Cuatro": {
+                "El Cuatro": ["3"]
+            },
+            "14  Guazo": {
+                "Guazo": ["2"]
+            },
+            "15 Henequen": {
+                "Henequen": ["6"]
+            },
+            "16 Emaus": {
+                "Emaus": ["1"]
+            },
+            "17 Isla Grande": {
+                "Isla Grande": ["4"]
+            },
+            "18 Juan Arias": {
+                "Juan Arias": ["5"]
+            },
+            "19 La Pascuala": {
+                "La Pascuala": ["5"]
+            },
+            "20 Las Brisas": {
+                "Las Brisas": ["2"]
+            },
+            "21 Madrid": {
+                "Madrid": ["3"]
+            },
+            "22 Panseguita": {
+                "Panseguita": ["3"]
+            },
+            "23 Palmarito": {
+                "Palmarito": ["2"]
+            },
+            "24 Pinalito": {
+                "Pinalito": ["4"]
+            },
+            "25 Playa De Las Fl": {
+                "Playa De Las Flores": ["1"]
+            },
+            "26 Puerto Kennedy": {
+                "Puerto Kennedy": ["2"]
+            },
+            "27 Punta De Cartag": {
+                "Punta De Cartagena": ["2"]
+            },
+            "28 El Retiro": {
+                "El Retiro": ["5"]
+            },
+            "Puerto Narino": {
+                "Puerto Narino": ["1"]
+            },
+            "Roma": {
+                "Roma": ["1"]
+            },
+            "San Antonito": {
+                "San Antonito": ["1"]
+            },
+            "32corre San Jose De Las Martas": {
+                "San Jose De Las Martas": ["2"]
+            },
+            "33corre San Rafael De Cortina": {
+                "San Rafael De Cortina": ["3"]
+            },
+            "34corre San Sebastian De Buenav": {
+                "San Sebastian De Buenavista": ["2"]
+            },
+            "Santa Coita": {
+                "Santa Coita": ["1"]
+            },
+            "Santa Fe": {
+                "Santa Fe": ["5"]
+            },
+            "Santa Lucia": {
+                "Santa Lucia": ["3"]
+            },
+            "Santa Monica": {
+                "Santa Monica": ["1"]
+            },
+            "Santa Pabla": {
+                "Santa Pabla": ["2"]
+            },
+            "Sitionuevo": {
+                "Sitionuevo": ["3"]
+            },
+            "Tacaloa": {
+                "Tacaloa": ["3"]
+            },
+            "Tacasaluma": {
+                "Tacasaluma": ["3"]
+            },
+            "Sabaneta": {
+                "Sabaneta": ["1"]
+            },
+            "Tolu": {
+                "Tolu": ["2"]
+            },
+            "La  Ventura": {
+                "La Ventura": ["4"]
+            }
+        },
+        "Turbaco": {
+            "07 Canaveral": {
+                "Canaveral": ["7"]
+            },
+            "08 Correg San Jose De Chiquito": {
+                "Chiquito": ["1"]
+            }
+        }
     },
     "Boyaca": {
         "Almeida": {},
@@ -363,7 +1102,6 @@ const regions = {
         "Buenavista": {},
         "Busbanza": {},
         "Caldas": {},
-        "Campohermoso": {},
         "Cerinza": {},
         "Chinavita": {},
         "Chiquinquira": {},
@@ -414,7 +1152,6 @@ const regions = {
         "Otanche": {},
         "Pachavita": {},
         "Paez": {},
-        "Paipa": {},
         "Pajarito": {},
         "Panqueba": {},
         "Pauna": {},
@@ -422,7 +1159,6 @@ const regions = {
         "Paz Del Rio": {},
         "Pesca": {},
         "Pisba": {},
-        "Puerto Boyaca": {},
         "Quipama": {},
         "Ramiriqui": {},
         "Raquira": {},
@@ -473,7 +1209,40 @@ const regions = {
         "Ventaquemada": {},
         "Villa De Leyva": {},
         "Viracacha": {},
-        "Zetaquira": {}
+        "Zetaquira": {},
+        "Campohermoso": {
+            "Los Cedros": {
+                "Los Cedros": ["3"]
+            }
+        },
+        "Paipa": {
+            "Palermo": {
+                "Palermo": ["3"]
+            }
+        },
+        "Puerto Boyaca": {
+            "Vasconia": {
+                "Puerto Palagua": ["4"],
+                "Centro Calderon": ["3"],
+                "Vasconia puerto Serviez": ["5"]
+            },
+            "Guanegro": {
+                "Guanegro": ["2"]
+            },
+            "Pto Gutierrez": {
+                "Puerto Gutierrez": ["1"],
+                "Kilometro 25": ["1"]
+            },
+            "Puerto Pinzon": {
+                "Pto Pinzon pozo Boyaca No 2": ["3"]
+            },
+            "El Marfil": {
+                "Marfil": ["4"]
+            },
+            "Puerto Romero": {
+                "Puerto Romero": ["2"]
+            }
+        }
     },
     "Caldas": {
         "Manizales": {
@@ -620,7 +1389,26 @@ const regions = {
                 "Santa Elena": ["2"]
             }
         },
-        "Pacora": {},
+        "Pacora": {
+            "Castilla": {
+                "Castilla": ["3"]
+            },
+            "Buenos Aires": {
+                "Buenos Aires": ["1"]
+            },
+            " Las Coles": {
+                "Las Coles": ["3"]
+            },
+            " Los Morros": {
+                "Los Morros": ["2"]
+            },
+            "San Bartolome": {
+                "San Bartolome": ["3"]
+            },
+            "San Lorenzo": {
+                "San Lorenzo": ["2"]
+            }
+        },
         "Salamina": {
             "San Felix": {
                 "Ie San Felix": ["3"]
@@ -648,7 +1436,7 @@ const regions = {
     },
     "Cesar": {
         "Valledupar": {
-            "04  Comuna 4": {
+            "Comuna 4": {
                 "Col Jose Eugenio Martinez": ["45"],
                 "Univ Popular Del Cesarsd Sabanas": ["6"],
                 "Col Nacionalizado Upar": ["37"],
@@ -656,7 +1444,7 @@ const regions = {
                 "Escuela Mixta No 4": ["21"],
                 "Ie Consuelo Araujo Noguera": ["25"]
             },
-            "07el Alto De La Vuelta": {
+            "El Alto De La Vuelta": {
                 "El Alto De La Vuelta": ["2"]
             },
             "08aguas Blancas": {
@@ -771,12 +1559,10 @@ const regions = {
         "Los Cordobas": {},
         "Momil": {},
         "Montelibano": {},
-        "Monteria": {},
         "Monitos": {},
         "Planeta Rica": {},
         "Pueblo Nuevo": {},
         "Puerto Escondido": {},
-        "Puerto Libertador": {},
         "Purisima": {},
         "Sahagun": {},
         "San Andres De Sotavento": {},
@@ -787,10 +1573,125 @@ const regions = {
         "San Pelayo": {},
         "Tierralta": {},
         "Tuchin": {},
-        "Valencia": {}
+        "Valencia": {},
+        "Monteria": {
+            "Morindo": {
+                "Morindo": ["5"]
+            },
+            "Santa Lucia": {
+                "Santa Lucia": ["12"]
+            },
+            "Santa Clara": {
+                "Santa Clara": ["7"]
+            },
+            "13correg 4 Cano Viejo Palotal": {
+                "Cano Viejo Palotal": ["7"]
+            },
+            "Nuevo Paraiso": {
+                "Nuevo Paraiso": ["3"]
+            },
+            "Martinica": {
+                "Martinica": ["2"]
+            },
+            "Leticia": {
+                "Leticia": ["7"]
+            },
+            "Pueblo Bujo": {
+                "Pueblo Bujo": ["5"]
+            },
+            "Loma Verde": {
+                "Loma Verde": ["8"]
+            },
+            "Jaraquiel": {
+                "Jaraquiel": ["5"]
+            },
+            "Las Palomas": {
+                "Las Palomas": ["9"]
+            },
+            "Guasimal": {
+                "Guasimal": ["4"]
+            },
+            "El Sabanal": {
+                "El Sabanal": ["17"]
+            },
+            "El Cerrito": {
+                "El Cerrito": ["3"]
+            },
+            "Patio Bonito": {
+                "Patio Bonito": ["7"]
+            },
+            "La Victoria": {
+                "La Victoria": ["4"]
+            },
+            "Guateque": {
+                "Guateque": ["3"]
+            },
+            "San Isidro": {
+                "San Isidro": ["6"]
+            },
+            "San Anterito": {
+                "San Anterito": ["10"]
+            },
+            "Nueva Lucia": {
+                "Nueva Lucia": ["6"]
+            },
+            "Santa Isabel": {
+                "Santa Isabel": ["5"]
+            },
+            "Tres Palmas": {
+                "Tres Palmas": ["9"]
+            },
+            "Tres Piedras": {
+                "Tres Piedras": ["5"]
+            },
+            "Buenos Aires": {
+                "Buenos Aires": ["7"]
+            },
+            "La Manta": {
+                "La Manta": ["4"]
+            },
+            "35correg 26 Nueva Esperanza": {
+                "Nueva Esperanza": ["3"]
+            },
+            "Garzones": {
+                "Garzones": ["24"]
+            },
+            "37correg 28 Kilometro 12": {
+                "Kilometro 12": ["7"]
+            }
+        },
+        "Puerto Libertador": {
+            "Centro America": {
+                "Centro America": ["2"]
+            },
+            "Puerto Lopez": {
+                "Puerto Lopez": ["1"]
+            }
+        }
     },
     "Cundinamarca": {
-        "Fusagasuga": {},
+        "Fusagasuga": {
+            "Norte": {
+                "La Aguadita": ["5"]
+            },
+            "Oriental": {
+                "Los Sauces": ["5"]
+            },
+            "Centro": {
+                "Parroquia Ntrasrade Belen": ["20"],
+                "Colegio Santander": ["22"]
+            },
+            "Sur Oriental": {
+                "Bochica la Trinidad": ["9"]
+            },
+            "Occidental": {
+                "Cucharal": ["12"]
+            },
+            "Sur Occidental": {
+                "El Triunfo boqueron": ["3"],
+                "La Puerta chinauta": ["11"]
+            }
+        },
         "Girardot": {
             "01centro": {
                 "Colegio Americano": ["28"],
@@ -838,7 +1739,11 @@ const regions = {
                 "Pasuncha": ["3"]
             }
         },
-        "Yacopi": {},
+        "Yacopi": {
+            "Ibama": {
+                "Ibama": ["2"]
+            }
+        },
         "Agua De Dios": {},
         "Alban": {},
         "Anapoima": {},
@@ -979,11 +1884,11 @@ const regions = {
                 "Alessandro Volta": ["11"],
                 "La Carolina": ["9"],
                 "Cristobal Colon": ["13"],
-                "divino Maestro a": ["14"],
-                "divino Maestro b": ["9"],
+                "Divino Maestro A": ["14"],
+                "Divino Maestro B": ["9"],
                 "Las Margaritas": ["29"],
                 "Alta Blanca": ["8"],
-                "colegio Toberin b": ["10"],
+                "Colegio Toberin B": ["10"],
                 "El Pite": ["3"],
                 "El Codito": ["7"],
                 "Verbenal Santa Maria": ["14"],
@@ -1141,22 +2046,22 @@ const regions = {
             },
             "Tunjuelito": {
                 "Tunjuelito A": ["39"],
-                "fatima a": ["39"],
+                "Fatima A": ["39"],
                 "Abraham Lincoln": ["17"],
                 "San Carlos": ["40"],
                 "San Benito": ["33"],
-                "el Tunal a": ["44"],
-                "el Carmen Sur a": ["31"],
+                "El Tunal A": ["44"],
+                "El Carmen Sur A": ["31"],
                 "San Vicente Ferrer": ["37"],
                 "Venecia A": ["45"],
-                "nuevo Muzu  a": ["17"],
+                "Nuevo Muzu  A": ["17"],
                 "Isla Del Sol": ["24"],
                 "Venecia B": ["15"],
                 "Tunjuelito B": ["6"],
-                "el Tunal b": ["18"],
-                "el Carmen Sur b": ["10"],
-                "fatima b": ["14"],
-                "nuevo  Muzo b": ["5"],
+                "El Tunal B": ["18"],
+                "El Carmen Sur B": ["10"],
+                "Fatima B": ["14"],
+                "Nuevo  Muzo B": ["5"],
                 "Jardin Infantil Isla Del Sol": ["3"],
                 "Liceo Santa Bernardita": ["2"],
                 "Col Cooperativo Venecia": ["5"],
@@ -1829,7 +2734,6 @@ const regions = {
         "Medio San Juan": {},
         "Novita": {},
         "Nuqui": {},
-        "Quibdo": {},
         "Rio Iro": {},
         "Rio Quito": {},
         "Riosucio": {},
@@ -1837,7 +2741,90 @@ const regions = {
         "Sipi": {},
         "Tado": {},
         "Union Panamericana": {},
-        "Unguia": {}
+        "Unguia": {},
+        "Quibdo": {
+            "Altagracia": {
+                "Altagracia": ["1"]
+            },
+            "Barranco": {
+                "Barranco": ["1"]
+            },
+            "Bella Luz": {
+                "Bellaluz": ["1"]
+            },
+            "Alto Munguido": {
+                "El Jaguo alto Munguido": ["1"]
+            },
+            "Boca De Tanando": {
+                "Boca De Tanando": ["1"]
+            },
+            "Cabi": {
+                "Pacurita": ["1"]
+            },
+            "Boca De Naurita": {
+                "Boca De Naurita": ["1"]
+            },
+            "Calahorra": {
+                "Calahorra": ["1"]
+            },
+            "Campobonito": {
+                "Campobonito": ["1"]
+            },
+            "Guarando": {
+                "Guarando": ["1"]
+            },
+            "Guadalupe": {
+                "Guadalupe": ["1"]
+            },
+            "Guayabal": {
+                "Guayabal": ["1"]
+            },
+            "19corresan Francisco De Icho": {
+                "San Francisco De Icho": ["2"]
+            },
+            "El Tambo": {
+                "El Tambo": ["1"]
+            },
+            "21correjitrado pueblo Nuevo": {
+                "Gitrado": ["1"]
+            },
+            "El Fuerte": {
+                "Sta Lucia Del Fuerte": ["1"]
+            },
+            "Las Mercedes": {
+                "Las Mercedes": ["1"]
+            },
+            "Mojaudo": {
+                "San Pedro Claver mojaudo": ["1"]
+            },
+            "La Troje": {
+                "La Troje": ["1"]
+            },
+            "Naurita": {
+                "Villa Del Rosario": ["1"]
+            },
+            "Negua": {
+                "San Rafael De Negua": ["1"]
+            },
+            "Nemota": {
+                "Boca De Nemota": ["1"]
+            },
+            "Puerto Murillo": {
+                "San Antonio De Ichopto Murillo": ["1"]
+            },
+            "Sanceno": {
+                "Sanceno": ["1"]
+            },
+            "Tagachi": {
+                "Tagachi": ["2"]
+            },
+            "Tutunendo": {
+                "Tutunendo": ["4"]
+            },
+            "Winando": {
+                "Winando": ["1"]
+            }
+        }
     },
     "Huila": {
         "Neiva": {
@@ -2000,7 +2987,7 @@ const regions = {
                 "Iedjose Laborde Gnecco": ["34"],
                 "Ied Camilo Torres De Gaira": ["32"],
                 "Ied Camilo Torres De Gaira Sd Isabel Pf": ["21"],
-                "iedla Paz": ["MEGA COL. LA PAZ"],
+                "Iedla Paz": ["MEGA COL. LA PAZ"],
                 "Ied Cristo Rey": ["5"],
                 "Museo Mundo Marino": ["5"],
                 "Minca": ["4"],
@@ -2008,7 +2995,46 @@ const regions = {
                 "El Campano": ["2"]
             }
         },
-        "Cienaga": {},
+        "Cienaga": {
+            "Mar Caribe": {
+                "Ie Isaac J Pereira": ["27"],
+                "Infotep": ["19"],
+                "Col Virginia Gomez Sd Cuatro": ["14"],
+                "Iela Maria": ["12"],
+                "Iela Alianza": ["3"]
+            },
+            "San Juan De Cordoba": {
+                "Ie San Juan Del Cordoba": ["31"],
+                "Ietcomercio Virginia Gomez": ["19"],
+                "Ieenoc Mendoza Riascos": ["16"]
+            },
+            "Cienaga Grande": {
+                "Ieliceo Moderno Del Sur": ["20", "SD.4"],
+                "Ieel Carmen": ["12"],
+                "Ie 12 De Octubre": ["3"]
+            },
+            "Nuevo Horizonte": {
+                "Iemanuel J Del Castillo": ["20"]
+            },
+            "05corrg  Sn Pedro De La Sierra": {
+                "San Pedro De La Sierra": ["4"]
+            },
+            "Palmor": {
+                "Palmor": ["7"]
+            },
+            "Siberia": {
+                "Siberia": ["2"]
+            },
+            "Sevillano": {
+                "Sevillano": ["6"]
+            },
+            "Cordobita": {
+                "Cordobita": ["3"]
+            },
+            "San Javier": {
+                "San Javier": ["2"]
+            }
+        },
         "El Banco": {
             "Sur": {
                 "Col Fco Jose De Caldas": ["21"]
@@ -2172,7 +3198,11 @@ const regions = {
                 "San Fernando": ["5"]
             }
         },
-        "Gualmatan": {},
+        "Gualmatan": {
+            "De Cuatis": {
+                "Cuatis": ["2"]
+            }
+        },
         "Ipiales": {
             "La Victoria": {
                 "La Victoria": ["12"]
@@ -2188,7 +3218,6 @@ const regions = {
         "Colon": {},
         "Consaca": {},
         "Contadero": {},
-        "Cordoba": {},
         "Cuaspud": {},
         "Cumbal": {},
         "Cumbitara": {},
@@ -2323,7 +3352,7 @@ const regions = {
                 "Ctro Educluis Carlos Gonzalez": ["19"],
                 "Colbasico Alfonso Jaramillo": ["31"]
             },
-            "19 Comuna 19 Cuba": {
+            "Cuba": {
                 "Insteducescolar San Fernando": ["39"],
                 "Centro Educativo Juan Xxiii": ["24"],
                 "Ie Jesus Maria Ormaza": ["2"]
@@ -2375,39 +3404,47 @@ const regions = {
                 "Ce 30 De Agosto": ["3"]
             }
         },
-        "Belen De Umbria": {},
+        "Belen De Umbria": {
+            "Taparcal": {
+                "Baldelomar": ["1"],
+                "Taparcal": ["4"]
+            },
+            "Columbia": {
+                "Columbia O La Florida": ["3"]
+            }
+        },
         "Dosquebradas": {
-            "02  Comuna  2": {
+            "Comuna 2": {
                 "Int Santa Sofia": ["32"],
                 "Escuela La Aurora": ["2"],
                 "Colegio Villa Fanny": ["2"],
                 "Inst Agustin Nieto Caballero": ["22"]
             },
-            "03 Comuna 3": {
+            "Comuna 3": {
                 "Megacolegio Bernardo Lopez Perez": ["17"],
                 "Escuela Policarpa Salavarriet": ["16"],
                 "Colegio Nueva Republica": ["16"]
             },
-            "04 Comuna  4": {
+            "Comuna 4": {
                 "Ie Santa Isabel": ["20"]
             },
-            "06 Comuna 6": {
+            "Comuna 6": {
                 "Ie Maria Auxiliadora": ["13"]
             },
-            "07 Comuna 7": {
+            "Comuna 7": {
                 "Colegio Pablo Vi": ["27"]
             },
-            "08 Comuna  8": {
+            "Comuna 8": {
                 "Escuela San Diego": ["15"],
                 "Colegio Nueva Granada": ["6"],
                 "Casa De La Cultura": ["1"]
             },
-            "11 Comuna 11": {
-                "Coljuan Manuel Gonzalez": ["28"],
-                "Col Hogar Nazareth": ["2"],
+            "Comuna 11": {
+                "Colegio Juan Manuel Gonzalez": ["28"],
+                "Colegio Hogar Nazareth": ["2"],
                 "Colegio Cristo Rey": ["7"]
             },
-            "12 Comuna 12": {
+            "Comuna 12": {
                 "Colntra Sra De Guadalupe": ["27"],
                 "Colegio Salesiano": ["46"]
             },
@@ -2453,7 +3490,7 @@ const regions = {
     },
     "Norte De San": {
         "Cucuta": {
-            "01 Comuna 1 Centro": {
+            "Centro": {
                 "Col San Jose Sede Mercedes Abrego": ["48"],
                 "Col Sagrado Sede Antonia Santo": ["32"],
                 "Col Sagrado Corazon De Jesus": ["40"],
@@ -2564,14 +3601,14 @@ const regions = {
                 "Complejo Historico": ["13"],
                 "Sede David Haddad Salcedo": ["12"]
             },
-            "02comuna2 Nororiental Cristo Rey": {
+            "Nororiental Cristo Rey": {
                 "Polideportivo Cristo Rey": ["16"]
             },
             "Suroriental Olaya H": {
                 "Polideportivo La Monumental": ["15"],
                 "Concentracion Angelino Duran": ["19"]
             },
-            "04comuna4 Suroccidental Adolfo M": {
+            "Suroccidental Adolfo M": {
                 "Escuela Marabel": ["11"],
                 "Cancha Juan Xxiii": ["12"],
                 "Cancha Marabel": ["13"],
@@ -2639,18 +3676,95 @@ const regions = {
         }
     },
     "Quindio": {
-        "Armenia": {},
         "Buenavista": {},
-        "Calarca": {},
         "Circasia": {},
         "Cordoba": {},
-        "Filandia": {},
         "Genova": {},
         "La Tebaida": {},
         "Montenegro": {},
         "Pijao": {},
         "Quimbaya": {},
-        "Salento": {}
+        "Salento": {},
+        "Armenia": {
+            "Centenario": {
+                "Ie Teresita Montes": ["24"],
+                "Ie Laura Vicuna": ["21"],
+                "Ie Instituto Tecnico Industria": ["9"],
+                "Ie Simon Rodriguez": ["7"],
+                "Coliseo Del Sur": ["2"]
+            },
+            "Rufino Jose Cuervo": {
+                "Ie Rufino Sur Sede Madre Marce": ["28"],
+                "Ie Rosana Londono": ["16"],
+                "Ie Marcelino Champagnat": ["17"],
+                "Ie Zuldemayda": ["16"],
+                "Ie Los Quindos": ["21"],
+                "Ie Ciudadela Del Sur": ["23"],
+                "Ie Juan Xxiii": ["11"]
+            },
+            "Alfonso Lopez": {
+                "Ie Nuestra Senora De Belen": ["21"],
+                "Ie La Adiela Sede La Cecilia": ["27"],
+                "Ie Ciudad Dorada": ["12"],
+                "Ie Las Colinas": ["8"]
+            },
+            "Francisco De Paula S": {
+                "Ie Jesus Maria Ocampo": ["20"],
+                "Ie Camilo Torres": ["15"],
+                "Ie Luis Bernal Giraldo": ["7"]
+            },
+            "El Bosque": {
+                "Ie Gustavo Matamoros D Costa": ["25"],
+                "Ie Rufino Cuervo Cent Sede Ant": ["9"]
+            },
+            "San Jose": {
+                "Ie Rufino Jose Cuervo Centro": ["22"],
+                "Ie Escuela Normal Superior": ["15"],
+                "Ie Camara Junior": ["19"],
+                "Ie Camara Junior Sede La Pavon": ["8"],
+                "Ie Ciudadela De Occidente": ["10"],
+                "Hogar Infantil Cdv La Union": ["15"]
+            },
+            "Cafetero": {
+                "Ie Ciudad Armenia": ["20"],
+                "Centro Administrativo Municipa": ["38"],
+                "Col Sagrado Corazon De Jesus B": ["20"],
+                "Centro Marcelino Champagnat": ["3"]
+            },
+            "Libertadores": {
+                "Ie Cristobal Colon": ["20"],
+                "Ie Gran Colombia": ["12"],
+                "Cdc Los Libertadores": ["1"]
+            },
+            "Fundadores": {
+                "Colegio Jorge Isaac": ["23"],
+                "Ie Inem Jose Celestino Mutis": ["16"],
+                "Ie Casd Sede Santa Eufracia": ["27"]
+            },
+            "Quimbaya": {
+                "Coliseo Sena": ["26"],
+                "Universidad Del Quindio": ["40"],
+                "Ie Republica De Francia": ["10"],
+                "Escuela De Administra Eam": ["15"],
+                "Fundacion Quindiana De Atencion Integral": ["5"],
+                "Sena Centro Agroindutrial": ["3"],
+                "Ie Eudoro Granada Sd Fundadores": ["1"],
+                "Ie Santa Teresa De Jesus Sd La Florida": ["1"]
+            },
+            "El Caimo": {
+                "El Caimo": ["6"]
+            }
+        },
+        "Calarca": {
+            "Barcelona": {
+                "Barcelona": ["17"]
+            }
+        },
+        "Filandia": {
+            "La India": {
+                "La India": ["2"]
+            }
+        }
     },
     "Santander": {
         "Bucaramanga": {
@@ -2834,7 +3948,11 @@ const regions = {
                 "Col Microempresarial El Carme Sd B": ["14"]
             }
         },
-        "Gambita": {},
+        "Gambita": {
+            "La Palma": {
+                "Correg La Palma": ["2"]
+            }
+        },
         "Oiba": {
             "Puente Llano": {
                 "Puente De Llano": ["2"]
@@ -2850,14 +3968,18 @@ const regions = {
                 "San Jose De Suaita": ["3"]
             }
         },
-        "Velez": {},
+        "Velez": {
+            "01corr Alto Jordan  Gualilo": {
+                "Alto Jordan": ["2"],
+                "Gualilo": ["2"]
+            }
+        },
         "Aguada": {},
         "Albania": {},
         "Aratoca": {},
         "Barbosa": {},
         "Barichara": {},
         "Betulia": {},
-        "Bolivar": {},
         "Cabrera": {},
         "California": {},
         "Capitanejo": {},
@@ -2945,7 +4067,7 @@ const regions = {
                 "Ie Juanita Garcia Manjarres": ["20"],
                 "Inst Tecnico Industrial Antonio Prieto": ["17"]
             },
-            "03 Comuna 3  Sur Oeste": {
+            "Sur Oeste": {
                 "Ie Nuestra Senora Del Carmen": ["26"],
                 "Instedc20 De Enero": ["20"],
                 "Ie Madre Amalia": ["27"]
@@ -3029,7 +4151,59 @@ const regions = {
         "Tolu Viejo": {}
     },
     "Tolima": {
-        "Ibague": {},
+        "Ibague": {
+            "Dantas": {
+                "Ie Laureles Sd Dantas": ["1"]
+            },
+            "Laureles": {
+                "Ie Laureles": ["1"]
+            },
+            "Coellococora": {
+                "Ie Coellococora": ["5"]
+            },
+            "Gamboa": {
+                "Esc Gamboa": ["2"]
+            },
+            "Tapias": {
+                "Esc Camilo Torres": ["3"]
+            },
+            "Toche": {
+                "Ie Tapias Sd Toche": ["1"]
+            },
+            "Juntas": {
+                "Ie Juntas": ["2"]
+            },
+            "Villa Restrepo": {
+                "Casa De La Cultura": ["6"]
+            },
+            "Cay": {
+                "Ie Tec Agropecuaria Sd Cay": ["4"]
+            },
+            "Calambeo": {
+                "Zona Rural Esc Los Cristales": ["2"]
+            },
+            "24corr  11 San Juan De La China": {
+                "Ie San Juan De La China": ["4"]
+            },
+            "San Bernardo": {
+                "Ie San Bernardo": ["4"]
+            },
+            "El Salado": {
+                "Ie Vda La Esperanza": ["2"]
+            },
+            "Buenos Aires": {
+                "Ie Nva Esperanza La Palma": ["4"]
+            },
+            "28corr 15 Carmen De Bulira": {
+                "Ie Fernando Villalobos Sd Carmen Bulira": ["2"]
+            },
+            "El Totumo": {
+                "Ie Fernando Villalobos Sd Totumo": ["6"]
+            },
+            "La Florida": {
+                "Ie San Francisco": ["2"]
+            }
+        },
         "Chaparral": {
             "De Amoya": {
                 "Amoya  Las Cruces": ["2"],
@@ -3104,7 +4278,20 @@ const regions = {
                 "Padua": ["4"]
             }
         },
-        "Libano": {},
+        "Libano": {
+            "El Convenio": {
+                "El Convenio": ["8"]
+            },
+            "Tierradentro": {
+                "Tierradentro": ["3"]
+            },
+            "Santa Teresa": {
+                "Santa Teresa": ["4"]
+            },
+            "San Fernando": {
+                "San Fernando": ["3"]
+            }
+        },
         "Planadas": {
             "Bilbao": {
                 "Bilbao": ["6"],
@@ -3183,7 +4370,7 @@ const regions = {
     },
     "Valle": {
         "Cali": {
-            "13 Comuna 13": {
+            "Comuna 13": {
                 "Col Parroquial Senor De Los Mi": ["25"],
                 "Escuela El Diamante": ["37"],
                 "Escuela Rodrigo Lloreda": ["39"],
@@ -3604,16 +4791,87 @@ const regions = {
         "Curillo": {},
         "El Doncello": {},
         "El Paujil": {},
-        "Florencia": {},
         "La Montanita": {},
         "Milan": {},
         "Morelia": {},
-        "Puerto Rico": {},
         "San Jose Del Fragua": {},
         "San Vicente Del Caguan": {},
         "Solano": {},
         "Solita": {},
-        "Valparaiso": {}
+        "Valparaiso": {},
+        "Florencia": {
+            "Occidental": {
+                "Ie Juan Bautista La Salle": ["24"],
+                "Ie Juan Bautista Migani": ["19"],
+                "Ie San Francisco De Asis": ["20"],
+                "Ie Sagrados Corazones": ["22"],
+                "Ie Juan B De La Salle Sd Siete De Agosto": ["3"],
+                "Ie Francisco De Asis Sede Circarcia": ["1"]
+            },
+            "Sur": {
+                "Ie Antonio Ricaurte Sede Juan Xxiii": ["24"],
+                "Ie Antonio Ricaurte": ["14"],
+                "Ie Barrios Unidos Del Sur": ["21"],
+                "I Tec": ["AGROPECUARIO DE LA AMAZONIA"]
+            },
+            "Norte": {
+                "Ielos Pinos Sede La Paz": ["10"],
+                "Universidad Unad": ["10"],
+                "Instituto Tecnico Industrial": ["18"],
+                "Iela Salle": ["15"],
+                "Iebuinaima": ["15"],
+                "Urbanizacion La Gloria": ["2"]
+            },
+            "Oriental": {
+                "Iebussede Pueblo Nuevo": ["13"],
+                "Iebussede Santa Ines": ["10"],
+                "Ieciudsxxi Sede Triunfo": ["7"],
+                "Iedivnino Sede Las Palmeras": ["9"],
+                "Ie Ciudadela Siglo Xxi": ["28"],
+                "Iebello Horizonte": ["16"]
+            },
+            "San Pedro Norcas": {
+                "San Pedro norcasia": ["3"]
+            },
+            "Orteguaza": {
+                "Orteguazasantana Las Hermosa": ["3"]
+            },
+            "El Danubio remo": {
+                "El Danubio el Remolino": ["1"]
+            },
+            "El Carano": {
+                "El Carano el Carano": ["3"]
+            },
+            "Santo Domingo": {
+                "Santo Domingo santo Domingo": ["4"]
+            },
+            "San Martin camp": {
+                "San Martin": ["1"]
+            },
+            "11correg Venecia Puerto Arango": {
+                "Venecia puerto Arango": ["2"]
+            }
+        },
+        "Puerto Rico": {
+            "La Aguililla": {
+                "La Aguililla": ["2"]
+            },
+            "La Esmeralda": {
+                "La Esmeralda": ["3"]
+            },
+            "Lusitania": {
+                "Lusitania": ["2"]
+            },
+            "Rio Negro": {
+                "Rio Negro": ["4"]
+            },
+            "Santana Ramos": {
+                "Santana Ramos": ["2"]
+            },
+            "La Paz": {
+                "La Paz": ["2"]
+            }
+        }
     },
     "Casanare": {
         "Yopal": {
@@ -3827,7 +5085,14 @@ const regions = {
         "Villanueva": {}
     },
     "Meta": {
-        "Lejanias": {},
+        "Lejanias": {
+            "Cacayal": {
+                "Cacayal": ["5"]
+            },
+            "La Venticuatro": {
+                "La Veinticuatro": ["1"]
+            }
+        },
         "Acacias": {},
         "Barranca De Upia": {},
         "Cabuyaro": {},
@@ -3858,7 +5123,14 @@ const regions = {
         "Vista Hermosa": {}
     },
     "Guaviare": {
-        "San Jose Del Guaviare": {},
+        "San Jose Del Guaviare": {
+            "El Capricho": {
+                "El Capricho": ["8"]
+            },
+            "Charrasboqueron": {
+                "Charras Boqueron": ["6"]
+            }
+        },
         "Calamar": {},
         "El Retorno": {},
         "Miraflores": {}
@@ -3914,9 +5186,56 @@ const regions = {
         "Puerto Narino": {}
     },
     "Putumayo": {
-        "Puerto Asis": {},
-        "Puerto Leguizamo": {},
-        "Colon": {},
+        "Puerto Asis": {
+            "Sur": {
+                "Escuela Central De Varones": ["20"],
+                "I": ["E. SANTA TERESA (SEDE PRIMAR"],
+                "Colegio San Fernando": ["8"]
+            },
+            "Oriente": {
+                "Iealvernia": ["15"],
+                "Ieel Jardin": ["15"],
+                "Ifluvial Del Amazonas": ["8"]
+            },
+            "Norte": {
+                "Iesan Nicolas": ["15"],
+                "Escuela El Prado": ["11"]
+            },
+            "Pinuna Blanco": {
+                "Pinuna Blanco puerto Hacha": ["3"]
+            },
+            "La Carmelita": {
+                "La Carmelita cuembi": ["7"],
+                "Santa Maria alto Cuembi": ["3"]
+            },
+            "Santana": {
+                "Santana": ["5"]
+            },
+            " Teteye": {
+                "Teteye": ["3"]
+            },
+            "Villa Victoria": {
+                "Villa Victoria": ["2"]
+            }
+        },
+        "Puerto Leguizamo": {
+            "La Tagua": {
+                "La Tagua": ["2"]
+            },
+            " El Mecaya": {
+                "El Mecaya": ["2"],
+                "El Sencella": ["1"]
+            },
+            "Puerto Ospina": {
+                "Puerto Ospina": ["4"],
+                "Pinuna Negro": ["2"]
+            }
+        },
+        "Colon": {
+            "San Pedro": {
+                "San Pedro": ["3"]
+            }
+        },
         "San Miguel la Dorada": {
             "01corr Puerto Colon san Miguel": {
                 "Puerto Colon San Miguel": ["9"]
@@ -4081,7 +5400,7 @@ const regions = {
         "Puerto Carreno": {},
         "Santa Rosalia": {}
     }
-}
+};
 
 regions.points = (dep, mun) => {
     dep = dep.toUpperCase();
