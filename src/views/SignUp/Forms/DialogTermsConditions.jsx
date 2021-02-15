@@ -15,12 +15,13 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction='up' ref={ref} {...props} />;
   });
 
-export default function DialogTermsConditions({ setOpen, ...props }) {
+export default function DialogTermsConditions({ state:[open, setOpen], ...props }) {
 
     const handleClose = () => setOpen(false);
 
     return (
       <Dialog
+        open={open}
         {...props}
         TransitionComponent={Transition}
         keepMounted

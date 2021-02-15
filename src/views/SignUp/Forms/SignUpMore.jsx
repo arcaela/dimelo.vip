@@ -237,7 +237,7 @@ export default function SignUpMore({ useInput, ...req }) {
                 getOptionLabel={o=>o.name}
                 options={Object.values(leaders||{})}
                 renderInput={(params)=>(<TextField {...params} variant="outlined" />)}
-                onChange={(o,value)=>console.log(inputs.voting_leader.value=value.cedula)}
+                onChange={(o,value)=>inputs.voting_leader.value=value.cedula}
               />
             </FormControl>
             <InputField name='voting_table' label='Mesa de votación' type='number' />
