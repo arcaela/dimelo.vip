@@ -21,13 +21,14 @@
     "react-facebook-photo-grid": "^1.0.5",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.1",
+    "serve": "^11.3.2",
     "web-vitals": "^1.0.1"
   },
   "scripts": {
     "build": "craco build",
     "start-dev": "craco start",
-    "start-prod": "craco build && serve -s build",
-    "hosting-deploy": "npm run build && firebase deploy --only hosting",
+    "start-prod": "serve -s build",
+    "hosting-deploy": "firebase deploy --only hosting",
     "update-arcaela": "npm update @arcaela/aurora"
   },
   "eslintConfig": {
