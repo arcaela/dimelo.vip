@@ -50,11 +50,11 @@ export default function SignUpMore({ useInput, ...req }) {
   const handleBack = () => ( step === 2 ? req.history.goBack() : prevStep() );
 
 
-
   const [leaders, setLeaders] = React.useState([]);
   React.useEffect(()=>{
     if(!leaders.length)
       reference('leaders')
+        .orderBy('name','asc')
         .get()
         .then(snap=>setLeaders(snap.docs.map(e=>e.data())));
   }, [ leaders ]);

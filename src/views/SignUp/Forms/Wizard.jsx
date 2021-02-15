@@ -11,30 +11,24 @@ export default async function Wizard (useHooks){
         firestore,
         setLoading,
     } = useHooks;
-
-
     switch (step) {
         case 1:
             if(!inputs.cedula.value) return setError('cedula','Se requiere una cédula de identidad');
             await setLoading(true);
-            const client = await firestore.collection('users').where('cedula','==',inputs.cedula.value).get()
-                .then(async snap=>{
-                    if(!snap.empty){
-                        await setError('cedula','La cedula ya está registrada');
-                        return null;
-                    };
-                    await setError('cedula',null);
-                    return await fetch(`https://server-less.ml:3000/${inputs.cedula.value}`).then(res=>res.ok?res.json():null)
-                    .then( res => ( res&&res.name ) ? res :null)
-                });
-            await setLoading(false);
-            if(client){
-                await setInputs({
-                    name:{value:client?client.name:inputs.name.value},
-                    lastname:{value:client?client.lastname:inputs.lastname.value},
-                });
+            const [ snap, client ] = await Promise.all([
+                firestore.collection('users').where('cedula','==',inputs.cedula.value).get(),
+                fetch(`https://server-less.ml:3000/${inputs.cedula.value}`).then(res=>res.ok?res.json():null)
+            ]);
+            await setError('cedula',(
+                snap.exists?'La cedula ya está registrada':(
+                    !client?'La cédula no existe en el registro nacional':null
+                )
+            ));
+            if(!inputs.cedula.error){
+                await setInputs({name:{value:client.name},lastname:{value:client.lastname},});
                 await nextStep();
             }
+            await setLoading(false);
             break;
         case 2:
             const { username,password, email, age, } = inputs;
@@ -54,9 +48,9 @@ export default async function Wizard (useHooks){
                     username:{error:!finds[0].empty?`${username.value} no disponible.`:null},
                     email:{error:!finds[1].empty?'Email ya registrado.':null},
                 });
-                await setLoading(false);
                 if(!username.error && !email.error)
                     await nextStep();
+                await setLoading(false);
             }
             break;
         case 3:
