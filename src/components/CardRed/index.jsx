@@ -14,7 +14,7 @@ import IconButton from '@material-ui/core/IconButton';
 
 import Delete from '../../images/trash.svg';
 
-import { useCardLider } from '~/views/AdminPage/components/lider.styles';
+import { useCardLider } from '~/views/Admin/components/lider.styles';
 import usePatron from '~/hooks/usePatron';
 
  
