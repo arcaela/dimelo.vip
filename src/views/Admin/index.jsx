@@ -20,7 +20,7 @@ export default function AdminPage() {
 
   const grid = gridStyles();
 
-  const [ leaders, setLeaders ] = useState([]);
+  const [ leaders, setLeaders ] = useState(null);
 
   const [ select, setSelect ] = useState('name');
 
@@ -31,11 +31,10 @@ export default function AdminPage() {
 
     const arraySearch = searchValue.split(' ').map( e=> e.toLocaleUpperCase() );
  
-    const result= await users.collection('users')
-                              .where(select, 'in', arraySearch )
-                              .get()
+    await users.collection('users')
+               .where(select, 'in', arraySearch )
+               .get()
   }
-
 
   const handlerChange = (e) => {
     setSelect(e.target.value)
@@ -101,12 +100,21 @@ export default function AdminPage() {
       </div>
       <div className={grid.root}>
         <Grid container spacing={3}>
-          { (leaders.length === 0) && <Loading />}
-          { leaders.map( leader => (
+          { !leaders && <Loading /> }
+
+          { ( leaders && leaders?.length > 0 ) && leaders.map( leader => (
             <Grid key={ leader.uid } item xs={12} md={6}>
               <LiderCard leader={ leader } />
             </Grid>
           )) }
+
+          { ( leaders?.length === 0 )  && (
+            <Grid  item xs={12} >
+              <h1 style={{
+                textAlign: 'center'
+              }}>No hay Líderes Registrados</h1>
+            </Grid>
+          ) }
         </Grid>
       </div>
     </Layout>

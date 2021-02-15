@@ -30,16 +30,16 @@ export default function AdminPage() {
 
   const [ searchValue, setSearchValue ] = useState('');
 
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState(null);
 
   const search = async () => {
     const users = firebase.firestore();
 
     const arraySearch = searchValue.split(' ').map( e=> e.toLocaleUpperCase() );
 
-    const result= await users.collection('users')
-                              .where(select, 'in', arraySearch )
-                              .get()
+    await users.collection('users')
+               .where(select, 'in', arraySearch )
+               .get()
 
   }
 
@@ -121,12 +121,23 @@ export default function AdminPage() {
       </div>
       <div className={grid.root}>
         <Grid container spacing={3}>
-          { users.map( user => (
+
+          {(users && users?.length > 0) && users.map( user => (
             <Grid key={ user.uid } item xs={12} md={6}>
               <NewCard users={ user } />
             </Grid>
           )) }
-          { ( users.length === 0 ) && <Loading />}
+
+          { !users  && <Loading /> }
+
+          { (users?.length === 0)  && (
+            <Grid  item xs={12} >
+              <h1 style={{
+                textAlign: 'center'
+              }}>No hay Usuarios es su Red</h1>
+            </Grid>
+          ) }
+          
         </Grid>
       </div>
     </Layout>
