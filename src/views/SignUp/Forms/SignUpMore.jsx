@@ -49,23 +49,17 @@ export default function SignUpMore({ useInput, ...req }) {
 
   const handleBack = () => ( step === 2 ? req.history.goBack() : prevStep() );
 
-  const [leaders, setLeaders] = React.useState(null);
+
+
+  const [leaders, setLeaders] = React.useState([]);
   React.useEffect(()=>{
-    if(!leaders){
+    if(!leaders.length)
       reference('leaders')
         .get()
-        .then(snap=>setLeaders(snap.docs.map(e=>e.data()).reduce((_,o)=>{_[o.cedula]=o;return _},{})));
-    }
+        .then(snap=>setLeaders(snap.docs.map(e=>e.data())));
   }, [ leaders ]);
-
-
   const [open, setOpen] = React.useState(false);
   const [direccion, setDireccion] = React.useState(null)
-
-  const openMap = () => {
-    if(!inputs.municipio.value) return;
-    setOpen( !open )
-  }
 
   React.useEffect(() => {
       const setMAp = async () => {
@@ -84,7 +78,6 @@ export default function SignUpMore({ useInput, ...req }) {
                   lat: results[0].geometry.location.lat(),
                   lng: results[0].geometry.location.lng(),
                 }
-                console.log(latlng)
 
                 setDireccion( latlng );
 
@@ -168,9 +161,9 @@ export default function SignUpMore({ useInput, ...req }) {
               )}
             />
             <FormControl>
-              <FormHelperText onClick={ ()=> openMap() } >
+              {inputs.municipio.value && <FormHelperText onClick={ ()=> setOpen( !open ) } >
                 Para ver mapa<Typography color="secondary" component="span" style={{marginLeft:5, cursor:'pointer'}}>CLICK AQUI</Typography>
-              </FormHelperText>
+              </FormHelperText>}
               <InputField name='direccion' label='Dirección de residencia' />
             </FormControl>
             <InputField name='phone' label='Teléfono fijo' type='number' />
@@ -195,11 +188,12 @@ export default function SignUpMore({ useInput, ...req }) {
               TextFieldProps={{
                 helperText:(<span>
                   <Typography variant="caption">
-                    Puedes consultar esa información 
+                    Puedes consultar esta información 
+                    <a target='_blank'
+                      rel='noreferrer'
+                      href='https://wsp.registraduria.gov.co/censo/consultar/'
+                      children=" AQUÍ" style={{color:'#82D827'}} />
                   </Typography>
-                  <Typography component="a" target='_blank' rel='noreferrer'
-                    href='https://wsp.registraduria.gov.co/censo/consultar/'
-                    variant="caption" color='secondary' children=" AQUÍ" />
                 </span>),
               }}
               InputProps={{
@@ -226,18 +220,22 @@ export default function SignUpMore({ useInput, ...req }) {
                   </ClickAwayListener>
                 ),
               }}/>
-
-            <FormControl variant="outlined" error={inputs.voting_leader.error}>
+            <FormControl variant="outlined" error={!!inputs.voting_leader.error}>
               <FormHelperText>{ inputs.voting_leader.error || '¿Quien es tu líder?' }</FormHelperText>
               <RealAutocomplate
                 fullWidth
-                freeSolo={false}
                 autoHighlight
+                freeSolo={false}
                 disableClearable
-                getOptionLabel={o=>o.name}
-                options={Object.values(leaders||{})}
+                options={leaders}
+                getOptionLabel={(o)=>o.name}
+                getOptionSelected={({cedula})=>cedula===inputs.voting_leader.value}
+                value={ leaders.find(({cedula})=>(cedula===inputs.voting_leader.value)) || '- - - - - -' }
                 renderInput={(params)=>(<TextField {...params} variant="outlined" />)}
-                onChange={(o,value)=>inputs.voting_leader.value=value.cedula}
+                onChange={async (e,value)=>{
+                    await setInputs({ voting_leader:{value:value.cedula} });
+                    return value;
+                }}
               />
             </FormControl>
             <InputField name='voting_table' label='Mesa de votación' type='number' />

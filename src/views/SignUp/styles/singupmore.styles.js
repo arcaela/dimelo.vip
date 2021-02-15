@@ -59,7 +59,7 @@ export const useStylesSingUpMore = makeStyles(theme=>({
                 color:'inherit',
                 fontWeight:100,
             },
-            '&:last-child':{
+            '&[step=5]':{
                 display:'block',
                 '& .MuiFormControl-root':{
                     width:'100%',

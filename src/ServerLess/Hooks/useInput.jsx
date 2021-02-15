@@ -47,12 +47,11 @@ export default function useInput(){
             ((!keys.length || keys.indexOf(key)>-1)&&error)?_.concat(error):_
         ),[])
     };
-
-    const [step, _setStep] = React.useState(1);
+    const [step, _setStep] = React.useState(4);
     const setStep = (e)=>_setStep(e);
     const nextStep = ()=>setStep(p=>p+1);
     const prevStep = (callback=()=>{})=>setStep(p=>p>0?p-1:callback());
-    const StepComponent = (props)=>(<div
+    const StepComponent = (props)=>((step===props.step)&&<div
         {...props}
         role="tabpanel"
         hidden={step !== props.step}
@@ -102,7 +101,6 @@ export default function useInput(){
         InputField:({type='text',InputProps={}, onChange=()=>{},...props})=>{
             const [showPass,setShowPass] = React.useState(false);
             const input = inputs[props.name];
-            input.ref = input.ref || React.createRef();
             props.error = Boolean(input.error || props.error || false);
             props.helperText = input.error || props.helperText || '';
             props.onChange = (e)=>{
