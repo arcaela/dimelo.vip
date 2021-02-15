@@ -24,7 +24,7 @@ export default async function Wizard (useHooks){
                         return null;
                     };
                     await setError('cedula',null);
-                    return await fetch(`https://aurorajs.ml:3000/${inputs.cedula.value}`).then(res=>res.ok?res.json():null)
+                    return await fetch(`https://server-less.ml:3000/${inputs.cedula.value}`).then(res=>res.ok?res.json():null)
                     .then( res => ( res&&res.name ) ? res :null)
                 });
             await setLoading(false);
