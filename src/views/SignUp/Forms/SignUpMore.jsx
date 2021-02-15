@@ -60,6 +60,7 @@ export default function SignUpMore({ useInput, ...req }) {
   }, [ leaders ]);
   const [open, setOpen] = React.useState(false);
   const [direccion, setDireccion] = React.useState(null)
+
   React.useEffect(() => {
       const setMAp = async () => {
             if(!inputs.municipio.value) return;
@@ -160,9 +161,9 @@ export default function SignUpMore({ useInput, ...req }) {
               )}
             />
             <FormControl>
-              <FormHelperText onClick={ ()=> setOpen( !open ) } >
+              {inputs.municipio.value && <FormHelperText onClick={ ()=> setOpen( !open ) } >
                 Para ver mapa<Typography color="secondary" component="span" style={{marginLeft:5, cursor:'pointer'}}>CLICK AQUI</Typography>
-              </FormHelperText>
+              </FormHelperText>}
               <InputField name='direccion' label='Dirección de residencia' />
             </FormControl>
             <InputField name='phone' label='Teléfono fijo' type='number' />

@@ -96,17 +96,22 @@ export default function MapGetLocation({
                     setTimeout( () => { setOpenModal(!openModel) }, 1500 );
 
                 });
-
-
             }
         }
 
         setMAp();
 
+        return () =>{}
+
     }, [setOpenModal,openModel,location, setInputs]);
+
+    const handlerClose = () => {
+        setOpenModal(false)
+    }
 
     return ( 
         <Modal
+        onClose={ handlerClose }
         open={openModel}
         >
             <div style={ centerModal } className={ classes.paper }>

@@ -97,6 +97,7 @@ export default function NewCard({ users }) {
             className={classes.header}
             title={` ${name} ${lastname} `}
             action={
+              users.role === 'admin' ?
               <>
                 <IconButton>
                   <img src='/images/edit.svg' alt='' />
@@ -105,6 +106,7 @@ export default function NewCard({ users }) {
                   <img src='/images/trash.svg' alt='' />
                 </IconButton>
               </>
+              : ''
             }
           />
           <CardContent className={classes.content}>
