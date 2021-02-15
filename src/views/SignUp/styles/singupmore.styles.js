@@ -43,6 +43,17 @@ export const useStylesSingUpMore = makeStyles(theme=>({
         margin:'auto',
         alignItems:'center',
         '& [role="tabpanel"]:not([hidden])':{
+            '&[step="5"]':{
+                display:'block',
+                '& .MuiFormControl-root':{
+                    width:'100%',
+                    fontWeight:100,
+                    maxWidth:'unset',
+                    '& label':{
+                        fontSize:'.9rem',
+                    },
+                },
+            },            
             display:'flex',
             flexWrap:'wrap',
             '& > .MuiFormControl-root':{
@@ -58,17 +69,6 @@ export const useStylesSingUpMore = makeStyles(theme=>({
             +',& .MuiFormHelperText-root:not(.Mui-error)']:{
                 color:'inherit',
                 fontWeight:100,
-            },
-            '&[step=5]':{
-                display:'block',
-                '& .MuiFormControl-root':{
-                    width:'100%',
-                    fontWeight:100,
-                    maxWidth:'unset',
-                    '& label':{
-                        fontSize:'.9rem',
-                    },
-                },
             },
             [theme.breakpoints.down('xs')]:{
                 '& .MuiFormControl-root':{

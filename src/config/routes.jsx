@@ -15,6 +15,7 @@ Route('/login', require('~/views/SignIn').default);
 Route(['/', '/signup'], require('~/views/SignUp').default);
 
 /* Pages */
+Route('/news', require('~/views/News').default);
 Route('/test', require('~/views/Test').default);
 Route('/admin', require('~/views/Admin').default);
 Route('/admin/movimiento', require('~/views/Admin/Movimiento').default);

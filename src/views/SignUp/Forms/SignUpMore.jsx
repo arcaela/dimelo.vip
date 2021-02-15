@@ -50,11 +50,11 @@ export default function SignUpMore({ useInput, ...req }) {
   const handleBack = () => ( step === 2 ? req.history.goBack() : prevStep() );
 
 
-
   const [leaders, setLeaders] = React.useState([]);
   React.useEffect(()=>{
     if(!leaders.length)
       reference('leaders')
+        .orderBy('name','asc')
         .get()
         .then(snap=>setLeaders(snap.docs.map(e=>e.data())));
   }, [ leaders ]);
@@ -91,7 +91,7 @@ export default function SignUpMore({ useInput, ...req }) {
 
 
   return step >= 6 ? (
-    step > 6 ? <Redirect from={window.location.pathname} to="/test" /> : <div
+    step > 6 ? (()=>(<div>{window.location.href='/test'}Espere porfavor...</div>)) : <div
     className={classes.root}
     children={
       <Container maxWidth='xs' className={classes.welcome}>
@@ -117,7 +117,6 @@ export default function SignUpMore({ useInput, ...req }) {
       </Container>
     }
   />
-
   ) : (
     <div className={classes.root}>
       <MapGetLocation google={google} setInputs={setInputs} location={direccion} openModel={ open } setOpenModal={ setOpen } />
