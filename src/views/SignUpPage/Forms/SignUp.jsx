@@ -69,7 +69,7 @@ export default function SignUp({ useInput, ...req }) {
         </StepComponent>
       </div>
       <div className={classes.actions}>
-        {step === 0 && (
+        {step === 1 && (
           <div className='terms'>
             Al continuar aceptas nuestras{' '}
             <strong href='#' onClick={() => setOpen(!open)}>
