@@ -143,6 +143,7 @@ export default function LiderCard({ leader }) {
             className={classes.header}
             title={` ${name} ${lastname} `}
             action={
+              leader.role === 'admin' ?
               <>
                 <IconButton>
                   <img src='/images/edit.svg' alt='' />
@@ -151,6 +152,7 @@ export default function LiderCard({ leader }) {
                   <img src='/images/trash.svg' alt='' />
                 </IconButton>
               </>
+              : ''
             }
           />
           <Grid container direction="row" component={ CardContent } className={classes.content}>
