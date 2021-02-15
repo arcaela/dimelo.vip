@@ -11,11 +11,11 @@ require('~/views/layout').layout.routes.push(
 );
 
 /* Auth */
-Route('/login', require('~/views/SignInPage').default);
-Route(['/', '/signup'], require('~/views/SignUpPage').default);
+Route('/login', require('~/views/SignIn').default);
+Route(['/', '/signup'], require('~/views/SignUp').default);
 
 /* Pages */
-Route('/test', require('~/views/TestPage').default);
-Route('/admin', require('~/views/AdminPage').default);
-Route('/admin/movimiento', require('~/views/AdminPage/Movimiento').default);
-Route('/red', require('~/views/RedPage').default);
+Route('/test', require('~/views/Test').default);
+Route('/admin', require('~/views/Admin').default);
+Route('/admin/movimiento', require('~/views/Admin/Movimiento').default);
+Route('/red', require('~/views/Red').default);

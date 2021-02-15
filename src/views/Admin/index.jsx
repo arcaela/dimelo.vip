@@ -1,14 +1,12 @@
-import Layout from '~/views/layout'
-import TitlePage from '~/components/TitlePage';
+import TitlePage from '../../components/TitlePage';
 
-import firebase from '~/config/firebase';
+import firebase from '../../config/firebase';
 import { makeStyles } from '@material-ui/core/styles';
-
+import Grid from '@material-ui/core/Grid';
+import LiderCard from './components/LiderCard';
 import { useEffect, useState } from 'react';
 import SelectSearch from '~/components/SelectSearch';
-import Grid from '@material-ui/core/Grid';
-import CardRed from '~/components/CardRed';
-import useAuth from '~/ServerLess/Hooks/useAuth';
+import Layout from '../layout';
 import Loading from '~/components/Loading';
 
 const gridStyles = makeStyles((theme) => ({
@@ -22,29 +20,20 @@ export default function AdminPage() {
 
   const grid = gridStyles();
 
-  const user = useAuth()
-
-  const [currentUser, setCurrentUser] = useState(false)
+  const [ leaders, setLeaders ] = useState([]);
 
   const [ select, setSelect ] = useState('name');
 
   const [ searchValue, setSearchValue ] = useState('');
 
-  const [users, setUsers] = useState([]);
-
   const search = async () => {
     const users = firebase.firestore();
 
     const arraySearch = searchValue.split(' ').map( e=> e.toLocaleUpperCase() );
-
-    console.log({ select, arraySearch, searc: searchValue.toLocaleUpperCase() })
-      
+ 
     const result= await users.collection('users')
                               .where(select, 'in', arraySearch )
                               .get()
-  
-    console.log(  result.docs.map( e => e.data() ) )
-
   }
 
 
@@ -76,37 +65,24 @@ export default function AdminPage() {
   ]
 
   useEffect(() => {
-    if(user && !currentUser){
-      setCurrentUser(user)
-    }
-  }, [user, currentUser])
-
-
-  useEffect(() => {
-    const getUsers = async () => {
-      if( !currentUser ) return;
+    const getLeaders = async () => {
       try {
         const leaders = firebase.firestore();
 
-        const users = await leaders
-          .collection('users')
-          .where('voting_leader', '==', currentUser.uid)
-          .where('role', '==', 'user')
-          .get();
+        const users = await leaders.collection('users').where('role', '==', 'leader').get();
 
-          setUsers(users.docs.map((e) => e.data()));
+        setLeaders( users.docs.map( e =>e.data() ) )
+
       } catch (e) {
-        console.log(e);
+        console.log(e)
       }
-    };
-    getUsers();
-  }, [currentUser]);
-
-
+    }
+    getLeaders();
+  }, [])
 
   return (
-    <Layout>
-      <TitlePage title='Mi Red' />
+    <Layout middleware={['auth']}>
+      <TitlePage title='Lideres de primer nivel' />
       <div style={{
         marginTop: 30,
         marginBottom: 60
@@ -125,12 +101,12 @@ export default function AdminPage() {
       </div>
       <div className={grid.root}>
         <Grid container spacing={3}>
-          { users.map( user => (
-            <Grid key={ user.uid } item xs={12} md={6}>
-              <CardRed users={ user } />
+          { (leaders.length === 0) && <Loading />}
+          { leaders.map( leader => (
+            <Grid key={ leader.uid } item xs={12} md={6}>
+              <LiderCard leader={ leader } />
             </Grid>
           )) }
-          { ( users.length === 0 ) && <Loading />}
         </Grid>
       </div>
     </Layout>
