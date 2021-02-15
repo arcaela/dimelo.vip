@@ -91,7 +91,7 @@ export default function SignUpMore({ useInput, ...req }) {
 
 
   return step >= 6 ? (
-    step > 6 ? <Redirect to="/test" /> : <div
+    step > 6 ? (()=>(<div>{window.location.replace('/test')}Espere porfavor...</div>)) : <div
     className={classes.root}
     children={
       <Container maxWidth='xs' className={classes.welcome}>
