@@ -135,8 +135,9 @@ export default function useTest(){
     };
     hooks.StepComponent = ({ steps=[], offset=0 })=>{
         if(step<offset || step>steps.length ) return null;
-        const Component = steps[step-offset];
-        const key = Component.prototype.constructor.name.toLowerCase().replace('step','');
+        const _o = steps[step-offset];
+        const Component = _o.render;
+        const key = _o.key;
         const Card = {
             ...inputs.cards[key],
             key,
@@ -144,7 +145,7 @@ export default function useTest(){
             yes:()=>setInputs({ cards:{ [key]:{value:true} } }),
             no:()=>setInputs({ cards:{ [key]:{value:false} } }),
             disabled:(inputs.cards[key]||{}).value===null,
-            checked:Boolean(inputs.cards[key].value),
+            checked:(inputs.cards[key]||{}).value===true,
         };
         return <Card.Component {...hooks} card={Card} />
     };
