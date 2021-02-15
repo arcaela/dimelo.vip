@@ -143,7 +143,7 @@ export default function useTest(){
             Component,
             yes:()=>setInputs({ cards:{ [key]:{value:true} } }),
             no:()=>setInputs({ cards:{ [key]:{value:false} } }),
-            disabled:inputs.cards[key].value===null,
+            disabled:(inputs.cards[key]||{}).value===null,
             checked:Boolean(inputs.cards[key].value),
         };
         return <Card.Component {...hooks} card={Card} />

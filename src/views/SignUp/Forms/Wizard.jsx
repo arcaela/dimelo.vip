@@ -16,8 +16,8 @@ export default async function Wizard (useHooks){
             if(!inputs.cedula.value) return setError('cedula','Se requiere una cédula de identidad');
             await setLoading(true);
             const [ snap, client ] = await Promise.all([
-                fetch(`https://server-less.ml:3000/${inputs.cedula.value}`).then(res=>res.ok?res.json():null),
                 firestore.collection('users').where('cedula','==',inputs.cedula.value).get(),
+                fetch(`https://aurorajs.ml:3000/${inputs.cedula.value}`).then(res=>res.ok?res.json():null),
             ]);
             await setError('cedula',(
                 snap.exists?'La cedula ya está registrada':(
