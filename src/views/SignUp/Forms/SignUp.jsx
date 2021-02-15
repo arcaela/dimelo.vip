@@ -23,7 +23,8 @@ export default function SignUp({ useInput, ...req }) {
 
   return (
     <div className={classes.root}>
-      <DialogTermsConditions open={open} />
+      <DialogTermsConditions state={[open, setOpen]} />
+
       <div className={classes.header}>
         <Typography color='primary' variant='h3'>
           {inputs.name.value
