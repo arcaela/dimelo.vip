@@ -23,7 +23,7 @@ export default function usePatron(patron) {
                     label: 'Planificador Perseverante'
                 }
             default:
-                return {color:'#04E120', label: ''}
+                return {color:'transparent', label: ''}
         }
     }
 

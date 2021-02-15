@@ -10,6 +10,7 @@ import Grid from '@material-ui/core/Grid';
 import CardRed from '~/components/CardRed';
 import useAuth from '~/ServerLess/Hooks/useAuth';
 import Loading from '~/components/Loading';
+import NewCard from '~/components/NewCard';
 
 const gridStyles = makeStyles((theme) => ({
   root: {
@@ -37,13 +38,9 @@ export default function AdminPage() {
 
     const arraySearch = searchValue.split(' ').map( e=> e.toLocaleUpperCase() );
 
-    console.log({ select, arraySearch, searc: searchValue.toLocaleUpperCase() })
-      
     const result= await users.collection('users')
                               .where(select, 'in', arraySearch )
                               .get()
-  
-    console.log(  result.docs.map( e => e.data() ) )
 
   }
 
@@ -127,7 +124,7 @@ export default function AdminPage() {
         <Grid container spacing={3}>
           { users.map( user => (
             <Grid key={ user.uid } item xs={12} md={6}>
-              <CardRed users={ user } />
+              <NewCard users={ user } />
             </Grid>
           )) }
           { ( users.length === 0 ) && <Loading />}

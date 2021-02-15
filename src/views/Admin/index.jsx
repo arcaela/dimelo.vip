@@ -30,15 +30,10 @@ export default function AdminPage() {
     const users = firebase.firestore();
 
     const arraySearch = searchValue.split(' ').map( e=> e.toLocaleUpperCase() );
-
-    console.log({ select, arraySearch, searc: searchValue.toLocaleUpperCase() })
-      
+ 
     const result= await users.collection('users')
                               .where(select, 'in', arraySearch )
                               .get()
-  
-    console.log(  result.docs.map( e => e.data() ) )
-
   }
 
 

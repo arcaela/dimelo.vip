@@ -72,8 +72,6 @@ export default function MapGetLocation({
                         lng: event.latLng.lng(),
                     };
 
-                    console.log( data );
-
                     new google.maps.Marker({
                         position: event.latLng,
                         map: map,
