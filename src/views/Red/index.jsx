@@ -134,7 +134,7 @@ export default function AdminPage() {
             <Grid  item xs={12} >
               <h1 style={{
                 textAlign: 'center'
-              }}>No hay Usuarios es su Red</h1>
+              }}>No hay Usuarios en su Red</h1>
             </Grid>
           ) }
           
