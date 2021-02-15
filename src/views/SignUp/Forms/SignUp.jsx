@@ -23,7 +23,8 @@ export default function SignUp({ useInput, ...req }) {
 
   return (
     <div className={classes.root}>
-      <DialogTermsConditions open={open} />
+      <DialogTermsConditions state={[open, setOpen]} />
+
       <div className={classes.header}>
         <Typography color='primary' variant='h3'>
           {inputs.name.value
@@ -69,7 +70,7 @@ export default function SignUp({ useInput, ...req }) {
         </StepComponent>
       </div>
       <div className={classes.actions}>
-        {step === 0 && (
+        {step === 1 && (
           <div className='terms'>
             Al continuar aceptas nuestras{' '}
             <strong href='#' onClick={() => setOpen(!open)}>
