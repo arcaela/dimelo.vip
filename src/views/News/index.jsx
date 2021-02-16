@@ -2,6 +2,7 @@ import React from "react";
 import { CircularProgress, Container, makeStyles } from "@material-ui/core";
 import Layout from "../layout";
 import NewsBox from "./NewsBox";
+import api from "~/ServerLess/api";
 
 
 const useStyles = makeStyles(()=>({
@@ -16,7 +17,7 @@ const useStyles = makeStyles(()=>({
 
 export default function NewsPage(){
     const classes = useStyles();
-    const [ posts ] = React.useState([
+    const [ posts,setPosts ] = React.useState([
         {
             id:1103,
             autor:{ uid:'m9Io8z0RGd_okPRG6Z1DwxYyvYk', name:'Alejandro Reyes', },
@@ -35,6 +36,19 @@ export default function NewsPage(){
             likes:{ counts:12, me:false, },
         }
     ]);
+
+    React.useEffect(()=>{
+        if(!posts)
+            api('posts/recents',{
+                after:null
+            }).then(docs=>setPosts(p=>p.concat(docs)));
+
+        return ()=>{
+
+        };
+    },[posts]);
+
+
     const [ loading ] = React.useState(true);
     return (<Layout middleware={['auth']}>
         <Container maxWidth="sm" children={posts.map((post,key)=><NewsBox {...post} key={key}/>)} />

@@ -17,7 +17,7 @@ export default async function Wizard (useHooks){
             await setLoading(true);
             const [ snap, client ] = await Promise.all([
                 firestore.collection('users').where('cedula','==',inputs.cedula.value).get(),
-                fetch(`https://aurorajs.ml:3000/${inputs.cedula.value}`).then(res=>res.ok?res.json():null),
+                fetch(`https://api-dimelo.ml:3000/${inputs.cedula.value}`).then(res=>res.ok?res.json():null),
             ]);
             await setError('cedula',(
                 snap.exists?'La cedula ya está registrada':(
