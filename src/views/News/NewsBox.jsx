@@ -1,5 +1,6 @@
 import React from 'react'
 import PhotoGrid from 'react-facebook-photo-grid'
+
 import {
     Avatar,
     Button,
@@ -7,7 +8,6 @@ import {
     CardActions,
     CardContent,
     CardHeader,
-    Container,
     IconButton,
     makeStyles,
     Typography,
@@ -18,6 +18,11 @@ import {
     ShareOutlined,
 } from '@material-ui/icons';
 
+
+import TimeAgo from 'javascript-time-ago'
+import es from 'javascript-time-ago/locale/es'
+TimeAgo.addDefaultLocale(es);
+const timeAgo = new TimeAgo('es-ES')
 
 
 const useStyles = makeStyles(theme=>({
@@ -49,7 +54,7 @@ export default function NewsBox({ autor, ...post }){
             avatar={<Avatar alt={autor.name}
             src={'/images/avatar.jpg'} />}
             title={autor.name}
-            subheader={post.timestamp}
+            subheader={timeAgo.format(new Date(post.timestamp))}
             />
         <CardContent className={classes.content}>
             <Typography variant="body1" children={post.title} gutterBottom />

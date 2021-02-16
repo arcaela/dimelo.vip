@@ -22,7 +22,6 @@ import { useStylesSingUpMore } from '../styles/singupmore.styles';
 import MapGetLocation from '../components/MapGetLocation';
 
 import { Loader } from 'google-maps';
-import { Redirect } from 'react-router-dom';
 import { reference } from '~/ServerLess';
 
 const google = ( new Loader('AIzaSyBntYCJH39TRORGUSYpYHHrcg4Etk8Y208', {}) ).load();
