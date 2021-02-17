@@ -3,14 +3,15 @@ import Layout from '../layout';
 import SignUp from './Forms/SignUp';
 import SignUpMore from './Forms/SignUpMore';
 import useInput from '../../ServerLess/Hooks/useInput';
-import { useStylesIndex } from './styles/index.styles';
+import useStyles from './styles/basic';
 import { Grid, Hidden, Typography, } from '@material-ui/core';
-export default function Auth({...req}){
-    const classes = useStylesIndex();
-    req.useInput = useInput();
-    const { step } = req.useInput;
+
+
+export default function Auth(req){
+    const classes = useStyles();
+    const { step } = useInput();
     return (<Layout fullPage middleware={['guest']}>
-        {step > 2 && <SignUpMore {...req} />}
+        {step > 2 && <SignUpMore req={req} />}
         {step < 3 && (<Grid container className={classes.root}>
             <Hidden smDown>
                 <Grid item xs={12} md={6} className={classes.gridLeft}>
