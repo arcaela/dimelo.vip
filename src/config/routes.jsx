@@ -1,14 +1,13 @@
 const { Route } = require('@arcaela/aurora/hooks');
-const { config } = require('../views/layout');
+const { NaturePeople, PeopleAlt, PeopleAltOutlined, Message } = require('@material-ui/icons');
 
-const { ChromeReaderMode, NaturePeople, PeopleAltOutlined } = require('@material-ui/icons');
-const Auth = require('../views/Auth').default;
-Route.case = (cases, Component)=>cases.map(path=>Route(path, Component));
-
-config.routes.push(
-    {path:'/news',icon:ChromeReaderMode,label:'Noticias'},
-    {path:'/red',icon:PeopleAltOutlined,label:'Red'},
+require('~/views/layout').layout.routes.push(
+    {path:'/news',icon:NaturePeople,label:'Noticias'},
+    {path:'/messages',icon:Message,label:'Mensajes', show({auth}){ return auth && auth.role==='admin'; }},
+    {path:'/admin',icon:PeopleAltOutlined,label:'Líderes de primer nivel', show({auth}){return auth && auth.role==='admin';}},
+    {path:'/admin/movimiento',icon:PeopleAlt,label:'Movimiento', show({auth}){return auth && auth.role!=='user';}},
     {path:'/test',icon:NaturePeople,label:'Test de personalidad'},
+    {path:'/red',icon:NaturePeople,label:'Red'},
 );
 
 /* Auth */
@@ -25,3 +24,4 @@ Route('/admin/:slug(.*)?', require('~/views/Admin').default);
 //Route('/admin/movimiento', require('~/views/Admin/Movimiento').default);
 //Route('/admin/noticias/add', require('~/views/Admin/News/AddNews').default);
 Route('/red', require('~/views/Red').default);
+
