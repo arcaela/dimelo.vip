@@ -1,4 +1,3 @@
-
 import TitlePage from '../../../components/TitlePage';
 import firebase from '../../../config/firebase';
 import { makeStyles } from '@material-ui/core/styles';

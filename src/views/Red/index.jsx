@@ -1,4 +1,4 @@
-import Layout from '~/views/layout'
+import Layout from '~/views/layout';
 import TitlePage from '~/components/TitlePage';
 
 import firebase from '~/config/firebase';
@@ -33,14 +33,13 @@ export default function AdminPage() {
   const [users, setUsers] = useState(null);
 
   const search = async () => {
-    const users = firebase.firestore();
+    const users = firebase.firestore()
 
-    const arraySearch = searchValue.split(' ').map( e=> e.toLocaleUpperCase() );
+    const arraySearch = searchValue.split(' ').map( e => e.toLocaleUpperCase() )
 
     await users.collection('users')
                .where(select, 'in', arraySearch )
                .get()
-
   }
 
 
@@ -77,7 +76,6 @@ export default function AdminPage() {
     }
   }, [user, currentUser])
 
-
   useEffect(() => {
     const getUsers = async () => {
       if( !currentUser ) return;
@@ -97,9 +95,6 @@ export default function AdminPage() {
     };
     getUsers();
   }, [currentUser]);
-
-
-
   return (
     <Layout>
       <TitlePage title='Mi Red' />
@@ -121,7 +116,6 @@ export default function AdminPage() {
       </div>
       <div className={grid.root}>
         <Grid container spacing={3}>
-
           {(users && users?.length > 0) && users.map( user => (
             <Grid key={ user.uid } item xs={12} md={6}>
               <NewCard users={ user } />
@@ -134,10 +128,9 @@ export default function AdminPage() {
             <Grid  item xs={12} >
               <h1 style={{
                 textAlign: 'center'
-              }}>No hay Usuarios es su Red</h1>
+              }}>No hay usuarios en su Red en este momento</h1>
             </Grid>
           ) }
-          
         </Grid>
       </div>
     </Layout>
