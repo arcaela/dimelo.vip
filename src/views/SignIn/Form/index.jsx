@@ -4,7 +4,7 @@ import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import api from '~/ServerLess/api';
-import { useStylesSingUp } from '~/views/SignUp/styles/signup.styles';
+import useStylesSingUp from '~/views/SignUp/styles/SignUp';
 import useInput  from '~/ServerLess/Hooks/useInput'
 import { Link } from 'react-router-dom';
 import { Toolbar, Typography } from '@material-ui/core';

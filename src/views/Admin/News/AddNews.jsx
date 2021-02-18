@@ -19,7 +19,6 @@ import {
 } from '@material-ui/core';
 
 import Autocomplete from '@material-ui/lab/Autocomplete';
-
 import newsFireBase from './NewstFireBase';
 
 const newsStyle = makeStyles((theme) => ({
