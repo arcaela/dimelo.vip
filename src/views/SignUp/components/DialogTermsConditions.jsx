@@ -65,7 +65,7 @@ export default function DialogTermsConditions({ state:[open, setOpen], ...props 
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color='primary' variant='contained'>
-            Cerrar
+            acepto
           </Button>
         </DialogActions>
       </Dialog>
