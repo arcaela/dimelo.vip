@@ -17,6 +17,10 @@ Route(['/', '/signup'], require('~/views/SignUp').default);
 /* Pages */
 Route('/news', require('~/views/News').default);
 Route('/test', require('~/views/Test').default);
-Route('/admin', require('~/views/Admin').default);
-Route('/admin/movimiento', require('~/views/Admin/Movimiento').default);
+
+Route('/admin/:slug(.*)?', require('~/views/Admin').default);
+
+
+//Route('/admin/movimiento', require('~/views/Admin/Movimiento').default);
+//Route('/admin/noticias/add', require('~/views/Admin/News/AddNews').default);
 Route('/red', require('~/views/Red').default);
