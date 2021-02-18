@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import TitlePage from '../../../components/TitlePage';
-import Layout from '../../layout';
 
 import { withStyles } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
@@ -109,7 +108,7 @@ export default function Movimiento(){
     }, []);
     
     return (
-        <Layout middleware={['auth']}>
+        <>
             <TitlePage title="Movimiento" />
             <div className="">
             <StyledTabs value={value} onChange={handleChange} aria-label="styled tabs example">
@@ -129,6 +128,6 @@ export default function Movimiento(){
             <TabPanel value={value} index={1}>
                 <UserTab users={users} />
             </TabPanel>
-        </Layout>
+        </>
     )
 };
