@@ -15,6 +15,7 @@ const useStyles = makeStyles(theme=>({
         '& .MuiTypography-root':{ color:'#fff', cursor:'default', },
         '& .MuiTypography-h3':{ font:'normal normal bold 50px/71px Source Sans Pro', },
         '& .MuiTypography-subtitle2':{ font:'normal normal 300 20px/25px Source Sans Pro', },
+        [theme.breakpoints.down('sm')]:{ display:'none', },
     },
     gridRight:{
         cursor:'default',

@@ -2,8 +2,8 @@ import { Grid, Hidden, Typography } from '@material-ui/core';
 import React from 'react'
 import Login from './Form';
 import { loginStyles } from './Form/login.styles';
-import { useStylesIndex } from '../SignUp/styles/index.styles';
-import { useStylesSingUp } from '../SignUp/styles/signup.styles';
+import useStylesIndex from '../SignUp/styles';
+import useStylesSingUp from '../SignUp/styles/SignUp';
 import Layout from '../layout';
 export default function LoginPage() {
     const classes = useStylesIndex();

@@ -1,4 +1,5 @@
-const regions = {
+import { get } from 'lodash'
+const data = {
     "ANTIOQUIA": {
         "MEDELLIN": {
             "POPULAR": {
@@ -5393,12 +5394,19 @@ const regions = {
     }
 };
 
-regions.points = (dep, mun) => {
-    dep = dep.toUpperCase();
-    mun = mun.toUpperCase();
-    return (!(dep in regions) || !(mun in regions[dep])) ? [] :
-        Object.entries(regions[dep][mun]).reduce((all, [, points]) => {
-            return all.concat(...Object.keys(points));
-        }, []);
+
+const regions = {
+    json:()=>data,
+    all:Object.keys(data),
+    flat(p){ return this.deep(p,0)},
+    deep(path='', _=1, __=0){
+        return this.path(path).reduce((arr, key)=>(
+            arr.concat(this[__<_?'deep':'path'](`${path}.${key}`, _, (__+1)))
+        ),[]);
+    },
+    path:(path='')=>{
+        const r=((path && path.toString().match(/^.*\.$/))&&{})||get(data, path.toUpperCase(),{});
+        return Array.isArray(r)?r:Object.keys(r);
+    },
 };
 export default regions;
