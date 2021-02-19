@@ -176,8 +176,8 @@ export default function SignUpMore({ useInput, params:{referer} }){
           </StepComponent>
         </div>
         <div className={classes.actions}>
-          <div className={`active-step-${step}`} children={([0,0,0,]).map((e,key)=><FiberManualRecord key={key} />)} />
-          { step<5 && <Button variant="contained" style={{margin:'0',color:'black'}} onClick={()=>prevStep()} children="Volver" /> }
+          <div className={`active-step-${step}`} children={([1,2,3,]).map(key=><FiberManualRecord key={key} />)} />
+          <Button variant="contained" style={{margin:'0',color:'black'}} onClick={()=>prevStep()} children="Volver" />
           <Button variant='contained' color={step<5?'primary':'secondary'} disabled={loading}
             onClick={()=>wizard(useInput)}
             children={loading?<CircularProgress style={{ color: 'white' }} size={20} />:(
@@ -186,7 +186,7 @@ export default function SignUpMore({ useInput, params:{referer} }){
         </div>
         <Toolbar className={classes.Toolbar}>
           ¿Ya tienes una cuenta? &nbsp; 
-          <Typography> <Link to="/login">Ingresa</Link> </Typography>
+          <Typography> <Link to="/signin">Ingresa</Link> </Typography>
         </Toolbar>
       </Container>
     </div>)}

@@ -55,7 +55,7 @@ export default function SignUp({ useInput }){
         </div>
         <Toolbar className={classes.Toolbar}>
           ¿Ya tienes una cuenta? &nbsp; 
-          <Typography> <Link to="/login">Ingresa</Link> </Typography>
+          <Typography> <Link to="/signin">Ingresa</Link> </Typography>
         </Toolbar>
       </div>
   </>);
