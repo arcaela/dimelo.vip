@@ -26,9 +26,25 @@ class NewsFireBase {
     async getNews(){
         try {
             const news = await this.news.get()
-            return news.docs.map( (e) => e.data() )
+            return news.docs.map( (e) =>  Object.assign(e.data(), { id: e.id }) )
         } catch (error) {
-            console.log(error);
+            return error
+        }
+    }
+
+    getNewsRealTime(){
+        this.news
+        .onSnapshot(function(doc) {
+            console.log("Current data: ", doc.docs.map(e => console.log(e.data())));
+        });
+    }
+
+    async deleteNews(id){
+        try {
+            const deleteDoc = await this.news.doc(id).delete()
+            console.log(deleteDoc)
+        } catch (error) {
+            
         }
     }
 

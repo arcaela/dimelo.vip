@@ -1,6 +1,6 @@
 import { CircularProgress, Box, Button, makeStyles } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
-import React, { useEffect, useState } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
 import DataTable from 'react-data-table-component';
 import { useHistory } from 'react-router-dom';
 import ActionsButton from './ActionsButton';
@@ -19,6 +19,7 @@ const uStyle = makeStyles((theme)=>({
     }
 }))
 
+export const TableContext = createContext();
 
 const CustomProgress = () => {
   return (
@@ -69,7 +70,7 @@ export default function TableNews() {
       sortable: false,
     },
     {
-        cell: row  => <ActionsButton rows={row} />,
+        cell: row  => <ActionsButton row={row.id} />,
         button: true,
     },
   ];
@@ -94,30 +95,41 @@ export default function TableNews() {
 
   return (
     <>
-    <Box display="flex" justifyContent="space-between">
-      <FilterButton
-        buttonOnClick={ handleClear }
-        valueInput={ value }
-        onChangeInput={ (e) => setValue(e.target.value) }
-      />
-      <Button
-      endIcon={<AddIcon />}
-      onClick={ ()=> router.push('/admin/noticias/add') }
-      className={ classes.button }>
-        Agregar noticia
-      </Button>
-    </Box>
-      <DataTable
-        columns={ columns }
-        data={ filterRow }
-        progressPending={ pending }
-        noDataComponent='No se encontraron noticias con ese titulo'
-        progressComponent={ <CustomProgress /> }
-        pagination
-        paginationRowsPerPageOptions={[3, 15, 20, 25, 30]}
-        paginationResetDefaultPage={resetPaginationToggle}
-        persistTableHead
-      />
+    <TableContext.Provider 
+    value={{
+      data: rows,
+      setData:setRows
+    }}
+    >
+      <Box display="flex" mb={ 3 } justifyContent="space-between">
+        <FilterButton
+          buttonOnClick={ handleClear }
+          valueInput={ value }
+          onChangeInput={ (e) => setValue(e.target.value) }
+        />
+        <Button
+        style={{
+          paddingRight: 15,
+          paddingLeft: 15
+        }}
+        endIcon={<AddIcon />}
+        onClick={ ()=> router.push('/admin/noticias/add') }
+        className={ classes.button }>
+          Agregar noticia
+        </Button>
+      </Box>
+        <DataTable
+          columns={ columns }
+          data={ filterRow }
+          progressPending={ pending }
+          noDataComponent='No se encontraron noticias con ese titulo'
+          progressComponent={ <CustomProgress /> }
+          pagination
+          paginationRowsPerPageOptions={[3, 15, 20, 25, 30]}
+          paginationResetDefaultPage={resetPaginationToggle}
+          persistTableHead
+        />
+    </TableContext.Provider>
     </>
   );
 }
