@@ -8,18 +8,19 @@ import {
   TextField,
   Typography,
   makeStyles,
-  Button,
   MenuItem,
   Select,
   FormControl,
   InputLabel,
   FormHelperText,
-  LinearProgress,
-  Box
 } from '@material-ui/core';
 
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import newsFireBase from './NewstFireBase';
+import LinearProgressWithLabel from '~/components/LinearProgressWithLabel';
+import AlertToast from '~/components/AlertToast';
+import ButtonLoading from '~/components/ButtonLoading';
+import { useHistory } from 'react-router-dom';
 
 const newsStyle = makeStyles((theme) => ({
   form: {
@@ -31,26 +32,13 @@ const newsStyle = makeStyles((theme) => ({
   },
 }));
 
-function LinearProgressWithLabel(props) {
-  return (
-    <Box display="flex" alignItems="center">
-      <Box width="100%" mr={ 1 }>
-        <LinearProgress variant="determinate" {...props} />
-      </Box>
-      <Box minWidth={35}>
-        <Typography variant="body2" color="textSecondary">{`${Math.round(
-          props.value,
-        )}%`}</Typography>
-      </Box>
-    </Box>
-  );
-}
-
 export default function AddNews() {
   const classes = newsStyle();
 
+  const router = useHistory()
+
   const [values, setValues] = useState({
-    titulo: '',
+    title: '',
     perfil: '',
     comuna: [],
     to: [],
@@ -59,17 +47,21 @@ export default function AddNews() {
   });
 
   const [error, setError] = useState({
-    titulo: '',
+    title: '',
     perfil: '',
     comuna: '',
     to: '',
     image: '',
     content: '',
   });
-  
-  const [isValid, setIsValid] = useState(true);
 
   const [progress, setProgress] = useState(0);
+
+  const [success, setSuccess] = useState(false);
+
+  const [loading, setLoading] = useState(false)
+
+  const [message, setMessage] = useState('')
 
   const comunas = [
     { title: 'medellin', value: 'medellin' },
@@ -90,40 +82,66 @@ export default function AddNews() {
     { title: 'Usuario', value: 3 },
   ];
 
+  const verifyForm = () => {
+    let isValid = 0;
+
+    for (const value in values) {
+      if (values[value].length === 0) {
+        isValid = isValid + 1;
+      }
+    }
+
+    if ( isValid !== 0 ) {
+      setLoading(false);
+      return false;
+    }
+    
+    if( isValid === 0 ){
+      return true;
+    }
+  };
+
+  const reset = () => {
+    setValues({
+      title: '',
+      perfil: '',
+      comuna: [],
+      to: [],
+      image: '',
+      content: '',
+    })
+    setProgress(0)
+  }
+
   const handlerSubmit = async (e) => {
     e.preventDefault();
 
-    for (const key in values) {
-        if( values[key].length === 0 ){
-          setError((prev) => ({
-            ...prev,
-            [key]: "Este Campo No Puede Estar Vacio",
-          }));
-          setIsValid(false);
-        }
-    }
+    setLoading(true)
 
-    for (const key in values) {
-      if( values[key].length > 0 ){
-        setIsValid(true);
+    for (const value in values) {
+      if (values[value].length === 0) {
         setError((prev) => ({
           ...prev,
-          [key]: "",
+          [value]: 'Este Campo No Puede Estar Vacio',
         }));
-      }else{
-        setIsValid(false);
       }
     }
+
+    const isValid = verifyForm();
 
     try {
-      if(isValid){
-        const news = await newsFireBase.addNews(values);
-        console.log('llegue',news.id);
+
+      if (isValid) {
+        await newsFireBase.addNews(values);
+        setMessage('Publicada');
+        setSuccess(!success);
+        setLoading(false)
+        reset()
+        router.push('/admin/noticias/')
       }
     } catch (e) {
-      console.log(e);
+      setLoading(false)
     }
-
   };
 
   const handlerOnChange = (e) => {
@@ -141,7 +159,6 @@ export default function AddNews() {
   };
 
   const handleUploadSuccess = async (filename) => {
-
     const storageRef = newsFireBase.getImagenRef();
 
     const name = await filename;
@@ -158,15 +175,21 @@ export default function AddNews() {
       .catch(function (error) {
         console.log(error);
       });
-
   };
 
   const handlerOnProgress = (progress) => {
-    setProgress(progress)
-  }
+    setProgress(progress);
+  };
 
   return (
     <>
+      {success && (<AlertToast
+        open={success}
+        handleClose={() => setSuccess(!success)}
+        hideDuration={5000}
+        severity='success'
+        message={ message }
+      />)}
       <TitlePage title='Agregar noticia' />
       <Breadcrumbs>
         <Typography>Noticias</Typography>
@@ -176,18 +199,20 @@ export default function AddNews() {
         <Grid spacing={5} container justify='space-around'>
           <Grid item xs={12} md={5}>
             <TextField
-              value={values.titulo}
-              name='titulo'
+              value={values.title}
+              name='title'
               label='Titulo de Noticias'
               onChange={(e) => handlerOnChange(e)}
               fullWidth
-              error={ error.titulo ? true : false }
-              helperText={ error.titulo ? error.titulo : '' }
+              error={error.title ? true : false}
+              helperText={error.title ? error.title : ''}
             />
           </Grid>
           <Grid item xs={12} md={5}>
-            <FormControl className={classes.formControl} 
-            error={  error.perfil ? true : false  }>
+            <FormControl
+              className={classes.formControl}
+              error={error.perfil ? true : false}
+            >
               <InputLabel id='perfil'>Tipo de personalidad</InputLabel>
               <Select
                 fullWidth
@@ -202,76 +227,113 @@ export default function AddNews() {
                   </MenuItem>
                 ))}
               </Select>
-              { error.perfil && <FormHelperText>{ error.perfil }</FormHelperText> }
+              {error.perfil && <FormHelperText>{error.perfil}</FormHelperText>}
             </FormControl>
           </Grid>
           <Grid item xs={12} md={5}>
-          <FormControl 
-          className={classes.formControl}
-          error={  error.comuna ? true : false  }
-          >
-            <Autocomplete
-              multiple
-              options={ comunas }
-              inputValue=''
-              name='comuna'
-              onChange={(event, newValue) => {
-                handlerOnAutoComplete('comuna', newValue);
-              }}
-              getOptionSelected={(option, value) => {
-                return option.value === value.value;
-              }}
-              getOptionLabel={(option) => option.title}
-              renderInput={(params) => (
-                <TextField {...params} label='Comuna' placeholder='Comuna' />
-              )}
-            />
-            { error.comuna && <FormHelperText>{ error.comuna }</FormHelperText> }
-          </FormControl>
+            <FormControl
+              className={classes.formControl}
+              error={error.comuna ? true : false}
+            >
+              <Autocomplete
+                multiple
+                options={comunas}
+                inputValue=''
+                name='comuna'
+                onChange={(event, newValue) => {
+                  handlerOnAutoComplete('comuna', newValue);
+                }}
+                getOptionSelected={(option, value) => {
+                  return option.value === value.value;
+                }}
+                getOptionLabel={(option) => option.title}
+                renderInput={(params) => (
+                  <TextField {...params} label='Comuna' placeholder='Comuna' />
+                )}
+              />
+              {error.comuna && <FormHelperText>{error.comuna}</FormHelperText>}
+            </FormControl>
           </Grid>
           <Grid item xs={12} md={5}>
-          <FormControl 
-          className={classes.formControl}
-          error={  error.to ? true : false  }
-          >
-            <Autocomplete
-              multiple
-              options={usersTypes}
-              getOptionLabel={(option) => option.title}
-              inputValue=''
-              name='to'
-              onChange={(event, newValue) => {
-                handlerOnAutoComplete('to', newValue);
-              }}
-              getOptionSelected={(option, value) => {
-                return option.value === value.value;
-              }}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label='Enviar a'
-                  placeholder='Enviar a'
-                />
-              )}
-            />
-            { error.to && <FormHelperText>{ error.to }</FormHelperText> }
+            <FormControl
+              className={classes.formControl}
+              error={error.to ? true : false}
+            >
+              <Autocomplete
+                multiple
+                options={usersTypes}
+                getOptionLabel={(option) => option.title}
+                inputValue=''
+                name='to'
+                onChange={(event, newValue) => {
+                  handlerOnAutoComplete('to', newValue);
+                }}
+                getOptionSelected={(option, value) => {
+                  return option.value === value.value;
+                }}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label='Enviar a'
+                    placeholder='Enviar a'
+                  />
+                )}
+              />
+              {error.to && <FormHelperText>{error.to}</FormHelperText>}
             </FormControl>
           </Grid>
           <Grid item xs={12} md={11}>
             <FormControl
               className={classes.formControl}
-              error={  error.image ? true : false  }
+              error={error.image ? true : false}
             >
-              <FileUploader
-                accept='image/*'
-                name='imagenNews'
-                randomizeFilename
-                storageRef={newsFireBase.getImagenRef()}
-                onUploadSuccess={handleUploadSuccess}
-                onProgress={ handlerOnProgress }
-              />
-              { ( progress > 0 ) && <LinearProgressWithLabel color="secondary" value={ progress }  /> }
-              { error.image && <FormHelperText>{ error.image }</FormHelperText> }
+              <div style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+                <label style={{
+                  backgroundColor: '#82D827', 
+                  color: 'white',
+                  borderRadius: 4,
+                  width: '50%',
+                  padding: '.5rem',
+                  cursor: 'pointer'}}>
+                    Subir Imagen
+                  <FileUploader
+                    hidden
+                    accept='image/*'
+                    name='imagenNews'
+                    randomizeFilename
+                    storageRef={newsFireBase.getImagenRef()}
+                    onUploadSuccess={handleUploadSuccess}
+                    onProgress={handlerOnProgress}
+                  />
+                </label>
+
+                {values.image && (
+                  <div style={{
+                    padding: '.5rem',
+                    maxWidth: '50%',
+                    minWidth: '50%',
+                    height: 'auto'
+                  }}>
+                    <img 
+                    style={{
+                      maxWidth: '100%',
+                      height: 'auto',
+                    }}
+                    alt="imagen"
+                    src={values.image} />
+                  </div>
+                )}
+              </div>
+
+
+              {progress > 0 && (
+                <LinearProgressWithLabel color='secondary' value={progress} />
+              )}
+              {error.image && <FormHelperText>{error.image}</FormHelperText>}
             </FormControl>
           </Grid>
           <Grid item xs={12} md={11}>
@@ -284,14 +346,19 @@ export default function AddNews() {
               multiline={true}
               label='Contenido'
               fullWidth
-              error={ error.content ? true : false }
-              helperText={ error.content ? error.content : '' }
+              error={error.content ? true : false}
+              helperText={error.content ? error.content : ''}
             />
           </Grid>
           <Grid justify='center' container>
-            <Button variant='contained' type='submit' color='secondary'>
+            <ButtonLoading
+            loading={ loading } 
+            variant='contained' 
+            type='submit'
+            value="Publicar"
+            color='secondary'>
               Enviar
-            </Button>
+            </ButtonLoading>
           </Grid>
         </Grid>
       </form>
