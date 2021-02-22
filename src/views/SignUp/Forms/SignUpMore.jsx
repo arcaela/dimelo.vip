@@ -18,6 +18,7 @@ import { reference } from '~/ServerLess';
 import BrandSVG from '~/images/brand.svg';
 import regions from '../components/regions';
 import useStyles from '../styles/SignUpMore';
+import GoogleMaps from '../components/GoogleMaps';
 import { FiberManualRecord, Info } from '@material-ui/icons';
 import { Autocomplete as MuiAutocomplete } from '@material-ui/lab';
 
@@ -168,7 +169,7 @@ export default function SignUpMore({ useInput, params:{referer} }){
             </FormControl>
           </StepComponent>
           <StepComponent step={4}>
-            <div style={{margin:'auto'}}> Pronto te mostraremos el mapa </div>
+            <GoogleMaps onChange={event=>inputs('address.value', event.latLng.toJSON())} />
           </StepComponent>
           <StepComponent step={5}>
             <InputField FormControlProps={{fullWidth:true}} name="adults" label="¿Cuantos son mayores de edad?" />

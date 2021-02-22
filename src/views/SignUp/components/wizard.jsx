@@ -10,6 +10,7 @@ export default async function wizard (useInput){
         setInputs,
         setLoading,
     } = useInput;
+    console.log({...inputs})
     switch (step) {
         // case 1:
         //     if(!inputs.cedula.value) return setError('cedula','Se requiere una cédula de identidad');
