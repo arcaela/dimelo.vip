@@ -30,6 +30,18 @@ const CustomProgress = () => {
   );
 };
 
+const Audiencia = ({row}) => {
+  console.log(row);
+
+  const audiencia = []
+
+  return (
+    <span>
+     
+    </span>
+  )
+}
+
 export default function TableNews() {
 
   const classes = uStyle();
@@ -56,8 +68,8 @@ export default function TableNews() {
     },
     {
       name: 'Tipo de Audiencia',
-      selector: 'to',
-      sortable: false,
+      cell: row  => <Audiencia row={ row } />,
+      button: true,
     },
     {
       name: 'Tipo de personalidad',
@@ -95,11 +107,11 @@ export default function TableNews() {
 
   return (
     <>
-    <TableContext.Provider 
-    value={{
-      data: rows,
-      setData:setRows
-    }}
+    <TableContext.Provider
+      value={{
+        data: rows,
+        setData:setRows
+      }}
     >
       <Box display="flex" mb={ 3 } justifyContent="space-between">
         <FilterButton
@@ -113,7 +125,7 @@ export default function TableNews() {
           paddingLeft: 15
         }}
         endIcon={<AddIcon />}
-        onClick={ ()=> router.push('/admin/noticias/add') }
+        onClick={ ()=> router.push('/admin/news/add') }
         className={ classes.button }>
           Agregar noticia
         </Button>
@@ -125,7 +137,6 @@ export default function TableNews() {
           noDataComponent='No se encontraron noticias con ese titulo'
           progressComponent={ <CustomProgress /> }
           pagination
-          paginationRowsPerPageOptions={[3, 15, 20, 25, 30]}
           paginationResetDefaultPage={resetPaginationToggle}
           persistTableHead
         />

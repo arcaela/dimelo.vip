@@ -20,3 +20,4 @@ Route('/news', require('~/views/News').default);
 Route('/red', require('~/views/Red').default);
 Route('/test', require('~/views/Test').default);
 Route('/admin/:slug(.*)?', require('~/views/Admin').default);
+// admin/noticias/edit/4arwetesdrt

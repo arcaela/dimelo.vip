@@ -1,6 +1,6 @@
 import React from 'react'
 import { CustomImput, useContainer } from '~/components/SelectSearch/select.style'
-import {SearchIcon, CloseSharp} from '@material-ui/icons';
+import { CloseSharp } from '@material-ui/icons';
 import { IconButton } from '@material-ui/core';
 
 export default function FilterButton({

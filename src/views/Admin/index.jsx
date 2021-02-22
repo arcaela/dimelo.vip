@@ -1,18 +1,23 @@
 import React from 'react'
 import Layout from '../layout'
 import AdminPage from './Home'
-import AddNews from './News/AddNews';
+import AddNews from './News/AddNews'
 import Movimiento from './Movimiento'
-import ManagerNews from './News/ManagerNews';
+import EditNews from './News/EditNews'
+import ManagerNews from './News/ManagerNews'
+import { useRouteMatch } from 'react-router-dom'
 
-export default function Admin({ params }) {
-    console.log( params.slug )
+export default function Admin({ params}) {
+
+    const edit = useRouteMatch( { path:'/admin/news/edit/:id' } )
+
     return (        
         <Layout middleware={['auth']} >
-            { params.slug === '' && <AdminPage /> }
-            { params.slug === 'noticias/add' && <AddNews /> }
-            { params.slug === 'noticias/' && <ManagerNews /> }
-            { params.slug === 'movimiento' && <Movimiento /> }
+            { (params.slug === '' || params.slug === '/') && <AdminPage /> }
+            { (params.slug === 'news/add' || params.slug === 'news/add/' ) && <AddNews /> }
+            { (params.slug === 'news/' || params.slug === 'news') && <ManagerNews /> }
+            { (params.slug === 'movimiento' || params.slug === 'movimiento/') && <Movimiento /> }
+            { edit?.isExact && edit?.params?.id && <EditNews id={edit?.params?.id} /> }
         </Layout>
     )
 }

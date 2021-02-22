@@ -19,6 +19,22 @@ class NewsFireBase {
         }
     }
 
+    async addNewsById(id){
+        try {
+            return await this.news.doc(id).get();
+        } catch (error) {
+            return error
+        }
+    }
+
+    async updateNews(id, update){
+        try {
+            return await this.news.doc(id).update(update);
+        } catch (e) {
+            return e
+        }
+    }
+
     getImagenRef(){
         return this.imagesRef;
     }
@@ -30,13 +46,6 @@ class NewsFireBase {
         } catch (error) {
             return error
         }
-    }
-
-    getNewsRealTime(){
-        this.news
-        .onSnapshot(function(doc) {
-            console.log("Current data: ", doc.docs.map(e => console.log(e.data())));
-        });
     }
 
     async deleteNews(id){

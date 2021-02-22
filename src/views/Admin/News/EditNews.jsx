@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
+
 import TitlePage from '~/components/TitlePage';
 import FileUploader from 'react-firebase-file-uploader';
 
@@ -23,6 +24,7 @@ import ButtonLoading from '~/components/ButtonLoading';
 import { useHistory } from 'react-router-dom';
 import regions from '~/views/SignUp/components/regions';
 
+
 const newsStyle = makeStyles((theme) => ({
   form: {
     marginBottom: 30,
@@ -33,11 +35,10 @@ const newsStyle = makeStyles((theme) => ({
   },
 }));
 
-export default function AddNews() {
-
+export default function EditNews({ id }) {
   const classes = newsStyle();
 
-  const router = useHistory()
+  const router = useHistory();
 
   const [values, setValues] = useState({
     title: '',
@@ -61,9 +62,10 @@ export default function AddNews() {
 
   const [success, setSuccess] = useState(false);
 
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
-  const [message, setMessage] = useState('')
+  const [message, setMessage] = useState('');
+
   const [comunas, setComunas] = useState('')
 
   const perfiles = [
@@ -89,12 +91,12 @@ export default function AddNews() {
       }
     }
 
-    if ( isValid !== 0 ) {
+    if (isValid !== 0) {
       setLoading(false);
       return false;
     }
-    
-    if( isValid === 0 ){
+
+    if (isValid === 0) {
       return true;
     }
   };
@@ -107,14 +109,14 @@ export default function AddNews() {
       to: [],
       image: '',
       content: '',
-    })
-    setProgress(0)
-  }
+    });
+    setProgress(0);
+  };
 
   const handlerSubmit = async (e) => {
     e.preventDefault();
 
-    setLoading(true)
+    setLoading(true);
 
     for (const value in values) {
       if (values[value].length === 0) {
@@ -128,17 +130,16 @@ export default function AddNews() {
     const isValid = verifyForm();
 
     try {
-
       if (isValid) {
-        await newsFireBase.addNews(values);
+        await newsFireBase.updateNews(id, values);
         setMessage('Publicada');
         setSuccess(!success);
-        setLoading(false)
-        reset()
-        router.push('/admin/news/')
+        setLoading(false);
+        reset();
+        router.push('/admin/news/');
       }
     } catch (e) {
-      setLoading(false)
+      setLoading(false);
     }
   };
 
@@ -180,6 +181,23 @@ export default function AddNews() {
   };
 
   useEffect(() => {
+    const getEditNews = async () => {
+      if (!id) return;
+      try {
+        const data = await newsFireBase.addNewsById(id);
+        if (data.exists) {
+          setValues(data.data());
+        } else {
+          router.push('/admin/news/');
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getEditNews();
+  }, [id, router]);
+
+  useEffect(() => {
 
     if(comunas.length === 0){
       const data = regions.all;
@@ -193,13 +211,15 @@ export default function AddNews() {
 
   return (
     <>
-      {success && (<AlertToast
-        open={success}
-        handleClose={() => setSuccess(!success)}
-        hideDuration={5000}
-        severity='success'
-        message={ message }
-      />)}
+      {success && (
+        <AlertToast
+          open={success}
+          handleClose={() => setSuccess(!success)}
+          hideDuration={5000}
+          severity='success'
+          message={message}
+        />
+      )}
       <TitlePage title='Agregar noticia' />
       <Breadcrumbs>
         <Typography>Noticias</Typography>
@@ -300,19 +320,24 @@ export default function AddNews() {
               className={classes.formControl}
               error={error.image ? true : false}
             >
-              <div style={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-                <label style={{
-                  backgroundColor: '#82D827', 
-                  color: 'white',
-                  borderRadius: 4,
-                  width: '50%',
-                  padding: '.5rem',
-                  cursor: 'pointer'}}>
-                    Subir Imagen
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+              >
+                <label
+                  style={{
+                    backgroundColor: '#82D827',
+                    color: 'white',
+                    borderRadius: 4,
+                    width: '50%',
+                    padding: '.5rem',
+                    cursor: 'pointer',
+                  }}
+                >
+                  Subir Imagen
                   <FileUploader
                     hidden
                     accept='image/*'
@@ -325,23 +350,25 @@ export default function AddNews() {
                 </label>
 
                 {values.image && (
-                  <div style={{
-                    padding: '.5rem',
-                    maxWidth: '50%',
-                    minWidth: '50%',
-                    height: 'auto'
-                  }}>
-                    <img 
+                  <div
                     style={{
-                      maxWidth: '100%',
+                      padding: '.5rem',
+                      maxWidth: '50%',
+                      minWidth: '50%',
                       height: 'auto',
                     }}
-                    alt="imagen"
-                    src={values.image} />
+                  >
+                    <img
+                      style={{
+                        maxWidth: '100%',
+                        height: 'auto',
+                      }}
+                      alt='imagen'
+                      src={values.image}
+                    />
                   </div>
                 )}
               </div>
-
 
               {progress > 0 && (
                 <LinearProgressWithLabel color='secondary' value={progress} />
@@ -365,12 +392,13 @@ export default function AddNews() {
           </Grid>
           <Grid justify='center' container>
             <ButtonLoading
-            loading={ loading } 
-            variant='contained' 
-            type='submit'
-            value="Publicar"
-            color='secondary'>
-              Enviar
+              loading={loading}
+              variant='contained'
+              type='submit'
+              value='Publicar'
+              color='secondary'
+            >
+              Actualizar
             </ButtonLoading>
           </Grid>
         </Grid>
