@@ -1,6 +1,6 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import _CircularProgress from '@material-ui/core/CircularProgress';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 
 
@@ -15,11 +15,11 @@ export default withStyles((theme) => ({
         animationDuration: '1000ms',
         color: theme.palette.secondary.light,
     },
-  }))(function CircularProgress(attrs) {
+  }))(attrs=>{
     const { classes, ...props } = attrs;
     return (
       <div className={classes.root}>
-        <_CircularProgress size={40} thickness={2} className={classes.bottom} {...props} value={100} />
+        <CircularProgress size={40} thickness={2} className={classes.bottom} {...props} value={100} />
       </div>
     );
   });

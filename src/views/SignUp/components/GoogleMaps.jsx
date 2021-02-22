@@ -58,7 +58,7 @@ export default function GoogleMaps({ onChange }){
             });
         }
         return ()=>{};
-    },[Maps, setMaps]);
+    },[Maps, setMaps, onChange]);
     return (<div style={{ width:'100%', margin:'20px auto',textAlign:'center', position:'relative', height:!Maps?0:'calc(100vh - 300px)', }}>
         { !Maps && <CircularProgress /> }
         <div style={{ top:0, left:0, width:'100%', height:'100%', borderRadius:10, position:'absolute', }} ref={Viewport} />
