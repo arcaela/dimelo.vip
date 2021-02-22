@@ -220,10 +220,10 @@ export default function EditNews({ id }) {
           message={message}
         />
       )}
-      <TitlePage title='Agregar noticia' />
+      <TitlePage title='Editar noticia' />
       <Breadcrumbs>
         <Typography>Noticias</Typography>
-        <Typography color='textPrimary'>Agregar Noticia</Typography>
+        <Typography color='textPrimary'>Editar Noticia</Typography>
       </Breadcrumbs>
       <form onSubmit={(e) => handlerSubmit(e)} className={classes.form}>
         <Grid spacing={5} container justify='space-around'>
@@ -395,11 +395,9 @@ export default function EditNews({ id }) {
               loading={loading}
               variant='contained'
               type='submit'
-              value='Publicar'
+              value='Actualizar'
               color='secondary'
-            >
-              Actualizar
-            </ButtonLoading>
+            />
           </Grid>
         </Grid>
       </form>
