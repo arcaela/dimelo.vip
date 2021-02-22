@@ -14,6 +14,8 @@ import {
   FormControl,
   InputLabel,
   FormHelperText,
+  Button,
+  Box
 } from '@material-ui/core';
 
 import Autocomplete from '@material-ui/lab/Autocomplete';
@@ -21,6 +23,7 @@ import newsFireBase from './NewstFireBase';
 import LinearProgressWithLabel from '~/components/LinearProgressWithLabel';
 import AlertToast from '~/components/AlertToast';
 import ButtonLoading from '~/components/ButtonLoading';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import { useHistory } from 'react-router-dom';
 import regions from '~/views/SignUp/components/regions';
 
@@ -221,10 +224,18 @@ export default function EditNews({ id }) {
         />
       )}
       <TitlePage title='Editar noticia' />
-      <Breadcrumbs>
-        <Typography>Noticias</Typography>
-        <Typography color='textPrimary'>Editar Noticia</Typography>
-      </Breadcrumbs>
+      <Box display="flex" justifyContent="space-between">
+        <Breadcrumbs>
+          <Typography>Noticias</Typography>
+          <Typography color='textPrimary'>Editar Noticia</Typography>
+        </Breadcrumbs>
+        <Button
+        startIcon={<ArrowBackIosIcon />}
+        onClick={ ()=> router.push('/admin/news/') }
+        >
+          Volver
+        </Button>
+      </Box>
       <form onSubmit={(e) => handlerSubmit(e)} className={classes.form}>
         <Grid spacing={5} container justify='space-around'>
           <Grid item xs={12} md={5}>

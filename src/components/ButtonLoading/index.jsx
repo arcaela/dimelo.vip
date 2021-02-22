@@ -11,7 +11,6 @@ const useStyles = makeStyles((theme) => ({
     color: '#fff',
   },
   buttonProgress: {
-    background: theme.palette.secondary.main,
     color: '#fff',
     position: 'absolute',
     top: '50%',

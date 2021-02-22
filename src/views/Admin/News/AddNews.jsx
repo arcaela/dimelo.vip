@@ -13,6 +13,8 @@ import {
   FormControl,
   InputLabel,
   FormHelperText,
+  Box,
+  Button
 } from '@material-ui/core';
 
 import Autocomplete from '@material-ui/lab/Autocomplete';
@@ -22,6 +24,7 @@ import AlertToast from '~/components/AlertToast';
 import ButtonLoading from '~/components/ButtonLoading';
 import { useHistory } from 'react-router-dom';
 import regions from '~/views/SignUp/components/regions';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 
 const newsStyle = makeStyles((theme) => ({
   form: {
@@ -201,10 +204,18 @@ export default function AddNews() {
         message={ message }
       />)}
       <TitlePage title='Agregar noticia' />
-      <Breadcrumbs>
-        <Typography>Noticias</Typography>
-        <Typography color='textPrimary'>Agregar Noticia</Typography>
-      </Breadcrumbs>
+      <Box display="flex" justifyContent="space-between">
+        <Breadcrumbs>
+          <Typography>Noticias</Typography>
+          <Typography color='textPrimary'>Agregar Noticia</Typography>
+        </Breadcrumbs>
+        <Button
+        startIcon={<ArrowBackIosIcon />}
+        onClick={ ()=> router.push('/admin/news/') }
+        >
+          Volver
+        </Button>
+      </Box>
       <form onSubmit={(e) => handlerSubmit(e)} className={classes.form}>
         <Grid spacing={5} container justify='space-around'>
           <Grid item xs={12} md={5}>

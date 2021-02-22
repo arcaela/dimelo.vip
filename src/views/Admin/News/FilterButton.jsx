@@ -1,7 +1,8 @@
 import React from 'react'
-import { CustomImput, useContainer } from '~/components/SelectSearch/select.style'
-import { CloseSharp } from '@material-ui/icons';
+import { CustomImput, useContainer } from '~/components/SelectSearch/select.style';
 import { IconButton } from '@material-ui/core';
+import SearchIcon from '@material-ui/icons/Search';
+import CloseIcon from '@material-ui/icons/Close';
 
 export default function FilterButton({
     valueInput,
@@ -22,8 +23,10 @@ export default function FilterButton({
             <div style={{
                 marginLeft: -1
             }} className={ classes.buttonContainer }>
-                <IconButton onClick={ ()=> buttonOnClick() } className={ classes.button }>
-                    <CloseSharp />
+                <IconButton
+                onClick={ ()=> buttonOnClick() } 
+                className={ classes.button }>
+                    { valueInput.length === 0 ? <SearchIcon /> : <CloseIcon /> }
                 </IconButton>
             </div>
         </div>

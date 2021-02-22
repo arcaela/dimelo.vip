@@ -31,15 +31,18 @@ const CustomProgress = () => {
 };
 
 const Audiencia = ({row}) => {
-  console.log(row);
-
-  const audiencia = []
-
-  return (
-    <span>
-     
-    </span>
-  )
+  const texto = row.to.map((tipo) => {
+    if(tipo === 1){
+      return 'Lider de primer nivel'
+    }
+    if(tipo === 2){
+      return 'Lider de celula'
+    }
+    if(tipo === 3){
+      return 'Usuario'
+    }
+  })
+  return (<span>{texto.join(', ')}</span>)
 }
 
 export default function TableNews() {
