@@ -1,8 +1,6 @@
 import firebase from '../config/firebase'
 import { $store } from './Hooks/useAuth';
 import Users from './Collections/Users';
-import Posts from './Collections/Posts';
-import { create } from 'lodash';
 
 
 const routes = {
@@ -32,10 +30,7 @@ const routes = {
             // const auth = await auth();
             console.log($store.user);
         },
-        async create(_post_){
-
-
-        },
+        async create(_post_){ },
     },
 };
 

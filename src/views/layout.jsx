@@ -118,7 +118,9 @@ export default function Layout({ fullPage=false, middleware=true, children }){
     return parse(show)&&
     (<ListItem button to={path} component={_Link} selected={!!match}>
       <ListItemIcon children={
-        (typeof Icon==='object'&&typeof Icon.$$typeof=='symbol')?<Icon/>:Icon
+        (typeof Icon==='object'&&typeof Icon.$$typeof=='symbol')?<Icon/>:(
+          typeof Icon==='string'?<img src={Icon} alt={Icon} />:Icon
+        )
       }/>
       <ListItemText primary={label} />
     </ListItem>);
