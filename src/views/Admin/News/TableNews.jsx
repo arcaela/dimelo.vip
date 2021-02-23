@@ -31,7 +31,7 @@ const CustomProgress = () => {
 };
 
 const Audiencia = ({row}) => {
-  const texto = row.to.map((tipo) => {
+  const texto = (tipo) => {
     if(tipo === 1){
       return 'Lider de primer nivel'
     }
@@ -41,8 +41,8 @@ const Audiencia = ({row}) => {
     if(tipo === 3){
       return 'Usuario'
     }
-  })
-  return (<span>{texto.join(', ')}</span>)
+  }
+  return (<span>{texto(row.rol)}</span>)
 }
 
 export default function TableNews() {
@@ -81,7 +81,8 @@ export default function TableNews() {
     },
     {
       name: 'Comuna',
-      selector: 'comuna',
+      //selector: 'localidad',
+      cell: row => row.localidad,
       sortable: false,
     },
     {

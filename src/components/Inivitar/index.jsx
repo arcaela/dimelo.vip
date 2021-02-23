@@ -25,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
     '& textarea': {
       width: '100%',
     },
+    textAlign: 'center'
   },
   list: {
     maxHeight: 216,
@@ -158,7 +159,9 @@ export default function Invitar() {
                 />
               )}
             </CardContent>
-            <CardActions>
+            <CardActions style={{
+              justifyContent: 'center'
+            }}>
               <Button
                 className={modalStyle.button}
                 disabled={ loading ? true : false }

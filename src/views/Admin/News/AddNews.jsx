@@ -45,8 +45,8 @@ export default function AddNews() {
   const [values, setValues] = useState({
     title: '',
     perfil: '',
-    comuna: [],
-    to: [],
+    localidad: [],
+    rol: '',
     image: '',
     content: '',
   });
@@ -54,8 +54,8 @@ export default function AddNews() {
   const [error, setError] = useState({
     title: '',
     perfil: '',
-    comuna: '',
-    to: '',
+    localidad: '',
+    rol: '',
     image: '',
     content: '',
   });
@@ -106,8 +106,8 @@ export default function AddNews() {
     setValues({
       title: '',
       perfil: '',
-      comuna: [],
-      to: [],
+      localidad: [],
+      rol: [],
       image: '',
       content: '',
     })
@@ -120,7 +120,7 @@ export default function AddNews() {
     setLoading(true)
 
     for (const value in values) {
-      if (values[value].length === 0) {
+      if ( values[value].length === 0 && value !== 'image') {
         setError((prev) => ({
           ...prev,
           [value]: 'Este Campo No Puede Estar Vacio',
@@ -152,12 +152,12 @@ export default function AddNews() {
     });
   };
 
-  const handlerOnAutoComplete = (field, value) => {
-    setValues((prev) => ({
-      ...prev,
-      [field]: [...value.map((value) => value.value)],
-    }));
-  };
+  // const handlerOnAutoComplete = (field, value) => {
+  //   setValues((prev) => ({
+  //     ...prev,
+  //     [field]: [...value.map((value) => value.value)],
+  //   }));
+  // };
 
   const handleUploadSuccess = async (filename) => {
     const storageRef = newsFireBase.getImagenRef();
@@ -254,17 +254,17 @@ export default function AddNews() {
           <Grid item xs={12} md={5}>
             <FormControl
               className={classes.formControl}
-              error={error.comuna ? true : false}
+              error={error.localidad ? true : false}
             >
               <Autocomplete
                 multiple
                 options={comunas}
-                value={values.comuna}
-                name='comuna'
+                value={values.localidad}
+                name='localidad'
                 onChange={(event, newValue) => {
                   setValues({
                     ...values,
-                    comuna: newValue
+                    localidad: newValue
                   })
                 }}
                 getOptionSelected={(option, value) => {
@@ -275,22 +275,36 @@ export default function AddNews() {
                   <TextField {...params} label='Comuna' placeholder='Comuna' />
                 )}
               />
-              {error.comuna && <FormHelperText>{error.comuna}</FormHelperText>}
+              {error.localidad && <FormHelperText>{error.localidad}</FormHelperText>}
             </FormControl>
           </Grid>
           <Grid item xs={12} md={5}>
             <FormControl
               className={classes.formControl}
-              error={error.to ? true : false}
+              error={error.rol ? true : false}
             >
-              <Autocomplete
+              <InputLabel id='rol'>Enviar a:</InputLabel>
+              <Select
+                fullWidth
+                name='rol'
+                value={values.rol}
+                labelId='rol'
+                onChange={(e) => handlerOnChange(e)}
+              >
+                {usersTypes.map((rol) => (
+                  <MenuItem key={rol.value} value={rol.value}>
+                    {rol.title}
+                  </MenuItem>
+                ))}
+              </Select>
+              {/* <Autocomplete
                 multiple
                 options={usersTypes}
                 getOptionLabel={(option) => option.title}
                 inputValue=''
-                name='to'
+                name='rol'
                 onChange={(event, newValue) => {
-                  handlerOnAutoComplete('to', newValue);
+                  handlerOnAutoComplete('rol', newValue);
                 }}
                 getOptionSelected={(option, value) => {
                   return option.value === value.value;
@@ -302,8 +316,8 @@ export default function AddNews() {
                     placeholder='Enviar a'
                   />
                 )}
-              />
-              {error.to && <FormHelperText>{error.to}</FormHelperText>}
+              /> */}
+              {error.rol && <FormHelperText>{error.rol}</FormHelperText>}
             </FormControl>
           </Grid>
           <Grid item xs={12} md={11}>
