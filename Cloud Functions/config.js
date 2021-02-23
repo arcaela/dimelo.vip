@@ -9,4 +9,11 @@ admin.initializeApp({
 	messagingSenderId: "909520655494",
 	appId: "1:909520655494:web:f1f178d8e564789ea22d07"
 });
-module.exports = { admin, functions, };
+
+const db = new Proxy({_:admin.firestore()},{
+	get:(_,k)=>_._ || _._.collection(k),
+});
+
+
+
+module.exports = { db, admin, functions, };

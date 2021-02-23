@@ -10,14 +10,11 @@ export default async function wizard (useInput){
         setInputs,
         setLoading,
     } = useInput;
+    console.log({...inputs})
     switch (step) {
         // case 1:
         //     if(!inputs.cedula.value) return setError('cedula','Se requiere una cédula de identidad');
         //     await setLoading(true);
-        //     const [ snap, client ] = await Promise.all([
-        //         firestore.collection('users').where('cedula','==',inputs.cedula.value).get(),
-        //         fetch(`https://api-dimelo.ml:3000/${inputs.cedula.value}`).then(res=>res.ok?res.json():null),
-        //     ]);
         //     await setError('cedula',(
         //         snap.exists?'La cedula ya está registrada':(
         //             !client?'La cédula no existe en el registro nacional':null
@@ -48,7 +45,13 @@ export default async function wizard (useInput){
                     ?'Solo se admiten números':null},
             })
             if(!hasErrors('name', 'lastname', 'dni', 'birthday', 'movil', 'phone',)){
-                await nextStep();
+                await setLoading(true);
+                await Users.where('dni','==',inputs.dni.value).get()
+                .then(async snap=>{
+                    await setLoading(false);
+                    if(snap.empty) await nextStep();
+                    else await setInputs({dni:{error:'La cedula ya está registrada'}});
+                });
             }
             break;
         case 2:
@@ -104,14 +107,14 @@ export default async function wizard (useInput){
             });
             if(!hasErrors('adults','partners')){
                 await setLoading(true);
-                const client =  Object.values(inputs).reduce((_, {name,value})=>({..._,...(name!=='repassword'?{[name]:value}:{})}),{})
-                await api('auth/signup', client);
-                await setLoading(false);
-                await nextStep();
+                const props = Object.values(inputs).reduce((_, {name,value})=>({..._,...(name!=='repassword'?{[name]:value}:{})}),{});
+                await api('auth/signup', props)
+                    .then(()=>nextStep())
+                    .catch(error=>alert(error.message))
+                    .finally(()=>setLoading(false));
             }
             break;
         default:
-            
             break;
     }
 }

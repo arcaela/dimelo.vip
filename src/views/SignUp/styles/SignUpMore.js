@@ -36,6 +36,7 @@ const useStyles = makeStyles(theme=>({
         '& .MuiTypography-subtitle2':{ minWidth:'100%',marginTop:10, fontSize:'1rem', fontWeight:'300', },
     },
     body:{
+        width:'100%',
         display:'flex',
         margin:'auto',
         flexWrap:'wrap',

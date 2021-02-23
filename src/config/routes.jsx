@@ -12,7 +12,7 @@ require('~/views/layout').layout.routes.push(
 
 /* Auth */
 Route('/').redirect('/signup');
-Route('/login', require('~/views/SignIn').default);
+Route('/signin', require('~/views/SignIn').default);
 Route('/signup/:referer(.*)?', require('~/views/SignUp').default);
 
 /* Pages */
