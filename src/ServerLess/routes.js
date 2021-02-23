@@ -1,6 +1,7 @@
 import firebase from '../config/firebase'
 import { $store } from './Hooks/useAuth';
 import Users from './Collections/Users';
+import Posts from './Collections/Posts';
 
 
 const routes = {
@@ -8,7 +9,7 @@ const routes = {
         me:async ()=>$store.user,
         async signUp({ email, password, ...props }){
             const {user:{providerData,uid}} = await firebase.auth().createUserWithEmailAndPassword(email, password);
-            const client={ ...providerData[0], email, ...props, uid, role:'user', };
+            const client={ ...providerData[0], email, ...props, uid, rol:2, };
             await Users.doc(client.uid).set(client);
             return client;
         },
@@ -22,15 +23,22 @@ const routes = {
     posts:{
         async all({user, page=1, perPage=20, ...props}){
             if(!user) return [];
-            // const query = Posts
-            //     .where('role', 'in', ['all', user.role])
-            //     .where('perfil', 'in', ['all', user.patron])
-            //     .where('municipio', 'in', ['all', user.voting_mun])
-            //     .startAt()
-            // const auth = await auth();
-            console.log($store.user);
+            const snap = await Posts
+                .where('rol', 'in', ['all', user.rol])
+                .where('perfil', 'in', ['all', user.patron])
+                .where('localidad', 'in', ['all', user.voting_mun]).get();
+            return snap.docs.map(e=>e.data());
         },
-        async create(_post_){ },
+        async create({pictures=[], ...post}){
+            const urls = [];
+            const doc = Posts.doc();
+            const folder = firebase.storage().ref(`posts/pictures/${doc.id}`);
+            for(let i=0;i<pictures.length;i++)
+                urls.push( (await folder.put(pictures[i])).ref.getDownloadURL() )
+            const data = { ...post, id:doc.id, pictures:urls.flat(), };
+            await doc.set(data);
+            return data;
+        },
     },
 };
 

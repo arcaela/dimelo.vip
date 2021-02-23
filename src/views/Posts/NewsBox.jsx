@@ -8,7 +8,7 @@ import {
     CardActions,
     CardContent,
     CardHeader,
-    IconButton,
+    // IconButton,
     makeStyles,
     Typography,
 } from '@material-ui/core';
@@ -66,12 +66,12 @@ export default function NewsBox({ autor, ...post }){
         </CardContent>
         <CardActions className={classes.actions}>
             <div>
-                <IconButton
+{/*                 <IconButton
                     size="small"
                     color={post.likes.me?'secondary':'primary'}
                     children={post.likes.me?<Favorite />:<FavoriteBorderOutlined />} />
                 <span> 15 </span>
-            </div>
+ */}            </div>
             <Button color="primary" variant="outlined" size="small">
                 Compartir <ShareOutlined color="secondary" />
             </Button>
