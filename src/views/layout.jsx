@@ -40,10 +40,12 @@ const useStyles = makeStyles((theme) => ({
   appBar: {
     width: '100%',
     [theme.breakpoints.up('md')]: {
+      width: 'auto',
+      display:'flex',
       borderRadius:10,
       top:10, right:40,
-      maxWidth: `calc(100% - ${layout.drawerWidth+80}px )`,
       boxShadow:'0px 3px 3px 0px #00000021',
+      maxWidth: `calc(100% - ${layout.drawerWidth+80}px )`,
     },
   },
   toolbar:{
@@ -116,7 +118,9 @@ export default function Layout({ fullPage=false, middleware=true, children }){
     return parse(show)&&
     (<ListItem button to={path} component={_Link} selected={!!match}>
       <ListItemIcon children={
-        (typeof Icon==='object'&&typeof Icon.$$typeof=='symbol')?<Icon/>:Icon
+        (typeof Icon==='object'&&typeof Icon.$$typeof=='symbol')?<Icon/>:(
+          typeof Icon==='string'?<img src={Icon} alt={Icon} />:Icon
+        )
       }/>
       <ListItemText primary={label} />
     </ListItem>);
