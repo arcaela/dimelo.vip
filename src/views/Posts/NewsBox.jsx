@@ -3,7 +3,7 @@ import PhotoGrid from 'react-facebook-photo-grid'
 
 import {
     Avatar,
-    Button,
+    // Button,
     Card,
     CardActions,
     CardContent,
@@ -12,11 +12,11 @@ import {
     makeStyles,
     Typography,
 } from '@material-ui/core';
-import {
+// import {
     // Favorite,
     // FavoriteBorderOutlined,
-    ShareOutlined,
-} from '@material-ui/icons';
+    // ShareOutlined,
+// } from '@material-ui/icons';
 
 
 import TimeAgo from 'javascript-time-ago'
