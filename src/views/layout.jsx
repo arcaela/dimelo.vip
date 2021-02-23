@@ -40,10 +40,12 @@ const useStyles = makeStyles((theme) => ({
   appBar: {
     width: '100%',
     [theme.breakpoints.up('md')]: {
+      width: 'auto',
+      display:'flex',
       borderRadius:10,
       top:10, right:40,
-      maxWidth: `calc(100% - ${layout.drawerWidth+80}px )`,
       boxShadow:'0px 3px 3px 0px #00000021',
+      maxWidth: `calc(100% - ${layout.drawerWidth+80}px )`,
     },
   },
   toolbar:{
