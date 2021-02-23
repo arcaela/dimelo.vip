@@ -15,7 +15,7 @@ import {
   InputLabel,
   FormHelperText,
   Button,
-  Box
+  Box,
 } from '@material-ui/core';
 
 import Autocomplete from '@material-ui/lab/Autocomplete';
@@ -26,7 +26,7 @@ import ButtonLoading from '~/components/ButtonLoading';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import { useHistory } from 'react-router-dom';
 import regions from '~/views/SignUp/components/regions';
-
+import useAuth from '~/ServerLess/Hooks/useAuth';
 
 const newsStyle = makeStyles((theme) => ({
   form: {
@@ -42,6 +42,8 @@ export default function EditNews({ id }) {
   const classes = newsStyle();
 
   const router = useHistory();
+
+  const user = useAuth();
 
   const [values, setValues] = useState({
     title: '',
@@ -69,7 +71,7 @@ export default function EditNews({ id }) {
 
   const [message, setMessage] = useState('');
 
-  const [comunas, setComunas] = useState('')
+  const [comunas, setComunas] = useState('');
 
   const perfiles = [
     { title: 'Todos', value: 'all' },
@@ -201,16 +203,23 @@ export default function EditNews({ id }) {
   }, [id, router]);
 
   useEffect(() => {
-
-    if(comunas.length === 0){
+    if (comunas.length === 0) {
       const data = regions.all;
-  
-      const all = data.map( mun => regions.deep(mun, 1) )
-  
-      setComunas(all.flat().map( comuna => comuna ))
+      setComunas(data);
     }
+  }, [comunas]);
 
-  }, [comunas])
+  useEffect(() => {
+    if (user) {
+      setValues({
+        ...values,
+        autor: {
+          name: user.name,
+          uid: user.uid,
+        },
+      });
+    }
+  }, []);
 
   return (
     <>
@@ -224,14 +233,14 @@ export default function EditNews({ id }) {
         />
       )}
       <TitlePage title='Editar noticia' />
-      <Box display="flex" justifyContent="space-between">
+      <Box display='flex' justifyContent='space-between'>
         <Breadcrumbs>
           <Typography>Noticias</Typography>
           <Typography color='textPrimary'>Editar Noticia</Typography>
         </Breadcrumbs>
         <Button
-        startIcon={<ArrowBackIosIcon />}
-        onClick={ ()=> router.push('/admin/news/') }
+          startIcon={<ArrowBackIosIcon />}
+          onClick={() => router.push('/admin/news/')}
         >
           Volver
         </Button>
@@ -277,25 +286,26 @@ export default function EditNews({ id }) {
               error={error.localidad ? true : false}
             >
               <Autocomplete
-                multiple
                 options={comunas}
                 value={values.localidad}
                 name='localidad'
                 onChange={(event, newValue) => {
                   setValues({
                     ...values,
-                    localidad: newValue
-                  })
+                    localidad: newValue,
+                  });
                 }}
                 getOptionSelected={(option, value) => {
                   return option === value;
                 }}
-                getOptionLabel={ (option) => option }
+                getOptionLabel={(option) => option}
                 renderInput={(params) => (
                   <TextField {...params} label='Comuna' placeholder='Comuna' />
                 )}
               />
-              {error.localidad && <FormHelperText>{error.localidad}</FormHelperText>}
+              {error.localidad && (
+                <FormHelperText>{error.localidad}</FormHelperText>
+              )}
             </FormControl>
           </Grid>
           <Grid item xs={12} md={5}>
