@@ -16,7 +16,7 @@ export class Profile {
 }
 
 
-export default reference('news')
+export default reference('posts')
     // .withConverter({
         // toFirestore:profile=>profile.toJSON(),
         // fromFirestore:(snap, options)=>new Profile(snap.data(options)),
