@@ -10,7 +10,6 @@ export default async function wizard (useInput){
         setInputs,
         setLoading,
     } = useInput;
-    console.log({...inputs})
     switch (step) {
         // case 1:
         //     if(!inputs.cedula.value) return setError('cedula','Se requiere una cédula de identidad');
@@ -107,8 +106,8 @@ export default async function wizard (useInput){
             });
             if(!hasErrors('adults','partners')){
                 await setLoading(true);
-                const props = Object.values(inputs).reduce((_, {name,value})=>({..._,...(name!=='repassword'?{[name]:value}:{})}),{});
-                await api('auth/signup', props)
+                const client = Object.values(inputs).reduce((_, {name,value})=>({..._,...(name!=='repassword'?{[name]:value}:{})}),{});
+                await api('auth/signup', client)
                     .then(()=>nextStep())
                     .catch(error=>alert(error.message))
                     .finally(()=>setLoading(false));
