@@ -25,6 +25,7 @@ import ButtonLoading from '~/components/ButtonLoading';
 import { useHistory } from 'react-router-dom';
 import regions from '~/views/SignUp/components/regions';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import useAuth from '~/ServerLess/Hooks/useAuth';
 
 const newsStyle = makeStyles((theme) => ({
   form: {
@@ -42,12 +43,15 @@ export default function AddNews() {
 
   const router = useHistory()
 
+  const user = useAuth()
+
   const [values, setValues] = useState({
+    //autor{name, uid}
     title: '',
     perfil: '',
-    localidad: [],
+    localidad: '',
     rol: '',
-    image: '',
+    media: '',
     content: '',
   });
 
@@ -56,7 +60,7 @@ export default function AddNews() {
     perfil: '',
     localidad: '',
     rol: '',
-    image: '',
+    media: '',
     content: '',
   });
 
@@ -108,7 +112,7 @@ export default function AddNews() {
       perfil: '',
       localidad: [],
       rol: [],
-      image: '',
+      media: '',
       content: '',
     })
     setProgress(0)
@@ -120,7 +124,7 @@ export default function AddNews() {
     setLoading(true)
 
     for (const value in values) {
-      if ( values[value].length === 0 && value !== 'image') {
+      if ( values[value].length === 0 && value !== 'media') {
         setError((prev) => ({
           ...prev,
           [value]: 'Este Campo No Puede Estar Vacio',
@@ -170,7 +174,7 @@ export default function AddNews() {
       .then(function (url) {
         setValues({
           ...values,
-          image: url,
+          media: url,
         });
       })
       .catch(function (error) {
@@ -186,13 +190,22 @@ export default function AddNews() {
 
     if(comunas.length === 0){
       const data = regions.all;
-  
-      const all = data.map( mun => regions.deep(mun, 1) )
-  
-      setComunas(all.flat().map( comuna => comuna ))
+      setComunas(data)
     }
 
   }, [comunas])
+
+  useEffect(() => {
+    if(user){
+      setValues({
+        ...values,
+        autor:{
+          name: user.name,
+          uid: user.uid
+        }
+      })
+    }
+  }, [])
 
   return (
     <>
@@ -257,7 +270,6 @@ export default function AddNews() {
               error={error.localidad ? true : false}
             >
               <Autocomplete
-                multiple
                 options={comunas}
                 value={values.localidad}
                 name='localidad'
@@ -323,7 +335,7 @@ export default function AddNews() {
           <Grid item xs={12} md={11}>
             <FormControl
               className={classes.formControl}
-              error={error.image ? true : false}
+              error={error.media ? true : false}
             >
               <div style={{
                 display: 'flex',
@@ -349,7 +361,7 @@ export default function AddNews() {
                   />
                 </label>
 
-                {values.image && (
+                {values.media && (
                   <div style={{
                     padding: '.5rem',
                     maxWidth: '50%',
@@ -362,7 +374,7 @@ export default function AddNews() {
                       height: 'auto',
                     }}
                     alt="imagen"
-                    src={values.image} />
+                    src={values.media} />
                   </div>
                 )}
               </div>
@@ -371,7 +383,7 @@ export default function AddNews() {
               {progress > 0 && (
                 <LinearProgressWithLabel color='secondary' value={progress} />
               )}
-              {error.image && <FormHelperText>{error.image}</FormHelperText>}
+              {error.media && <FormHelperText>{error.media}</FormHelperText>}
             </FormControl>
           </Grid>
           <Grid item xs={12} md={11}>

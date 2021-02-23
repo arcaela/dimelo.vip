@@ -78,7 +78,7 @@ export default function Movimiento(){
   
           const users = await leaders
             .collection('users')
-            .where('role', '==', 1)
+            .where('rol', '==', 1)
             .get();
   
           setLeaders(users.docs.map((e) => e.data()));
@@ -96,7 +96,7 @@ export default function Movimiento(){
   
           const users = await leaders
             .collection('users')
-            .where('role', '==', 2)
+            .where('rol', '==', 2)
             .get();
   
             setUsers(users.docs.map((e) => e.data()));
