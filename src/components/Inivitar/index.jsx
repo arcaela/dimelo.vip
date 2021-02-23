@@ -25,12 +25,21 @@ const useStyles = makeStyles((theme) => ({
     '& textarea': {
       width: '100%',
     },
+    textAlign: 'center'
   },
   list: {
     maxHeight: 216,
     position: 'relative',
     overflow: 'auto',
   },
+  button:{
+    backgroundColor: theme.palette.primary.main,
+    color: '#fff',
+    '&:hover':{
+      backgroundColor: theme.palette.secondary.dark,
+      color: '#fff',
+    }
+  }
 }));
 
 function getModalStyle() {
@@ -145,13 +154,16 @@ export default function Invitar() {
                   value={value}
                   onChange={(e) => setValue(e.target.value)}
                   aria-label='minimum height'
-                  rowsMin={5}
+                  rowsMin={1}
                   placeholder='Ejemplo: invitado@gmail.com, dimelo@gmail.com'
                 />
               )}
             </CardContent>
-            <CardActions>
+            <CardActions style={{
+              justifyContent: 'center'
+            }}>
               <Button
+                className={modalStyle.button}
                 disabled={ loading ? true : false }
                 onClick={() => handlerSend()}
                 size='small'
