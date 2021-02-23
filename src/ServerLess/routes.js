@@ -21,22 +21,23 @@ const routes = {
         signOut: async (callback=()=>{})=>firebase.auth().signOut().then(callback),
     },
     posts:{
-        async all({user, ...props}){
+        async all({user}){
             if(!user) return [];
             const snap = await Posts
-                // .where('rol', 'in', ['all', '2'])
                 // .where('perfil', 'in', ['all', user.patron])
                 // .where('localidad', 'in', ['all', user.voting_mun])
                 .get();
             return snap.docs.map(e=>e.data());
         },
-        async create({media=[], ...post}){
-            const urls = [];
+        async create(post){
+            const media = [];
             const doc = Posts.doc();
-            const folder = firebase.storage().ref(`posts/media/${doc.id}`);
-            for(let i=0;i<media.length;i++)
-                urls.push( (await folder.put(media[i])).ref.getDownloadURL() )
-            const data = { ...post, id:doc.id, media:urls.flat(), };
+            
+            const folder = firebase.storage().ref(`posts/${doc.id}/media/`);
+            for(const picture of post.media)
+                media.push( await (await folder.child(`/${Date.now()}`).put(picture)).ref.getDownloadURL() )
+
+            const data = { ...post, id:doc.id, media};
             await doc.set(data);
             return data;
         },
