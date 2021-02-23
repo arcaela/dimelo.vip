@@ -3,7 +3,7 @@ import PhotoGrid from 'react-facebook-photo-grid'
 
 import {
     Avatar,
-    Button,
+    // Button,
     Card,
     CardActions,
     CardContent,
@@ -12,11 +12,11 @@ import {
     makeStyles,
     Typography,
 } from '@material-ui/core';
-import {
-    Favorite,
-    FavoriteBorderOutlined,
-    ShareOutlined,
-} from '@material-ui/icons';
+// import {
+    // Favorite,
+    // FavoriteBorderOutlined,
+    // ShareOutlined,
+// } from '@material-ui/icons';
 
 
 import TimeAgo from 'javascript-time-ago'
@@ -44,17 +44,20 @@ const useStyles = makeStyles(theme=>({
 }));
 
 
-export default function NewsBox({ autor, ...post }){
+export default React.memo(function NewsBox({post=null}){
     const classes = useStyles();
-    const [ wrapContent, __] = React.useState(post.content.length>200);
+    const [ wrapContent, __] = React.useState(post && post?.content?.length>200);
+    if(!post) return null;
+    const { autor } = post;
+
     const unWrapContent=()=>__(false);
     const content = post.content.substring(0, ...(wrapContent?[200]:[]));
     return (<Card className={classes.root}>
         <CardHeader
-            avatar={<Avatar alt={autor.name}
+            avatar={<Avatar alt={autor?.name}
             src={'/images/avatar.jpg'} />}
-            title={autor.name}
-            subheader={timeAgo.format(new Date(post.timestamp))}
+            title={autor?.name}
+            subheader={timeAgo.format( Date.now() )}
             />
         <CardContent className={classes.content}>
             <Typography variant="body1" children={post.title} gutterBottom />
@@ -62,19 +65,21 @@ export default function NewsBox({ autor, ...post }){
                 {content}
                 {wrapContent && <span href="#" onClick={unWrapContent} children="... ver más." />}
             </Typography>
-            <PhotoGrid images={post.media}></PhotoGrid>
+            <PhotoGrid images={post.media?.flat()}></PhotoGrid>
         </CardContent>
         <CardActions className={classes.actions}>
+{/*
             <div>
-{/*                 <IconButton
+                 <IconButton
                     size="small"
                     color={post.likes.me?'secondary':'primary'}
                     children={post.likes.me?<Favorite />:<FavoriteBorderOutlined />} />
                 <span> 15 </span>
- */}            </div>
+             </div>
             <Button color="primary" variant="outlined" size="small">
                 Compartir <ShareOutlined color="secondary" />
             </Button>
+ */}
         </CardActions>
     </Card>);
-}
+});

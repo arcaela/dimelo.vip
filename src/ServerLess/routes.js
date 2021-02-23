@@ -21,21 +21,22 @@ const routes = {
         signOut: async (callback=()=>{})=>firebase.auth().signOut().then(callback),
     },
     posts:{
-        async all({user, page=1, perPage=20, ...props}){
+        async all({user, ...props}){
             if(!user) return [];
             const snap = await Posts
-                .where('rol', 'in', ['all', user.rol])
-                .where('perfil', 'in', ['all', user.patron])
-                .where('localidad', 'in', ['all', user.voting_mun]).get();
+                // .where('rol', 'in', ['all', '2'])
+                // .where('perfil', 'in', ['all', user.patron])
+                // .where('localidad', 'in', ['all', user.voting_mun])
+                .get();
             return snap.docs.map(e=>e.data());
         },
-        async create({pictures=[], ...post}){
+        async create({media=[], ...post}){
             const urls = [];
             const doc = Posts.doc();
-            const folder = firebase.storage().ref(`posts/pictures/${doc.id}`);
-            for(let i=0;i<pictures.length;i++)
-                urls.push( (await folder.put(pictures[i])).ref.getDownloadURL() )
-            const data = { ...post, id:doc.id, pictures:urls.flat(), };
+            const folder = firebase.storage().ref(`posts/media/${doc.id}`);
+            for(let i=0;i<media.length;i++)
+                urls.push( (await folder.put(media[i])).ref.getDownloadURL() )
+            const data = { ...post, id:doc.id, media:urls.flat(), };
             await doc.set(data);
             return data;
         },
