@@ -66,7 +66,7 @@ export default function StepResult({setStep, ...inputs}){
     </div>
     <img alt="" src={`/images/test/resultado/${profile.label}.svg`} style={{maxWidth:300}} />
     <div style={{display:'flex',flexDirection:'row',}}>
-      <Button onClick={()=>window.location.replace('/news')} color="secondary" variant="contained" size="small" style={{color:'white'}} children={<Home />} />
+      <Button onClick={()=>window.location.replace('/posts')} color="secondary" variant="contained" size="small" style={{color:'white'}} children={<Home />} />
       <Button onClick={()=>setStep(0)} color="primary" variant="contained" size="small" style={{flexGrow:1,display:'flex',marginLeft:5}} children={<><Repeat /> Repetir Test</>} />
     </div>
   </article>)

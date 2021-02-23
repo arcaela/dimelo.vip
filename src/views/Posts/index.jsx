@@ -15,17 +15,18 @@ const useStyles = makeStyles(()=>({
 
 
 export default function NewsPage(){
-    const classes = useStyles();
-    const [ posts,setPosts ] = React.useState(null);
-    const loading = (!posts || !posts.length);
     const user = useAuth();
+    const classes = useStyles();
+    const [ posts,setPosts ] = React.useState([]);
+    const loading = !posts.length;
+
     React.useEffect(()=>{
-        if(!posts)
+        if(user && !posts.length)
             api('posts/all',{user}).then(docs=>setPosts(docs));
-    }
-    , [user, posts, setPosts]);
+    }, [ user, posts ]);
+
     return (<Layout middleware={['auth']}>
-        <Container maxWidth="sm" children={(posts||[]).map((post,key)=><NewsBox {...post} key={key}/>)} />
+        <Container maxWidth="sm" children={(posts||[]).map((post,key)=><NewsBox post={post} key={key}/>)} />
         {loading&&(<div className={ classes.loading } children={<CircularProgress size={25} />} />)}
     </Layout>);
 }
