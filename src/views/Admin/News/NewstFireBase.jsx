@@ -19,6 +19,22 @@ class NewsFireBase {
         }
     }
 
+    async addNewsById(id){
+        try {
+            return await this.news.doc(id).get();
+        } catch (error) {
+            return error
+        }
+    }
+
+    async updateNews(id, update){
+        try {
+            return await this.news.doc(id).update(update);
+        } catch (e) {
+            return e
+        }
+    }
+
     getImagenRef(){
         return this.imagesRef;
     }
@@ -26,9 +42,18 @@ class NewsFireBase {
     async getNews(){
         try {
             const news = await this.news.get()
-            return news.docs.map( (e) => e.data() )
+            return news.docs.map( (e) =>  Object.assign(e.data(), { id: e.id }) )
         } catch (error) {
-            console.log(error);
+            return error
+        }
+    }
+
+    async deleteNews(id){
+        try {
+            const deleteDoc = await this.news.doc(id).delete()
+            console.log(deleteDoc)
+        } catch (error) {
+            
         }
     }
 
