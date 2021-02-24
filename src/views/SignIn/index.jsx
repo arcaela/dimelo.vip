@@ -41,7 +41,7 @@ export default function SignIn(req){
                                         password:inputs.password.value,
                                     });
                                     if(client && client.uid)
-                                        return window.location.replace(client.patron?'/news':'/test')
+                                        return window.location.replace(client.patron?'/posts':'/test')
                                 }
                                 catch (error) { alert(error.message); }
                                 finally{ await setLoading(false); }

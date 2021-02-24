@@ -2,6 +2,7 @@ import firebase from '../config/firebase'
 import { $store } from './Hooks/useAuth';
 import Users from './Collections/Users';
 import Posts from './Collections/Posts';
+import Invitations from './Collections/Invitations';
 
 
 const routes = {
@@ -20,6 +21,17 @@ const routes = {
         },
         signOut: async (callback=()=>{})=>firebase.auth().signOut().then(callback),
     },
+
+    invitations:{
+        async create({ user, emails=[] }){
+            emails = emails.flat().filter(email=>email.match(/^[\w-.]+@([\w-]+.)+[\w-]{2,4}$/));
+            if(!emails.length) throw new Error({message:"Tienes emails con formato inválido"});
+            const doc = Invitations.doc();
+            return doc.set({ referer:user.cedula, emails, });
+        },
+    },
+
+
     posts:{
         async all({user}){
             if(!user) return [];
