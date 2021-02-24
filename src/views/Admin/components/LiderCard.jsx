@@ -143,7 +143,7 @@ export default function LiderCard({ leader }) {
             className={classes.header}
             title={` ${name} ${lastname} `}
             action={
-              leader.role === 'admin' ?
+              leader.rol === 0 ?
               <>
                 <IconButton>
                   <img src='/images/edit.svg' alt='' />
