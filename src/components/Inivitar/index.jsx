@@ -60,7 +60,7 @@ export default function Invitar() {
   const [sending, setSending] = useState(false);
   const [error, setError] = useState(false);
   const [value, setValue] = useState('');
-  const user = useAuth()
+  const user = useAuth();
 
   const handleClose = () => {
     setOpen(false);
@@ -69,33 +69,23 @@ export default function Invitar() {
   const handlerSend = () => {
     setError(null);
 
-    if (value.length === 0) {
-      setError('Ingrese Algun Correo');
-      return;
-    }
-
-    const emails = value.split(',');
-    console.log({user, emails});
-    
-    api('invitations/create', {user, emails}).then(e=>{
-      setTimeout(() => {
-          setSending(true)
-          setLoading(false)
-      }, 3000);
-      setTimeout(() => {
-          setOpen(false)
-      }, 5000);
-    }).catch(e=> {
-      alert(e.message)
+    if (value.length === 0)
+      return setError('Ingrese Algun Correo');
+    setLoading(!loading);
+    return api('invitations/create', { user,emails:value.split(',') }).then(()=>{
+      
+    }).catch(e=>alert(e.message))
+    .finally(()=>{
       setTimeout(() => {
         setSending(true)
-          setLoading(false)
+        setLoading(false)
       }, 3000);
       setTimeout(() => {
-          setOpen(false)
+        setSending(true)
+        setLoading(false)
+        setOpen(false)
       }, 5000);
-    })
-
+    });
   };
 
   const centerModal = getModalStyle();

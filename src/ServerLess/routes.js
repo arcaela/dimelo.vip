@@ -27,7 +27,7 @@ const routes = {
             emails = emails.flat().filter(email=>email.match(/^[\w-.]+@([\w-]+.)+[\w-]{2,4}$/));
             if(!emails.length) throw new Error({message:"Tienes emails con formato inválido"});
             const doc = Invitations.doc();
-            return doc.set({ referer:user.cedula, emails, });
+            return doc.set({ referer:user.dni, emails, });
         },
     },
 
