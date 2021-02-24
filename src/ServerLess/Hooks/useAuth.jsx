@@ -13,7 +13,6 @@ export const $store = {
 };
 
 
-
 export default function useAuth(){
     const [ user, _setUser ] = React.useState($store.user);
     const setUser = _user=>_setUser($store.user=_user);
@@ -33,12 +32,6 @@ export default function useAuth(){
     }, [ user ]);
     return user && {
         ...user,
-
-        isUser(){ return this.hasRole(2);},
-        isAdmin(){ return this.hasRole(0);},
-        isLeader(){ return this.hasRole(1);},
-        hasRole(...roles){ return roles.flat().filter(e=>typeof e==='number').includes(this.rol); },
-        
-        followers:()=>CollectionsUsers.where('voting_leader', '==', (user.role==='admin'?'admin':user.cedula)).get(), // FireStore Snapshot(s)
+        followers:()=>CollectionsUsers.where('voting_leader', '==', (user.rol===0?'admin':user.cedula)).get(), // FireStore Snapshot(s)
     };
 }

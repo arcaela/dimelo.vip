@@ -13,6 +13,7 @@ require('~/views/layout').layout.routes.push(
         path:'/messages',
         icon:Message,
         label:'Mensajes', 
+<<<<<<< HEAD
         show({auth}){ return false && auth && auth.rol === 0  }
     },
     {
@@ -20,18 +21,25 @@ require('~/views/layout').layout.routes.push(
         icon:PeopleAltOutlined,
         label:'Líderes de primer nivel', 
         show({auth}){ return auth && auth.rol === 0  }
+=======
+        show({auth}){ return false && auth && auth.rol===0 }
+>>>>>>> e271b8613bbda1b5d1f2afd5ae1074c53153d467
     },
     {
         path:'/admin/movimiento',
         icon:MovementIcon,
         label:'Movimiento', 
+<<<<<<< HEAD
         show({auth}){ return auth && auth.rol === 0  }
+=======
+        show({auth}){ return auth && auth.rol===0 }
+>>>>>>> e271b8613bbda1b5d1f2afd5ae1074c53153d467
     },
     {
         path:'/admin/news',
         icon:Announcement,
         label:'Panel de Noticias',
-        show({auth}){ return auth && auth.rol === 0  }
+        show({auth}){ return auth && auth.rol===0 }
     },
     {
         path:'/red',
