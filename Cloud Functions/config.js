@@ -14,6 +14,11 @@ const db = new Proxy({_:admin.firestore()},{
 	get:(_,k)=>_._ || _._.collection(k),
 });
 
+const mail = require('nodemailer').createTransport({
+    service: 'gmail',
+    auth: { user: 'arcaela16@gmail.com', pass: 'clthzjmuvckslvry', },
+});
 
 
-module.exports = { db, admin, functions, };
+
+module.exports = { functions, admin, db, mail };

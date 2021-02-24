@@ -1,2 +1,2 @@
-exports._app = require('./_app')
-exports.api = require('./api')
+module.exports.DocumentCreated = require('./events/DocumentCreated')
+module.exports.DocumentWatcher = require('./events/DocumentWatcher')
