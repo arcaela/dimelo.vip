@@ -1,8 +1,8 @@
 const middlewares = {
     guest:({ auth, redirect })=>(!auth || redirect('/test')),
     auth:({ auth, redirect })=>(auth || redirect('/signin')),
-    user:({ auth, redirect })=>(auth&& auth.role===2 && redirect('/')),
-    leader:({ auth, redirect })=>(auth&& auth.role===1 && redirect('/')),
-    admin:({ auth, redirect })=>(auth && auth.role===0 && redirect('/')),
+    user:({ auth, redirect })=>(auth&& auth.isUser() && redirect('/')),
+    leader:({ auth, redirect })=>(auth&& auth.isLeader() && redirect('/')),
+    admin:({ auth, redirect })=>(auth && auth.isAdmin() && redirect('/')),
 };
 export default middlewares;
