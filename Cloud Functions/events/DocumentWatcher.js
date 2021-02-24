@@ -1,7 +1,5 @@
 const { admin, functions } = require('../config');
 
-
-
 module.exports.leaderModified = functions.firestore.document('leaders/{uid}').onWrite(async snap=>{
     const _old = snap.before;
     const _new = snap.after;
