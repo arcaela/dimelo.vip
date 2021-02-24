@@ -13,25 +13,25 @@ require('~/views/layout').layout.routes.push(
         path:'/messages',
         icon:Message,
         label:'Mensajes', 
-        show({auth}){ return auth && auth.rol===0 }
+        show({auth}){ return auth && auth.isAdmin() }
     },
     {
         path:'/admin',
         icon:PeopleAltOutlined,
         label:'Líderes de primer nivel', 
-        show({auth}){ return auth && auth.rol===0 }
+        show({auth}){ return auth && auth.isAdmin() }
     },
     {
         path:'/admin/movimiento',
         icon:MovementIcon,
         label:'Movimiento', 
-        show({auth}){return auth && auth.rol === 0}
+        show({auth}){ return auth && auth.isAdmin() }
     },
     {
         path:'/admin/news',
         icon:Announcement,
         label:'Panel de Noticias',
-        show({auth}){return auth && auth.rol === 0}
+        show({auth}){ return auth && auth.isAdmin() }
     },
     {
         path:'/red',
