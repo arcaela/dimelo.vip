@@ -169,7 +169,7 @@ export default function LiderCard({ leader }) {
             <Grid className={ classes.bottonIcon } item xs={ 3 }>
                 <IconButton onClick={ ()=>handlerOpen() } color="secondary" className={ classes.count } >
                   <PeopleAltIcon />
-                  +{ followers.length }
+                  +{ followers?.length }
                 </IconButton>
             </Grid>
           </Grid>
