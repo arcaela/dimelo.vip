@@ -10,6 +10,7 @@ import {
   CardActions,
 } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
+import useAuth from '~/ServerLess/Hooks/useAuth';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -58,6 +59,7 @@ export default function Invitar() {
   const [sending, setSending] = useState(false);
   const [error, setError] = useState(false);
   const [value, setValue] = useState('');
+  const user = useAuth()
 
   const handleClose = () => {
     setOpen(false);
@@ -86,6 +88,8 @@ export default function Invitar() {
     }
     
     setLoading(!loading);
+
+    console.log({user, emails});
 
     setTimeout(() => {
 
