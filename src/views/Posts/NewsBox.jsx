@@ -26,7 +26,9 @@ const timeAgo = new TimeAgo('es-ES')
 
 
 const useStyles = makeStyles(theme=>({
-    root:{},
+    root:{
+        marginBottom: 15
+    },
     actions:{
         display:'flex',
         alignItems:'center',
