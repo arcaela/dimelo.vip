@@ -72,7 +72,6 @@ export default function Invitar() {
     if (value.length === 0)
       return setError('Ingrese Algun Correo');
     setLoading(!loading);
-
     return api('invitations/create', { user,emails:value.split(',') }).then(()=>{
       
     }).catch(e=>alert(e.message))
