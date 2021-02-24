@@ -13,7 +13,7 @@ require('~/views/layout').layout.routes.push(
         path:'/messages',
         icon:Message,
         label:'Mensajes', 
-        show({auth}){ return auth && auth.isAdmin() }
+        show({auth}){ return false && auth && auth.isAdmin() }
     },
     {
         path:'/admin',

@@ -5,7 +5,7 @@ module.exports.leaderModified = functions.firestore.document('leaders/{uid}').on
     const _new = snap.after;
     const leader = _new.exists?_new.data():_old.data();
     leader.rol = _new.exists?1:2;
-    return admin.firestore().collection('users').where('cedula', '==', leader.cedula).get(_=>{
+    return admin.firestore().collection('users').where('dni', '==', leader.dni).get(_=>{
         const batch = admin.firestore.batch();
         for(doc of docs)
             batch.update(doc.data().uid, {rol});
