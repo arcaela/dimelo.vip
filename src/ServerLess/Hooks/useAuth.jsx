@@ -13,6 +13,7 @@ export const $store = {
 };
 
 
+
 export default function useAuth(){
     const [ user, _setUser ] = React.useState($store.user);
     const setUser = _user=>_setUser($store.user=_user);
@@ -32,6 +33,12 @@ export default function useAuth(){
     }, [ user ]);
     return user && {
         ...user,
+
+        isUser(){ return this.hasRole('user');},
+        isAdmin(){ return this.hasRole('admin');},
+        isLeader(){ return this.hasRole('leader');},
+        hasRole(...roles){ return roles.flat().filter(e=>typeof e==='string').includes(this.rol); },
+        
         followers:()=>CollectionsUsers.where('voting_leader', '==', (user.role==='admin'?'admin':user.cedula)).get(), // FireStore Snapshot(s)
     };
 }
