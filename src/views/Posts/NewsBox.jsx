@@ -46,10 +46,9 @@ const useStyles = makeStyles(theme=>({
 
 export default React.memo(function NewsBox({post=null}){
     const classes = useStyles();
-    const [ wrapContent, __] = React.useState(post && post?.content?.length>200);
+    const [ wrapContent, __] = React.useState(post && post.content.length>200);
     if(!post) return null;
     const { autor } = post;
-
     const unWrapContent=()=>__(false);
     const content = post.content.substring(0, ...(wrapContent?[200]:[]));
     return (<Card className={classes.root}>

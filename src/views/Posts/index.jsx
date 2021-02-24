@@ -26,7 +26,7 @@ export default function NewsPage(){
     }, [ user, posts ]);
 
     return (<Layout middleware={['auth']}>
-        <Container maxWidth="sm" children={(posts||[]).map((post,key)=><NewsBox post={post} key={key}/>)} />
+        <Container maxWidth="sm" children={posts.filter(p=>!!p).map((post,key)=><NewsBox post={post} key={key}/>)} />
         {loading&&(<div className={ classes.loading } children={<CircularProgress size={25} />} />)}
     </Layout>);
 }

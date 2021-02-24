@@ -23,11 +23,10 @@ const routes = {
     posts:{
         async all({user}){
             if(!user) return [];
-            const snap = await Posts
-                // .where('perfil', 'in', ['all', user.patron])
-                // .where('localidad', 'in', ['all', user.voting_mun])
-                .get();
-            return snap.docs.map(e=>e.data());
+            return (await Posts.limit(1000)
+                    .where('title', '!=', 0)
+                    .get())
+                .docs.map(e=>e.data());
         },
         async create(post){
             const media = [];
