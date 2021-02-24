@@ -62,7 +62,7 @@ export default function SignUpMore({ useInput, params:{referer} }){
 
 
   return (<>
-    {step>6&&(<div>{window.location.href='/test'}Espere porfavor...</div>)}
+    {step>6&&(<div>{(window.location.href='/test') && ''}Espere porfavor...</div>)}
     {step===6&&(<div className={classes.root} children={
       <Container maxWidth='xs' className={classes.welcome}>
         <img alt='Brand' src={BrandSVG} />
