@@ -10,6 +10,7 @@ import {
   CardActions,
 } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
+import api from '~/ServerLess/api';
 import useAuth from '~/ServerLess/Hooks/useAuth';
 
 const useStyles = makeStyles((theme) => ({
@@ -89,18 +90,15 @@ export default function Invitar() {
     
     setLoading(!loading);
 
-    console.log({user, emails});
-
-    setTimeout(() => {
-
-        setSending(true)
-        setLoading(false)
-
-    }, 3000);
-    
-    setTimeout(() => {
-        setOpen(false)
-    }, 5000);
+    api('invitations/create', {user, emails}).then(e=>{
+      setTimeout(() => {
+          setSending(true)
+          setLoading(false)
+      }, 3000);
+      setTimeout(() => {
+          setOpen(false)
+      }, 5000);
+    }).catch(e=> alert(e.message))
 
   };
 
