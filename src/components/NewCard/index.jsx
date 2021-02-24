@@ -97,7 +97,7 @@ export default function NewCard({ users }) {
             className={classes.header}
             title={` ${name} ${lastname} `}
             action={
-              users.role === 'admin' ?
+              users.rol === 0 ?
               <>
                 <IconButton>
                   <img src='/images/edit.svg' alt='' />
