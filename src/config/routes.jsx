@@ -4,15 +4,45 @@ const UsersIcon = require('~/images/svg/users.svg').default;
 const MovementIcon = require('~/images/svg/users-friends.svg').default;
 
 require('~/views/layout').layout.routes.push(
-    {path:'/posts',icon:Announcement,label:'Noticias'},
-    
-    {path:'/messages',icon:Message,label:'Mensajes', show({auth}){ return auth && auth.role===0; }},
-    {path:'/admin',icon:PeopleAltOutlined,label:'Líderes de primer nivel', show({auth}){return auth && auth.role===0;}},
-    {path:'/admin/movimiento',icon:MovementIcon,label:'Movimiento', show({auth}){return auth && auth.role!=='user';}},
-    {path:'/admin/news',icon:Announcement,label:'Panel de Noticias'},
-
-    {path:'/test',icon:NaturePeople,label:'Test de personalidad'},
-    {path:'/red',icon:UsersIcon,label:'Red'},
+    {
+        path:'/posts',
+        icon:Announcement,
+        label:'Noticias'
+    },
+    {
+        path:'/messages',
+        icon:Message,
+        label:'Mensajes', 
+        show({auth}){ return auth && auth.role===0 }
+    },
+    {
+        path:'/admin',
+        icon:PeopleAltOutlined,
+        label:'Líderes de primer nivel', 
+        show({auth}){ return auth && auth.role===0 }
+    },
+    {
+        path:'/admin/movimiento',
+        icon:MovementIcon,
+        label:'Movimiento', 
+        show({auth}){return auth && auth.role === 0}
+    },
+    {
+        path:'/admin/news',
+        icon:Announcement,
+        label:'Panel de Noticias',
+        show({auth}){return auth && auth.role === 0}
+    },
+    {
+        path:'/red',
+        icon:UsersIcon,
+        label:'Red'
+    },
+    {
+        path:'/test',
+        icon:NaturePeople,
+        label:'Test de personalidad'
+    },
 );
 
 /* Auth */
