@@ -16,12 +16,6 @@ require('~/views/layout').layout.routes.push(
         show({auth}){ return false && auth && auth.rol===0 }
     },
     {
-        path:'/admin',
-        icon:PeopleAltOutlined,
-        label:'Líderes de primer nivel', 
-        show({auth}){ return auth && auth.rol===0 }
-    },
-    {
         path:'/admin/movimiento',
         icon:MovementIcon,
         label:'Movimiento', 
