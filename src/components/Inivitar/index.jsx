@@ -10,6 +10,8 @@ import {
   CardActions,
 } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
+import api from '~/ServerLess/api';
+import useAuth from '~/ServerLess/Hooks/useAuth';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -58,6 +60,7 @@ export default function Invitar() {
   const [sending, setSending] = useState(false);
   const [error, setError] = useState(false);
   const [value, setValue] = useState('');
+  const user = useAuth();
 
   const handleClose = () => {
     setOpen(false);
@@ -66,38 +69,24 @@ export default function Invitar() {
   const handlerSend = () => {
     setError(null);
 
-    if (value.length === 0) {
-      setError('Ingrese Algun Correo');
-      return;
-    }
-
-    const emails = value.split(',');
-
-    for (let i = 0; i < emails.length; i++) {
-      if (
-        /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(
-            emails[i].trim()
-        )
-      ) {
-      } else {
-        setError('Tiene un email invalido');
-        return;
-      }
-    }
-    
+    if (value.length === 0)
+      return setError('Ingrese Algun Correo');
     setLoading(!loading);
 
-    setTimeout(() => {
-
+    return api('invitations/create', { user,emails:value.split(',') }).then(()=>{
+      
+    }).catch(e=>alert(e.message))
+    .finally(()=>{
+      setTimeout(() => {
         setSending(true)
         setLoading(false)
-
-    }, 3000);
-    
-    setTimeout(() => {
+      }, 3000);
+      setTimeout(() => {
+        setSending(true)
+        setLoading(false)
         setOpen(false)
-    }, 5000);
-
+      }, 5000);
+    });
   };
 
   const centerModal = getModalStyle();
