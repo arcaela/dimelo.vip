@@ -75,21 +75,8 @@ export default function Invitar() {
     }
 
     const emails = value.split(',');
-
-    for (let i = 0; i < emails.length; i++) {
-      if (
-        /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(
-            emails[i].trim()
-        )
-      ) {
-      } else {
-        setError('Tiene un email invalido');
-        return;
-      }
-    }
+    console.log({user, emails});
     
-    setLoading(!loading);
-
     api('invitations/create', {user, emails}).then(e=>{
       setTimeout(() => {
           setSending(true)
@@ -98,7 +85,16 @@ export default function Invitar() {
       setTimeout(() => {
           setOpen(false)
       }, 5000);
-    }).catch(e=> alert(e.message))
+    }).catch(e=> {
+      alert(e.message)
+      setTimeout(() => {
+        setSending(true)
+          setLoading(false)
+      }, 3000);
+      setTimeout(() => {
+          setOpen(false)
+      }, 5000);
+    })
 
   };
 
