@@ -7,10 +7,11 @@ import {
   CardContent,
   CardActions,
   TextField,
+  IconButton
 } from '@material-ui/core';
 import WhatsAppIcon from '@material-ui/icons/WhatsApp';
-import React, { useEffect, useState } from 'react';
-import useAuth from '~/ServerLess/Hooks/useAuth';
+import FileCopyIcon from '@material-ui/icons/FileCopy';
+import React, { useEffect, useState, useRef } from 'react';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -55,24 +56,37 @@ function getModalStyle() {
   };
 }
 
-export default function Invitar() {
+export default function Invitar({ auth }) {
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState('https://dimelo.vip/signup/')
+  const [copy, setCopy] = useState(false)
+  const [value, setValue] = useState('')
+  const inputRef = useRef()
 
   const handleClose = () => {
     setOpen(false);
   };
 
-  //const user = useAuth()
-
-  //console.log(user);
-
   const centerModal = getModalStyle();
 
   const modalStyle = useStyles();
 
+  useEffect(() => {
+    if(value.length <= 0 && auth.auth){
+      setValue('https://dimelo.vip/signup/'  + window.btoa(auth.auth.dni))
+    }
+  }, [auth])
+
   const enviarInvitacion = ()=>{
     window.open('https://api.whatsapp.com/send?text=Invitacion%20a%20dimelo.vip ' + value, '_blank')
+  }
+
+  const copiarEnlace = ()=>{
+    inputRef.current.querySelector('input').select()
+    document.execCommand("copy")
+    setCopy(true)
+    setTimeout(() => {
+      setCopy(false)
+    }, 2000);
   }
 
   return (
@@ -92,17 +106,28 @@ export default function Invitar() {
             />
             <CardContent>
             <TextField
+            ref={inputRef}
             fullWidth
             label="Enlace de invitacion"
             id="margin-none"
             value={value}
             defaultValue="https://dimelo.vip/signup/"
             helperText="Copie su enlace de invitacion"
+            readonly
             />  
             </CardContent>
             <CardActions style={{
               justifyContent: 'center'
             }}>
+              <Button
+                className={modalStyle.button}
+                onClick={()=>copiarEnlace()}
+                size='small'
+                color='primary'
+                endIcon={<FileCopyIcon />}
+              >
+                {copy ? 'Copiado' : 'Copiar'}
+              </Button>
               <Button
                 className={modalStyle.button}
                 onClick={()=>enviarInvitacion()}

@@ -136,7 +136,7 @@ export default function Layout({ fullPage=false, middleware=true, children }){
          </IconButton>
          <img alt="" src="/images/brand.svg" className="brand" />
          <span className="flex-grow" />
-         <Invitar />
+         <Invitar auth={ context } />
          <ButtonProfile />
        </Toolbar>
      </AppBar>
