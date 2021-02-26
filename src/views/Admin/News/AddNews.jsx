@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import TitlePage from '~/components/TitlePage';
 
+import { useHistory, Link } from 'react-router-dom';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import {
   Breadcrumbs,
   Grid,
@@ -13,20 +14,21 @@ import {
   InputLabel,
   FormHelperText,
   Box,
-  Button
+  Button,
+  Card
 } from '@material-ui/core';
 
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import LinearProgressWithLabel from '~/components/LinearProgressWithLabel';
 import AlertToast from '~/components/AlertToast';
 import ButtonLoading from '~/components/ButtonLoading';
-import { useHistory } from 'react-router-dom';
+import TitlePage from '~/components/TitlePage';
 import regions from '~/views/SignUp/components/regions';
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import useAuth from '~/ServerLess/Hooks/useAuth';
 import api from '~/ServerLess/api';
+import PersonImage from '~/images/admin/personas.svg'
 
-const newsStyle = makeStyles((theme) => ({
+const styles = makeStyles((theme) => ({
   form: {
     marginBottom: 30,
     marginTop: 50,
@@ -34,11 +36,19 @@ const newsStyle = makeStyles((theme) => ({
   formControl: {
     width: '100%',
   },
+  goBack: {
+    '& a':{ textDecoration:'none', color:'inherit' }
+  },
+  rightCard: {
+    '& .MuiTypography-root':{ cursor:'default' },
+    '& .MuiTypography-h6':{ font:'normal normal bold 50px/71px Source Sans Pro', },
+    '& .MuiTypography-subtitle2':{ font:'normal normal 300 20px/25px Source Sans Pro', },
+  }
 }));
 
 export default function AddNews() {
 
-  const classes = newsStyle();
+  const classes = styles();
 
   const router = useHistory()
 
@@ -70,6 +80,7 @@ export default function AddNews() {
   const [loading, setLoading] = useState(false)
 
   const [message, setMessage] = useState('')
+
   const [comunas, setComunas] = useState('')
 
   const perfiles = [
@@ -99,7 +110,7 @@ export default function AddNews() {
       setLoading(false);
       return false;
     }
-    
+
     if( isValid === 0 ){
       return true;
     }
@@ -159,12 +170,10 @@ export default function AddNews() {
 
 
   useEffect(() => {
-
     if(comunas.length === 0){
       const data = regions.all;
       setComunas(data)
     }
-
   }, [comunas])
 
   useEffect(() => {
@@ -188,184 +197,236 @@ export default function AddNews() {
         severity='success'
         message={ message }
       />)}
+
       <TitlePage title='Agregar noticia' />
-      <Box display="flex" justifyContent="space-between">
-        <Breadcrumbs>
+
+      <Box display="flex" justifyContent="space-between" >
+        <Grid item>
+        <Breadcrumbs separator=">">
           <Typography>Noticias</Typography>
           <Typography color='textPrimary'>Agregar Noticia</Typography>
         </Breadcrumbs>
-        <Button
-        startIcon={<ArrowBackIosIcon />}
-        onClick={ ()=> router.push('/admin/news/') }
-        >
-          Volver
-        </Button>
+        </Grid>
+        <Grid item>
+        <Typography className={classes.goBack}> <Link to="/admin/news/">Volver</Link> </Typography>
+        </Grid>
+        {/*    <Button
+              //startIcon={<ArrowBackIosIcon />}
+              onClick={ ()=> router.push('/admin/news/') }
+            >
+              Volver
+            </Button>*/}
       </Box>
-      <form onSubmit={(e) => handlerSubmit(e)} className={classes.form}>
-        <Grid spacing={5} container justify='space-around'>
-          <Grid item xs={12} md={5}>
-            <TextField
-              value={values.title}
-              name='title'
-              label='Titulo de Noticias'
-              onChange={(e) => handlerOnChange(e)}
-              fullWidth
-              error={error.title ? true : false}
-              helperText={error.title ? error.title : ''}
-            />
-          </Grid>
-          <Grid item xs={12} md={5}>
-            <FormControl
-              className={classes.formControl}
-              error={error.perfil ? true : false}
-            >
-              <InputLabel id='perfil'>Tipo de personalidad</InputLabel>
-              <Select
-                fullWidth
-                name='perfil'
-                value={values.perfil}
-                labelId='perfil'
-                onChange={(e) => handlerOnChange(e)}
-              >
-                {perfiles.map((perfil) => (
-                  <MenuItem key={perfil.value} value={perfil.value}>
-                    {perfil.title}
-                  </MenuItem>
-                ))}
-              </Select>
-              {error.perfil && <FormHelperText>{error.perfil}</FormHelperText>}
-            </FormControl>
-          </Grid>
-          <Grid item xs={12} md={5}>
-            <FormControl
-              className={classes.formControl}
-              error={error.localidad ? true : false}
-            >
-              <Autocomplete
-                options={comunas}
-                value={values.localidad}
-                name='localidad'
-                onChange={(event, newValue) => {
-                  setValues({
-                    ...values,
-                    localidad: newValue
-                  })
-                }}
-                getOptionSelected={(option, value) => {
-                  return option === value;
-                }}
-                getOptionLabel={ (option) => option }
-                renderInput={(params) => (
-                  <TextField {...params} label='Comuna' placeholder='Comuna' />
-                )}
-              />
-              {error.localidad && <FormHelperText>{error.localidad}</FormHelperText>}
-            </FormControl>
-          </Grid>
-          <Grid item xs={12} md={5}>
-            <FormControl
-              className={classes.formControl}
-              error={error.rol ? true : false}
-            >
-              <InputLabel id='rol'>Enviar a:</InputLabel>
-              <Select
-                fullWidth
-                name='rol'
-                value={values.rol}
-                labelId='rol'
-                onChange={(e) => handlerOnChange(e)}
-              >
-                {usersTypes.map((rol) => (
-                  <MenuItem key={rol.value} value={rol.value}>
-                    {rol.title}
-                  </MenuItem>
-                ))}
-              </Select>
-              {/* <Autocomplete
-                multiple
-                options={usersTypes}
-                getOptionLabel={(option) => option.title}
-                inputValue=''
-                name='rol'
-                onChange={(event, newValue) => {
-                  handlerOnAutoComplete('rol', newValue);
-                }}
-                getOptionSelected={(option, value) => {
-                  return option.value === value.value;
-                }}
-                renderInput={(params) => (
+
+      <Grid container direction="row" spacing={2}>
+        <Grid container item xs={8}>
+          <Card style={{ height: '100%' }}>
+            <form onSubmit={(e) => handlerSubmit(e)} className={classes.form}>
+              <Grid spacing={5} container justify='space-around'>
+                <Grid item xs={12} md={5}>
                   <TextField
-                    {...params}
-                    label='Enviar a'
-                    placeholder='Enviar a'
+                    value={values.title}
+                    name='title'
+                    label='Titulo de la noticia'
+                    onChange={(e) => handlerOnChange(e)}
+                    fullWidth
+                    error={error.title ? true : false}
+                    helperText={error.title ? error.title : ''}
                   />
-                )}
-              /> */}
-              {error.rol && <FormHelperText>{error.rol}</FormHelperText>}
-            </FormControl>
-          </Grid>
-          <Grid item xs={12} md={11}>
-            <FormControl
-              className={classes.formControl}
-              error={error.media ? true : false}
-            >
-              <div style={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-                <input type="file" multiple accept="images/*" onChange={addImages} />
-                {values.media && (
-                  <div style={{
-                    padding: '.5rem',
-                    maxWidth: '50%',
-                    minWidth: '50%',
-                    height: 'auto'
-                  }}>
-                    <img 
-                    style={{
-                      maxWidth: '100%',
-                      height: 'auto',
-                    }}
-                    alt="imagen"
-                    src={values.media} />
-                  </div>
-                )}
-              </div>
+                </Grid>
+                <Grid item xs={12} md={5}>
+                  <FormControl
+                    className={classes.formControl}
+                    error={error.perfil ? true : false}
+                  >
+                    <InputLabel id='perfil'>Tipo de personalidad</InputLabel>
+                    <Select
+                      fullWidth
+                      name='perfil'
+                      value={values.perfil}
+                      labelId='perfil'
+                      onChange={(e) => handlerOnChange(e)}
+                    >
+                      {perfiles.map((perfil) => (
+                        <MenuItem key={perfil.value} value={perfil.value}>
+                          {perfil.title}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                    {error.perfil && <FormHelperText>{error.perfil}</FormHelperText>}
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12} md={5}>
+                  <FormControl
+                    className={classes.formControl}
+                    error={error.localidad ? true : false}
+                  >
+                    <Autocomplete
+                      options={comunas}
+                      value={values.localidad}
+                      name='localidad'
+                      onChange={(event, newValue) => {
+                        setValues({
+                          ...values,
+                          localidad: newValue
+                        })
+                      }}
+                      getOptionSelected={(option, value) => {
+                        return option === value;
+                      }}
+                      getOptionLabel={ (option) => option }
+                      renderInput={(params) => (
+                        <TextField {...params} label='Comuna' placeholder='Comuna' />
+                      )}
+                    />
+                    {error.localidad && <FormHelperText>{error.localidad}</FormHelperText>}
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12} md={5}>
+                  <FormControl
+                    className={classes.formControl}
+                    error={error.rol ? true : false}
+                  >
+                    <InputLabel id='rol'>Enviar a:</InputLabel>
+                    <Select
+                      fullWidth
+                      name='rol'
+                      value={values.rol}
+                      labelId='rol'
+                      onChange={(e) => handlerOnChange(e)}
+                    >
+                      {usersTypes.map((rol) => (
+                        <MenuItem key={rol.value} value={rol.value}>
+                          {rol.title}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                    {/* <Autocomplete
+                      multiple
+                      options={usersTypes}
+                      getOptionLabel={(option) => option.title}
+                      inputValue=''
+                      name='rol'
+                      onChange={(event, newValue) => {
+                        handlerOnAutoComplete('rol', newValue);
+                      }}
+                      getOptionSelected={(option, value) => {
+                        return option.value === value.value;
+                      }}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          label='Enviar a'
+                          placeholder='Enviar a'
+                        />
+                      )}
+                    /> */}
+                    {error.rol && <FormHelperText>{error.rol}</FormHelperText>}
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12} md={11}>
+                  <FormControl
+                    className={classes.formControl}
+                    error={error.media ? true : false}
+                  >
+                    <div style={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}>
+                      <input type="file" multiple accept="images/*" onChange={addImages} />
+                      {values.media && (
+                        <div style={{
+                          padding: '.5rem',
+                          maxWidth: '50%',
+                          minWidth: '50%',
+                          height: 'auto'
+                        }}>
+                          <img
+                          style={{
+                            maxWidth: '100%',
+                            height: 'auto',
+                          }}
+                          alt="imagen"
+                          src={values.media} />
+                        </div>
+                      )}
+                    </div>
 
 
-              {progress > 0 && (
-                <LinearProgressWithLabel color='secondary' value={progress} />
-              )}
-              {error.media && <FormHelperText>{error.media}</FormHelperText>}
-            </FormControl>
-          </Grid>
-          <Grid item xs={12} md={11}>
-            <TextField
-              value={values.content}
-              name='content'
-              onChange={(e) => handlerOnChange(e)}
-              rows={5}
-              rowsMax={6}
-              multiline={true}
-              label='Contenido'
-              fullWidth
-              error={error.content ? true : false}
-              helperText={error.content ? error.content : ''}
-            />
-          </Grid>
-          <Grid justify='center' container>
-            <ButtonLoading
-            loading={ loading } 
-            variant='contained' 
+                    {progress > 0 && (
+                      <LinearProgressWithLabel color='secondary' value={progress} />
+                    )}
+                    {error.media && <FormHelperText>{error.media}</FormHelperText>}
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12} md={11}>
+                  <TextField
+                    value={values.content}
+                    name='content'
+                    onChange={(e) => handlerOnChange(e)}
+                    rows={5}
+                    rowsMax={6}
+                    multiline={true}
+                    label='Contenido'
+                    fullWidth
+                    error={error.content ? true : false}
+                    helperText={error.content ? error.content : ''}
+                  />
+                </Grid>
+                <Grid justify='center' container>
+                  <ButtonLoading
+                    loading={ loading }
+                    variant='contained'
+                    type='submit'
+                    value="Publicar"
+                    color='secondary'>
+                      Enviar
+                  </ButtonLoading>
+                </Grid>
+              </Grid>
+            </form>
+          </Card>
+        </Grid>
+
+        <Grid container item xs={4} className={classes.rightCard}>
+          <Card style={{ width: '100%', height: '70%' }}>
+            <Grid xs={12} container direction="column">
+
+              <Grid container item justify='flex-start'>
+                <Typography color='primary'>Alcance del público</Typography>
+              </Grid>
+
+              <Grid container item justify='flex-start'>
+                <Typography color='primary'>13.000 personas</Typography>
+              </Grid>
+
+              <Grid container item justify='center'>
+                <Typography color='primary' variant='subtitle2'>Tamaño estimado del público que coincide con las características puestas para ver tu noticia</Typography>
+              </Grid>
+
+              <Grid container item justify='center'>
+                  <img src={PersonImage} alt="PersonImage" style={{ width: '70%', height: '80%', marginTop: '20px'}}/>
+              </Grid>
+            </Grid>
+          </Card>
+        </Grid>
+      </Grid>
+
+      {/*<Box display="flex">
+        <Card style={{ width: '100%' }}>
+        <Grid justify='center' container>
+          <ButtonLoading
+            loading={loading}
+            variant='contained'
             type='submit'
             value="Publicar"
             color='secondary'>
               Enviar
-            </ButtonLoading>
+          </ButtonLoading>
           </Grid>
-        </Grid>
-      </form>
+        </Card>
+      </Box>*/}
     </>
   );
 }

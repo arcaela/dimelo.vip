@@ -2,7 +2,7 @@ if(!document.getElementById('google-maps-api')){
     const script = document.createElement('script')
     script.setAttribute('async', '');
     script.setAttribute('id', 'google-maps-api');
-    script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBntYCJH39TRORGUSYpYHHrcg4Etk8Y208&libraries=&callback=googleReady';
+    script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyAf9e_OwOevrZSEUK_28BbGxq5yHfR94tc&libraries=places&callback=googleReady';
     document.querySelector('head').appendChild(script);
 }
 
