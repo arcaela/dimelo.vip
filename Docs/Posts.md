@@ -21,7 +21,7 @@ const post = await Posts.doc(id).get();
 post.data();
 
 {
-    id: Firebase.Snapshot.id,
+    id: Number,
     autor:{
         uid: String,
         fullname: String,
