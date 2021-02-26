@@ -1,22 +1,20 @@
 import React, { useEffect, useState } from 'react';
 
-import { useHistory, Link } from 'react-router-dom';
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import { Link } from 'react-router-dom';
 import {
   Breadcrumbs,
   Grid,
   TextField,
   Typography,
-  makeStyles,
   MenuItem,
   Select,
   FormControl,
   InputLabel,
   FormHelperText,
   Box,
-  Button,
-  Card
+  Card,
 } from '@material-ui/core';
+import InfoIcon from '@material-ui/icons/Info';
 
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import LinearProgressWithLabel from '~/components/LinearProgressWithLabel';
@@ -27,30 +25,12 @@ import regions from '~/views/SignUp/components/regions';
 import useAuth from '~/ServerLess/Hooks/useAuth';
 import api from '~/ServerLess/api';
 import PersonImage from '~/images/admin/personas.svg'
+import useStyles from './AddNews';
 
-const styles = makeStyles((theme) => ({
-  form: {
-    marginBottom: 30,
-    marginTop: 50,
-  },
-  formControl: {
-    width: '100%',
-  },
-  goBack: {
-    '& a':{ textDecoration:'none', color:'inherit' }
-  },
-  rightCard: {
-    '& .MuiTypography-root':{ cursor:'default' },
-    '& .MuiTypography-h6':{ font:'normal normal bold 50px/71px Source Sans Pro', },
-    '& .MuiTypography-subtitle2':{ font:'normal normal 300 20px/25px Source Sans Pro', },
-  }
-}));
+
 
 export default function AddNews() {
-
-  const classes = styles();
-
-  const router = useHistory()
+  const classes = useStyles();
 
   const user = useAuth()
 
@@ -168,7 +148,6 @@ export default function AddNews() {
     });
   };
 
-
   useEffect(() => {
     if(comunas.length === 0){
       const data = regions.all;
@@ -190,39 +169,34 @@ export default function AddNews() {
 
   return (
     <>
-      {success && (<AlertToast
-        open={success}
-        handleClose={() => setSuccess(!success)}
-        hideDuration={5000}
-        severity='success'
-        message={ message }
-      />)}
+      {success && (
+        <AlertToast
+          open={success}
+          handleClose={() => setSuccess(!success)}
+          hideDuration={5000}
+          severity='success'
+          message={ message }
+        />
+      )}
 
       <TitlePage title='Agregar noticia' />
 
-      <Box display="flex" justifyContent="space-between" >
-        <Grid item>
+      {/* Breadcrumbs and Go back */}
+      <Box display="flex" justifyContent="space-between" style={{ marginBottom: '20px' }}>
         <Breadcrumbs separator=">">
           <Typography>Noticias</Typography>
           <Typography color='textPrimary'>Agregar Noticia</Typography>
         </Breadcrumbs>
-        </Grid>
-        <Grid item>
-        <Typography className={classes.goBack}> <Link to="/admin/news/">Volver</Link> </Typography>
-        </Grid>
-        {/*    <Button
-              //startIcon={<ArrowBackIosIcon />}
-              onClick={ ()=> router.push('/admin/news/') }
-            >
-              Volver
-            </Button>*/}
+        <Typography color='textPrimary' className={classes.goBack}> <Link to="/admin/news/">Volver</Link> </Typography>
       </Box>
 
-      <Grid container direction="row" spacing={2}>
-        <Grid container item xs={8}>
+      <Grid container direction="row" display="flex" spacing={1}>
+        {/* Left Card */}
+        <Grid container item xs={9}>
           <Card style={{ height: '100%' }}>
             <form onSubmit={(e) => handlerSubmit(e)} className={classes.form}>
               <Grid spacing={5} container justify='space-around'>
+
                 <Grid item xs={12} md={5}>
                   <TextField
                     value={values.title}
@@ -234,6 +208,7 @@ export default function AddNews() {
                     helperText={error.title ? error.title : ''}
                   />
                 </Grid>
+
                 <Grid item xs={12} md={5}>
                   <FormControl
                     className={classes.formControl}
@@ -256,6 +231,7 @@ export default function AddNews() {
                     {error.perfil && <FormHelperText>{error.perfil}</FormHelperText>}
                   </FormControl>
                 </Grid>
+
                 <Grid item xs={12} md={5}>
                   <FormControl
                     className={classes.formControl}
@@ -282,6 +258,7 @@ export default function AddNews() {
                     {error.localidad && <FormHelperText>{error.localidad}</FormHelperText>}
                   </FormControl>
                 </Grid>
+
                 <Grid item xs={12} md={5}>
                   <FormControl
                     className={classes.formControl}
@@ -324,6 +301,7 @@ export default function AddNews() {
                     {error.rol && <FormHelperText>{error.rol}</FormHelperText>}
                   </FormControl>
                 </Grid>
+
                 <Grid item xs={12} md={11}>
                   <FormControl
                     className={classes.formControl}
@@ -360,6 +338,7 @@ export default function AddNews() {
                     {error.media && <FormHelperText>{error.media}</FormHelperText>}
                   </FormControl>
                 </Grid>
+
                 <Grid item xs={12} md={11}>
                   <TextField
                     value={values.content}
@@ -374,6 +353,7 @@ export default function AddNews() {
                     helperText={error.content ? error.content : ''}
                   />
                 </Grid>
+
                 <Grid justify='center' container>
                   <ButtonLoading
                     loading={ loading }
@@ -389,44 +369,36 @@ export default function AddNews() {
           </Card>
         </Grid>
 
-        <Grid container item xs={4} className={classes.rightCard}>
+        {/* Rigth Card */}
+        <Grid container item xs={3} className={classes.rightCard}>
           <Card style={{ width: '100%', height: '70%' }}>
             <Grid xs={12} container direction="column">
 
               <Grid container item justify='flex-start'>
-                <Typography color='primary'>Alcance del público</Typography>
+                <Typography color='primary' variant='subtitle1'>Alcance del público</Typography>
               </Grid>
 
               <Grid container item justify='flex-start'>
-                <Typography color='primary'>13.000 personas</Typography>
+                <Typography variant='subtitle2'>13.000 personas</Typography>
+              </Grid>
+
+              <Grid container item direction="row" display="flex">
+                <Grid container item xs={1} style={{ marginTop: '20px', marginLeft: '20px', color: '#4D4F5C' }}>
+                  <InfoIcon fontSize="small" />
+                </Grid>
+                <Grid container item xs={10}>
+                  <Typography variant='body1'>Tamaño estimado del público que coincide con las características puestas para ver tu noticia</Typography>
+                </Grid>
               </Grid>
 
               <Grid container item justify='center'>
-                <Typography color='primary' variant='subtitle2'>Tamaño estimado del público que coincide con las características puestas para ver tu noticia</Typography>
-              </Grid>
-
-              <Grid container item justify='center'>
-                  <img src={PersonImage} alt="PersonImage" style={{ width: '70%', height: '80%', marginTop: '20px'}}/>
+                  <img src={PersonImage} alt="PersonImage" style={{ width: '80%', height: '80%' }}/>
               </Grid>
             </Grid>
           </Card>
         </Grid>
       </Grid>
 
-      {/*<Box display="flex">
-        <Card style={{ width: '100%' }}>
-        <Grid justify='center' container>
-          <ButtonLoading
-            loading={loading}
-            variant='contained'
-            type='submit'
-            value="Publicar"
-            color='secondary'>
-              Enviar
-          </ButtonLoading>
-          </Grid>
-        </Card>
-      </Box>*/}
     </>
   );
 }
