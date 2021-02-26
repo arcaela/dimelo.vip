@@ -21,13 +21,13 @@ const user = await Users.doc(uid).get();
 user.data();
 
 {
-    uid: Firebase.Auth.User.uid,
+    id: Number,
     rol: Number,
     locked: Boolean,
     fullname: String,
     photoURL: String | URL,
     birthday: Date String,
-    dni: Number,
+    cedula: Number,
     address:{
         string: String,
         coords:{
