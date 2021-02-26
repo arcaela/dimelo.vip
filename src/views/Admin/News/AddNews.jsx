@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import TitlePage from '~/components/TitlePage';
+import FileUploader from 'react-firebase-file-uploader';
 
 import {
   Breadcrumbs,
@@ -17,6 +18,7 @@ import {
 } from '@material-ui/core';
 
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import newsFireBase from './NewstFireBase';
 import LinearProgressWithLabel from '~/components/LinearProgressWithLabel';
 import AlertToast from '~/components/AlertToast';
 import ButtonLoading from '~/components/ButtonLoading';
@@ -24,7 +26,6 @@ import { useHistory } from 'react-router-dom';
 import regions from '~/views/SignUp/components/regions';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import useAuth from '~/ServerLess/Hooks/useAuth';
-import api from '~/ServerLess/api';
 
 const newsStyle = makeStyles((theme) => ({
   form: {
@@ -48,7 +49,7 @@ export default function AddNews() {
     //autor{name, uid}
     title: '',
     perfil: '',
-    localidad: '',
+    localidad: 'MEDELLIN',
     rol: '',
     media: '',
     content: '',
@@ -57,7 +58,7 @@ export default function AddNews() {
   const [error, setError] = useState({
     title: '',
     perfil: '',
-    localidad: '',
+    localidad: 'MEDELLIN',
     rol: '',
     media: '',
     content: '',
@@ -117,37 +118,35 @@ export default function AddNews() {
     setProgress(0)
   }
 
-  const addImages = ({target:{files}})=>{
-    setValues({
-      ...values,
-      media:[...files],
-    });
-  }
-
   const handlerSubmit = async (e) => {
     e.preventDefault();
 
-    await setLoading(true);
+    setLoading(true)
+
     for (const value in values) {
       if ( values[value].length === 0 && value !== 'media') {
-        await setError((prev) => ({
+        setError((prev) => ({
           ...prev,
           [value]: 'Este Campo No Puede Estar Vacio',
         }));
       }
     }
+
     const isValid = verifyForm();
+
     try {
+
       if (isValid) {
-        await api('posts/create', {...values})
+        await newsFireBase.addNews(values);
         setMessage('Publicada');
         setSuccess(!success);
+        setLoading(false)
         reset()
-        window.location.replace('/admin/news/')
+        router.push('/admin/news/')
       }
     } catch (e) {
-      console.log(e);
-    } finally{ setLoading(false) }
+      setLoading(false)
+    }
   };
 
   const handlerOnChange = (e) => {
@@ -157,6 +156,35 @@ export default function AddNews() {
     });
   };
 
+  // const handlerOnAutoComplete = (field, value) => {
+  //   setValues((prev) => ({
+  //     ...prev,
+  //     [field]: [...value.map((value) => value.value)],
+  //   }));
+  // };
+
+  const handleUploadSuccess = async (filename) => {
+    const storageRef = newsFireBase.getImagenRef();
+
+    const name = await filename;
+
+    storageRef
+      .child(name)
+      .getDownloadURL()
+      .then(function (url) {
+        setValues({
+          ...values,
+          media: url,
+        });
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+
+  const handlerOnProgress = (progress) => {
+    setProgress(progress);
+  };
 
   useEffect(() => {
 
@@ -236,7 +264,7 @@ export default function AddNews() {
               {error.perfil && <FormHelperText>{error.perfil}</FormHelperText>}
             </FormControl>
           </Grid>
-          <Grid item xs={12} md={5}>
+          {/* <Grid item xs={12} md={5}>
             <FormControl
               className={classes.formControl}
               error={error.localidad ? true : false}
@@ -261,8 +289,8 @@ export default function AddNews() {
               />
               {error.localidad && <FormHelperText>{error.localidad}</FormHelperText>}
             </FormControl>
-          </Grid>
-          <Grid item xs={12} md={5}>
+          </Grid> */}
+          <Grid item xs={12} md={11}>
             <FormControl
               className={classes.formControl}
               error={error.rol ? true : false}
@@ -314,7 +342,25 @@ export default function AddNews() {
                 justifyContent: 'center',
                 alignItems: 'center',
               }}>
-                <input type="file" multiple accept="images/*" onChange={addImages} />
+                <label style={{
+                  backgroundColor: '#82D827', 
+                  color: 'white',
+                  borderRadius: 4,
+                  width: '50%',
+                  padding: '.5rem',
+                  cursor: 'pointer'}}>
+                    Subir Imagen
+                  <FileUploader
+                    hidden
+                    accept='image/*'
+                    name='imagenNews'
+                    randomizeFilename
+                    storageRef={newsFireBase.getImagenRef()}
+                    onUploadSuccess={handleUploadSuccess}
+                    onProgress={handlerOnProgress}
+                  />
+                </label>
+
                 {values.media && (
                   <div style={{
                     padding: '.5rem',

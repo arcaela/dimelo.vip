@@ -22,7 +22,7 @@ import useAuth from '~/ServerLess/Hooks/useAuth';
 import middlewares from '~/config/middlewares';
 import ButtonProfile from '~/components/ButtonProfile';
 import api from '~/ServerLess/api';
-// import Invitar from '~/components/Inivitar';
+import Invitar from '~/components/Invitar';
 
 
 
@@ -147,8 +147,8 @@ export default function Layout({ fullPage=false, middleware=true, children }){
          </IconButton>
          <img alt="" src="/images/brand.svg" className="brand" />
          <span className="flex-grow" />
-         {/* <Invitar /> */}
-         { context.auth && <ButtonProfile />}
+         { context.auth && <Invitar auth={ context } /> }
+         <ButtonProfile />
        </Toolbar>
      </AppBar>
     <Drawer
