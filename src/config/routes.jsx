@@ -49,3 +49,4 @@ Route('/posts', require('~/views/Posts').default);
 Route('/red', require('~/views/Red').default);
 Route('/test', require('~/views/Test').default);
 Route('/admin/:slug(.*)?', require('~/views/Admin').default);
+Route('/account', require('~/views/Profile').default);

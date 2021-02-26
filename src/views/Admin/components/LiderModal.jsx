@@ -59,8 +59,7 @@ export default function LiderModal({ open, setOpen, followers, leader, patron })
     email = '',
     movil = '',
     voting_point = '',
-    name = '',
-    lastname = '',
+    fullname = '',
   } = leader;
 
 
@@ -77,11 +76,11 @@ export default function LiderModal({ open, setOpen, followers, leader, patron })
             display: 'flex'
           }}>
             <div className={classes.avatarContainer}>
-              <Avatar className={classes.large} children={ name ? name[0] : lastname[0] } />
+              <Avatar className={classes.large} children={ fullname ? fullname[0] : '' } />
             </div>
             <div className={classes.cardContainer}>
               <div  className={classes.pRelative}>
-                <CardHeader title={ `${name} ${lastname}` } />
+                <CardHeader title={fullname} />
                 <div className={classes.actionsHeader}>
                   <IconButton>
                     <img src={Delete} alt='eliminar' />
