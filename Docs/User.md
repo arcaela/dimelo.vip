@@ -6,18 +6,14 @@ Saludos muchachos, este es un documento con las especificaciones y estructura de
 ## User | Snapshot
 Para acceder a la propiedad de los usuarios debe realizarse una consulta específica a la colección de usuarios:
 ```javascript
-    import Users from '~/ServerLess/Collection/Users'
-    //                    o
-    const Users = require('~/ServerLess/Collection/Users');
+    import { Users } from '~/ServerLess'
+    import Users from '~/ServerLess/collections/Users'
 ```
 
 ```javascript
 const users = await Users.where(fieldName, '==', fieldValue).get();
-users.forEach(user=>{
-    return user.data();
-});
 
-const user = await Users.doc(uid).get();
+const user = await Users.doc(id).get();
 user.data();
 
 {
@@ -37,7 +33,7 @@ user.data();
     },
     phone: Number,
     movil: Number,
-    leader: Number | Existe en Users,
+    leader: String | User ID,
     family:{
         adults: Number,
         partners: Number,
