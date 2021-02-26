@@ -63,10 +63,10 @@ const $store = {
         },
     
         adults:{name:'adults', value:'', error:null,
-            invalid(){ return !this.value?'Te agradecemos una respuesta':null },
+            invalid(){ return !this.value?'Te agradecemos una respuesta':( !this.value.match(/^\d+$/gi)?"Solo se admiten números":null )},
         },
         partners:{name:'partners', value:'', error:null,
-            invalid(){ return !this.value?'Se requiere una respuesta':null },
+            invalid(){ return !this.value?'Se requiere una respuesta':( !this.value.match(/^\d+$/gi)?"Solo se admiten números":null )},
         },
     },
     firestore:firebase.app('firestore').firestore(),
