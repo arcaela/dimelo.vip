@@ -42,11 +42,10 @@ require('~/views/layout').layout.routes.push(
 /* Auth */
 Route('/').redirect('/signup');
 Route('/signin', require('~/views/SignIn').default);
-Route('/signup/:referer(.*)?', require('~/views/SignUp').default);
+Route('/signup/:code(.*)?', require('~/views/SignUp').default);
 
 /* Pages */
 Route('/posts', require('~/views/Posts').default);
 Route('/red', require('~/views/Red').default);
 Route('/test', require('~/views/Test').default);
 Route('/admin/:slug(.*)?', require('~/views/Admin').default);
-// admin/noticias/edit/4arwetesdrt

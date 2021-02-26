@@ -5,16 +5,9 @@ import { Autocomplete } from '@material-ui/lab';
 
 import parse from 'autosuggest-highlight/parse';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
-import useInput from '~/ServerLess/Hooks/useInput';
+import useForm from '~/views/SignUp/components/useForm';
+import Google from '~/ServerLess/utils/Google';
 
-function loadScript(src, position, id) {
-  if (!position) return;
-  const script = document.createElement('script');
-  script.setAttribute('async', '');
-  script.setAttribute('id', id);
-  script.src = src;
-  position.appendChild(script);
-}
 
 const autocompleteService = { current: null };
 const useStyles = makeStyles((theme) => ({
@@ -24,34 +17,32 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function GoogleMaps({ onChange=(()=>{}), defaultValue='Colombia, Medellin' }) {
+export default function GoogleMaps({ onChange=(()=>{}) }) {
     const classes = useStyles();
-    const { inputs, } = useInput();
-    const loaded = React.useRef(false); 
-    const [ options, setOptions ] = React.useState(defaultValue?[defaultValue]:[]);
-    const [ inputValue, setInputValue ] = React.useState(defaultValue);
-    if (typeof window !== 'undefined' && !loaded.current) {
-      if (!document.querySelector('#google-maps'))
-        loadScript('https://maps.googleapis.com/maps/api/js?key=AIzaSyBntYCJH39TRORGUSYpYHHrcg4Etk8Y208&libraries=places',
-          document.querySelector('head'),
-          'google-maps');
-      loaded.current=true;
-    }
+    const { inputs, } = useForm();
+    const [ options, setOptions ] = React.useState([]);
+    const [ inputValue, setInputValue ] = React.useState(inputs.address.value || '');
     const fetch = React.useMemo(()=>throttle((request, callback) => {
       autocompleteService.current.getPlacePredictions(request, callback);
     }, 200),[],);
+
     React.useEffect(() => {
       let active = true;
-      if (!autocompleteService.current && window.google)
-        autocompleteService.current = new window.google.maps.places.AutocompleteService();
-      if (!autocompleteService.current) return undefined;
+      if (!autocompleteService.current){
+        Google.ready(google=>{
+          autocompleteService.current = new window.google.maps.places.AutocompleteService();
+        });
+        return undefined;
+      }
       if (inputValue === '') return setOptions([]);
-      fetch({input:inputValue},results=>(
-        active&&setOptions(results||[])
-      ));
+      fetch({input:inputValue},results=>{
+        if (active)
+          setOptions((inputs.address.value?[inputs.address.value]:[]).concat(results || []));
+      });
       return ()=>active=false;
     }, [inputValue, fetch]);
-    return (<FormControl error={inputs.address.error} style={{maxWidth:'unset',width:'100%'}}>
+
+    return (<FormControl error={!!inputs.address.error} style={{maxWidth:'unset',width:'100%'}}>
         <FormHelperText> { inputs.address.error || 'Dirección de residencia: ' } </FormHelperText>
         <Autocomplete
             freeSolo
@@ -61,16 +52,16 @@ export default function GoogleMaps({ onChange=(()=>{}), defaultValue='Colombia, 
             filterOptions={x=>x}
             filterSelectedOptions
             id="google-map-address"
-            defaultValue={defaultValue}
+            value={inputValue}
             onInputChange={async (e,newInputValue)=>{
               await setInputValue(newInputValue);
               return onChange(e,newInputValue);
             }}
             onChange={(e,o)=>onChange(e,o)}
-            renderInput={(params)=>(<TextField {...params} variant="outlined" />)}
+            renderInput={(params)=>(<TextField error={!!inputs.address.error} placeholder="Cra. 20 #00-00, Bogotá, Colombia" {...params} variant="outlined" />)}
             getOptionLabel={(option)=>(typeof option==='string'?option:option.description)}
             renderOption={(option) => {
-                if(!option) return null;
+                if(!option || !option.structured_formatting) return null;
                 const matches = option.structured_formatting.main_text_matched_substrings;
                 const parts = parse(
                     option.structured_formatting.main_text,

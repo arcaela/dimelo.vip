@@ -32,6 +32,6 @@ export default function useAuth(){
     }, [ user ]);
     return user && {
         ...user,
-        followers:()=>CollectionsUsers.where('voting_leader', '==', (user.rol===0?'admin':user.cedula)).get(), // FireStore Snapshot(s)
+        followers:()=>CollectionsUsers.where('voting_leader', '==', (user.rol===0?'admin':user.dni)).get(), // FireStore Snapshot(s)
     };
 }
