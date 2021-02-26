@@ -16,8 +16,12 @@ const routes = {
         },
         signIn: async ({email, password, remember=false})=>{
             await firebase.auth().setPersistence(firebase.auth.Auth.Persistence[!!remember?'LOCAL':'SESSION']);
-            const {user:{uid}} = await firebase.auth().signInWithEmailAndPassword(email, password);
-            return Users.doc(uid).get().then(snap=>snap.data());
+            const snap = await Users.where('email', '==', email).get();
+            const user = snap.docs[0]?.data();
+            if(!user) throw {message:"Email no registrado"};
+            else if(user.leader==='[locked]') throw {message:"Cuenta bloqueada"};
+            await firebase.auth().signInWithEmailAndPassword(email, password);
+            return user;
         },
         signOut: async (callback=()=>{})=>firebase.auth().signOut().then(callback),
     },

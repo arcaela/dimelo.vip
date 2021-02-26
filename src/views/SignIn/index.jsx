@@ -2,7 +2,7 @@ import React from 'react'
 import Layout from '../layout';
 import useStyles from './SignIn';
 import { Link } from 'react-router-dom';
-import useInput from '~/ServerLess/Hooks/useInput';
+import useForm from '~/views/SignUp/components/useForm';
 import { Button, CircularProgress, Grid, Toolbar, Typography, } from '@material-ui/core';
 import api from '~/ServerLess/api';
 
@@ -11,9 +11,10 @@ export default function SignIn(req){
     const {
         inputs,
         loading,
+        setInput,
         setLoading,
         InputField,
-    } = useInput();
+    } = useForm();
     return (<Layout fullPage middleware={['guest']}>
         <Grid container className={classes.$root}>
             <Grid item xs={12} md={6} className={classes.gridLeft}>
@@ -33,18 +34,14 @@ export default function SignIn(req){
                             fullWidth
                             disabled={loading}
                             onClick={async ()=>{
-                                try {
-                                    await setLoading(true);
-                                    const client = await api('auth/signin', {
-                                        remember:true,
-                                        email:inputs.email.value,
-                                        password:inputs.password.value,
-                                    });
-                                    if(client && client.uid)
-                                        return window.location.replace(client.patron?'/posts':'/test')
-                                }
-                                catch (error) { alert(error.message); }
-                                finally{ await setLoading(false); }
+                                await setLoading(true);
+                                await api('auth/signin', {
+                                    remember:true,
+                                    email:inputs.email.value,
+                                    password:inputs.password.value,
+                                }).then(client=>window.location.replace(client.patron?'/posts':'/test'))
+                                .catch((error)=>setInput('email', {error:error.message}))
+                                .finally(async ()=>await setLoading(false))
                             }}
                             children={loading?<CircularProgress style={{ color: 'white' }} size={20} />:"Ingresar"}/>
                     </div>

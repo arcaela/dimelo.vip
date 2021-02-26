@@ -4,6 +4,11 @@ import AuroraJS from '@arcaela/aurora';
 import './config/themes'
 import './config/routes'
 import './config/firebase'
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
+
 ReactDOM.render(<React.StrictMode>
-    <AuroraJS />
+    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+        <AuroraJS />
+    </MuiPickersUtilsProvider>
 </React.StrictMode>, document.getElementById('app'));
