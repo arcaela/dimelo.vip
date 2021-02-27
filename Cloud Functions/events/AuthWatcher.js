@@ -16,6 +16,7 @@ exports.onCreateAccounts = functions.auth.user().onCreate(async snap=>{
       uid,
       rol:2,
       locked:true,
+      email:snap.email,
       fullname:'Jhon Doe',
       birthday:'01/01/1970',
       dni:uid,
@@ -40,9 +41,9 @@ exports.onCreateAccounts = functions.auth.user().onCreate(async snap=>{
 });
 
 
-exports.onDeleteAccounts = functions.auth.user().onDelete(snap=>{
+exports.onDeleteAccounts = functions.auth.user().onDelete(async snap=>{
   const uid = snap.uid;
-  return Promise.all([
+  return await Promise.all([
     Users.doc(uid).delete(),
     Posts.where('autor.uid', '==', uid).get().then(posts=>posts.forEach(post=>post.ref.delete())),
   ]);

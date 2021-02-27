@@ -23,7 +23,7 @@ import StepReflexivo from './Components/StepReflexivo';
 import StepResult from './Components/StepResult';
 import { TestButton } from './Components/TestButton';
 
-import useTest from '~/ServerLess/Hooks/useTest';
+import useTest from '~/hooks/useTest';
 import WelcomeImage from '~/images/test/welcome.svg'
 import {
   Container,

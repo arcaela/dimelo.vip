@@ -25,7 +25,7 @@ import ButtonLoading from '~/components/ButtonLoading';
 import { useHistory } from 'react-router-dom';
 import regions from '~/views/SignUp/components/regions';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import useAuth from '~/ServerLess/Hooks/useAuth';
+import useAuth from '~/ServerLess/hooks/useAuth';
 
 const newsStyle = makeStyles((theme) => ({
   form: {
