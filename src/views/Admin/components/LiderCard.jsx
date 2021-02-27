@@ -104,8 +104,7 @@ export default function LiderCard({ leader }) {
     email = '',
     movil = '',
     voting_point = '',
-    name = '',
-    lastname = '',
+    fullname = '',
     uid = null,
   } = leader;
 
@@ -135,13 +134,13 @@ export default function LiderCard({ leader }) {
         <Grid className={classes.avatarContainer} item xs={2}>
           <Avatar
             className={classes.large}
-            children={name ? name[0] : lastname[0]}
+            children={fullname ? fullname[0] : ''}
           />
         </Grid>
         <Grid item xs={10}>
           <CardHeader
             className={classes.header}
-            title={` ${name} ${lastname} `}
+            title={fullname}
             action={
               leader.rol === 0 ?
               <>

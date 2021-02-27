@@ -29,19 +29,18 @@ export default function LiderCardModal({ user }) {
   const classes = useStyles();
 
   const{
-    name = '',
-    lastname = '',
+    fullname = '',
     voting_point = ''
   } = user;
 
   return (
     <ListItem alignItems='flex-start' className={classes.container}>
         <ListItemAvatar>
-          <Avatar alt='Remy Sharp' children={ name ? name[0] : lastname[0] } />
+          <Avatar alt='Remy Sharp' children={ fullname ? fullname[0] : '' } />
         </ListItemAvatar>
         <div className="">
           <ListItemText
-            primary={ `${name} ${lastname}` }
+            primary={ fullname }
           />
           {user?.patron && <div className={ classes.perfil } >
               {patron.label}

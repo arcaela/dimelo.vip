@@ -1,5 +1,5 @@
 const { Route } = require('@arcaela/aurora/hooks');
-const { NaturePeople, PeopleAltOutlined, Message, Announcement } = require('@material-ui/icons');
+const { NaturePeople, Message, Announcement } = require('@material-ui/icons');
 const UsersIcon = require('~/images/svg/users.svg').default;
 const MovementIcon = require('~/images/svg/users-friends.svg').default;
 
@@ -49,3 +49,4 @@ Route('/posts', require('~/views/Posts').default);
 Route('/red', require('~/views/Red').default);
 Route('/test', require('~/views/Test').default);
 Route('/admin/:slug(.*)?', require('~/views/Admin').default);
+Route('/account', require('~/views/Profile').default);
