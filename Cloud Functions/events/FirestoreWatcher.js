@@ -9,7 +9,8 @@ const WelcomeEmailContent = fs.readFileSync(path.join(__dirname, `/../resources/
 const WelcomeTemplate = handlebars.compile(WelcomeEmailContent);
 module.exports.userCreate = functions.firestore.document('/users/{uid}').onCreate(async (snap) => {
     const client = snap.data();
-    admin.firestore().collection('leaders')
+    if(!client.leader && !client.locked)
+        await snap.ref.update({ leader:71779276, locked:true, });
     return mail.sendMail({
         from: '"Dimelo.vip" <no-reply@dimelo.vip>',
         to: client.email,
@@ -19,13 +20,11 @@ module.exports.userCreate = functions.firestore.document('/users/{uid}').onCreat
 });
 
 
-
-
 module.exports.leadersUpdate = functions.firestore.document('leaders/{uid}').onWrite(async snap=>{
     const _old = snap.before;
     const _new = snap.after;
     const leader = _new.exists?_new.data():_old.data();
-    leader.rol = _new.exists?( _new.data().dni===11111111?0:1 ):2;
+    const rol = _new.exists?(_new.data().dni===71779276?0:1):2;
     return admin.firestore().collection('users').where('dni', '==', leader.dni).get(_=>{
         const batch = admin.firestore.batch();
         for(doc of docs)

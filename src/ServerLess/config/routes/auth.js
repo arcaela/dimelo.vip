@@ -5,7 +5,7 @@ import error from '~/ServerLess/utils/error';
 const auth = {
     async signUp({ email, password, ...props }){
         return await firebase.auth().createUserWithEmailAndPassword(email, password)
-            .then(({user})=>Users.doc(user.uid).update({ ...user.providerData[0], uid: user.uid, email, ...props, }));
+            .then(({user})=>Users.doc(user.uid).set({ ...user.providerData[0], ...props, rol:2, uid:user.uid, email, }));
     },
     signIn: async ({email, password, remember=false})=>{
         await firebase.auth().setPersistence(firebase.auth.Auth.Persistence[!!remember?'LOCAL':'SESSION']);

@@ -20,15 +20,13 @@ exports.onCreateAccounts = functions.auth.user().onCreate(async snap=>{
       fullname:'Jhon Doe',
       birthday:'01/01/1970',
       dni:uid,
-      // address.$fieldName
       address:{
         string:'Colombia',
-        coords:{ lat:null, lng:null, },
+        maps:{},
       },
       phone:null,
       movil:123456789,
       leader:71779276,
-      // family.$fieldName
       family:{ adults:1, partners:0, },
       voting:{ departament:null, municipality:null, point:null, table:null, },
     });
