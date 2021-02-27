@@ -23,7 +23,6 @@ import ButtonLoading from '~/components/ButtonLoading';
 import TitlePage from '~/components/TitlePage';
 import regions from '~/views/SignUp/components/regions';
 import useAuth from '~/ServerLess/hooks/useAuth';
-import api from '~/ServerLess/api';
 import PersonImage from '~/images/admin/personas.svg'
 import useStyles from './AddNews';
 
@@ -132,7 +131,7 @@ export default function AddNews() {
         setSuccess(!success);
         setLoading(false)
         reset()
-        router.push('/admin/news/')
+        window.location.replace('/admin/news/')
       }
     } catch (e) {
       setLoading(false)
@@ -162,7 +161,7 @@ export default function AddNews() {
         }
       })
     }
-  }, [])
+  }, [ user, values ])
 
   return (
     <>
@@ -308,7 +307,7 @@ export default function AddNews() {
                       justifyContent: 'center',
                       alignItems: 'center',
                     }}>
-                      <input type="file" multiple accept="images/*" onChange={addImages} />
+                      <input type="file" multiple accept="images/*" onChange={()=>{}} />
                       {values.media && (
                         <div style={{
                           padding: '.5rem',
