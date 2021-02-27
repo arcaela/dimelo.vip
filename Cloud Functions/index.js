@@ -1,2 +1,2 @@
-module.exports.DocumentCreated = require('./events/DocumentCreated')
-module.exports.DocumentWatcher = require('./events/DocumentWatcher')
+module.exports.Auth = require('./events/AuthWatcher')
+module.exports.Firestore = require('./events/FirestoreWatcher')

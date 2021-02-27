@@ -9,11 +9,10 @@ if(!document.getElementById('google-maps-api')){
 const Google = {
     __google__:null,
     __promise__:new Promise(()=>{}),
-    ready(callback){ return this.__promise__.then(callback); },
+    ready(callback){ return this.__promise__.then(()=>callback(window.google)); },
 };
 Google.__promise__ = new Promise((s,e)=>{ Google.__resolve__=s; Google.__reject__=e; });
 window.googleReady = ()=>Google.__resolve__(Google.__google__=window.google);
-
 
 
 export default Google;

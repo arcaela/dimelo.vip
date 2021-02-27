@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-
 import { Link } from 'react-router-dom';
 import {
   Breadcrumbs,
@@ -17,12 +16,13 @@ import {
 import InfoIcon from '@material-ui/icons/Info';
 
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import newsFireBase from './NewstFireBase';
 import LinearProgressWithLabel from '~/components/LinearProgressWithLabel';
 import AlertToast from '~/components/AlertToast';
 import ButtonLoading from '~/components/ButtonLoading';
 import TitlePage from '~/components/TitlePage';
 import regions from '~/views/SignUp/components/regions';
-import useAuth from '~/ServerLess/Hooks/useAuth';
+import useAuth from '~/ServerLess/hooks/useAuth';
 import api from '~/ServerLess/api';
 import PersonImage from '~/images/admin/personas.svg'
 import useStyles from './AddNews';
@@ -38,7 +38,7 @@ export default function AddNews() {
     //autor{name, uid}
     title: '',
     perfil: '',
-    localidad: '',
+    localidad: 'MEDELLIN',
     rol: '',
     media: '',
     content: '',
@@ -47,7 +47,7 @@ export default function AddNews() {
   const [error, setError] = useState({
     title: '',
     perfil: '',
-    localidad: '',
+    localidad: 'MEDELLIN',
     rol: '',
     media: '',
     content: '',
@@ -108,37 +108,35 @@ export default function AddNews() {
     setProgress(0)
   }
 
-  const addImages = ({target:{files}})=>{
-    setValues({
-      ...values,
-      media:[...files],
-    });
-  }
-
   const handlerSubmit = async (e) => {
     e.preventDefault();
 
-    await setLoading(true);
+    setLoading(true)
+
     for (const value in values) {
       if ( values[value].length === 0 && value !== 'media') {
-        await setError((prev) => ({
+        setError((prev) => ({
           ...prev,
           [value]: 'Este Campo No Puede Estar Vacio',
         }));
       }
     }
+
     const isValid = verifyForm();
+
     try {
+
       if (isValid) {
-        await api('posts/create', {...values})
+        await newsFireBase.addNews(values);
         setMessage('Publicada');
         setSuccess(!success);
+        setLoading(false)
         reset()
-        window.location.replace('/admin/news/')
+        router.push('/admin/news/')
       }
     } catch (e) {
-      console.log(e);
-    } finally{ setLoading(false) }
+      setLoading(false)
+    }
   };
 
   const handlerOnChange = (e) => {
@@ -147,7 +145,6 @@ export default function AddNews() {
       [e.target.name]: e.target.value,
     });
   };
-
   useEffect(() => {
     if(comunas.length === 0){
       const data = regions.all;
@@ -189,7 +186,6 @@ export default function AddNews() {
         </Breadcrumbs>
         <Typography color='textPrimary' className={classes.goBack}> <Link to="/admin/news/">Volver</Link> </Typography>
       </Box>
-
       <Grid container direction="row" display="flex" spacing={1}>
         {/* Left Card */}
         <Grid container item xs={9}>

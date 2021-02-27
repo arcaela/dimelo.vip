@@ -28,14 +28,16 @@ export default makeStyles(theme=>({
         flexWrap:'wrap',
         alignItems:'center',
         justifyContent:'space-between',
-        '& > .MuiFormControl-root':{
+        '& > .MuiFormControl-root, & .MuiGrid-root > .MuiFormControl-root':{
             width:'100%',
             maxWidth:'48%',
             marginBottom:10,
+            '&.MuiFormControl-fullWidth, &:only-child':{ maxWidth:'unset', },
             [theme.breakpoints.down('xs')]:{
                 fontWeight:300,
+                maxWidth:'unset',
+                margin:'20px auto 0 auto',
                 '& > .MuiIconButton-root':{ color:'white',fontWeight:300 },
-                '&, &:only-child':{ maxWidth:'unset', margin:'20px auto 0 auto', },
                 '& .MuiFormHelperText-root:not(.Mui-error), & .MuiInputBase-root':{
                     color:'white',
                     fontWeight:'inherit',

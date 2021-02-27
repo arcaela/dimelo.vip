@@ -79,12 +79,12 @@ export default function TableNews() {
       selector: 'perfil',
       sortable: false,
     },
-    {
-      name: 'Comuna',
-      //selector: 'localidad',
-      cell: row => row.localidad,
-      sortable: false,
-    },
+    // {
+    //   name: 'Comuna',
+    //   selector: 'localidad',
+    //   cell: row => row.localidad,
+    //   sortable: false,
+    // },
     {
         cell: row  => <ActionsButton row={row.id} />,
         button: true,
@@ -138,7 +138,7 @@ export default function TableNews() {
           columns={ columns }
           data={ filterRow }
           progressPending={ pending }
-          noDataComponent='No se encontraron noticias con ese titulo'
+          noDataComponent='No se encontraron noticias'
           progressComponent={ <CustomProgress /> }
           pagination
           paginationResetDefaultPage={resetPaginationToggle}
