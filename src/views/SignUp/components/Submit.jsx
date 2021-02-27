@@ -1,5 +1,5 @@
-import api from '~/ServerLess/api'
-import Users from '~/ServerLess/Collections/Users';
+import api from '~/ServerLess/utils/api'
+import Users from '~/ServerLess/collections/Users';
 
 export default async function Submit (useForm){
     const {

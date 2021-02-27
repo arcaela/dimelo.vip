@@ -28,7 +28,7 @@ export default makeStyles(theme=>({
         flexWrap:'wrap',
         alignItems:'center',
         justifyContent:'space-between',
-        '& > .MuiFormControl-root, & > .MuiGrid-root > .MuiFormControl-root':{
+        '& > .MuiFormControl-root, & .MuiGrid-root > .MuiFormControl-root':{
             width:'100%',
             maxWidth:'48%',
             marginBottom:10,

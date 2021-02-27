@@ -6,9 +6,6 @@ if(!document.getElementById('google-maps-api')){
     document.querySelector('head').appendChild(script);
 }
 
-
-
-
 const Google = {
     __google__:null,
     __promise__:new Promise(()=>{}),

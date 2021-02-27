@@ -8,10 +8,9 @@ import {
 } from '@material-ui/core';
 import firebase from '~/config/firebase'
 import { merge } from 'lodash'
-import useInputs from '~/ServerLess/Hooks/useInputs';
 import { Autocomplete } from '@material-ui/lab';
 import { Visibility, VisibilityOff } from '@material-ui/icons';
-import { useGetter } from '~/ServerLess/utils';
+import useGetter from '~/ServerLess/hooks/useGetter';
 
 
 
@@ -35,10 +34,10 @@ const $store = {
         },
 
         /* Setp 2 */
-        email:{name:'email', value:'', error:null,
+        email:{name:'email', value:'arcaela.reyes@gmail.com', error:null,
             invalid(){ return !this.value?'Se requiere un correo electrónico':( !this.value.match(/^[\w-.]+@([\w-]+.)+[\w-]{2,4}$/)?'El email tiene un formato incorrecto.':null ); },
         },
-        password:{name:'password', value:'', error:null,
+        password:{name:'password', value:'12345', error:null,
             invalid(){ return !this.value?'Contraseña necesaria':( this.value.length<6?'Debe tener al menos 6 caracteres':null ); },
         },
         movil:{name:'movil', value:'', error:null,
@@ -63,10 +62,10 @@ const $store = {
         },
     
         adults:{name:'adults', value:'', error:null,
-            invalid(){ return !this.value?'Te agradecemos una respuesta':null },
+            invalid(){ return !this.value?'Te agradecemos una respuesta':( !this.value.match(/^\d+$/gi)?"Solo se admiten números":null )},
         },
         partners:{name:'partners', value:'', error:null,
-            invalid(){ return !this.value?'Se requiere una respuesta':null },
+            invalid(){ return !this.value?'Se requiere una respuesta':( !this.value.match(/^\d+$/gi)?"Solo se admiten números":null )},
         },
     },
     firestore:firebase.app('firestore').firestore(),

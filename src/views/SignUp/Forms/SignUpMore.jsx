@@ -79,7 +79,7 @@ export default function SignUpMore({ useForm }){
               TextFieldProps={{
                 helperText:(<>
                   <span key={1} style={{golor:'white'}}>Puedes consultar esta información </span>
-                  <span key={2} target='_blank' rel='noreferrer' href='https://wsp.registraduria.gov.co/censo/consultar/' style={{color:'#82D827'}}> AQUÍ</span>
+                  <a key={2} target='_blank' rel='noreferrer' href='https://wsp.registraduria.gov.co/censo/consultar/' style={{color:'#82D827'}}> AQUÍ</a>
                 </>),
               }}
             />
@@ -89,8 +89,8 @@ export default function SignUpMore({ useForm }){
             />
           </StepComponent>
           <StepComponent step={4}>
-            <InputField FormControlProps={{fullWidth:true}} name="adults" label="¿Cuantos son mayores de edad?" />
-            <InputField FormControlProps={{fullWidth:true}} name="partners" label="¿Cuantos te apoyan en esta meta?" />
+            <InputField FormControlProps={{fullWidth:true}} name="adults" label="¿Cuantos son mayores de edad?" type="number" />
+            <InputField FormControlProps={{fullWidth:true}} name="partners" label="¿Cuantos te apoyan en esta meta?" type="number" />
           </StepComponent>
         </div>
         <div className={classes.actions}>

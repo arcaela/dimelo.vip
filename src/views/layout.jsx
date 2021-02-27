@@ -18,10 +18,10 @@ import {
 import { Link as _Link, useHistory, useLocation, useRouteMatch } from 'react-router-dom';
 
 
-import useAuth from '~/ServerLess/Hooks/useAuth';
+import useAuth from '~/ServerLess/hooks/useAuth';
 import middlewares from '~/config/middlewares';
 import ButtonProfile from '~/components/ButtonProfile';
-import api from '~/ServerLess/api';
+import api from '~/ServerLess/utils/api';
 import Invitar from '~/components/Invitar';
 
 

@@ -2,8 +2,8 @@ import React from "react";
 import { CircularProgress, Container, makeStyles } from "@material-ui/core";
 import Layout from "../layout";
 import NewsBox from "./NewsBox";
-import api from "~/ServerLess/api";
-import useAuth from "~/ServerLess/Hooks/useAuth";
+import api from "~/ServerLess/utils/api";
+import useAuth from "~/ServerLess/hooks/useAuth";
 
 
 const useStyles = makeStyles(()=>({

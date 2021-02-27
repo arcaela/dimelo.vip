@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import useStyles from '../styles/SignUp';
 import Submit from '../components/Submit';
 
+import esLocale from "date-fns/locale/es";
 import DateFnsUtils from '@date-io/date-fns';
 import AutoMaps from '../components/AutoMaps';
 import DialogTermsConditions from '../components/DialogTermsConditions';
@@ -40,7 +41,7 @@ export default function SignUp({ useForm }){
               <Grid item xs={12} sm={4}>
                 <FormControl error={!!inputs.birthday.error}>
                   <FormHelperText>{ inputs.birthday.error || "Fecha de nacimiento" }</FormHelperText>
-                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <MuiPickersUtilsProvider utils={DateFnsUtils} locale={esLocale}>
                     <DatePicker
                       error={!!inputs.birthday.error}
                       openTo="year"

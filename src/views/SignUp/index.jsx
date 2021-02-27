@@ -5,7 +5,7 @@ import SignUpMore from './Forms/SignUpMore';
 import useForm from './components/useForm';
 import useStyles from './styles';
 import { Grid, Typography, } from '@material-ui/core';
-import Users from '~/ServerLess/Collections/Users';
+import Users from '~/ServerLess/collections/Users';
 
 export default function Auth({ ...req }){
     const classes = useStyles();

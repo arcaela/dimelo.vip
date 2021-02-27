@@ -7,7 +7,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useEffect, useState } from 'react';
 import SelectSearch from '~/components/SelectSearch';
 import Grid from '@material-ui/core/Grid';
-import useAuth from '~/ServerLess/Hooks/useAuth';
+import useAuth from '~/ServerLess/hooks/useAuth';
 import Loading from '~/components/Loading';
 import NewCard from '~/components/NewCard';
 

@@ -1,6 +1,6 @@
 import { get, set, merge } from 'lodash'
 
-export function useGetter(_ob_, _events){
+export default function useGetter(_ob_, _events){
     const _module = merge({
         onSet(){},
         onGet(){},
