@@ -11,13 +11,13 @@ Para acceder a la propiedad de los usuarios debe realizarse una consulta especí
 ```
 
 ```javascript
-const docs = await Users.where(fieldName, '==', fieldValue).get();
-const snap = await Users.doc(id).get();
+const docs = await Users.where('uid', '==', uidValue).get();
+const snap = await Users.doc(uid).get();
 docs[0].data();
 snap.data();
 
 {
-    id: Number,
+    uid: Number,
     rol: Number,
     locked: Boolean,
     fullname: String,
