@@ -58,7 +58,7 @@ export default function SignUp({ useForm }){
                 </FormControl>
               </Grid>
               <Grid item xs={12} sm={8}>
-                <AutoMaps onChange={(e,value)=>{ inputs.address.value=value; }} />
+                <AutoMaps />
               </Grid>
             </Grid>
           </StepComponent>

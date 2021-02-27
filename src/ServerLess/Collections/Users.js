@@ -24,8 +24,6 @@ class DataConverter {
 /* #################################### */
 
 
-
-
     async $followers(){ return (await Table.where('leader', '==', this[index]).get()).docs.map(e=>e.data()); }
     // $posts(){ return Posts.where('author.uid', '==', this.uid); }
     // async $invite(...emails){
@@ -36,6 +34,6 @@ class DataConverter {
 }
 export default Table
 .withConverter({
-    toFirestore(_class) { return _class.$data(); },
+    toFirestore(_class) { return (_class instanceof DataConverter)?_class.$data():_class; },
     fromFirestore(snap,options) { return new DataConverter(snap.data(options)); }
 });

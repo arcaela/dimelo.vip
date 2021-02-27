@@ -29,8 +29,11 @@ const $store = {
         birthday:{name:'birthday', value:'', error:null,
             invalid(){ return !this.value?'¿Cual es tu fecha cumpleaños?':( !this.value.match(/^(?:(?:(?:0?[1-9]|1\d|2[0-8])[/](?:0?[1-9]|1[0-2])|(?:29|30)[/](?:0?[13-9]|1[0-2])|31[/](?:0?[13578]|1[02]))[/](?:0{2,3}[1-9]|0{1,2}[1-9]\d|0?[1-9]\d{2}|[1-9]\d{3})|29[/]0?2[/](?:\d{1,2}(?:0[48]|[2468][048]|[13579][26])|(?:0?[48]|[13579][26]|[2468][048])00))$/mgi) ?'Formato de Fecha incorrecto':null); },
         },
-        address:{name:'address', value:'', error:null,
-            invalid(){ return !this.value?'Indicanos tu dirección de residencia':null; },
+        address:{name:'address', value:{
+            string:'',
+            maps:{},
+        }, error:null,
+            invalid(){ return !this.value?.string?'Indicanos tu dirección de residencia':null; },
         },
 
         /* Setp 2 */

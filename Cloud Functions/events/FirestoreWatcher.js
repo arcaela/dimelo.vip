@@ -7,7 +7,7 @@ const { functions, mail, admin } = require('../config');
 
 const WelcomeEmailContent = fs.readFileSync(path.join(__dirname, `/../resources/notify-register.html`), "utf-8").toString();
 const WelcomeTemplate = handlebars.compile(WelcomeEmailContent);
-module.exports.mailWelcome = functions.firestore.document('/users/{uid}').onCreate(async (snap) => {
+module.exports.userCreate = functions.firestore.document('/users/{uid}').onCreate(async (snap) => {
     const client = snap.data();
     admin.firestore().collection('leaders')
     return mail.sendMail({
@@ -21,7 +21,7 @@ module.exports.mailWelcome = functions.firestore.document('/users/{uid}').onCrea
 
 
 
-module.exports.leaderModified = functions.firestore.document('leaders/{uid}').onWrite(async snap=>{
+module.exports.leadersUpdate = functions.firestore.document('leaders/{uid}').onWrite(async snap=>{
     const _old = snap.before;
     const _new = snap.after;
     const leader = _new.exists?_new.data():_old.data();

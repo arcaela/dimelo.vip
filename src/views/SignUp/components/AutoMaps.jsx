@@ -21,7 +21,7 @@ export default function GoogleMaps({ onChange=(()=>{}) }) {
     const classes = useStyles();
     const { inputs, } = useForm();
     const [ options, setOptions ] = React.useState([]);
-    const [ inputValue, setInputValue ] = React.useState(inputs.address.value || '');
+    const [ inputValue, setInputValue ] = React.useState(inputs('address.value.string') || '');
     const fetch = React.useMemo(()=>throttle((request, callback) => {
       autocompleteService.current.getPlacePredictions(request, callback);
     }, 200),[],);
@@ -36,12 +36,11 @@ export default function GoogleMaps({ onChange=(()=>{}) }) {
       }
       if (inputValue === '') return setOptions([]);
       fetch({input:inputValue},results=>{
-        if (active)
-          setOptions((inputs.address.value?[inputs.address.value]:[]).concat(results || []));
+        if (active && results?.length)
+          setOptions(([inputs.address.value?.string]).concat(results));
       });
       return ()=>active=false;
     }, [inputValue, fetch]);
-
     return (<FormControl error={!!inputs.address.error} style={{maxWidth:'unset',width:'100%'}}>
         <FormHelperText> { inputs.address.error || 'Dirección de residencia: ' } </FormHelperText>
         <Autocomplete
@@ -53,11 +52,16 @@ export default function GoogleMaps({ onChange=(()=>{}) }) {
             filterSelectedOptions
             id="google-map-address"
             value={inputValue}
-            onInputChange={async (e,newInputValue)=>{
-              await setInputValue(newInputValue);
-              return onChange(e,newInputValue);
+            onInputChange={async (e,newValue)=>{
+              inputs.address.value = {string:newValue,
+                ...(inputs.address.value.maps?.description!==newValue&&{maps:{}}),
+              };
+              await setInputValue(inputs.address.value?.string);
             }}
-            onChange={(e,o)=>onChange(e,o)}
+            onChange={async (e,{description,place_id})=>{
+              inputs.address.value = { string:description, maps:{ description, place_id, }, };
+              return await setInputValue(inputs.address.value.string);
+            }}
             renderInput={(params)=>(<TextField error={!!inputs.address.error} placeholder="Cra. 20 #00-00, Bogotá, Colombia" {...params} variant="outlined" />)}
             getOptionLabel={(option)=>(typeof option==='string'?option:option.description)}
             renderOption={(option) => {
