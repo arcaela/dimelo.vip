@@ -11,10 +11,10 @@ Para acceder a la propiedad de los usuarios debe realizarse una consulta especí
 ```
 
 ```javascript
-const users = await Users.where(fieldName, '==', fieldValue).get();
-
-const user = await Users.doc(id).get();
-user.data();
+const docs = await Users.where(fieldName, '==', fieldValue).get();
+const snap = await Users.doc(id).get();
+docs[0].data();
+snap.data();
 
 {
     id: Number,
@@ -48,8 +48,9 @@ user.data();
 ```
 
 
-## User | Helpers
+## Helpers
 Es importante aclarar que los helpers deben estar precedidos por un **$** lo cual indica que es un _helper_, no utilizar esa condición en algún campo que refiera a una propiedad de información del usuario.
+Estos helpers ya están incorporados en el objeto obtenido.
 ```javascript
 {
     $has(path : String) : Boolean // has('address.gps.lat')
