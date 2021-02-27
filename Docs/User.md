@@ -26,10 +26,7 @@ snap.data();
     cedula: Number,
     address:{
         string: String,
-        coords:{
-            lat: Number,
-            lng: Number,
-        },
+        maps: Object,
     },
     phone: Number,
     movil: Number,
