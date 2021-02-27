@@ -39,9 +39,9 @@ const styles = makeStyles((theme)=>({
 
 
 
-export default function ButtonProfile(){
+export default function ButtonProfile({auth}){
   const classes = styles()
-  const  profile  = useAuth()
+  const  profile  = auth.auth
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
@@ -49,21 +49,22 @@ export default function ButtonProfile(){
   const handleClose = () => setAnchorEl(null);
   const signOut = () =>api('auth/signout').then(()=>window.location.replace('/')).catch(e=>alert(e))
 
+  console.log(profile);
 
   return (
     <div className={classes.root}> 
       <Button aria-describedby={id} onClick={handleClick} aria-haspopup='true'>
         <span>
-          { !profile ? <Skeleton width={120} height={40} variant="text" /> : profile?.name }
+          { !profile ? <Skeleton width={120} height={40} variant="text" /> : profile?.fullname }
         </span>&nbsp;
-        {!profile ? <Skeleton variant="circle" width={40} height={40} /> : <Avatar children={profile?.name[0]} />}
+        {!profile ? <Skeleton variant="circle" width={40} height={40} /> : <Avatar children={profile?.fullname[0]} />}
       </Button>
       {profile && <Popover id={id} open={open} anchorEl={anchorEl} onClose={handleClose}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'left', }}
         transformOrigin={{ vertical: 'top', horizontal: 'right', }} >
           <Card className={ classes.card }>
             <CardContent className={classes.cardContent}>
-              <Avatar className={ classes.avatar } children={profile?.name[0]} />
+              <Avatar className={ classes.avatar } children={profile?.fullname[0]} />
               <h3 className={ classes.tile }>{ profile.name }&nbsp;{ profile.lastname }</h3>
               <h4 className={ classes.subtitle }>{ profile?.email }</h4>
               <div className={ classes.buttons } >
@@ -122,10 +123,10 @@ export function _ButtonProfile() {
       <Button aria-describedby={id} onClick={handleClick} aria-haspopup='true'>
         <span>
            { !profile && <Skeleton width={120} height={40} variant="text" /> }
-           { profile && profile?.name }
+           { profile && profile?.fullname }
         </span>&nbsp;
         {!profile && <Skeleton variant="circle" width={40} height={40} />}
-        { profile && <Avatar children={profile?.name[0]} />}
+        { profile && <Avatar children={profile?.fullname[0]} />}
       </Button>
       {profile && <Popover
         id={id}
@@ -144,10 +145,10 @@ export function _ButtonProfile() {
           <Card className={ classes.content }>
             <CardContent>
               <div className="">
-                {profile && <Avatar className={ classes.avatar } children={profile?.name[0]} />}
+                {profile && <Avatar className={ classes.avatar } children={profile?.fullname[0]} />}
               </div>
               <div className="">
-                <h3 className={ classes.tile }>{ profile && profile?.name }</h3>
+                <h3 className={ classes.tile }>{ profile && profile?.fullname }</h3>
                 <h4 className={ classes.subtitle }>{ profile && profile?.email }</h4>
               </div>
               <Button
