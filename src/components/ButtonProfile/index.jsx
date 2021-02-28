@@ -8,7 +8,6 @@ import {
     makeStyles
 } from '@material-ui/core';
 import Skeleton from '@material-ui/lab/Skeleton';
-import useAuth from '../../ServerLess/hooks/useAuth';
 
 import api from '../../ServerLess/utils/api';
 import { Link } from 'react-router-dom';
@@ -37,11 +36,8 @@ const styles = makeStyles((theme)=>({
 }))
 
 
-
-
-export default function ButtonProfile({auth}){
+export default function ButtonProfile({ auth }){
   const classes = styles()
-  const  profile  = auth.auth
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
@@ -52,18 +48,18 @@ export default function ButtonProfile({auth}){
     <div className={classes.root}> 
       <Button aria-describedby={id} onClick={handleClick} aria-haspopup='true'>
         <span>
-          { !profile ? <Skeleton width={120} height={40} variant="text" /> : profile?.fullname }
+          { !auth ? <Skeleton width={120} height={40} variant="text" /> : auth?.fullname }
         </span>&nbsp;
-        {!profile ? <Skeleton variant="circle" width={40} height={40} /> : <Avatar children={profile?.fullname[0]} />}
+        {!auth ? <Skeleton variant="circle" width={40} height={40} /> : <Avatar children={auth?.fullname[0]} />}
       </Button>
-      {profile && <Popover id={id} open={open} anchorEl={anchorEl} onClose={handleClose}
+      {auth && <Popover id={id} open={open} anchorEl={anchorEl} onClose={handleClose}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'left', }}
         transformOrigin={{ vertical: 'top', horizontal: 'right', }} >
           <Card className={ classes.card }>
             <CardContent className={classes.cardContent}>
-              <Avatar className={ classes.avatar } children={profile?.fullname[0]} />
-              <h3 className={ classes.tile }>{ profile.name }&nbsp;{ profile.lastname }</h3>
-              <h4 className={ classes.subtitle }>{ profile?.email }</h4>
+              <Avatar className={ classes.avatar } children={auth?.fullname[0]} />
+              <h3 className={ classes.tile }>{ auth.name }&nbsp;{ auth.lastname }</h3>
+              <h4 className={ classes.subtitle }>{ auth?.email }</h4>
               <div className={ classes.buttons } >
                 <Button component={Link}
                   to="/account"
@@ -75,85 +71,6 @@ export default function ButtonProfile({auth}){
                   disableElevation size="small"
                   variant="contained" >Cerrar Sesión</Button>
               </div>
-            </CardContent>
-          </Card>
-      </Popover>}
-    </div>
-  );
-
-}
-
-
-
-export function _ButtonProfile() {
-
-  const [anchorEl, setAnchorEl] = useState(null);
-
-  const  profile  = useAuth()
-
-  const classes = styles()
-
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  }
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  }
-
-  const signOut = async () =>{
-
-    try {
-      await api('auth/signout')
-      window.location.replace('/')
-    } catch (e) {
-      
-    }
-
-  }
-
-  const open = Boolean(anchorEl);
-  const id = open ? 'simple-popover' : undefined;
-
-  return (
-    <div>
-      <Button aria-describedby={id} onClick={handleClick} aria-haspopup='true'>
-        <span>
-           { !profile && <Skeleton width={120} height={40} variant="text" /> }
-           { profile && profile?.fullname }
-        </span>&nbsp;
-        {!profile && <Skeleton variant="circle" width={40} height={40} />}
-        { profile && <Avatar children={profile?.fullname[0]} />}
-      </Button>
-      {profile && <Popover
-        id={id}
-        open={open}
-        anchorEl={anchorEl}
-        onClose={handleClose}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'left',
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
-        }}
-      >
-          <Card className={ classes.content }>
-            <CardContent>
-              <div className="">
-                {profile && <Avatar className={ classes.avatar } children={profile?.fullname[0]} />}
-              </div>
-              <div className="">
-                <h3 className={ classes.tile }>{ profile && profile?.fullname }</h3>
-                <h4 className={ classes.subtitle }>{ profile && profile?.email }</h4>
-              </div>
-              <Button
-              onClick={ ()=> signOut() }
-              className={ classes.button }
-              variant="contained" 
-              color="primary" 
-              disableElevation>Cerrar Sesión</Button>
             </CardContent>
           </Card>
       </Popover>}

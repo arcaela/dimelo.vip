@@ -35,10 +35,10 @@ const $store = {
         },
 
         /* Setp 2 */
-        email:{name:'email', value:'arcaela.reyes@gmail.com', error:null,
+        email:{name:'email', value:'', error:null,
             invalid(){ return !this.value?'Se requiere un correo electrónico':( !this.value.match(/^[\w-.]+@([\w-]+.)+[\w-]{2,4}$/)?'El email tiene un formato incorrecto.':null ); },
         },
-        password:{name:'password', value:'12345', error:null,
+        password:{name:'password', value:'', error:null,
             invalid(){ return !this.value?'Contraseña necesaria':( this.value.length<6?'Debe tener al menos 6 caracteres':null ); },
         },
         movil:{name:'movil', value:'', error:null,
