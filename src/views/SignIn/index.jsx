@@ -28,8 +28,8 @@ export default function SignIn(req){
                         <Typography color='primary' variant='subtitle2' children='Completa los campos a continuación...' />
                     </div>
                     <div className={classes.body}>
-                        <InputField FormControlProps={{fullWidth:true}} name="email" label="Dirección de correo electrónico" helperText="" type="email" />
-                        <InputField FormControlProps={{fullWidth:true}} name="password" label="Crea una contraseña" placeholder="**********" type="password" />
+                        <InputField FormControlProps={{fullWidth:true}} bind="email" label="Dirección de correo electrónico" helperText="" type="email" />
+                        <InputField FormControlProps={{fullWidth:true}} bind="password" label="Crea una contraseña" placeholder="**********" type="password" />
                         <Button variant='contained' color='primary'
                             fullWidth
                             disabled={loading}
