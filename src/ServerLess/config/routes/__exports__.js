@@ -7,7 +7,7 @@ const routes = ([
 ]).reduce((_, _mod)=>merge(_, _mod),{});
 
 
-module.exports = (function _(_ob_, prefix=''){
+module.exports.routes = (function _(_ob_, prefix=''){
     return Object.entries(_ob_).reduce((paths, [path, callback])=>(
         typeof callback==='object'?{...paths, ..._(callback, path)}
         :(paths[path=(`${prefix}/${path}`).replace(/\/+/gi,'/').replace(/^\/?(.*)(\/)?/gi,"$1").toLocaleLowerCase()]={

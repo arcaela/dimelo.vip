@@ -1,5 +1,5 @@
 import { get } from 'lodash';
-import * as routes from '../config/routes/__exports__';
+import { routes } from '../config/routes/__exports__';
 
 
 
