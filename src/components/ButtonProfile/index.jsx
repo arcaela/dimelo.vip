@@ -48,9 +48,6 @@ export default function ButtonProfile({auth}){
   const handleClick = (event) => setAnchorEl(event.currentTarget);
   const handleClose = () => setAnchorEl(null);
   const signOut = () =>api('auth/signout').then(()=>window.location.replace('/')).catch(e=>alert(e))
-
-  console.log(profile);
-
   return (
     <div className={classes.root}> 
       <Button aria-describedby={id} onClick={handleClick} aria-haspopup='true'>

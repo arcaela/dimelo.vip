@@ -11,45 +11,44 @@ Para acceder a la propiedad de los usuarios debe realizarse una consulta especí
 ```
 
 ```javascript
-const users = await Users.where(fieldName, '==', fieldValue).get();
-
-const user = await Users.doc(id).get();
-user.data();
+const docs = await Users.where('uid', '==', uidValue).get();
+const snap = await Users.doc(uid).get();
+docs[0].data();
+snap.data();
 
 {
-    id: Number,
+    uid: Number,
     rol: Number,
     locked: Boolean,
-    fullname: String,
     photoURL: String | URL,
-    birthday: Date String,
+    leader: String | User ID,
+    fullname: String,
     cedula: Number,
+    birthday: Date String,
     address:{
         string: String,
-        coords:{
-            lat: Number,
-            lng: Number,
-        },
+        maps: Object | NULL,
     },
-    phone: Number,
+    email: String,
     movil: Number,
-    leader: String | User ID,
+    phone: Number,
+    voting:{ 
+        departament: String,
+        municipality: String,
+        point: String,
+        table: Number,
+    },
     family:{
         adults: Number,
         partners: Number,
-    },
-    voting:{ 
-    	departament: String,
-    	municipality: String,
-    	point: String,
-        table: Number,
     },
 }
 ```
 
 
-## User | Helpers
+## Helpers
 Es importante aclarar que los helpers deben estar precedidos por un **$** lo cual indica que es un _helper_, no utilizar esa condición en algún campo que refiera a una propiedad de información del usuario.
+Estos helpers ya están incorporados en el objeto obtenido.
 ```javascript
 {
     $has(path : String) : Boolean // has('address.gps.lat')

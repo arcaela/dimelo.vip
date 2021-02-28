@@ -23,12 +23,9 @@ export default function useAuth(){
                 if(!auth && user===null) setUser(false);
                 else if(auth)
                     $store.firestore = Users.doc(auth.uid)
-                        .onSnapshot(snap=>{
-                            console.log("onSnapshot: ", snap);
-                            setUser(()=>snap.data());
-                        });
+                        .onSnapshot(snap=>setUser(snap.data()));
             });
         }
     }, [ user ]);
-    return !!user && user;
+    return user;
 }

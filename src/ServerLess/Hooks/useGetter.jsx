@@ -11,9 +11,11 @@ export default function useGetter(_ob_, _events){
             return get(_ob_, key, optional);
         },
         set(key,value){
+            let path=key.split('.')[0];
             this.onSet(_ob_, key, value);
             set(_ob_, key, value);
-            Object.defineProperty(getter, key.split('.')[0] ,{
+            if(!(path in getter))
+            Object.defineProperty(getter, path ,{
                 enumerable:true,
                 get:()=>getter(key),
                 set:(value)=>getter(key,value),

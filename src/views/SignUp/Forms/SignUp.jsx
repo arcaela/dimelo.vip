@@ -5,7 +5,7 @@ import Submit from '../components/Submit';
 
 import esLocale from "date-fns/locale/es";
 import DateFnsUtils from '@date-io/date-fns';
-import AutoMaps from '../components/AutoMaps';
+import GoogleAddress from '../components/GoogleAddress';
 import DialogTermsConditions from '../components/DialogTermsConditions';
 import { Button, CircularProgress, FormControl, FormHelperText, Grid, Toolbar, Typography, } from '@material-ui/core';
 import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
@@ -23,50 +23,52 @@ export default function SignUp({ useForm }){
   } = useForm;
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
-  const [date, _setDate] = React.useState( new Date(inputs.birthday.value || '01-01-2011') );
-  const setDate = (date)=>_setDate((inputs.birthday.value=date.toLocaleDateString('es-ES')) && date);
-
+  const [date, _setDate] = React.useState('01-01-2002');
+  const setDate = async date=>{
+    inputs.birthday.value=date.toLocaleDateString('es-ES');
+    await _setDate(date)
+  };
   return (<>
       <DialogTermsConditions open={open} setOpen={setOpen} />
       <div className={classes.root}>
         <div className={classes.header}>
-          <Typography color='primary' variant='h3' children={inputs('fullname.value')?`¡Hola ${ucfirst(inputs('fullname.value'))}!`:'Regístrate ahora'} />
-          <Typography color='primary' variant='subtitle2' children={inputs('fullname.value')?'Por favor continúa con el registro...':'Completa los campos a continuación.'} />
+          <Typography color='primary' variant='h3' children={inputs.fullname.value?`¡Hola ${ucfirst(inputs.fullname.value)}!`:'Regístrate ahora'} />
+          <Typography color='primary' variant='subtitle2' children={inputs.fullname.value?'Por favor continúa con el registro...':'Completa los campos a continuación.'} />
         </div>
         <div className={classes.body}>
           <StepComponent step={1}>
-            <InputField name="fullname" label="Nombres y Apellidos" />
-            <InputField name="dni" label="Cédula" type="number" />
+            <InputField bind="fullname" label="Nombres y Apellidos" />
+            <InputField bind="cedula" label="Cédula" type="number" />
             <Grid container justify="space-between" spacing={1}>
               <Grid item xs={12} sm={4}>
                 <FormControl error={!!inputs.birthday.error}>
                   <FormHelperText>{ inputs.birthday.error || "Fecha de nacimiento" }</FormHelperText>
                   <MuiPickersUtilsProvider utils={DateFnsUtils} locale={esLocale}>
                     <DatePicker
-                      error={!!inputs.birthday.error}
                       openTo="year"
-                      value={date}
-                      minDate={ new Date('01-01-1941') }
-                      maxDate={ new Date('01-01-2011') }
                       disableFuture
                       onChange={setDate}
                       format="dd/MM/yyyy"
                       inputVariant="outlined"
+                      value={ new Date( date ) }
+                      error={!!inputs.birthday.error}
+                      minDate={ new Date('01-01-1930') }
+                      maxDate={ new Date('01-01-2005') }
                       views={["year", "month", "date"]}
                     />
                   </MuiPickersUtilsProvider>
                 </FormControl>
               </Grid>
               <Grid item xs={12} sm={8}>
-                <AutoMaps onChange={(e,value)=>{ inputs.address.value=value; }} />
+                <GoogleAddress />
               </Grid>
             </Grid>
           </StepComponent>
           <StepComponent step={2}>
-            <InputField name="email" label="¿Cuál es tu e-mail?" type="email" />
-            <InputField name="password" label="Crea una contraseña" placeholder="**********" type="password" />
-            <InputField name="movil" label="Número celular: " type="number" />
-            <InputField name="phone" label="Teléfono fijo: " type="number" />
+            <InputField bind="email" label="¿Cuál es tu e-mail?" type="email" />
+            <InputField bind="password" label="Crea una contraseña" placeholder="**********" type="password" />
+            <InputField bind="movil" label="Número celular: " type="number" />
+            <InputField bind="phone" label="Teléfono fijo: " type="number" />
           </StepComponent>
         </div>
         <div className={classes.actions}>

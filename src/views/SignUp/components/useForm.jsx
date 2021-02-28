@@ -17,20 +17,21 @@ import useGetter from '~/ServerLess/hooks/useGetter';
 const $store = {
     inputs:{
         /* Step 1 */
-        leader:{name:'leader', value:'', error:null,
-            invalid(){ return !this.value?'Se requiere un código de invitación para continuar':null; },
-        },
+        leader:{name:'leader', value:'', error:null, invalid(){ return null; }, },
         fullname:{ name:'fullname', value:'', error:null,
             invalid(){ return !this.value?'¿Cual es tu nombre?':(this.value.match(/[^a-zA-Z\s+]/gi)?'Tu nombre tiene caracteres inválidos':null); },
         },
-        dni:{name:'dni', value:'', error:null,
+        cedula:{name:'cedula', value:'', error:null,
             invalid(){ return !this.value?'¿Cual es tu cédula de identidad?':(this.value.match(/[^0-9.-\s+]/gi)?'Intenta con números unicamente':( this.value<100000?'Cédula inválida':null )); },
         },
         birthday:{name:'birthday', value:'', error:null,
             invalid(){ return !this.value?'¿Cual es tu fecha cumpleaños?':( !this.value.match(/^(?:(?:(?:0?[1-9]|1\d|2[0-8])[/](?:0?[1-9]|1[0-2])|(?:29|30)[/](?:0?[13-9]|1[0-2])|31[/](?:0?[13578]|1[02]))[/](?:0{2,3}[1-9]|0{1,2}[1-9]\d|0?[1-9]\d{2}|[1-9]\d{3})|29[/]0?2[/](?:\d{1,2}(?:0[48]|[2468][048]|[13579][26])|(?:0?[48]|[13579][26]|[2468][048])00))$/mgi) ?'Formato de Fecha incorrecto':null); },
         },
-        address:{name:'address', value:'', error:null,
-            invalid(){ return !this.value?'Indicanos tu dirección de residencia':null; },
+        address:{
+            name:'address',
+            value:{ string:'', maps:{}, },
+            error:null,
+            invalid(){ return !this.value?.string?'Indicanos tu dirección de residencia':null; },
         },
 
         /* Setp 2 */
@@ -46,26 +47,31 @@ const $store = {
         phone:{name:'phone', value:'', error:null,
             invalid(){ return !this.value?null:(this.value.match(/\D+/gi)?'Solo se admiten números':(this.value<0?'Formato incorrecto':null)); },
         },
-
-
-        voting_dep:{name:'voting_dep', value:'', error:null,
-            invalid(){ return !this.value?'Selecciona un departamento':null },
-        },
-        voting_mun:{name:'voting_mun', value:'', error:null,
-            invalid(){ return !this.value?'Selecciona un municipio':null },
-        },
-        voting_point:{name:'voting_point', value:'', error:null,
-            invalid(){ return !this.value?'¿Cuál es tu puesto de votación?':null },
-        },
-        voting_table:{name:'voting_table', value:'', error:null,
-            invalid(){ return !this.value?'¿Cuál es tu mesa de votación?':( this.value.match(/\D+/gi)?'Solo se admiten números':null )},
-        },
     
-        adults:{name:'adults', value:'', error:null,
-            invalid(){ return !this.value?'Te agradecemos una respuesta':( !this.value.match(/^\d+$/gi)?"Solo se admiten números":null )},
+        /* Setp 3 */
+        voting:{
+            departament:{name:'departament', value:'', error:null,
+                invalid(){ return !this.value?'Selecciona un departamento':null },
+            },
+            municipality:{name:'municipality', value:'', error:null,
+                invalid(){ return !this.value?'Selecciona un municipio':null },
+            },
+            point:{name:'point', value:'', error:null,
+                invalid(){ return !this.value?'¿Cuál es tu puesto de votación?':null },
+            },
+            table:{name:'table', value:'', error:null,
+                invalid(){ return !this.value?'¿Cuál es tu mesa de votación?':( this.value.match(/\D+/gi)?'Solo se admiten números':null )},
+            },
         },
-        partners:{name:'partners', value:'', error:null,
-            invalid(){ return !this.value?'Se requiere una respuesta':( !this.value.match(/^\d+$/gi)?"Solo se admiten números":null )},
+        
+        /* Setp 4 */
+        family:{
+            adults:{name:'adults', value:'', error:null,
+                invalid(){ return !this.value?'Te agradecemos una respuesta':( !this.value.match(/^\d+$/gi)?"Solo se admiten números":null )},
+            },
+            partners:{name:'partners', value:'', error:null,
+                invalid(){ return !this.value?'Se requiere una respuesta':( !this.value.match(/^\d+$/gi)?"Solo se admiten números":null )},
+            },
         },
     },
     firestore:firebase.app('firestore').firestore(),
@@ -85,7 +91,6 @@ export default function useForm(){
     const [ $inputs, $setInputs ] = React.useState( $store.inputs );
     const inputs = useGetter($inputs, _configs);
     const setInput = (key,value)=>setInputs({[key]:value});
-
     const setInputs = (_value_)=>{
         const value = ({...merge($inputs, inputs, _value_)});
         _configs.onUpdate(value);
@@ -95,39 +100,33 @@ export default function useForm(){
     const unsetError = (key)=>setInputs({[key]:{error:null}});
     const inputsErrors = (...keys)=>{
         return keys.flat().reduce((errors, key)=>{
-            const error = inputs[key].invalid();
+            const error = inputs(key)?.invalid();
             errors={...errors,[key]:{error}};
             return errors;
         },{});
     }
-
-
     const [loading, setLoading] = React.useState(false);
     const [step, setStep] = React.useState(1);
     const nextStep = ()=>setStep(p=>p+1);
     const prevStep = (callback=()=>{})=>setStep(p=>p>0?p-1:callback());
     const StepComponent = ({children, ...props})=>((step===props.step)&&children);
-
     return {
         inputs,
         setInput,
         setInputs,
         firestore:$store.firestore,
-
         setError,
         unsetError,
         inputsErrors,
         hasErrors:(..._keys)=>!!inputsErrors(..._keys),
-
         step,
         loading,
         nextStep,
         prevStep,
         setLoading,
         StepComponent,
-
-        Autocomplete({ label, getOptions, FormControlProps={}, TextFieldProps={}, onChange, ...props }){
-            const input = inputs(props.name);
+        Autocomplete({ getOptions, bind, label='', FormControlProps={}, TextFieldProps={}, onChange=()=>{}, ...props }){
+            const input = inputs(bind);
             const [ open, setOpen ] = React.useState(false);
             props.open = props.open || open;
             props.onOpen = props.onOpen || (()=>setOpen(true));
@@ -138,8 +137,9 @@ export default function useForm(){
                 :(props.options||[]);
             props.onInputChange = !props.onInputChange&&(async (e,value)=>{
                 if(e && e.type==='click'){
-                    await setInputs({[input.name]:{value}});
-                    return await (onChange||((e,value)=>value))(e,value);
+                    input.value=value;
+                    await setInputs({...inputs});
+                    return await onChange(e,value);
                 }
                 return input.value=value;
             });
@@ -153,13 +153,13 @@ export default function useForm(){
                 { ...props } />
             </FormControl>);
         },
-        InputField({label='', FormControlProps={}, onChange=()=>{}, onKeyUp=()=>{}, ...props}){
+        InputField({ onKeyUp=()=>{}, bind, label='', FormControlProps={}, TextFieldProps={}, onChange=()=>{}, ...props }){
+            const input = inputs(bind);
             const [showPass,setShowPass] = React.useState(false);
-            const input = inputs(props.name);
             props.error = !!(input.error || props.error || false);
             props.onKeyUp = (e)=>{
                 if(e.target.matches('input')){
-                    input.value = e.target.value;
+                    input.value=e.target.value;
                     return onChange(e);
                 }
                 return onKeyUp(e);

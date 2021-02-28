@@ -208,18 +208,13 @@ export default function EditNews({ id }) {
       setComunas(data);
     }
   }, [comunas]);
-
   useEffect(() => {
-    if (user) {
-      setValues({
-        ...values,
-        autor: {
-          name: user.name,
-          uid: user.uid,
-        },
-      });
-    }
-  }, []);
+    if (user)
+      setValues(state=>({
+        ...state,
+        autor: { name: user.name, uid: user.uid, },
+      }));
+  }, [ user ]);
 
   return (
     <>

@@ -102,41 +102,40 @@ export const layout = {
 
 export default function Layout({ fullPage=false, middleware=true, children }){
   const classes = useStyles();
+  const [ locked, setLocked ] = React.useState(false);
   const [ drawerOpen, setDrawerOpen ] = React.useState(layout.isDesktop);
-  const [ block, setBlock ] = React.useState(false);
   const context = {
     auth:useAuth(),
     location:useLocation(),
     history:useHistory(),
-    redirect:(redirect)=>(window.location.replace(redirect) && false),
+    redirect:(redirect)=>(window.location.replace(redirect) && null),
   };
-  const loading = (context.auth===null && !block);
+  const loading = !!(locked || context.auth===null || context.auth?.locked);
+  if(context.auth?.locked){
+    setLocked(true);
+    api('auth/signout', ()=>window.location.href='/signin')
+      .catch((error)=>console.log(error, alert("Ups! Contacta con el administrador del sitio.")))
+  }
 
   const check = (_,__=false)=>((typeof _ === 'function')?_({...context}):(
     (typeof _ ==='string'&&_ in middlewares&&!!__)?check(middlewares[_])
     :((Array.isArray(_))?_.map(c=>check(c,true)):!!_)
   ));
-  const Link = ({ path, label, icon, show=true, })=>{
+  const Link = React.memo(({ path, label, icon, show=true, })=>{
     const match = useRouteMatch({ path, exact:true, }), Icon=icon;
     return check(show)&&
     (<ListItem button to={path} component={_Link} selected={!!match}>
       <ListItemIcon children={
         (typeof Icon==='object'&&typeof Icon.$$typeof=='symbol')?<Icon/>:(
           typeof Icon==='string'?<img src={Icon} alt={Icon} />:Icon
-          )
-        }/>
+        )
+      }/>
       <ListItemText primary={label} />
     </ListItem>);
-  };
-
-  if( context.auth?.leader==='[locked]' && !block){
-    setBlock(true);
-    api('auth/signout', ()=>window.location.href='/signin')
-      .catch((error)=>console.log(error, alert("Ups! Contacta con el administrador del sitio.")))
-    return null;
-  }
-
-  const Page = (props)=><div className={clsx({[classes.root]:true, loading, fullPage})} {...props} />;
+  });
+  const Page = React.memo((props)=><div
+    className={clsx({[classes.root]:true, loading, fullPage})}
+    {...props} />, [ loading, fullPage ]);
   if(!loading && !check(middleware)) return <div children="403 | Forbidden" />;
   else if(!loading && fullPage) return <Page children={children} />
   return (<Page>
