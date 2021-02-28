@@ -48,7 +48,7 @@ export default async function Submit (useForm){
             await setLoading(true);
             await api('auth/signup', client)
                 .then(()=>nextStep())
-                .catch(error=>alert(error.message))
+                .catch(error=>console.log(error, alert(error.message)))
                 .finally(()=>setLoading(false));
             break;
         default:

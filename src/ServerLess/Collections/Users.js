@@ -24,7 +24,7 @@ class DataConverter {
 /* #################################### */
 
     // $posts(){ return Posts.where('author.uid', '==', this.uid); }
-    link(){ return `${window.location.origin}/signup/${this[index]}`; }
+    link(){ return `http://dimelo.vip/signup/${this[index]}`; }
     async $followers(){ return (await Table.where('leader', '==', this[index]).get()).docs.map(e=>e.data()); }
 }
 export default Table

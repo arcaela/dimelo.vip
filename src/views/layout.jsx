@@ -146,8 +146,8 @@ export default function Layout({ fullPage=false, middleware=true, children }){
          </IconButton>
          <img alt="" src="/images/brand.svg" className="brand" />
          <span className="flex-grow" />
-         { context.auth && <Invitar auth={ context } /> }
-         { context.auth && <ButtonProfile auth={ context } />}
+         { context.auth && <Invitar {...context} /> }
+         { context.auth && <ButtonProfile {...context} />}
        </Toolbar>
      </AppBar>
     <Drawer
