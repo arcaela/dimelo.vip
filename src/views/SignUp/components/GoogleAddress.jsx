@@ -16,52 +16,48 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(2),
   },
 }));
-
-export default function GoogleMaps({ onChange=(()=>{}) }) {
+export default function GoogleAdress() {
     const classes = useStyles();
     const { inputs, } = useForm();
     const [ options, setOptions ] = React.useState([]);
-    const [ inputValue, setInputValue ] = React.useState(inputs('address.value.string') || '');
+    const [ current, setCurrent ] = React.useState(inputs('address.value.string') || '');
     const fetch = React.useMemo(()=>throttle((request, callback) => {
       autocompleteService.current.getPlacePredictions(request, callback);
     }, 200),[],);
-
     React.useEffect(() => {
       let active = true;
       if (!autocompleteService.current){
-        Google.ready(google=>{
-          autocompleteService.current = new window.google.maps.places.AutocompleteService();
-        });
+        Google.ready(()=>(autocompleteService.current = new window.google.maps.places.AutocompleteService()));
         return undefined;
       }
-      if (inputValue === '') return setOptions([]);
-      fetch({input:inputValue},results=>{
-        if (active && results?.length)
-          setOptions(([inputs.address.value?.string]).concat(results));
-      });
+      if (current === '') return setOptions([]);
+      fetch({input:current},results=>(
+        setOptions(([current]).concat(active&&results))
+      ));
       return ()=>active=false;
-    }, [inputValue, fetch]);
+    }, [current, fetch]);
+    const handlerChange = async (e, value)=>{
+      const desc = value?.description || value || '';
+      inputs.address.value.string = desc;
+      if(desc !== inputs.address.value.maps?.description)
+        inputs.address.value.maps = value?.description && {
+          description:value?.description, place_id:value?.place_id,
+        };
+      await setCurrent(inputs.address.value?.string);
+    };
+
     return (<FormControl error={!!inputs.address.error} style={{maxWidth:'unset',width:'100%'}}>
         <FormHelperText> { inputs.address.error || 'Dirección de residencia: ' } </FormHelperText>
         <Autocomplete
             freeSolo
             autoComplete
-            options={options}
+            value={current}
             includeInputInList
             filterOptions={x=>x}
             filterSelectedOptions
-            id="google-map-address"
-            value={inputValue}
-            onInputChange={async (e,newValue)=>{
-              inputs.address.value = {string:newValue,
-                ...(inputs.address.value.maps?.description!==newValue&&{maps:{}}),
-              };
-              await setInputValue(inputs.address.value?.string);
-            }}
-            onChange={async (e,{description,place_id})=>{
-              inputs.address.value = { string:description, maps:{ description, place_id, }, };
-              return await setInputValue(inputs.address.value.string);
-            }}
+            onChange={handlerChange}
+            onInputChange={handlerChange}
+            options={options.filter(e=>e?.description)}
             renderInput={(params)=>(<TextField error={!!inputs.address.error} placeholder="Cra. 20 #00-00, Bogotá, Colombia" {...params} variant="outlined" />)}
             getOptionLabel={(option)=>(typeof option==='string'?option:option.description)}
             renderOption={(option) => {

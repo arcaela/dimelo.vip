@@ -23,14 +23,9 @@ class DataConverter {
     $set(path, value){ set(this, path, value); return value; }
 /* #################################### */
 
-
-    async $followers(){ return (await Table.where('leader', '==', this[index]).get()).docs.map(e=>e.data()); }
     // $posts(){ return Posts.where('author.uid', '==', this.uid); }
-    // async $invite(...emails){
-    //     emails = emails.flat().filter(email=>email.match(/^[\w-.]+@([\w-]+.)+[\w-]{2,4}$/gi));
-    //     if(!emails.length) throw { message:"At least one email is required", code:0 };
-    //     return Invitations.doc().set({ uid:this.uid, emails, }).then(()=>emails);
-    // }
+    link(){ return `${window.location.origin}/signup/${this[index]}`; }
+    async $followers(){ return (await Table.where('leader', '==', this[index]).get()).docs.map(e=>e.data()); }
 }
 export default Table
 .withConverter({

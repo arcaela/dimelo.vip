@@ -117,7 +117,6 @@ export default function Layout({ fullPage=false, middleware=true, children }){
       .catch((error)=>console.log(error, alert("Ups! Contacta con el administrador del sitio.")))
   }
 
-
   const check = (_,__=false)=>((typeof _ === 'function')?_({...context}):(
     (typeof _ ==='string'&&_ in middlewares&&!!__)?check(middlewares[_])
     :((Array.isArray(_))?_.map(c=>check(c,true)):!!_)
@@ -137,9 +136,6 @@ export default function Layout({ fullPage=false, middleware=true, children }){
   const Page = React.memo((props)=><div
     className={clsx({[classes.root]:true, loading, fullPage})}
     {...props} />, [ loading, fullPage ]);
-
-
-
   if(!loading && !check(middleware)) return <div children="403 | Forbidden" />;
   else if(!loading && fullPage) return <Page children={children} />
   return (<Page>

@@ -20,26 +20,27 @@ snap.data();
     uid: Number,
     rol: Number,
     locked: Boolean,
-    fullname: String,
     photoURL: String | URL,
-    birthday: Date String,
+    leader: String | User ID,
+    fullname: String,
     cedula: Number,
+    birthday: Date String,
     address:{
         string: String,
-        maps: Object,
+        maps: Object | NULL,
     },
-    phone: Number,
+    email: String,
     movil: Number,
-    leader: String | User ID,
+    phone: Number,
+    voting:{ 
+        departament: String,
+        municipality: String,
+        point: String,
+        table: Number,
+    },
     family:{
         adults: Number,
         partners: Number,
-    },
-    voting:{ 
-    	departament: String,
-    	municipality: String,
-    	point: String,
-        table: Number,
     },
 }
 ```

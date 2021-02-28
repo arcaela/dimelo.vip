@@ -7,7 +7,6 @@ import {
   CardContent,
   CardActions,
   TextField,
-  IconButton
 } from '@material-ui/core';
 import WhatsAppIcon from '@material-ui/icons/WhatsApp';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
@@ -72,9 +71,9 @@ export default function Invitar({ auth }) {
 
   useEffect(() => {
     if(value.length <= 0 && auth.auth){
-      setValue('https://dimelo.vip/signup/'  + window.btoa(auth.auth.dni))
+      setValue('https://dimelo.vip/signup/'  + window.btoa(auth.auth.cedula))
     }
-  }, [auth])
+  }, [value, auth])
 
   const enviarInvitacion = ()=>{
     window.open('https://api.whatsapp.com/send?text=Invitacion%20a%20dimelo.vip ' + value, '_blank')

@@ -14,11 +14,9 @@ export default function Auth({ ...req }){
     
     req.params.code = atob(req.params.code||'')
     if( req.params.code?.length ){
-        Users.where('cedula', '==', req.params.code).get()
-        .then(snap=>{
-            inputs.leader.value=snap.empty?'[locked]':req.params.code;
-        });
-    } else inputs.leader.value='[locked]';
+        Users.where('cedula', '==', req.params.code).limit(1).get()
+        .then(snap=>(inputs.leader.value=!snap.empty && req.params.code));
+    } else inputs.leader.value=null;
 
     return (<Layout fullPage middleware={['guest']}>
         {step > 2 && <SignUpMore useForm={_useForm} {...req} />}
