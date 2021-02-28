@@ -2,25 +2,16 @@ import React from 'react';
 import {
   Button,
   Toolbar,
-  Tooltip,
   Container,
-  TextField,
   Typography,
-  IconButton,
-  FormControl,
-  FormHelperText,
   CircularProgress,
-  ClickAwayListener,
 } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import wizard from '../components/Submit';
-import { reference } from '~/ServerLess';
 import BrandSVG from '~/images/brand.svg';
 import regions from '../components/regions';
 import useStyles from '../styles/SignUpMore';
-import GoogleMaps from '../components/GoogleMaps';
-import { FiberManualRecord, Info } from '@material-ui/icons';
-import { Autocomplete as MuiAutocomplete } from '@material-ui/lab';
+import { FiberManualRecord } from '@material-ui/icons';
 
 
 
@@ -63,19 +54,18 @@ export default function SignUpMore({ useForm }){
         </div>
         <div className={classes.body}>
           <StepComponent step={3}>
-            <Autocomplete name='voting_dep' label='Departamento donde votas'
+            <Autocomplete bind='voting.departament' label='Departamento donde votas'
               options={regions.all}
-              onChange={()=>setInputs({voting_mun:{value:''},voting_point:{value:''},voting_table:{value:''},})}
-            />
-            <Autocomplete name='voting_mun' label='Municipio donde votas'
-              getOptions={()=>regions.path(inputs.voting_dep.value)}
-              onChange={()=>setInputs({voting_point:{value:''},voting_table:{value:''},})}
+              onChange={()=>setInputs({ voting:{ municipality:{value:''}, point:{value:''}, table:{value:''}, }, })}
+              />
+            <Autocomplete bind='voting.municipality' label='Municipio donde votas'
+              getOptions={()=>regions.path(inputs.voting.departament.value)}
+              onChange={()=>setInputs({ voting:{ point:{value:''}, table:{value:''}, }, })}
             />
             <Autocomplete
-              need='voting_mun'
-              name='voting_point'
+              bind='voting.point'
               label="Puesto de votación"
-              getOptions={()=>regions.flat(`${inputs.voting_dep.value}.${inputs.voting_mun.value}`)}
+              getOptions={()=>regions.flat(`${inputs.voting.departament.value}.${inputs.voting.municipality.value}`)}
               TextFieldProps={{
                 helperText:(<>
                   <span key={1} style={{golor:'white'}}>Puedes consultar esta información </span>
@@ -83,14 +73,14 @@ export default function SignUpMore({ useForm }){
                 </>),
               }}
             />
-            <Autocomplete name='voting_table' need='voting_point' label='Mesa de votacion'
+            <Autocomplete bind='voting.table' label='Mesa de votacion'
               TextFieldProps={{helperText:"Dinos tu número de mesa de votación"}}
-              getOptions={()=>regions.deep(`${inputs.voting_dep.value}.${inputs.voting_mun.value}`,)}
+              getOptions={()=>regions.deep(`${inputs.voting.departament.value}.${inputs.voting.municipality.value}`,)}
             />
           </StepComponent>
           <StepComponent step={4}>
-            <InputField FormControlProps={{fullWidth:true}} name="adults" label="¿Cuantos son mayores de edad?" type="number" />
-            <InputField FormControlProps={{fullWidth:true}} name="partners" label="¿Cuantos te apoyan en esta meta?" type="number" />
+            <InputField FormControlProps={{fullWidth:true}} bind="family.adults" label="¿Cuantos son mayores de edad?" type="number" />
+            <InputField FormControlProps={{fullWidth:true}} bind="family.partners" label="¿Cuantos te apoyan en esta meta?" type="number" />
           </StepComponent>
         </div>
         <div className={classes.actions}>

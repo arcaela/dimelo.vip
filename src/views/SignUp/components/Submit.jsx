@@ -12,17 +12,21 @@ export default async function Submit (useForm){
     } = useForm;
     const Check = (...keys)=>{
         const errors = inputsErrors(...keys);
-        return Object.entries(errors).filter(([k,v])=>!!v.error).length?!!setInputs(errors):true;
+        return Object.values(errors).filter(v=>!!v.error).length?!!setInputs(errors):true;
     };
-
+    const build = ({...object})=>{
+        return Object.entries(object).reduce((_ob_, [key, value])=>(
+            {..._ob_,[key]:(('value' in value)?value.value:build(value))}
+        ),{});
+    };
     switch (step) {
         case 1:
-            if(!Check('fullname', 'dni', 'birthday', 'address')) return;
+            if(!Check('fullname', 'cedula', 'birthday', 'address')) return;
             await setLoading(true);
-            Users.where('dni','==',inputs.dni.value).get()
+            Users.where('cedula','==',inputs.cedula.value).get()
             .then(async snap=>{
                 if(snap.empty) await nextStep();
-                else await setInputs({dni:{error:'La cédula ya está registrada'}});
+                else await setInputs({cedula:{error:'La cédula ya está registrada'}});
             }).finally(async ()=>await setLoading(false));
         break;
         case 2:
@@ -35,12 +39,12 @@ export default async function Submit (useForm){
             }).finally(async ()=>await setLoading(false))
         break;
         case 3:
-            if(!Check( 'voting_dep', 'voting_mun', 'voting_point', 'voting_table', )) return;
+            if(!Check( 'voting.departament', 'voting.municipality', 'voting.point', 'voting.table', )) return;
             await nextStep();
         break;
         case 4:
-            if(!Check( 'adults', 'partners' )) return;
-            const client = Object.values(inputs).reduce((_, {name,value})=>({..._,[name]:value}),{});
+            if(!Check( 'family.adults', 'family.partners' )) return;
+            const client = build(inputs);
             await setLoading(true);
             await api('auth/signup', client)
                 .then(()=>nextStep())

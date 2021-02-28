@@ -84,7 +84,7 @@ export default function AdminPage() {
 
         const users = await leaders
           .collection('users')
-          .where('voting_leader', '==', currentUser.dni)
+          .where('voting_leader', '==', currentUser.cedula)
           .get();
 
           setUsers(users.docs.map((e) => e.data()));

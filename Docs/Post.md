@@ -12,13 +12,11 @@ Para acceder a la propiedad de las Publicaciones debe realizarse una consulta es
 ```
 
 ```javascript
-const posts = await Posts.get();
-posts.forEach(post=>{
-    return post.data();
-});
+const docs = await Posts.where(fieldName, '==', fieldValue).get();
+const snap = await Posts.doc(id).get();
+docs[0].data();
+snap.data();
 
-const post = await Posts.doc(id).get();
-post.data();
 
 {
     id: Number,

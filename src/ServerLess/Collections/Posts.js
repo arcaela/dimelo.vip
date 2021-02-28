@@ -28,6 +28,6 @@ class DataConverter {
 }
 export default Table
 .withConverter({
-    toFirestore(_class) { return _class.$data(); },
+    toFirestore(_class) { return (_class instanceof DataConverter)?_class.$data():_class; },
     fromFirestore(snap,options) { return new DataConverter(snap.data(options)); }
 });
