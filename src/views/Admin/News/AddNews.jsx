@@ -22,7 +22,7 @@ import AlertToast from '~/components/AlertToast';
 import ButtonLoading from '~/components/ButtonLoading';
 import TitlePage from '~/components/TitlePage';
 import regions from '~/views/SignUp/components/regions';
-import useAuth from '~/ServerLess/hooks/useAuth';
+import useAuth from '~/ServerLess/Hooks/useAuth';
 import PersonImage from '~/images/admin/personas.svg'
 import useStyles from './AddNews';
 

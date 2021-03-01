@@ -1,5 +1,5 @@
 import React from 'react'
-import useGetter from '~/ServerLess/hooks/useGetter'
+import useGetter from '~/ServerLess/Hooks/useGetter'
 import { merge } from 'lodash'
 
 export default function useInputs(_ob_, _configs){
