@@ -14,31 +14,33 @@ import {
   Card,
 } from '@material-ui/core';
 import InfoIcon from '@material-ui/icons/Info';
-
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import newsFireBase from './NewstFireBase';
+
 import LinearProgressWithLabel from '~/components/LinearProgressWithLabel';
 import AlertToast from '~/components/AlertToast';
 import ButtonLoading from '~/components/ButtonLoading';
 import TitlePage from '~/components/TitlePage';
-import regions from '~/views/SignUp/components/regions';
-import useAuth from '~/ServerLess/hooks/useAuth';
 import PersonImage from '~/images/admin/personas.svg'
-import useStyles from './AddNews';
 
+import newsFireBase from '../NewstFireBase';
+import useAuth from '~/ServerLess/Hooks/useAuth';
+//import regions from '~/views/SignUp/components/regions';
 
+import useStyles from './styles';
 
 export default function AddNews() {
   const classes = useStyles();
 
-  const user = useAuth()
+  const context = {
+    auth: useAuth(),
+  };
+
+  console.log('usuario: ', content.auth);
 
   const [values, setValues] = useState({
-    //autor{name, uid}
     title: '',
-    perfil: '',
-    localidad: 'MEDELLIN',
-    rol: '',
+    perfiles: '',
+    roles: '',
     media: '',
     content: '',
   });
@@ -73,7 +75,7 @@ export default function AddNews() {
   const usersTypes = [
     { title: 'Líderes de primer nivel', value: 1 },
     { title: 'Líderes de celula', value: 2 },
-    { title: 'Usuario', value: 3 },
+    { title: 'Usuario', value: 2 },
   ];
 
   const verifyForm = () => {
@@ -144,24 +146,13 @@ export default function AddNews() {
       [e.target.name]: e.target.value,
     });
   };
-  useEffect(() => {
+
+  /*useEffect(() => {
     if(comunas.length === 0){
       const data = regions.all;
       setComunas(data)
     }
-  }, [comunas])
-
-  useEffect(() => {
-    if(user){
-      setValues({
-        ...values,
-        autor:{
-          name: user.name,
-          uid: user.uid
-        }
-      })
-    }
-  }, [ user, values ])
+  }, [comunas])*/
 
   return (
     <>
@@ -185,6 +176,7 @@ export default function AddNews() {
         </Breadcrumbs>
         <Typography color='textPrimary' className={classes.goBack}> <Link to="/admin/news/">Volver</Link> </Typography>
       </Box>
+
       <Grid container direction="row" display="flex" spacing={1}>
         {/* Left Card */}
         <Grid container item xs={9}>
@@ -192,6 +184,7 @@ export default function AddNews() {
             <form onSubmit={(e) => handlerSubmit(e)} className={classes.form}>
               <Grid spacing={5} container justify='space-around'>
 
+                {/* Title */}
                 <Grid item xs={12} md={5}>
                   <TextField
                     value={values.title}
@@ -204,12 +197,11 @@ export default function AddNews() {
                   />
                 </Grid>
 
+                {/* Perfil */}
                 <Grid item xs={12} md={5}>
-                  <FormControl
-                    className={classes.formControl}
-                    error={error.perfil ? true : false}
-                  >
-                    <InputLabel id='perfil'>Tipo de personalidad</InputLabel>
+                  <FormControl className={classes.formControl} error={error.perfil ? true : false}>
+
+                    {/*<InputLabel id='perfil'>Tipo de personalidad</InputLabel>
                     <Select
                       fullWidth
                       name='perfil'
@@ -222,16 +214,30 @@ export default function AddNews() {
                           {perfil.title}
                         </MenuItem>
                       ))}
-                    </Select>
+                    </Select>*/}
+
+                    <Autocomplete
+                      multiple
+                      id="perfiles"
+                      options={perfiles}
+                      getOptionLabel={(option) => option.title}
+                      defaultValue={[perfiles[0]]}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          variant="standard"
+                          label="Tipo de personalidad"
+                        />
+                      )}
+                    />
+
                     {error.perfil && <FormHelperText>{error.perfil}</FormHelperText>}
                   </FormControl>
                 </Grid>
 
-                <Grid item xs={12} md={5}>
-                  <FormControl
-                    className={classes.formControl}
-                    error={error.localidad ? true : false}
-                  >
+                {/* Location */}
+                {/*<Grid item xs={12} md={5}>
+                  <FormControl className={classes.formControl} error={error.localidad ? true : false}>
                     <Autocomplete
                       options={comunas}
                       value={values.localidad}
@@ -252,14 +258,15 @@ export default function AddNews() {
                     />
                     {error.localidad && <FormHelperText>{error.localidad}</FormHelperText>}
                   </FormControl>
-                </Grid>
+                </Grid>/*}
 
-                <Grid item xs={12} md={5}>
-                  <FormControl
-                    className={classes.formControl}
-                    error={error.rol ? true : false}
-                  >
-                    <InputLabel id='rol'>Enviar a:</InputLabel>
+
+
+                {/* Rol */}
+                <Grid item container xs={12} md={5}>
+                  <FormControl className={classes.formControl} error={error.rol ? true : false}>
+
+                    {/*<InputLabel id='rol'>Enviar a:</InputLabel>
                     <Select
                       fullWidth
                       name='rol'
@@ -272,7 +279,26 @@ export default function AddNews() {
                           {rol.title}
                         </MenuItem>
                       ))}
-                    </Select>
+                    </Select>*/}
+
+                    <Autocomplete
+                      multiple
+                      id="roles"
+                      options={usersTypes}
+                      getOptionLabel={(option) => option.title}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          variant="standard"
+                          label="Enviar a:"
+                        />
+                      )}
+                      onChange={(event, newValue) => {
+                        console.log('event y newValue: ', event);
+                        console.log('newValue: ', newValue);
+                      }}
+                    />
+
                     {/* <Autocomplete
                       multiple
                       options={usersTypes}
@@ -297,6 +323,7 @@ export default function AddNews() {
                   </FormControl>
                 </Grid>
 
+                {/* Image */}
                 <Grid item xs={12} md={11}>
                   <FormControl
                     className={classes.formControl}
@@ -334,6 +361,7 @@ export default function AddNews() {
                   </FormControl>
                 </Grid>
 
+                {/* Content */}
                 <Grid item xs={12} md={11}>
                   <TextField
                     value={values.content}
@@ -349,6 +377,7 @@ export default function AddNews() {
                   />
                 </Grid>
 
+                {/* Button */}
                 <Grid justify='center' container>
                   <ButtonLoading
                     loading={ loading }
@@ -393,7 +422,6 @@ export default function AddNews() {
           </Card>
         </Grid>
       </Grid>
-
     </>
   );
 }
