@@ -1,6 +1,6 @@
 import error from '~/ServerLess/utils/error';
 import firebase from '~/ServerLess/config/firebase'
-import Users from '~/ServerLess/Collections/Users';
+import Users from '~/ServerLess/collections/Users';
 
 const auth = {
     async signUp({ email, password, ...props }){

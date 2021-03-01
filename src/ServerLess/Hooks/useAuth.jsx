@@ -1,6 +1,6 @@
 import React from 'react'
 import firebase from '~/ServerLess/config/firebase';
-import Users from '~/ServerLess/Collections/Users'
+import Users from '~/ServerLess/collections/Users'
 
 export const $store = {
     user:null,

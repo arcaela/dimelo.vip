@@ -7,7 +7,7 @@ import Tab from '@material-ui/core/Tab';
 import { Box } from '@material-ui/core';
 import LiderTab from './LiderTab';
 import UserTab from './UserTab';
-import Users from '~/ServerLess/Collections/Users';
+import Users from '~/ServerLess/collections/Users';
 
 const StyledTabs = withStyles(theme => ({
     indicator: {

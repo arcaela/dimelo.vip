@@ -1,5 +1,5 @@
 
-import Posts from '~/ServerLess/Collections/Posts';
+import Posts from '~/ServerLess/collections/Posts';
 import firebase from '~/ServerLess/config/firebase'
 
 const posts = {
