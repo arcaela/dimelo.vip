@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import TitlePage from '../../../components/TitlePage';
 
 import { withStyles } from '@material-ui/core/styles';
@@ -65,36 +65,48 @@ export default function Movimiento(){
     const [value, setValue] = useState(0);
     const [leaders, setLeaders] = useState([]);
     const [users, setUsers] = useState([]);
+    const isMountedRef = useRef(null)
 
     const handleChange = (event, newValue) => {
       setValue(newValue);
     };
 
     useEffect(() => {
+      isMountedRef.current = true
       const getLeaders = async () => {
         try {
-          const users = await Users
-            .where('followers.size', '>=', 1)
-            .get();
-  
-          setLeaders(users.docs.map((e) => e.data()));
+          if(isMountedRef.current){
+            const users = await Users
+              .where('followers.size', '>=', 1)
+              .get();
+            setLeaders(users.docs.map((e) => e.data()));
+          }
         } catch (e) {
-          console.log(e);
+          if(isMountedRef.current){
+            console.log(e);
+          }
         }
       };
       getLeaders();
+      return ()=> isMountedRef.current = false
     }, []);
 
     useEffect(() => {
+      isMountedRef.current = true
       const getUsers = async () => {
         try {
-          const users = await Users.where('rol', '==', 2).get();
-          setUsers(users.docs.map((e) => e.data()));
+          if(isMountedRef.current){
+            const users = await Users.where('rol', '==', 2).get();
+            setUsers(users.docs.map((e) => e.data()));
+          }
         } catch (e) {
-          console.log(e);
+          if(isMountedRef.current){
+            console.log(e);
+          }
         }
       };
       getUsers();
+      return ()=> isMountedRef.current = false
     }, []);
     
     return (
