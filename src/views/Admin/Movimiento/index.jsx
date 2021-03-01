@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import TitlePage from '../../../components/TitlePage';
-import Layout from '../../layout';
 
 import { withStyles } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
@@ -79,7 +78,7 @@ export default function Movimiento(){
   
           const users = await leaders
             .collection('users')
-            .where('role', '==', 'leader')
+            .where('rol', '==', 1)
             .get();
   
           setLeaders(users.docs.map((e) => e.data()));
@@ -97,7 +96,7 @@ export default function Movimiento(){
   
           const users = await leaders
             .collection('users')
-            .where('role', '==', 'user')
+            .where('rol', '==', 2)
             .get();
   
             setUsers(users.docs.map((e) => e.data()));
@@ -109,7 +108,7 @@ export default function Movimiento(){
     }, []);
     
     return (
-        <Layout middleware={['auth']}>
+        <>
             <TitlePage title="Movimiento" />
             <div className="">
             <StyledTabs value={value} onChange={handleChange} aria-label="styled tabs example">
@@ -129,6 +128,6 @@ export default function Movimiento(){
             <TabPanel value={value} index={1}>
                 <UserTab users={users} />
             </TabPanel>
-        </Layout>
+        </>
     )
 };

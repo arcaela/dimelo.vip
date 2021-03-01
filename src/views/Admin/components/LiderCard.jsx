@@ -104,8 +104,7 @@ export default function LiderCard({ leader }) {
     email = '',
     movil = '',
     voting_point = '',
-    name = '',
-    lastname = '',
+    fullname = '',
     uid = null,
   } = leader;
 
@@ -135,14 +134,15 @@ export default function LiderCard({ leader }) {
         <Grid className={classes.avatarContainer} item xs={2}>
           <Avatar
             className={classes.large}
-            children={name ? name[0] : lastname[0]}
+            children={fullname ? fullname[0] : ''}
           />
         </Grid>
         <Grid item xs={10}>
           <CardHeader
             className={classes.header}
-            title={` ${name} ${lastname} `}
+            title={fullname}
             action={
+              leader.rol === 0 ?
               <>
                 <IconButton>
                   <img src='/images/edit.svg' alt='' />
@@ -151,6 +151,7 @@ export default function LiderCard({ leader }) {
                   <img src='/images/trash.svg' alt='' />
                 </IconButton>
               </>
+              : ''
             }
           />
           <Grid container direction="row" component={ CardContent } className={classes.content}>
@@ -167,7 +168,7 @@ export default function LiderCard({ leader }) {
             <Grid className={ classes.bottonIcon } item xs={ 3 }>
                 <IconButton onClick={ ()=>handlerOpen() } color="secondary" className={ classes.count } >
                   <PeopleAltIcon />
-                  +{ followers.length }
+                  +{ followers?.length }
                 </IconButton>
             </Grid>
           </Grid>

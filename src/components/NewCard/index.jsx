@@ -79,8 +79,7 @@ export default function NewCard({ users }) {
     email = '',
     movil = '',
     voting_point = '',
-    name = '',
-    lastname = '',
+    fullname = '',
   } = users;
 
   return (
@@ -89,14 +88,15 @@ export default function NewCard({ users }) {
         <Grid className={classes.avatarContainer} item xs={2}>
           <Avatar
             className={classes.large}
-            children={name ? name[0] : lastname[0]}
+            children={fullname ? fullname[0] : ''}
           />
         </Grid>
         <Grid item xs={10}>
           <CardHeader
             className={classes.header}
-            title={` ${name} ${lastname} `}
+            title={fullname}
             action={
+              users.rol === 0 ?
               <>
                 <IconButton>
                   <img src='/images/edit.svg' alt='' />
@@ -105,6 +105,7 @@ export default function NewCard({ users }) {
                   <img src='/images/trash.svg' alt='' />
                 </IconButton>
               </>
+              : ''
             }
           />
           <CardContent className={classes.content}>

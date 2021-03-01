@@ -17,12 +17,19 @@ export default function LiderTab({leaders}) {
   return (
     <div className={grid.root}>
         <Grid container spacing={3}>
-        { (leaders.length === 0) && <Loading />}
-        { leaders.map( leader => (
-            <Grid key={ leader.uid } item xs={12} md={6}>
-                <LiderCard leader={ leader } />
-            </Grid>
-        )) }
+          { !leaders && <Loading /> }
+          { ( leaders && leaders?.length > 0 ) && leaders.map( leader => (
+              <Grid key={ leader.uid } item xs={12} md={6}>
+                  <LiderCard leader={ leader } />
+              </Grid>
+          )) }
+          { ( leaders?.length === 0 )  && (
+              <Grid  item xs={12} >
+                <h1 style={{
+                  textAlign: 'center'
+                }}>No hay Líderes Registrados</h1>
+              </Grid>
+          ) }
         </Grid>
     </div>
   );

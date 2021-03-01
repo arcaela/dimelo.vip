@@ -23,7 +23,7 @@ import StepReflexivo from './Components/StepReflexivo';
 import StepResult from './Components/StepResult';
 import { TestButton } from './Components/TestButton';
 
-import useTest from '~/ServerLess/Hooks/useTest';
+import useTest from '~/hooks/useTest';
 import WelcomeImage from '~/images/test/welcome.svg'
 import {
   Container,
@@ -56,26 +56,26 @@ export default function PageTest(){
       </article>) }
       { step >= 21 && <StepResult {...inputs} setStep={setStep} /> }
       { step <= 20 && step>0 && (<StepComponent offset={1} steps={[
-        StepFormal,
-        StepAnalitico,
-        StepImparcial,
-        StepOrganizado,
-        StepCuestionador,
-        StepArriesgado,
-        StepCreativo,
-        StepEnergico,
-        StepAmbicioso,
-        StepCompetitivo,
-        StepAlegre,
-        StepPoetico,
-        StepAmigable,
-        StepPopular,
-        StepIndeciso,
-        StepCallado,
-        StepConciliador,
-        StepPacifico,
-        StepReflexivo,
-        StepInexpresivo,
+        {key:'formal',render:StepFormal},
+        {key:'analitico',render:StepAnalitico},
+        {key:'imparcial',render:StepImparcial},
+        {key:'organizado',render:StepOrganizado},
+        {key:'cuestionador',render:StepCuestionador},
+        {key:'arriesgado',render:StepArriesgado},
+        {key:'creativo',render:StepCreativo},
+        {key:'energico',render:StepEnergico},
+        {key:'ambicioso',render:StepAmbicioso},
+        {key:'competitivo',render:StepCompetitivo},
+        {key:'alegre',render:StepAlegre},
+        {key:'poetico',render:StepPoetico},
+        {key:'amigable',render:StepAmigable},
+        {key:'popular',render:StepPopular},
+        {key:'indeciso',render:StepIndeciso},
+        {key:'callado',render:StepCallado},
+        {key:'conciliador',render:StepConciliador},
+        {key:'pacifico',render:StepPacifico},
+        {key:'reflexivo',render:StepReflexivo},
+        {key:'inexpresivo',render:StepInexpresivo},
       ]} />)}
     </Container>
   </Layout>);

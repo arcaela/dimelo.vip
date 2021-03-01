@@ -17,12 +17,23 @@ export default function UserTab({users}) {
     return (
       <div className={grid.root}>
           <Grid container spacing={3}>
-          { ( users.length === 0 ) && <Loading />}
-          { users.map( user => (
-              <Grid key={ user.uid } item xs={12} md={6}>
-                  <NewCard users={ user } />
-              </Grid>
+
+          {(users && users?.length > 0) && users.map( user => (
+            <Grid key={ user.uid } item xs={12} md={6}>
+              <NewCard users={ user } />
+            </Grid>
           )) }
+
+          { !users  && <Loading /> }
+
+          { (users?.length === 0)  && (
+            <Grid  item xs={12} >
+              <h1 style={{
+                textAlign: 'center'
+              }}>No hay Usuarios Registrados</h1>
+            </Grid>
+          ) }
+          
           </Grid>
       </div>
     );

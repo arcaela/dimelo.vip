@@ -2,27 +2,29 @@ import React from 'react'
 import Layout from '../layout';
 import SignUp from './Forms/SignUp';
 import SignUpMore from './Forms/SignUpMore';
-import useInput from '../../ServerLess/Hooks/useInput';
-import { useStylesIndex } from './styles/index.styles';
-import { Grid, Hidden, Typography, } from '@material-ui/core';
-export default function Auth({...req}){
-    const classes = useStylesIndex();
-    req.useInput = useInput();
-    const { step } = req.useInput;
+import useForm from './components/useForm';
+import useStyles from './styles';
+import { Grid, Typography, } from '@material-ui/core';
+import Users from '~/ServerLess/collections/Users';
+
+export default function Auth({ ...req }){
+    const classes = useStyles();
+    const _useForm = useForm();
+    const { step, inputs } = _useForm;
+    
+    if( req.params.code?.length ){
+        Users.where('uid', '==', req.params.code).limit(1).get()
+        .then(snap=>(inputs.leader.value=!snap.empty && req.params.code));
+    } else inputs.leader.value=null;
+
     return (<Layout fullPage middleware={['guest']}>
-        {step > 2 && <SignUpMore {...req} />}
-        {step < 3 && (<Grid container className={classes.root}>
-            <Hidden smDown>
-                <Grid item xs={12} md={6} className={classes.gridLeft}>
-                    <Typography variant="h3">Bienvenido</Typography>
-                    <Typography variant="subtitle2">
-                        ¡Bienvenido! Por favor, {req.path==='/sigin' ? 'ingrese a su cuenta.' : 'completa el registro.'}
-                    </Typography>
-                </Grid>
-            </Hidden>
-            <Grid item xs={12} md={6} className={classes.gridRight}>
-                <SignUp {...req} />
+        {step > 2 && <SignUpMore useForm={_useForm} {...req} />}
+        {step <=2 && (<Grid container className={classes.root}>
+            <Grid item xs={12} md={6} className={classes.gridLeft}>
+                <Typography variant="h3">¡Bienvenido!</Typography>
+                <Typography variant="subtitle2">Por favor, completa el registro...</Typography>
             </Grid>
+            <Grid item xs={12} md={6} className={classes.gridRight} children={<SignUp useForm={_useForm} {...req} />} />
         </Grid>)}
     </Layout>)
 }
