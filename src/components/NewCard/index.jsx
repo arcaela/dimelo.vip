@@ -78,7 +78,9 @@ export default function NewCard({ users }) {
     direccion = '',
     email = '',
     movil = '',
-    voting_point = '',
+    voting : {
+      point = ''
+    },
     fullname = '',
   } = users;
 
@@ -115,7 +117,7 @@ export default function NewCard({ users }) {
             <Typography color='textSecondary'>Teléfono : {movil}</Typography>
             <Typography color='textSecondary'>Email: {email}</Typography>
             <Typography color='textSecondary'>
-              Punto de votación: {voting_point}
+              Punto de votación: { point }
             </Typography>
           </CardContent>
         </Grid>

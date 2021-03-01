@@ -58,8 +58,10 @@ export default function LiderModal({ open, setOpen, followers, leader, patron })
     direccion = '',
     email = '',
     movil = '',
-    voting_point = '',
     fullname = '',
+    voting : {
+      point = ''
+    },
   } = leader;
 
 
@@ -103,7 +105,7 @@ export default function LiderModal({ open, setOpen, followers, leader, patron })
                   Email: { email }
                 </Typography>
                 <Typography color='textSecondary'>
-                  Punto de votación: { voting_point }
+                  Punto de votación: { point }
                 </Typography>
                 <Typography color='secondary'>
                   { patron && patron }
