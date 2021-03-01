@@ -18,12 +18,12 @@ import {
 import { Link as _Link, useHistory, useLocation, useRouteMatch } from 'react-router-dom';
 
 
-//import useAuth from '~/ServerLess/Hooks/useAuth';
+//import useAuth from '~/ServerLess/hooks/useAuth';
 import middlewares from '~/config/middlewares';
 import ButtonProfile from '~/components/ButtonProfile';
 import api from '~/ServerLess/utils/api';
 import Invitar from '~/components/Invitar';
-import useAuth from '~/ServerLess/Hooks/useAuth';
+import useAuth from '~/ServerLess/hooks/useAuth';
 
 
 
@@ -111,7 +111,7 @@ export default function Layout({ fullPage=false, middleware=true, children }){
     history:useHistory(),
     redirect:(redirect)=>(window.location.replace(redirect) && null),
   };
-  const loading = Booelan(locked || context.auth===null || context.auth?.locked);
+  const loading = Boolean(locked || context.auth===null || context.auth?.locked);
   if(context.auth?.locked){
     setLocked(true);
     api('auth/signout', ()=>window.location.href='/signin')

@@ -13,7 +13,7 @@ import List from '@material-ui/core/List';
 import { makeStyles } from '@material-ui/core/styles';
 import { useCardLider } from './lider.styles';
 
-import Delete from '../../../images/trash.svg';
+import Delete from '~/images/trash.svg';
 
 import LiderCardModal from './LiderCardModal';
 

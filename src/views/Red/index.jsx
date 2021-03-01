@@ -7,10 +7,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useEffect, useState, useRef } from 'react';
 import Grid from '@material-ui/core/Grid';
 import SelectSearch from '~/components/SelectSearch';
-import useAuth from '~/ServerLess/Hooks/useAuth';
+import useAuth from '~/ServerLess/hooks/useAuth';
 import Loading from '~/components/Loading';
 import NewCard from '~/components/NewCard';
-import Users from '~/ServerLess/Collections/Users';
+import Users from '~/ServerLess/collections/Users';
 
 const gridStyles = makeStyles((theme) => ({
   root: {

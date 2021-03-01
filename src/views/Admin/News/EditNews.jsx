@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 
 import TitlePage from '~/components/TitlePage';
 import FileUploader from 'react-firebase-file-uploader';
@@ -19,14 +20,13 @@ import {
 } from '@material-ui/core';
 
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import newsFireBase from './NewstFireBase';
+import newsFireBase from './NewstFireBase.jsx';
 import LinearProgressWithLabel from '~/components/LinearProgressWithLabel';
 import AlertToast from '~/components/AlertToast';
 import ButtonLoading from '~/components/ButtonLoading';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import { useHistory } from 'react-router-dom';
 import regions from '~/views/SignUp/components/regions';
-import useAuth from '~/ServerLess/Hooks/useAuth';
+import useAuth from '~/ServerLess/hooks/useAuth';
 
 const newsStyle = makeStyles((theme) => ({
   form: {

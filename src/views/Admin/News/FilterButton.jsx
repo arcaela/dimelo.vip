@@ -1,8 +1,8 @@
 import React from 'react'
-import { CustomImput, useContainer } from '~/components/SelectSearch/select.style';
 import { IconButton } from '@material-ui/core';
-import SearchIcon from '@material-ui/icons/Search';
 import CloseIcon from '@material-ui/icons/Close';
+import SearchIcon from '@material-ui/icons/Search';
+import { CustomImput, useContainer } from '~/components/SelectSearch/select.style';
 
 export default function FilterButton({
     valueInput,

@@ -1,4 +1,4 @@
-import Users from '~/ServerLess/Collections/Users';
+import Users from '~/ServerLess/collections/Users';
 import api from '~/ServerLess/utils/api'
 
 export default async function Submit (useForm){

@@ -1,2 +1,2 @@
-import firebase from '~/ServerLess/config/firebase'
+import { firebase } from '~/ServerLess'
 export default firebase;

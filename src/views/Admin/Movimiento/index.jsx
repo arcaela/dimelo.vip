@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react'
-import TitlePage from '../../../components/TitlePage';
+import TitlePage from '~/components/TitlePage';
 
 import { withStyles } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
@@ -7,7 +7,7 @@ import Tab from '@material-ui/core/Tab';
 import { Box } from '@material-ui/core';
 import LiderTab from './LiderTab';
 import UserTab from './UserTab';
-import Users from '~/ServerLess/Collections/Users';
+import Users from '~/ServerLess/collections/Users';
 
 const StyledTabs = withStyles(theme => ({
     indicator: {
