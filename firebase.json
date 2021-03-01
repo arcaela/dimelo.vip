@@ -1,5 +1,5 @@
 {
-  "functions": { "source":"./Cloud Functions" },
+  "functions": { "source":"./src/ServerLess/Cloud Functions" },
   "hosting": {
     "public": "build",
     "ignore": [ "firebase.json", "**/.*", "**/node_modules/**" ],

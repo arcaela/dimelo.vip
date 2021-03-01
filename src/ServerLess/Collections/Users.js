@@ -23,9 +23,15 @@ class DataConverter {
     $set(path, value){ set(this, path, value); return value; }
 /* #################################### */
 
+
+
+
+
     // $posts(){ return Posts.where('author.uid', '==', this.uid); }
     link(){ return `http://dimelo.vip/signup/${this[index]}`; }
-    async $followers(){ return (await Table.where('leader', '==', this[index]).get()).docs.map(e=>e.data()); }
+    async $followers(){
+        return Table.where('leader', '==', this[index]).get().then(snap=>snap.docs.map(e=>e.data()))
+    }
 }
 export default Table
 .withConverter({
