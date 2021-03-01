@@ -1,14 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Breadcrumbs,
   Grid,
   TextField,
   Typography,
-  MenuItem,
-  Select,
   FormControl,
-  InputLabel,
   FormHelperText,
   Box,
   Card,
@@ -16,20 +13,13 @@ import {
 import InfoIcon from '@material-ui/icons/Info';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 
-import LinearProgressWithLabel from '~/components/LinearProgressWithLabel';
-import AlertToast from '~/components/AlertToast';
-import ButtonLoading from '~/components/ButtonLoading';
+import newsFireBase from '../NewstFireBase.jsx';
 import TitlePage from '~/components/TitlePage';
-<<<<<<< HEAD:src/views/Admin/News/Add/index.jsx
-=======
-import regions from '~/views/SignUp/components/regions';
-import useAuth from '~/ServerLess/Hooks/useAuth';
->>>>>>> Hosni:src/views/Admin/News/AddNews.jsx
+import AlertToast from '~/components/AlertToast';
+import useAuth from '~/ServerLess/hooks/useAuth';
 import PersonImage from '~/images/admin/personas.svg'
-
-import newsFireBase from '../NewstFireBase';
-import useAuth from '~/ServerLess/Hooks/useAuth';
-//import regions from '~/views/SignUp/components/regions';
+import ButtonLoading from '~/components/ButtonLoading';
+import LinearProgressWithLabel from '~/components/LinearProgressWithLabel';
 
 import useStyles from './styles';
 
@@ -40,7 +30,7 @@ export default function AddNews() {
     auth: useAuth(),
   };
 
-  console.log('usuario: ', content.auth);
+  console.log('usuario: ', context.auth);
 
   const [values, setValues] = useState({
     title: '',
@@ -66,8 +56,6 @@ export default function AddNews() {
   const [loading, setLoading] = useState(false)
 
   const [message, setMessage] = useState('')
-
-  const [comunas, setComunas] = useState('')
 
   const perfiles = [
     { title: 'Todos', value: 'all' },

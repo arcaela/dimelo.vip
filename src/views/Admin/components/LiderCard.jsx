@@ -21,7 +21,7 @@ import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import LiderModal from './LiderModal';
 
 import usePatron from '~/hooks/usePatron';
-import Users from '~/ServerLess/Collections/Users';
+import Users from '~/ServerLess/collections/Users';
 
 const styles = makeStyles((theme) => ({
   header: {

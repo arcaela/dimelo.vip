@@ -9,7 +9,7 @@ import {
 } from '@material-ui/core';
 import Skeleton from '@material-ui/lab/Skeleton';
 
-import api from '../../ServerLess/utils/api';
+import { api } from '~/ServerLess';
 import { Link } from 'react-router-dom';
 
 const styles = makeStyles((theme)=>({

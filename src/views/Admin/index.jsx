@@ -1,5 +1,5 @@
 import React from 'react'
-import Layout from '../layout'
+import Layout from '~/views/layout'
 import AdminPage from './Home'
 import AddNews from './News/Add'
 import Movimiento from './Movimiento'

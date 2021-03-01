@@ -1,7 +1,7 @@
 import { Grid, Tab, withStyles, Tabs, Box } from '@material-ui/core';
 import { useState } from 'react';
 import TitlePage from '~/components/TitlePage';
-import Layout from '../layout';
+import Layout from '~/views/layout';
 import Account from './components/Account';
 import PassWord from './components/PassWord';
 

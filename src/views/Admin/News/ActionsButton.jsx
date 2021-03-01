@@ -10,7 +10,7 @@ import {
 } from '@material-ui/core';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 
-import newsFireBase from './NewstFireBase';
+import newsFireBase from './NewstFireBase.jsx';
 import { TableContext } from './TableNews';
 import { useHistory } from 'react-router-dom';
 

@@ -5,7 +5,7 @@ import DataTable from 'react-data-table-component';
 import { useHistory } from 'react-router-dom';
 import ActionsButton from './ActionsButton';
 import FilterButton from './FilterButton';
-import newsFireBase from './NewstFireBase';
+import newsFireBase from './NewstFireBase.jsx';
 
 const uStyle = makeStyles((theme)=>({
     button:{
