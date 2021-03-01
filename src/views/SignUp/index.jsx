@@ -12,9 +12,8 @@ export default function Auth({ ...req }){
     const _useForm = useForm();
     const { step, inputs } = _useForm;
     
-    req.params.code = atob(req.params.code||'')
     if( req.params.code?.length ){
-        Users.where('cedula', '==', req.params.code).limit(1).get()
+        Users.where('uid', '==', req.params.code).limit(1).get()
         .then(snap=>(inputs.leader.value=!snap.empty && req.params.code));
     } else inputs.leader.value=null;
 
