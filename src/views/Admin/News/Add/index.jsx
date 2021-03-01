@@ -122,6 +122,7 @@ export default function AddNews() {
 
       if (isValid) {
         await newsFireBase.addNews(values);
+        
         setMessage('Publicada');
         setSuccess(!success);
         setLoading(false)
