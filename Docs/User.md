@@ -17,30 +17,32 @@ docs[0].data();
 snap.data();
 
 {
-    uid: Number,
+    uid: String,
     rol: Number,
     locked: Boolean,
-    photoURL: String | URL,
-    leader: String | User ID,
+    leader: String | User UID,
     fullname: String,
-    cedula: Number,
-    birthday: Date String,
-    address:{
-        string: String,
-        maps: Object | NULL,
-    },
     email: String,
+    cedula: Number,
+    birthday: Date String | 'dd/MM/yyy',
     movil: Number,
     phone: Number,
-    voting:{ 
+    address:{
+      string: String,
+      maps: Object,
+    },
+    family:{
+        adults: Number,
+        partners: Number,
+    },
+    voting:{
         departament: String,
         municipality: String,
         point: String,
         table: Number,
     },
-    family:{
-        adults: Number,
-        partners: Number,
+    followers:{
+        size: Number,
     },
 }
 ```
