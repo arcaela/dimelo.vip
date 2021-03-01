@@ -1,6 +1,6 @@
 import React from "react";
 import { CircularProgress, Container, makeStyles } from "@material-ui/core";
-import Layout from "../layout";
+import Layout from "~/views/layout";
 import NewsBox from "./NewsBox";
 import api from "~/ServerLess/utils/api";
 import useAuth from "~/ServerLess/hooks/useAuth";

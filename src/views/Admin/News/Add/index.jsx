@@ -13,15 +13,13 @@ import {
 import InfoIcon from '@material-ui/icons/Info';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 
-import LinearProgressWithLabel from '~/components/LinearProgressWithLabel';
-import AlertToast from '~/components/AlertToast';
-import ButtonLoading from '~/components/ButtonLoading';
-import TitlePage from '~/components/TitlePage';
-import PersonImage from '~/images/admin/personas.svg'
-
 import newsFireBase from '../NewstFireBase';
+import TitlePage from '~/components/TitlePage';
+import AlertToast from '~/components/AlertToast';
 import useAuth from '~/ServerLess/hooks/useAuth';
-//import regions from '~/views/SignUp/components/regions';
+import PersonImage from '~/images/admin/personas.svg'
+import ButtonLoading from '~/components/ButtonLoading';
+import LinearProgressWithLabel from '~/components/LinearProgressWithLabel';
 
 import useStyles from './styles';
 

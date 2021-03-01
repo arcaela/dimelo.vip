@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react'
-import TitlePage from '../../../components/TitlePage';
+import TitlePage from '~/components/TitlePage';
 
 import { withStyles } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';

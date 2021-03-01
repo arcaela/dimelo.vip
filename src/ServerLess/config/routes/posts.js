@@ -1,4 +1,3 @@
-
 import Posts from '~/ServerLess/collections/Posts';
 import firebase from '~/ServerLess/config/firebase'
 

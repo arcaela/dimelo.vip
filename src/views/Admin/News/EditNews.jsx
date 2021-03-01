@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 
 import TitlePage from '~/components/TitlePage';
 import FileUploader from 'react-firebase-file-uploader';
@@ -24,7 +25,6 @@ import LinearProgressWithLabel from '~/components/LinearProgressWithLabel';
 import AlertToast from '~/components/AlertToast';
 import ButtonLoading from '~/components/ButtonLoading';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import { useHistory } from 'react-router-dom';
 import regions from '~/views/SignUp/components/regions';
 import useAuth from '~/ServerLess/hooks/useAuth';
 

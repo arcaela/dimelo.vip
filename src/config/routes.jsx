@@ -13,19 +13,19 @@ require('~/views/layout').layout.routes.push(
         path:'/messages',
         icon:Message,
         label:'Mensajes', 
-        show({auth}){ return false && auth && auth.rol===0 }
+        show({auth}){ return false && auth?.rol===0 }
     },
     {
         path:'/admin/movimiento',
         icon:MovementIcon,
         label:'Movimiento', 
-        show({auth}){ return auth && auth.rol===0 }
+        show({auth}){ return auth?.rol===0 }
     },
     {
         path:'/admin/news',
         icon:Announcement,
         label:'Panel de Noticias',
-        show({auth}){ return auth && auth.rol===0 }
+        show({auth}){ return auth?.rol===0 }
     },
     {
         path:'/red',
