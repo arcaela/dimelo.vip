@@ -26,7 +26,7 @@ module.exports.userCreate = functions.firestore.document('/users/{uid}').onCreat
         }),
         leader.exists && leader.ref.update({
             followers:{
-                size: admin.firestore.FieldValue.increment(1),
+                size: leader.data().followers.size+1,
             },
         })
     ]);
