@@ -20,8 +20,8 @@ La función de api es la unión de distintas funciones que interpretan rutas loc
 
 Un ejemplo para llamar una ruta de api sería el siguiente procedimiento:
 ```javascript
-import api from '~/ServerLess/api'
-// const api = require('~/ServerLess/api');
+import { api } from '~/ServerLess'
+// const { api } = require('~/ServerLess');
 
 const existEmail = api('auth/validate','me@alsome.again')
     .then(valid=> Boolean)
