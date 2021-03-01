@@ -12,11 +12,11 @@ const posts = {
     async create(post){
         const media = [];
         const doc = Posts.doc();
-        
         const folder = firebase.storage().ref(`posts/${doc.id}/media/`);
-        for(const picture of post.media)
-            media.push( await (await folder.child(`/${Date.now()}`).put(picture)).ref.getDownloadURL() )
-
+        for(const picture of post.media?.pictures)
+            media.push( await (await folder.child(`/pictures/${Date.now()}`).put(picture)).ref.getDownloadURL() )
+        for(const video of post.media?.videos)
+            media.push( await (await folder.child(`/videos/${Date.now()}`).put(video)).ref.getDownloadURL() )
         const data = { ...post, id:doc.id, media};
         await doc.set(data);
         return data;
