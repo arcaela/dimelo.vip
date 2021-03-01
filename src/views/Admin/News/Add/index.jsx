@@ -16,10 +16,11 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import newsFireBase from '../NewstFireBase.jsx';
 import TitlePage from '~/components/TitlePage';
 import AlertToast from '~/components/AlertToast';
-import useAuth from '~/ServerLess/hooks/useAuth';
+import useAuth from '~/ServerLess/Hooks/useAuth';
 import PersonImage from '~/images/admin/personas.svg'
 import ButtonLoading from '~/components/ButtonLoading';
 import LinearProgressWithLabel from '~/components/LinearProgressWithLabel';
+import { api } from '~/ServerLess'
 
 import useStyles from './styles';
 
@@ -30,11 +31,9 @@ export default function AddNews() {
     auth: useAuth(),
   };
 
-  console.log('usuario: ', context.auth);
-
   const [values, setValues] = useState({
     title: '',
-    perfiles: '',
+    profiles: '',
     roles: '',
     media: '',
     content: '',
@@ -57,7 +56,7 @@ export default function AddNews() {
 
   const [message, setMessage] = useState('')
 
-  const perfiles = [
+  const profilesOptions = [
     { title: 'Todos', value: 'all' },
     { title: 'Independiente Automotivado', value: 'dominancia' },
     { title: 'Analista Pensador', value: 'control' },
@@ -93,9 +92,9 @@ export default function AddNews() {
   const reset = () => {
     setValues({
       title: '',
-      perfil: '',
+      profiles: '',
       localidad: [],
-      rol: [],
+      roles: [],
       media: '',
       content: '',
     })
@@ -118,11 +117,35 @@ export default function AddNews() {
 
     const isValid = verifyForm();
 
-    try {
+    const newValues = {
+        autor:{
+            uid: context.auth.uid,
+            fullname: context.auth.fullname,
+        },
+        title: values.title,
+        content: values.content,
+        media: {
+            pictures: values.media,
+            videos: [],
+        },
+        filters:{
+            // Rangos específicos del GPS,
+            gps_area: [],
+            // Perfiles psicológicos
+            perfiles: values.profiles.map(elem => elem.value),
+            // Roles de usuario
+            rol: values.roles.map(elem => elem.value),
+        },
+    }
 
+    try {
       if (isValid) {
-        await newsFireBase.addNews(values);
-        
+        const posted = api('posts/create', { post : newValues })
+          .then( post => {
+            console.log('post created: ', post);
+          })
+          .catch(e=>alert(e))
+
         setMessage('Publicada');
         setSuccess(!success);
         setLoading(false)
@@ -138,6 +161,20 @@ export default function AddNews() {
     setValues({
       ...values,
       [e.target.name]: e.target.value,
+    });
+  };
+
+  const handlerProfiles = (newValue) => {
+    setValues({
+      ...values,
+      profiles: newValue,
+    });
+  };
+
+  const handlerRoles = (newValue) => {
+    setValues({
+      ...values,
+      roles: newValue,
     });
   };
 
@@ -194,28 +231,11 @@ export default function AddNews() {
                 {/* Perfil */}
                 <Grid item xs={12} md={5}>
                   <FormControl className={classes.formControl} error={error.perfil ? true : false}>
-
-                    {/*<InputLabel id='perfil'>Tipo de personalidad</InputLabel>
-                    <Select
-                      fullWidth
-                      name='perfil'
-                      value={values.perfil}
-                      labelId='perfil'
-                      onChange={(e) => handlerOnChange(e)}
-                    >
-                      {perfiles.map((perfil) => (
-                        <MenuItem key={perfil.value} value={perfil.value}>
-                          {perfil.title}
-                        </MenuItem>
-                      ))}
-                    </Select>*/}
-
                     <Autocomplete
                       multiple
-                      id="perfiles"
-                      options={perfiles}
+                      id="profiles"
+                      options={profilesOptions}
                       getOptionLabel={(option) => option.title}
-                      defaultValue={[perfiles[0]]}
                       renderInput={(params) => (
                         <TextField
                           {...params}
@@ -223,8 +243,8 @@ export default function AddNews() {
                           label="Tipo de personalidad"
                         />
                       )}
+                      onChange={(event, newValue) => { handlerProfiles(newValue) }}
                     />
-
                     {error.perfil && <FormHelperText>{error.perfil}</FormHelperText>}
                   </FormControl>
                 </Grid>
@@ -256,25 +276,11 @@ export default function AddNews() {
 
 
 
+
+
                 {/* Rol */}
                 <Grid item container xs={12} md={5}>
                   <FormControl className={classes.formControl} error={error.rol ? true : false}>
-
-                    {/*<InputLabel id='rol'>Enviar a:</InputLabel>
-                    <Select
-                      fullWidth
-                      name='rol'
-                      value={values.rol}
-                      labelId='rol'
-                      onChange={(e) => handlerOnChange(e)}
-                    >
-                      {usersTypes.map((rol) => (
-                        <MenuItem key={rol.value} value={rol.value}>
-                          {rol.title}
-                        </MenuItem>
-                      ))}
-                    </Select>*/}
-
                     <Autocomplete
                       multiple
                       id="roles"
@@ -287,32 +293,8 @@ export default function AddNews() {
                           label="Enviar a:"
                         />
                       )}
-                      onChange={(event, newValue) => {
-                        console.log('event y newValue: ', event);
-                        console.log('newValue: ', newValue);
-                      }}
+                      onChange={(event, newValue) => { handlerRoles(newValue) }}
                     />
-
-                    {/* <Autocomplete
-                      multiple
-                      options={usersTypes}
-                      getOptionLabel={(option) => option.title}
-                      inputValue=''
-                      name='rol'
-                      onChange={(event, newValue) => {
-                        handlerOnAutoComplete('rol', newValue);
-                      }}
-                      getOptionSelected={(option, value) => {
-                        return option.value === value.value;
-                      }}
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          label='Enviar a'
-                          placeholder='Enviar a'
-                        />
-                      )}
-                    /> */}
                     {error.rol && <FormHelperText>{error.rol}</FormHelperText>}
                   </FormControl>
                 </Grid>
@@ -417,5 +399,5 @@ export default function AddNews() {
         </Grid>
       </Grid>
     </>
-  );
+  )
 }
