@@ -1,39 +1,23 @@
-# aurora.js for ReactJS App
+<p align="center">
+  <a href="https://dimelo.vip/" rel="noopener" target="_blank"><img width="150" src="https://dimelo.vip/images/brand.svg" alt="Material-UI logo"></a></p>
+</p>
+<div align="center">
 
-This folder was bootstrapped with [aurora.js for React](https://github.com/arcaela/aurora.js).
+Una aplicación construída con tecnología [React](https://reactjs.org/).
 
-## ¿Why aurora.js?
+Dimelo.vip es una plataforma elaborada por [**SmartBunny CO**](https://smartbunny.co/).
+</div>
 
-This template was built to reduce setup time, facilitate a work structure and implement useful development tools.
+<div style="margin-top:50px;" />
 
-## Advantage
+## [Documentación](./src/ServerLess/documentation/)
+La documentación esta designada a la lista de "helpers" que posee el código interno, no debe ser utilizado durante el uso de la aplicación ya que podría causar errores en tu navegador.
 
-Google has become the port of technology today, this allows us to get multiple development tools on the same platform.
+<div style="margin-top:50px;" />
 
-With this in mind, the development team behind aurora.js, have dedicated ourselves to building our own development methodologies based on Google tools.
+# <summary>Equipo de desarrollo</summary>
 
-### ¿ Why Material-UI ?
-If you are a lover of modernity and are familiar with technology, you will find the use of Material-UI very familiar to support the design of your applications.
-
-### ¿Why choose Firebase?
-We cannot say enough about its advantages, but we invite you to read the Internet Giant's proposal on its official [Firebase site.](https://firebase.google.com/)
-
-
-
-## Learn More of ReactJS App
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Advanced Configuration
-
-You find documentation  here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-You find documentation here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-You find documentation  here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- **[Alejandro Reyes](https://github.com/arcaela)**
+- **[Hosni Colina](https://github.com/hosnicolina)**
+- **[Boris Lopez](https://github.com/borizz1414)**
+- **[Rosiris Romero](https://github.com/rosirisvrm)**
