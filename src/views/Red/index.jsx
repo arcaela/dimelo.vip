@@ -5,18 +5,18 @@ import firebase from '~/config/firebase';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { useEffect, useState } from 'react';
-import SelectSearch from '~/components/SelectSearch';
 import Grid from '@material-ui/core/Grid';
+import SelectSearch from '~/components/SelectSearch';
 import useAuth from '~/ServerLess/Hooks/useAuth';
 import Loading from '~/components/Loading';
 import NewCard from '~/components/NewCard';
+import Users from '~/ServerLess/Collections/Users';
 
 const gridStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
   },
 }));
-
 
 export default function AdminPage() {
 
@@ -41,7 +41,6 @@ export default function AdminPage() {
                .where(select, 'in', arraySearch )
                .get()
   }
-
 
   const handlerChange = (e) => {
     setSelect(e.target.value)
@@ -80,14 +79,8 @@ export default function AdminPage() {
     const getUsers = async () => {
       if( !currentUser ) return;
       try {
-        const leaders = firebase.firestore();
-
-        const users = await leaders
-          .collection('users')
-          .where('voting_leader', '==', currentUser.cedula)
-          .get();
-
-          setUsers(users.docs.map((e) => e.data()));
+        const users = await Users.where('leader', '==', currentUser.uid).get();
+        setUsers(users.docs.map((e) => e.data()));
       } catch (e) {
         console.log(e);
       }
@@ -119,7 +112,7 @@ export default function AdminPage() {
             <Grid key={ user.uid } item xs={12} md={6}>
               <NewCard users={ user } />
             </Grid>
-          )) }
+          ))}
 
           { !users  && <Loading /> }
 
