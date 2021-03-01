@@ -111,7 +111,7 @@ export default function Layout({ fullPage=false, middleware=true, children }){
     history:useHistory(),
     redirect:(redirect)=>(window.location.replace(redirect) && null),
   };
-  const loading = !!(locked || context.auth===null || context.auth?.locked);
+  const loading = Booelan(locked || context.auth===null || context.auth?.locked);
   if(context.auth?.locked){
     setLocked(true);
     api('auth/signout', ()=>window.location.href='/signin')
