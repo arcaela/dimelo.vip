@@ -1,7 +1,7 @@
 import firebase from './config/firebase'
-export * as useAuth from './hooks/useAuth'
-export * as useGetter from './hooks/useGetter'
-export * as useInputs from './hooks/useInputs'
+export * as useAuth from './Hooks/useAuth'
+export * as useGetter from './Hooks/useGetter'
+export * as useInputs from './Hooks/useInputs'
 
 export * as api from './utils/api'
 export * as error from './utils/error'

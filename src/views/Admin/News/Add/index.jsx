@@ -20,6 +20,11 @@ import LinearProgressWithLabel from '~/components/LinearProgressWithLabel';
 import AlertToast from '~/components/AlertToast';
 import ButtonLoading from '~/components/ButtonLoading';
 import TitlePage from '~/components/TitlePage';
+<<<<<<< HEAD:src/views/Admin/News/Add/index.jsx
+=======
+import regions from '~/views/SignUp/components/regions';
+import useAuth from '~/ServerLess/Hooks/useAuth';
+>>>>>>> Hosni:src/views/Admin/News/AddNews.jsx
 import PersonImage from '~/images/admin/personas.svg'
 
 import newsFireBase from '../NewstFireBase';

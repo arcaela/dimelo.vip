@@ -8,6 +8,7 @@ import { Box } from '@material-ui/core';
 import LiderTab from './LiderTab';
 import firebase from '../../../config/firebase';
 import UserTab from './UserTab';
+import Users from '~/ServerLess/Collections/Users';
 
 const StyledTabs = withStyles(theme => ({
     indicator: {
@@ -70,15 +71,11 @@ export default function Movimiento(){
       setValue(newValue);
     };
 
-
     useEffect(() => {
       const getLeaders = async () => {
         try {
-          const leaders = firebase.firestore();
-  
-          const users = await leaders
-            .collection('users')
-            .where('rol', '==', 1)
+          const users = await Users
+            .where('followers.size', '>=', 1)
             .get();
   
           setLeaders(users.docs.map((e) => e.data()));
@@ -92,14 +89,8 @@ export default function Movimiento(){
     useEffect(() => {
       const getUsers = async () => {
         try {
-          const leaders = firebase.firestore();
-  
-          const users = await leaders
-            .collection('users')
-            .where('rol', '==', 2)
-            .get();
-  
-            setUsers(users.docs.map((e) => e.data()));
+          const users = await Users.where('rol', '==', 2).get();
+          setUsers(users.docs.map((e) => e.data()));
         } catch (e) {
           console.log(e);
         }
