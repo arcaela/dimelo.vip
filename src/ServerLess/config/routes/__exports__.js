@@ -17,5 +17,4 @@ const resolve = (function _(_ob_, prefix=''){
         },paths)
     ),{});
 })(routes);
-
 export default resolve;
