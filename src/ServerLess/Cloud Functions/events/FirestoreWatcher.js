@@ -6,8 +6,6 @@ const { functions, mail, admin } = require('../config');
 
 const Users = admin.firestore().collection('users');
 const Leaders = admin.firestore().collection('leaders');
-// const Posts = admin.firestore().collection('posts');
-
 
 const WelcomeEmailContent = fs.readFileSync(path.join(__dirname, `/../resources/notify-register.html`), "utf-8").toString();
 const WelcomeTemplate = handlebars.compile(WelcomeEmailContent);
@@ -15,10 +13,10 @@ module.exports.userCreate = functions.firestore.document('/users/{uid}').onCreat
     const client = snap.data();
     const leader = !client.leader?{exists:false}:(await Users.doc(client.leader).get());
     const isLeader = await Leaders.where('cedula', '==', client.cedula).limit(1).get();
-    const locked = (!leader.exists && !isLeader.size);
+    // const locked = (!leader.exists && !isLeader.size);
     await Promise.all([
         snap.ref.update({
-            locked,
+            locked:false,
             followers:{ size:0, },
             uid:context.params.uid,
             rol: isLeader.size?1:2,
