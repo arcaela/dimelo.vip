@@ -7,7 +7,7 @@ Saludos muchachos, este es un documento con las especificaciones y estructura de
 Para acceder a la propiedad de los usuarios debe realizarse una consulta específica a la colección de usuarios:
 ```javascript
     import { Users } from '~/ServerLess'
-    import Users from '~/ServerLess/collections/Users'
+    import Users from '~/ServerLess/Collections/Users'
 ```
 
 ```javascript
