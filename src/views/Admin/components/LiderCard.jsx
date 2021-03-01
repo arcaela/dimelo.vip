@@ -20,8 +20,8 @@ import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 
 import LiderModal from './LiderModal';
 
-import firebase from '../../../config/firebase.js';
 import usePatron from '~/hooks/usePatron';
+import Users from '~/ServerLess/Collections/Users';
 
 const styles = makeStyles((theme) => ({
   header: {
@@ -103,7 +103,9 @@ export default function LiderCard({ leader }) {
     direccion = '',
     email = '',
     movil = '',
-    voting_point = '',
+    voting : {
+      point = ''
+    },
     fullname = '',
     uid = null,
   } = leader;
@@ -112,12 +114,8 @@ export default function LiderCard({ leader }) {
     const getLeaders = async () => {
       if (!uid) return;
       try {
-        const leaders = firebase.firestore();
-
-        const users = await leaders
-          .collection('users')
-          .where('voting_leader', '==', uid)
-          .get();
+ 
+        const users = await Users.where('leader', '==', uid).get();
 
         setFollowers(users.docs.map((e) => e.data()));
       } catch (e) {
@@ -129,7 +127,10 @@ export default function LiderCard({ leader }) {
 
   return (
     <>
-    <Card>
+    <Card style={{
+      display: 'flex',
+      height: '100%'
+    }}>
       <Grid container spacing={1}>
         <Grid className={classes.avatarContainer} item xs={2}>
           <Avatar
@@ -162,7 +163,7 @@ export default function LiderCard({ leader }) {
               <Typography color='textSecondary'>Teléfono : {movil}</Typography>
               <Typography color='textSecondary'>Email: {email}</Typography>
               <Typography color='textSecondary'>
-                Punto de votación: {voting_point}
+                Punto de votación: {point}
               </Typography>    
             </Grid>
             <Grid className={ classes.bottonIcon } item xs={ 3 }>

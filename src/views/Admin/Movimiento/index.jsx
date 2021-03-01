@@ -6,7 +6,6 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import { Box } from '@material-ui/core';
 import LiderTab from './LiderTab';
-import firebase from '../../../config/firebase';
 import UserTab from './UserTab';
 import Users from '~/ServerLess/Collections/Users';
 
