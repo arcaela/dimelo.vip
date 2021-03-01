@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Grid, makeStyles } from '@material-ui/core/styles';
+import { Grid, makeStyles } from '@material-ui/core';
 import firebase from '~/config/firebase';
 import Loading from '~/components/Loading';
 import TitlePage from '~/components/TitlePage';
-import LiderCard from '~/components/LiderCard';
+import LiderCard from '../components/LiderCard';
 import SelectSearch from '~/components/SelectSearch';
 
 const gridStyles = makeStyles((theme) => ({

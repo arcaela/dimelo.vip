@@ -13,7 +13,7 @@ import {
 import InfoIcon from '@material-ui/icons/Info';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 
-import newsFireBase from '../NewstFireBase';
+import newsFireBase from '../NewstFireBase.jsx';
 import TitlePage from '~/components/TitlePage';
 import AlertToast from '~/components/AlertToast';
 import useAuth from '~/ServerLess/hooks/useAuth';

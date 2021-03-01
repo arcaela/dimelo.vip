@@ -20,7 +20,7 @@ import {
 } from '@material-ui/core';
 
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import newsFireBase from './NewstFireBase';
+import newsFireBase from './NewstFireBase.jsx';
 import LinearProgressWithLabel from '~/components/LinearProgressWithLabel';
 import AlertToast from '~/components/AlertToast';
 import ButtonLoading from '~/components/ButtonLoading';
