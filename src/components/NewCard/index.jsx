@@ -78,12 +78,17 @@ export default function NewCard({ users }) {
     direccion = '',
     email = '',
     movil = '',
-    voting_point = '',
+    voting : {
+      point = ''
+    },
     fullname = '',
   } = users;
 
   return (
-    <Card>
+    <Card  style={{
+      display: 'flex',
+      height: '100%'
+    }}>
       <Grid container spacing={1}>
         <Grid className={classes.avatarContainer} item xs={2}>
           <Avatar
@@ -115,7 +120,7 @@ export default function NewCard({ users }) {
             <Typography color='textSecondary'>Teléfono : {movil}</Typography>
             <Typography color='textSecondary'>Email: {email}</Typography>
             <Typography color='textSecondary'>
-              Punto de votación: {voting_point}
+              Punto de votación: { point }
             </Typography>
           </CardContent>
         </Grid>

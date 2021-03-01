@@ -30,7 +30,9 @@ export default function LiderCardModal({ user }) {
 
   const{
     fullname = '',
-    voting_point = ''
+    voting : {
+      point = ''
+    },
   } = user;
 
   return (
@@ -50,7 +52,7 @@ export default function LiderCardModal({ user }) {
             variant='body2'
             color='textSecondary'
           >
-              Punto de votación: { voting_point }
+              Punto de votación: { point }
           </Typography>
         </div>
     </ListItem>

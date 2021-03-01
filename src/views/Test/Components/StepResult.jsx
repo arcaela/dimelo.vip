@@ -5,7 +5,7 @@ import { merge } from 'lodash';
 import { Home, Repeat } from '@material-ui/icons'
 import { reference } from '~/ServerLess'
 import firebase from '~/config/firebase'
-import useAuth from '~/ServerLess/hooks/useAuth';
+import useAuth from '~/ServerLess/Hooks/useAuth';
 
 
 
