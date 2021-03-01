@@ -7,13 +7,13 @@ class NewsFireBase {
     constructor() {
         this.db = app.firestore()
         this.storage = app.storage()
-        this.news = this.db.collection('news')
-        this.imagesRef = this.storage.ref("news/images")
+        this.posts = this.db.collection('posts')
+        this.imagesRef = this.storage.ref("posts/images")
     }
 
     async addNews(news){
         try {
-            return await this.news.add(news)
+            return await this.posts.add(news)
         } catch (error) {
             return error
         }
@@ -21,7 +21,7 @@ class NewsFireBase {
 
     async addNewsById(id){
         try {
-            return await this.news.doc(id).get();
+            return await this.posts.doc(id).get();
         } catch (error) {
             return error
         }
@@ -29,7 +29,7 @@ class NewsFireBase {
 
     async updateNews(id, update){
         try {
-            return await this.news.doc(id).update(update);
+            return await this.posts.doc(id).update(update);
         } catch (e) {
             return e
         }
@@ -41,7 +41,7 @@ class NewsFireBase {
 
     async getNews(){
         try {
-            const news = await this.news.get()
+            const news = await this.posts.get()
             return news.docs.map( (e) =>  Object.assign(e.data(), { id: e.id }) )
         } catch (error) {
             return error
@@ -50,7 +50,7 @@ class NewsFireBase {
 
     async deleteNews(id){
         try {
-            const deleteDoc = await this.news.doc(id).delete()
+            const deleteDoc = await this.posts.doc(id).delete()
             console.log(deleteDoc)
         } catch (error) {
             
