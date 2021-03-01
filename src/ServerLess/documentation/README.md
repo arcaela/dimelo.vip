@@ -3,7 +3,7 @@
 En este documento les explicaré un poco de la estructura del Back - Front(ServerLess)de la plataforma.
 
 ## Importación
-Para acceder a sus funciones o propiedas será necesario importar las de manera genérica o específica :
+Para acceder a sus funciones o propiedas será necesario importarlas de manera genérica o específica:
 ```javascript
     import { useAuth } from '~/ServerLess'
     import * as ServerLess from '~/ServerLess'
@@ -14,10 +14,9 @@ Para acceder a sus funciones o propiedas será necesario importar las de manera 
 Esta función está mejor documentada en su propio [markdown](Api.md) dentro de este [directorio](./).
 
 
-
 ## Hook | useAuth
-**useAuth** es un hook construído para conocer el usuario autenticado actualmente,
-su valor puede estar estar establecido en 2 etapas y 3 resultados :
+**useAuth** es un hook construído para conocer el [User](User.md) autenticado actualmente,
+su valor puede estar estar establecido en 3 posibles resultados:
 ```javascript
     export default function ProfileButton(props){
         const user = useAuth();
