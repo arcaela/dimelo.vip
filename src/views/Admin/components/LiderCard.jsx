@@ -127,7 +127,10 @@ export default function LiderCard({ leader }) {
 
   return (
     <>
-    <Card>
+    <Card style={{
+      display: 'flex',
+      height: '100%'
+    }}>
       <Grid container spacing={1}>
         <Grid className={classes.avatarContainer} item xs={2}>
           <Avatar
