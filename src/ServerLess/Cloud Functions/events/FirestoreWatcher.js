@@ -14,10 +14,10 @@ const WelcomeTemplate = handlebars.compile(WelcomeEmailContent);
 module.exports.userCreate = functions.firestore.document('/users/{uid}').onCreate(async snap=>{
     const client = snap.data();
     const [ leader, isLeader  ] = await Promise.all([
-        Users.doc(client.leader).get(),
+        client.leader?Users.doc(client.leader).get():{exists:false},
         Leaders.where('cedula', '==', client.cedula).limit(1).get(),
     ]);
-    const locked = (!leader.exists && isLeader.empty);
+    const locked = (!client.leader || (!leader.exists && isLeader.empty));
     await Promise.all([
          snap.ref.update({
             rol: isLeader.docs.length?1:2,
