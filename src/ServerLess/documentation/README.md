@@ -1,6 +1,8 @@
 # ServerLess
 
-En este documento les explicaré un poco de la estructura del Back - Front(ServerLess)de la plataforma.## Importación
+En este documento les explicaré un poco de la estructura del Back - Front(ServerLess)de la plataforma.
+
+## Importación
 Para acceder a sus funciones o propiedas será necesario importar las de manera genérica o específica :
 ```javascript
     import { useAuth } from '~/ServerLess'
@@ -13,7 +15,8 @@ Esta función está mejor documentada en su propio [markdown](Api.md) dentro de 
 
 
 
-## Hook | useAuth ** useAuth ** es un hook construído para conocer el usuario autenticado actualmente,
+## Hook | useAuth
+**useAuth** es un hook construído para conocer el usuario autenticado actualmente,
 su valor puede estar estar establecido en 2 etapas y 3 resultados :
 ```javascript
     export default function ProfileButton(props){
@@ -31,27 +34,8 @@ su valor puede estar estar establecido en 2 etapas y 3 resultados :
     }
 ```
 
-## Hook | useInputs
-Este hook en cuestión,
-es un objeto cuyas propiedes han sido mutadas con useGetter,
-sirve para acceder a los campos por defecto de un modelo de usuario,
-es el mismo que se utiliza al momento de hacer el registro,
-allí vamos guardando de manera temporal la información que enviarémos luego al servidor :
-```javascript
-    export default function MyForm(props){
-        const { inputs } = useInputs();
-        const enviar = ()=>fetch('/',{
-            email:inputs.email,
-        });
-        
-        return (<form onsubmit={ enviar }>
-            <input onkeyup={ inputs.email=this.value } />
-            <button type="submit" />
-        </form>);
-    }
-```
-
-## Helper | useGetter ** useGetter ** es una función que puede ser llamada dentro y fuera de un componente,
+## Helper | useGetter
+**useGetter** es una función que puede ser llamada dentro y fuera de un componente,
 ella se encarga de convertir un objeto en una función pseudo accesible a sus propiedades,
 les explicaré un poco más,
 con un ejemplo :
@@ -81,6 +65,26 @@ con un ejemplo :
     console.log( getter('g') ); // {h:18}
     console.log( getter('g.h') ); // 18
 ```
+
+## Hook | useInputs
+Este hook en cuestión, es un objeto cuyas propiedes han sido mutadas con useGetter,
+sirve para acceder a los campos por defecto de un modelo de usuario,
+es el mismo que se utiliza al momento de hacer el registro,
+allí vamos guardando de manera temporal la información que enviarémos luego al servidor :
+```javascript
+    export default function MyForm(props){
+        const { inputs } = useInputs();
+        const enviar = ()=>fetch('/',{
+            email:inputs.email,
+        });
+        
+        return (<form onsubmit={ enviar }>
+            <input onkeyup={ inputs.email=this.value } />
+            <button type="submit" />
+        </form>);
+    }
+```
+
 
 ## Helper | Google
 Es un objeto con instancias de Google bajo necesidad, sirve para hacer consultas a la API de **Google** de manera asícrona,
