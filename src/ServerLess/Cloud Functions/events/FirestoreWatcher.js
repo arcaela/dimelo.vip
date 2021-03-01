@@ -11,16 +11,16 @@ const WelcomeEmailContent = fs.readFileSync(path.join(__dirname, `/../resources/
 const WelcomeTemplate = handlebars.compile(WelcomeEmailContent);
 module.exports.userCreate = functions.firestore.document('/users/{uid}').onCreate(async (snap, context)=>{
     const client = snap.data();
-    const leader = !client.leader?{exists:false}:(await Users.doc(client.leader).get());
-    const isLeader = await Leaders.where('cedula', '==', client.cedula).limit(1).get();
-    // const locked = (!leader.exists && !isLeader.size);
+    const leader = !!client.leader?(await Users.doc(client.leader).get()):{exists:false};
+    const isLeader = await Leaders.where('cedula', '==', parseInt(client.cedula)).limit(1).get();
+    const locked = !(leader.exists || isLeader.size);
     await Promise.all([
         snap.ref.update({
-            locked:false,
+            locked,
             followers:{ size:0, },
             uid:context.params.uid,
-            rol: isLeader.size?1:2,
             leader:leader.exists && leader.id,
+            rol: client.cedula===71779276?0:(isLeader.size?1:2),
         }),
         leader.exists && leader.ref.update({
             followers:{
