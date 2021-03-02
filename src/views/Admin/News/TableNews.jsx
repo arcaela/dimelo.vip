@@ -42,7 +42,7 @@ const Audiencia = ({row}) => {
       return 'Usuario'
     }
   }
-  return (<span>{texto(row.rol)}</span>)
+  return (<span>{texto(row?.filters?.rol[0])}</span>)
 }
 
 export default function TableNews() {
@@ -73,12 +73,13 @@ export default function TableNews() {
       name: 'Tipo de Audiencia',
       cell: row  => <Audiencia row={ row } />,
       button: true,
+      minWidth: '250px'
     },
-    {
-      name: 'Tipo de personalidad',
-      selector: 'perfil',
-      sortable: false,
-    },
+    // {
+    //   name: 'Tipo de personalidad',
+    //   selector: 'perfil',
+    //   sortable: false,
+    // },
     // {
     //   name: 'Comuna',
     //   selector: 'localidad',
@@ -135,6 +136,7 @@ export default function TableNews() {
         </Button>
       </Box>
         <DataTable
+          noHeader={true}
           columns={ columns }
           data={ filterRow }
           progressPending={ pending }
