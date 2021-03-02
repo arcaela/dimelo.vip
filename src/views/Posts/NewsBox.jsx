@@ -53,11 +53,12 @@ export default React.memo(function NewsBox({post=null}){
     const { autor } = post;
     const unWrapContent=()=>__(false);
     const content = post.content.substring(0, ...(wrapContent?[200]:[]));
+
     return (<Card className={classes.root}>
         <CardHeader
             avatar={<Avatar alt={autor?.name} src={autor?.photoURL || autor?.fullname[0]} />}
             title={autor?.fullname}
-            subheader={timeAgo.format( post.timestamp || new Date().getTime() )}
+            subheader={timeAgo.format( post.timestamp?.toDate() || new Date() )}
         />
         <CardContent className={classes.content}>
             <Typography variant="body1" children={post.title} gutterBottom />
