@@ -40,7 +40,7 @@ export default function GoogleAdress() {
       const desc = value?.description || value || '';
       inputs.address.value.string = desc;
       if(desc !== inputs.address.value.maps?.description)
-        inputs.address.value.maps = value?.description && {
+        inputs.address.value.maps = (value?.description || null) && {
           description:value?.description, place_id:value?.place_id,
         };
       await setCurrent(inputs.address.value?.string);
