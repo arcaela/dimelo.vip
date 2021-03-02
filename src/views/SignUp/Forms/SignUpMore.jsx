@@ -30,7 +30,7 @@ export default function SignUpMore({ useForm }){
   } = useForm;
   return (<>
     {step>5&&(<div>{(window.location.href='/test') && ''}Espere porfavor...</div>)}
-    {step===6&&(<div className={classes.root} children={
+    {step===5&&(<div className={classes.root} children={
       <Container maxWidth='xs' className={classes.welcome}>
         <img alt='Brand' src={BrandSVG} />
         <Typography variant='h5' color='initial' children='¡Registro exitoso!' />
@@ -45,7 +45,7 @@ export default function SignUpMore({ useForm }){
         </Button>
       </Container>}
     />)}
-    {step<6&&(<div className={classes.root}>
+    {step<5&&(<div className={classes.root}>
       <Container maxWidth="sm" className={classes.container}>
         <img alt='Brand' src={BrandSVG} className={classes.brand} />
         <div className={classes.header}>
