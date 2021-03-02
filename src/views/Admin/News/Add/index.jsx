@@ -222,7 +222,7 @@ export default function AddNews() {
                 </Grid>
 
                 {/* Rol */}
-                <Grid item container xs={12} md={5}>
+                <Grid item  xs={12} md={5}>
                   <FormControl className={classes.formControl} error={error.rol ? true : false}>
                     <Autocomplete
                       multiple
@@ -315,28 +315,28 @@ export default function AddNews() {
         </Grid>
 
         {/* Rigth Card */}
-        <Grid container item xs={3} className={classes.rightCard}>
+        <Grid item xs={3} className={classes.rightCard}>
           <Card style={{ width: '100%', height: '70%' }}>
-            <Grid xs={12} container direction="column">
+            <Grid container direction="column">
 
-              <Grid container item justify='flex-start'>
+              <Grid item>
                 <Typography color='primary' variant='subtitle1'>Alcance del público</Typography>
               </Grid>
 
-              <Grid container item justify='flex-start'>
+              <Grid item>
                 <Typography variant='subtitle2'>13.000 personas</Typography>
               </Grid>
 
-              <Grid container item direction="row" display="flex">
-                <Grid container item xs={1} style={{ marginTop: '20px', marginLeft: '20px', color: '#4D4F5C' }}>
+              <Grid item display="flex">
+                <Grid item xs={1} style={{ marginTop: '20px', marginLeft: '20px', color: '#4D4F5C' }}>
                   <InfoIcon fontSize="small" />
                 </Grid>
-                <Grid container item xs={10}>
+                <Grid item xs={10}>
                   <Typography variant='body1'>Tamaño estimado del público que coincide con las características puestas para ver tu noticia</Typography>
                 </Grid>
               </Grid>
 
-              <Grid container item justify='center'>
+              <Grid item>
                   <img src={PersonImage} alt="PersonImage" style={{ width: '80%', height: '80%' }}/>
               </Grid>
             </Grid>
