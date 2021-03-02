@@ -17,8 +17,8 @@ const posts = {
             media.push( await (await folder.child(`/pictures/${Date.now()}`).put(picture)).ref.getDownloadURL() )
         for(const video of post.media?.videos)
             media.push( await (await folder.child(`/videos/${Date.now()}`).put(video)).ref.getDownloadURL() )
-        const data = { ...post, id:doc.id, media};
-        await doc.set(data);
+        const data = { ...post, id:doc.id, media, timestamp:(new Date()).getTime()};
+        await doc.set({...data, timestamp: firebase.firestore.FieldValue.serverTimestamp()});
         return data;
     },
 };

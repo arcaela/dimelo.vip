@@ -55,11 +55,10 @@ export default React.memo(function NewsBox({post=null}){
     const content = post.content.substring(0, ...(wrapContent?[200]:[]));
     return (<Card className={classes.root}>
         <CardHeader
-            avatar={<Avatar alt={autor?.name}
-            src={'/images/avatar.jpg'} />}
+            avatar={<Avatar alt={autor?.name} src={autor?.photoURL || autor?.fullname[0]} />}
             title={autor?.fullname}
-            subheader={timeAgo.format( Date.now() )}
-            />
+            subheader={timeAgo.format( post.timestamp || new Date().getTime() )}
+        />
         <CardContent className={classes.content}>
             <Typography variant="body1" children={post.title} gutterBottom />
             <Typography variant='body2' color='textSecondary' component='p' >
@@ -70,16 +69,16 @@ export default React.memo(function NewsBox({post=null}){
         </CardContent>
         <CardActions className={classes.actions}>
 {/*
-            <div>
-                 <IconButton
-                    size="small"
-                    color={post.likes.me?'secondary':'primary'}
-                    children={post.likes.me?<Favorite />:<FavoriteBorderOutlined />} />
-                <span> 15 </span>
-             </div>
-            <Button color="primary" variant="outlined" size="small">
-                Compartir <ShareOutlined color="secondary" />
-            </Button>
+        <div>
+             <IconButton
+                size="small"
+                color={post.likes.me?'secondary':'primary'}
+                children={post.likes.me?<Favorite />:<FavoriteBorderOutlined />} />
+            <span> 15 </span>
+         </div>
+        <Button color="primary" variant="outlined" size="small">
+            Compartir <ShareOutlined color="secondary" />
+        </Button>
  */}
         </CardActions>
     </Card>);
