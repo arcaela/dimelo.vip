@@ -57,7 +57,7 @@ export default React.memo(function NewsBox({post=null}){
         <CardHeader
             avatar={<Avatar alt={autor?.name}
             src={'/images/avatar.jpg'} />}
-            title={autor?.name}
+            title={autor?.fullname}
             subheader={timeAgo.format( Date.now() )}
             />
         <CardContent className={classes.content}>

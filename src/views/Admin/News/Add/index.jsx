@@ -13,10 +13,9 @@ import {
 import InfoIcon from '@material-ui/icons/Info';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 
-import newsFireBase from '../NewstFireBase.jsx';
 import TitlePage from '~/components/TitlePage';
 import AlertToast from '~/components/AlertToast';
-import useAuth from '~/ServerLess/Hooks/useAuth';
+import useAuth from '~/ServerLess/hooks/useAuth';
 import PersonImage from '~/images/admin/personas.svg'
 import ButtonLoading from '~/components/ButtonLoading';
 import LinearProgressWithLabel from '~/components/LinearProgressWithLabel';
@@ -26,10 +25,8 @@ import useStyles from './styles';
 
 export default function AddNews() {
   const classes = useStyles();
+  const auth = useAuth();
 
-  const context = {
-    auth: useAuth(),
-  };
 
   const [values, setValues] = useState({
     title: '',
@@ -42,7 +39,6 @@ export default function AddNews() {
   const [error, setError] = useState({
     title: '',
     perfil: '',
-    localidad: 'MEDELLIN',
     rol: '',
     media: '',
     content: '',
@@ -65,6 +61,7 @@ export default function AddNews() {
   ];
 
   const usersTypes = [
+    { title: 'Todos', value: 'all' },
     { title: 'Líderes de primer nivel', value: 1 },
     { title: 'Líderes de celula', value: 2 },
     { title: 'Usuario', value: 2 },
@@ -93,7 +90,6 @@ export default function AddNews() {
     setValues({
       title: '',
       profiles: '',
-      localidad: [],
       roles: [],
       media: '',
       content: '',
@@ -103,9 +99,8 @@ export default function AddNews() {
 
   const handlerSubmit = async (e) => {
     e.preventDefault();
-
-    setLoading(true)
-
+    await setLoading(true);
+   
     for (const value in values) {
       if ( values[value].length === 0 && value !== 'media') {
         setError((prev) => ({
@@ -114,13 +109,13 @@ export default function AddNews() {
         }));
       }
     }
+    
 
     const isValid = verifyForm();
-
-    const newValues = {
+    const post = {
         autor:{
-            uid: context.auth.uid,
-            fullname: context.auth.fullname,
+            uid: auth?.uid,
+            fullname: auth?.fullname,
         },
         title: values.title,
         content: values.content,
@@ -140,16 +135,15 @@ export default function AddNews() {
 
     try {
       if (isValid) {
-        const posted = api('posts/create', { post : newValues })
-          .then( post => {
+        await api('posts/create', post)
+          .then( $post => {
             console.log('post created: ', post);
           })
           .catch(e=>alert(e))
-
         setMessage('Publicada');
         setSuccess(!success);
         setLoading(false)
-        reset()
+        reset();
         window.location.replace('/admin/news/')
       }
     } catch (e) {
@@ -157,33 +151,12 @@ export default function AddNews() {
     }
   };
 
-  const handlerOnChange = (e) => {
-    setValues({
-      ...values,
-      [e.target.name]: e.target.value,
-    });
-  };
+  const ChangeValues = React.useCallback((key, value)=>setValues(current=>({
+    ...current,
+    [key]:value,
+  })), [ setValues ]);
 
-  const handlerProfiles = (newValue) => {
-    setValues({
-      ...values,
-      profiles: newValue,
-    });
-  };
 
-  const handlerRoles = (newValue) => {
-    setValues({
-      ...values,
-      roles: newValue,
-    });
-  };
-
-  /*useEffect(() => {
-    if(comunas.length === 0){
-      const data = regions.all;
-      setComunas(data)
-    }
-  }, [comunas])*/
 
   return (
     <>
@@ -210,18 +183,17 @@ export default function AddNews() {
 
       <Grid container direction="row" display="flex" spacing={1}>
         {/* Left Card */}
-        <Grid container item xs={9}>
+        <Grid item xs={9}>
           <Card style={{ height: '100%' }}>
             <form onSubmit={(e) => handlerSubmit(e)} className={classes.form}>
               <Grid spacing={5} container justify='space-around'>
-
                 {/* Title */}
                 <Grid item xs={12} md={5}>
                   <TextField
                     value={values.title}
                     name='title'
                     label='Titulo de la noticia'
-                    onChange={(e) => handlerOnChange(e)}
+                    onChange={({ target:{name, value} }) => ChangeValues(name, value)}
                     fullWidth
                     error={error.title ? true : false}
                     helperText={error.title ? error.title : ''}
@@ -243,40 +215,11 @@ export default function AddNews() {
                           label="Tipo de personalidad"
                         />
                       )}
-                      onChange={(event, newValue) => { handlerProfiles(newValue) }}
+                      onChange={(e, newValue) => ChangeValues('profiles', newValue)}
                     />
                     {error.perfil && <FormHelperText>{error.perfil}</FormHelperText>}
                   </FormControl>
                 </Grid>
-
-                {/* Location */}
-                {/*<Grid item xs={12} md={5}>
-                  <FormControl className={classes.formControl} error={error.localidad ? true : false}>
-                    <Autocomplete
-                      options={comunas}
-                      value={values.localidad}
-                      name='localidad'
-                      onChange={(event, newValue) => {
-                        setValues({
-                          ...values,
-                          localidad: newValue
-                        })
-                      }}
-                      getOptionSelected={(option, value) => {
-                        return option === value;
-                      }}
-                      getOptionLabel={ (option) => option }
-                      renderInput={(params) => (
-                        <TextField {...params} label='Comuna' placeholder='Comuna' />
-                      )}
-                    />
-                    {error.localidad && <FormHelperText>{error.localidad}</FormHelperText>}
-                  </FormControl>
-                </Grid>/*}
-
-
-
-
 
                 {/* Rol */}
                 <Grid item container xs={12} md={5}>
@@ -293,7 +236,7 @@ export default function AddNews() {
                           label="Enviar a:"
                         />
                       )}
-                      onChange={(event, newValue) => { handlerRoles(newValue) }}
+                      onChange={(event, newValue) => ChangeValues('roles', newValue) }
                     />
                     {error.rol && <FormHelperText>{error.rol}</FormHelperText>}
                   </FormControl>
@@ -310,7 +253,10 @@ export default function AddNews() {
                       justifyContent: 'center',
                       alignItems: 'center',
                     }}>
-                      <input type="file" multiple accept="images/*" onChange={()=>{}} />
+                      <input type="file" multiple accept="images/*" onChange={({target:{ files }})=>setValues(prev=>({
+                        ...prev,
+                        media:files
+                      }))} />
                       {values.media && (
                         <div style={{
                           padding: '.5rem',
@@ -329,7 +275,6 @@ export default function AddNews() {
                       )}
                     </div>
 
-
                     {progress > 0 && (
                       <LinearProgressWithLabel color='secondary' value={progress} />
                     )}
@@ -342,7 +287,7 @@ export default function AddNews() {
                   <TextField
                     value={values.content}
                     name='content'
-                    onChange={(e) => handlerOnChange(e)}
+                    onChange={({ target:{name, value} }) => ChangeValues(name, value)}
                     rows={5}
                     rowsMax={6}
                     multiline={true}
