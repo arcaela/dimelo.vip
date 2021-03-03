@@ -19,9 +19,7 @@ import TitlePage from '~/components/TitlePage';
 import AlertToast from '~/components/AlertToast';
 import ButtonLoading from '~/components/ButtonLoading';
 import PersonImage from '~/images/admin/personas.svg'
-import Posts from '~/ServerLess/collections/Posts'
-import useAuth from '~/ServerLess/hooks/useAuth';
-import { api } from '~/ServerLess'
+import { scopes, api, useAuth } from '~/ServerLess'
 
 import useStyles from './styles';
 
@@ -120,7 +118,7 @@ export default function EditNews({ id = null }) {
   const getPostById = async () => {
       if (!id) return;
       try{
-        const snap = await Posts.doc(id).get();
+        const snap = await scopes.posts.doc(id).get();
         if(snap.data()){
           const postData = snap.data();
           setValues({
@@ -201,7 +199,7 @@ export default function EditNews({ id = null }) {
     })
 
     try {
-      if (isValid) {
+      if (verify) {
         await api('posts/put', post)
         .then(()=>{
           setMessage('Publicada');

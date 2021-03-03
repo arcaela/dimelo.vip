@@ -13,9 +13,8 @@ import FacebookIcon from '@material-ui/icons/Facebook';
 import InstagramIcon from '@material-ui/icons/Instagram';
 import TwitterIcon from '@material-ui/icons/Twitter';
 import React, { useState, useEffect } from 'react';
-import useAuth from '~/ServerLess/hooks/useAuth';
 import { omit } from 'lodash';
-import Users from '~/ServerLess/collections/Users';
+import { scopes, useAuth } from '~/ServerLess';
 
 const uStyle = makeStyles((theme) => ({
   formControl: {
@@ -48,7 +47,7 @@ export default function Account() {
       const data = omit(account, ['birthday','cedula','family','followers','fullname','leader','locked','rol','uid','voting'])
       setValues( { ...values, ...data } );
     }
-  }, [account]);
+  }, [values, account]);
 
   const handleSocilLink = (e)=>{
     setValues({
@@ -78,7 +77,7 @@ export default function Account() {
     e.preventDefault()
 
     try {
-      await Users.doc(account.uid).update(values)
+      await scopes.users.doc(account.uid).update(values)
       console.log('Me actualice')
     } catch (e) {
       console.log(e)

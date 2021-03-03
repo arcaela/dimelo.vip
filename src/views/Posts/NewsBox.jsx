@@ -40,7 +40,7 @@ const useStyles = makeStyles(theme=>({
 }));
 
 
-export default ({ post })=>{
+export default function NewsBox({ post }){
     const classes = useStyles();
     const [ wrapContent, __] = React.useState(post.content.length>200);
     const unWrapContent=()=>__(false);
