@@ -10,7 +10,7 @@ import SelectSearch from '~/components/SelectSearch';
 import useAuth from '~/ServerLess/hooks/useAuth';
 import Loading from '~/components/Loading';
 import NewCard from '~/components/NewCard';
-import Users from '~/ServerLess/collections/Users';
+import { scopes } from '~/ServerLess';
 
 const gridStyles = makeStyles((theme) => ({
   root: {
@@ -34,13 +34,10 @@ export default function AdminPage() {
   const isMountedRef = useRef(null);
 
   const search = async () => {
-    const users = firebase.firestore();
-
     const arraySearch = searchValue
       .split(' ')
       .map((e) => e.toLocaleUpperCase());
-
-    await users.collection('users').where(select, 'in', arraySearch).get();
+    await scopes.users.where(select, 'in', arraySearch).get();
   };
 
   const handlerChange = (e) => {
@@ -82,7 +79,7 @@ export default function AdminPage() {
       if (!currentUser) return;
       try {
         if (isMountedRef.current) {
-          const users = await Users.where(
+          const users = await scopes.users.where(
             'leader',
             '==',
             currentUser.uid

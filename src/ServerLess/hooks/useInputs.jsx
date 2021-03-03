@@ -1,6 +1,6 @@
 import React from 'react'
-import useGetter from '~/ServerLess/hooks/useGetter'
 import { merge } from 'lodash'
+import { useGetter } from '~/ServerLess'
 
 export default function useInputs(_ob_, _configs){
     const [ $inputs, $setInputs ] = React.useState( _ob_ );

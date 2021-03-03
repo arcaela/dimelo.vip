@@ -18,7 +18,7 @@ import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import LiderModal from './LiderModal';
 
 import usePatron from '~/hooks/usePatron';
-import Users from '~/ServerLess/collections/Users';
+import { scopes } from '~/ServerLess';
 import SocialIcon from '~/components/SocialIcon';
 
 const styles = makeStyles((theme) => ({
@@ -115,7 +115,7 @@ export default function LiderCard({ leader }) {
     const getLeaders = async () => {
       if (!uid) return;
       try {
-        const users = await Users.where('leader', '==', uid).get();
+        const users = await scopes.users.where('leader', '==', uid).get();
         setFollowers(users.docs.map((e) => e.data()));
       } catch (e) {
         console.log(e);

@@ -11,21 +11,14 @@ import {
   ListItemText,
   Toolbar
 } from '@material-ui/core';
-import {
-  //Notifications,
-  Menu as MenuIcon,
-} from '@material-ui/icons';
+import { Menu as MenuIcon, } from '@material-ui/icons';
 import { Link as _Link, useHistory, useLocation, useRouteMatch } from 'react-router-dom';
 
-
-//import useAuth from '~/ServerLess/hooks/useAuth';
+import { api, useAuth } from '~/ServerLess'
 import middlewares from '~/config/middlewares';
-import ButtonProfile from '~/components/ButtonProfile';
-import api from '~/ServerLess/utils/api';
+
 import Invitar from '~/components/Invitar';
-import useAuth from '~/ServerLess/hooks/useAuth';
-
-
+import ButtonProfile from '~/components/ButtonProfile';
 
 const useStyles = makeStyles((theme) => ({
   '@keyframes pulsate': { '0%': { opacity: .4, }, '50%': { opacity: 1, }, '100%': { opacity: .4, }, },
@@ -87,10 +80,9 @@ const useStyles = makeStyles((theme) => ({
     minHeight:'100vh',
     flexDirection:'column',
     padding: theme.spacing(5),
-    paddingTop:theme.mixins.toolbar.minHeight+10,
+    paddingTop:theme.mixins.toolbar.minHeight+30,
   },
 }));
-
 
 
 export const layout = {
@@ -103,65 +95,76 @@ export const layout = {
 
 export default function Layout({ fullPage=false, middleware=true, children }){
   const classes = useStyles();
-  const [ locked, setLocked ] = React.useState(false);
+  const [ loading, setLoading ] = React.useState(true);
   const [ drawerOpen, setDrawerOpen ] = React.useState(layout.isDesktop);
   const context = {
     auth:useAuth(),
     location:useLocation(),
     history:useHistory(),
-    redirect:(redirect)=>(window.location.replace(redirect) && null),
+    redirect:path=>({ $redirect:path, }),
   };
-  const loading = Boolean(locked || context.auth===null || context.auth?.locked);
-  if(context.auth?.locked){
-    setLocked(true);
-    api('auth/signout', ()=>window.location.href='/signin')
-      .catch((error)=>console.log(error, alert("Ups! Contacta con el administrador del sitio.")))
-  }
-
-  const check = (_,__=false)=>((typeof _ === 'function')?_({...context}):(
-    (typeof _ ==='string'&&_ in middlewares&&!!__)?check(middlewares[_])
-    :((Array.isArray(_))?_.map(c=>check(c,true)):!!_)
-  ));
+  const isValidAccess = (arr=[], isLink=false)=>{
+    arr = (typeof arr==='function')?[arr]:(Array.isArray(arr)?arr:[()=>true]);
+    for (const fn of arr) {
+      const executor = (typeof fn==='string' && arr in middlewares)?middlewares[fn]:fn;
+      const allow = executor(context);
+      if(!allow) return false;
+      if(allow && typeof allow ==='object' && '$redirect' in allow)
+        return isLink?false:allow;
+    }
+    return true;
+  };
   const Link = React.memo(({ path, label, icon, show=true, })=>{
     const match = useRouteMatch({ path, exact:true, }), Icon=icon;
-    return check(show)&&
+    return isValidAccess(show, true)&&
     (<ListItem button to={path} component={_Link} selected={!!match}>
       <ListItemIcon children={
         (typeof Icon==='object'&&typeof Icon.$$typeof=='symbol')?<Icon/>:(
           typeof Icon==='string'?<img src={Icon} alt={Icon} />:Icon
-        )
-      }/>
+        )}/>
       <ListItemText primary={label} />
     </ListItem>);
   });
-  const Page = React.memo((props)=><div
-    className={clsx({[classes.root]:true, loading, fullPage})}
-    {...props} />, [ loading, fullPage ]);
-  if(!loading && !check(middleware)) return <div children="403 | Forbidden" />;
-  else if(!loading && fullPage) return <Page children={children} />
-  return (<Page>
+  const Page = React.memo((props)=>(<div
+    className={clsx({ [classes.root]:true, loading, fullPage })} {...props} />),[
+      loading,
+      fullPage,
+    ]);
+  if(context.auth){
+    const allow = isValidAccess(middleware);
+    if(!allow) return <div children="403 | Forbidden" />;
+    else if(typeof allow ==='object' && '$redirect' in allow)
+      window.location.replace(allow.$redirect);
+    else if(context.auth?.locked){
+      api('auth/signout', ()=>window.location.href='/signin')
+        .catch((error)=>console.log(error, alert("Ups! Contacta con el administrador del sitio.")))
+    }
+    else if(loading) setLoading(false);
+  }
+
+  return (<Page children={fullPage?children:(<>
     <AppBar color="inherit" variant="outlined" position="fixed" className={classes.appBar}>
-       <Toolbar variant="dense" className={classes.toolbar}>
-         <IconButton onClick={()=>setDrawerOpen(on=>!on)} className={classes.drawerButton}>
-           <MenuIcon />
-         </IconButton>
-         <img alt="" src="/images/brand.svg" className="brand" />
-         <span className="flex-grow" />
-         { context.auth && <Invitar {...context} /> }
-         { context.auth && <ButtonProfile {...context} />}
-       </Toolbar>
-     </AppBar>
+      <Toolbar variant="dense" className={classes.toolbar}>
+        <IconButton onClick={()=>setDrawerOpen(on=>!on)} className={classes.drawerButton}>
+          <MenuIcon />
+        </IconButton>
+        <img alt="" src="/images/brand.svg" className="brand" />
+        <span className="flex-grow" />
+        { context.auth && <Invitar {...context} /> }
+        { context.auth && <ButtonProfile {...context} />}
+      </Toolbar>
+    </AppBar>
     <Drawer
-         open={drawerOpen}
-         className={classes.drawer}
-         onClose={()=>setDrawerOpen(false)}
-         ModalProps={{ keepMounted: true, }}
-         variant={layout.isDesktop?'permanent':'temporary'}>
-         <img src="/images/brand.svg" alt="Logo" style={{maxWidth:'90%',margin:'10px auto'}} />
-         <List children={layout.routes.map(route=><Link {...route} key={route.path} />)} />
-     </Drawer>
-     <main className={classes.content} children={children} />
-  </Page>);
+      open={drawerOpen}
+      className={classes.drawer}
+      onClose={()=>setDrawerOpen(false)}
+      ModalProps={{ keepMounted: true, }}
+      variant={layout.isDesktop?'permanent':'temporary'}>
+      <img src="/images/brand.svg" alt="Logo" style={{maxWidth:'90%',margin:'10px auto'}} />
+      <List children={layout.routes.map(route=><Link {...route} key={route.path} />)} />
+    </Drawer>
+    <main className={classes.content} children={children} />
+  </>)} />)
 }
 
 
