@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useHistory, Link } from 'react-router-dom';
+
 import {
   Breadcrumbs,
   Grid,
@@ -7,6 +8,7 @@ import {
   Typography,
   FormControl,
   FormHelperText,
+  Button,
   Box,
   Card,
 } from '@material-ui/core';
@@ -15,42 +17,52 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 
 import TitlePage from '~/components/TitlePage';
 import AlertToast from '~/components/AlertToast';
-import useAuth from '~/ServerLess/hooks/useAuth';
-import PersonImage from '~/images/admin/personas.svg'
 import ButtonLoading from '~/components/ButtonLoading';
-import LinearProgressWithLabel from '~/components/LinearProgressWithLabel';
+import PersonImage from '~/images/admin/personas.svg'
+import Posts from '~/ServerLess/collections/Posts'
+import useAuth from '~/ServerLess/hooks/useAuth';
 import { api } from '~/ServerLess'
 
 import useStyles from './styles';
 
-export default function AddNews() {
+export default function EditNews({ id = null }) {
   const classes = useStyles();
   const auth = useAuth();
-
+  const router = useHistory();
 
   const [values, setValues] = useState({
+    autor: {
+      uid: '',
+      fullname: '',
+    },
     title: '',
     profiles: '',
     roles: '',
+    image: '',
     media: '',
     content: '',
   });
 
   const [error, setError] = useState({
+    autor: {
+      uid: '',
+      fullname: '',
+    },
     title: '',
-    perfil: '',
-    rol: '',
+    profiles: '',
+    roles: '',
+    image: '',
     media: '',
     content: '',
   });
 
-  const [progress, setProgress] = useState(0);
-
   const [success, setSuccess] = useState(false);
 
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
-  const [message, setMessage] = useState('')
+  const [message, setMessage] = useState('');
+
+  const [verify, setVerify] = useState(false);
 
   const profilesOptions = [
     { title: 'Todos', value: 'all' },
@@ -67,55 +79,104 @@ export default function AddNews() {
     { title: 'Usuario', value: 2 },
   ];
 
-  const verifyForm = () => {
-    let isValid = 0;
+  const getPostProfiles = (values) => {
+    const postProfiles = values.length ? values.map((elem) => {
+      switch (elem) {
+        case 'all':
+          return ({ title: 'Todos', value: 'all' });
+        case 'dominancia':
+          return ({ title: 'Independiente Automotivado', value: 'dominancia' });
+        case 'control':
+          return ({ title: 'Analista Pensador', value: 'control' });
+        case 'influencia':
+          return ({ title: 'Promotor Amigable', value: 'influencia' });
+        case 'estabilidad':
+          return ({ title: 'Planificador Perseverante', value: 'estabilidad' });
+        default:
+          return ({ title: 'Todos', value: 'all' });
+      }
+    }) : [];
+    return postProfiles;
+  }
 
-    for (const value in values) {
-      if (values[value].length === 0) {
-        isValid = isValid + 1;
+  const getPostRoles = (values) => {
+    const postRoles = values.length ? values.map((elem) => {
+      switch (elem) {
+        case 'all':
+          return ({ title: 'Todos', value: 'all' });
+        case 1:
+          return ({ title: 'Líderes de primer nivel', value: 1 });
+        case 2:
+          return ({ title: 'Líderes de celula', value: 2 });
+        case 3:
+          return ({ title: 'Usuario', value: 3 });
+        default:
+          return ({ title: 'Todos', value: 'all' });
+      }
+    }) : [];
+    return postRoles;
+  }
+
+  const getPostById = async () => {
+      if (!id) return;
+      try{
+        const snap = await Posts.doc(id).get();
+        if(snap.data()){
+          const postData = snap.data();
+          setValues({
+            autor: postData.autor,
+            title: postData.title,
+            profiles: getPostProfiles(postData.filters.perfiles),
+            roles: getPostRoles(postData.filters.rol),
+            image: postData.media,
+            media: postData.media,
+            content: postData.content,
+          })
+        }
+      }catch (error){
+        console.log(error);
       }
     }
 
-    if ( isValid !== 0 ) {
-      setLoading(false);
-      return false;
+  useEffect(() => {
+    if(!values.autor.uid){
+      getPostById()
     }
-
-    if( isValid === 0 ){
-      return true;
-    }
-  };
-
-  const reset = () => {
-    setValues({
-      title: '',
-      profiles: '',
-      roles: [],
-      media: '',
-      content: '',
-    })
-    setProgress(0)
-  }
+  })
 
   const handlerSubmit = async (e) => {
     e.preventDefault();
+
     await setLoading(true);
-   
+    setError({
+      autor: {
+        uid: '',
+        fullname: '',
+      },
+      title: '',
+      profiles: '',
+      roles: '',
+      image: '',
+      media: '',
+      content: '',
+    })
+    setVerify(false)
+
     for (const value in values) {
-      if ( values[value].length === 0 && value !== 'media') {
+      if (values[value].length === 0 && value !== 'media') {
         setError((prev) => ({
-          ...prev,
-          [value]: 'Este Campo No Puede Estar Vacio',
-        }));
+            ...prev,
+            [value]: 'Este Campo No Puede Estar Vacio',
+          }));
+      }else{
+        setVerify(true)
       }
     }
-    
 
-    const isValid = verifyForm();
     const post = {
-        autor:{
-            uid: auth?.uid,
-            fullname: auth?.fullname,
+        autor: {
+          uid: values.autor.uid ? values.autor.uid : auth.uid,
+          fullname: values.autor.fullname ? values.autor.fullname : auth.fullname,
         },
         title: values.title,
         content: values.content,
@@ -124,53 +185,65 @@ export default function AddNews() {
             // Rangos específicos del GPS,
             gps_area: [],
             // Perfiles psicológicos
-            perfiles: values.profiles.map(elem => elem.value),
+            perfiles: values.profiles.length ? values.profiles.map(elem => elem.value) : [],
             // Roles de usuario
-            rol: values.roles.map(elem => elem.value),
+            rol: values.roles.length ? values.roles.map(elem => elem.value) : [],
         },
     }
+
+    const updatePost = values.media !== values.image ? ({
+      ...post
+    }) : ({
+      autor: post.autor,
+      title: post.title,
+      content: post.content,
+      filters:post.filters,
+    })
 
     try {
       if (isValid) {
         await api('posts/put', post)
+        .then(()=>{
+          setMessage('Publicada');
+          setSuccess(!success);
+        })
         .catch(e=>alert(e.message))
-        setMessage('Publicada');
-        setSuccess(!success);
-        setLoading(false)
-        reset();
-        window.location.replace('/admin/news/')
+        .finally(()=>{
+          setLoading(false);
+        });
       }
     } catch (e) {
-      setLoading(false)
+      setLoading(false);
     }
   };
 
-  const ChangeValues = React.useCallback((key, value)=>setValues(current=>({
+  const changeValues = React.useCallback((key, value) => setValues(current => ({
     ...current,
-    [key]:value,
+    [key]: value,
   })), [ setValues ]);
-
-
 
   return (
     <>
       {success && (
         <AlertToast
           open={success}
-          handleClose={() => setSuccess(!success)}
+          handleClose={() => {
+            setSuccess(!success)
+            router.push('/admin/news/');
+          }}
           hideDuration={5000}
           severity='success'
-          message={ message }
+          message={message}
         />
       )}
 
-      <TitlePage title='Agregar noticia' />
+      <TitlePage title={!id ? 'Agregar noticia' : 'Editar noticia'} />
 
       {/* Breadcrumbs and Go back */}
       <Box display="flex" justifyContent="space-between" style={{ marginBottom: '20px' }}>
         <Breadcrumbs separator=">">
           <Typography>Noticias</Typography>
-          <Typography color='textPrimary'>Agregar Noticia</Typography>
+          <Typography color='textPrimary'>{!id ? 'Agregar noticia' : 'Editar noticia'}</Typography>
         </Breadcrumbs>
         <Typography color='textPrimary' className={classes.goBack}> <Link to="/admin/news/">Volver</Link> </Typography>
       </Box>
@@ -182,12 +255,12 @@ export default function AddNews() {
             <form onSubmit={(e) => handlerSubmit(e)} className={classes.form}>
               <Grid spacing={5} container justify='space-around'>
                 {/* Title */}
-                <Grid item xs={12} md={5}>
+                <Grid item xs={10} md={5}>
                   <TextField
                     value={values.title}
                     name='title'
                     label='Titulo de la noticia'
-                    onChange={({ target:{name, value} }) => ChangeValues(name, value)}
+                    onChange={({ target:{name, value} }) => changeValues(name, value)}
                     fullWidth
                     error={error.title ? true : false}
                     helperText={error.title ? error.title : ''}
@@ -195,12 +268,13 @@ export default function AddNews() {
                 </Grid>
 
                 {/* Perfil */}
-                <Grid item xs={12} md={5}>
-                  <FormControl className={classes.formControl} error={error.perfil ? true : false}>
+                <Grid item xs={10} md={5}>
+                  <FormControl className={classes.formControl} error={error.profiles ? true : false}>
                     <Autocomplete
                       multiple
                       id="profiles"
                       options={profilesOptions}
+                      className={classes.chips}
                       getOptionLabel={(option) => option.title}
                       renderInput={(params) => (
                         <TextField
@@ -209,18 +283,22 @@ export default function AddNews() {
                           label="Tipo de personalidad"
                         />
                       )}
-                      onChange={(e, newValue) => ChangeValues('profiles', newValue)}
+                      onChange={(e, newValue) => changeValues('profiles', newValue)}
                     />
-                    {error.perfil && <FormHelperText>{error.perfil}</FormHelperText>}
+                    {error.profiles && <FormHelperText>{error.profiles}</FormHelperText>}
                   </FormControl>
                 </Grid>
 
+
+                <Grid item xs={10} md={5}></Grid>
+
                 {/* Rol */}
-                <Grid item  xs={12} md={5}>
-                  <FormControl className={classes.formControl} error={error.rol ? true : false}>
+                <Grid item  xs={10} md={5}>
+                  <FormControl className={classes.formControl} error={error.roles ? true : false}>
                     <Autocomplete
                       multiple
                       id="roles"
+                      className={classes.chips}
                       options={usersTypes}
                       getOptionLabel={(option) => option.title}
                       renderInput={(params) => (
@@ -230,58 +308,60 @@ export default function AddNews() {
                           label="Enviar a:"
                         />
                       )}
-                      onChange={(event, newValue) => ChangeValues('roles', newValue) }
+                      onChange={(event, newValue) => changeValues('roles', newValue) }
                     />
-                    {error.rol && <FormHelperText>{error.rol}</FormHelperText>}
+                    {error.roles && <FormHelperText>{error.roles}</FormHelperText>}
                   </FormControl>
                 </Grid>
 
                 {/* Image */}
-                <Grid item xs={12} md={11}>
-                  <FormControl
-                    className={classes.formControl}
-                    error={error.media ? true : false}
-                  >
-                    <div style={{
-                      display: 'flex',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                    }}>
-                      <input type="file" multiple accept="images/*" onChange={({target:{ files }})=>setValues(prev=>({
-                        ...prev,
-                        media:files
-                      }))} />
+                <Grid item xs={10}>
+                  <FormControl className={classes.formControl} error={error.media ? true : false}>
+                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                      <input
+                        accept="image/*"
+                        className={classes.input}
+                        id="contained-button-file"
+                        multiple
+                        type="file"
+                        onChange={({target:{ files }})=> {
+                          console.log('media: ', files);
+                          setValues(prev=>({
+                            ...prev,
+                            media: files
+                          }))
+                        }}
+                      />
+                      <label htmlFor="contained-button-file">
+                        <Button variant="contained" color="primary" component="span">
+                          Elija el archivo
+                        </Button>
+                      </label>
+                    </div>
+
+
+                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                       {values.media && (
-                        <div style={{
-                          padding: '.5rem',
-                          maxWidth: '50%',
-                          minWidth: '50%',
-                          height: 'auto'
-                        }}>
+                        <div style={{ padding: '.5rem', maxWidth: '50%', minWidth: '50%', height: 'auto', }}>
                           <img
-                          style={{
-                            maxWidth: '100%',
-                            height: 'auto',
-                          }}
-                          alt="imagen"
-                          src={values.media} />
+                            style={{ maxWidth: '100%', height: 'auto', }}
+                            alt='imagen'
+                            src={values.media}
+                          />
                         </div>
                       )}
                     </div>
 
-                    {progress > 0 && (
-                      <LinearProgressWithLabel color='secondary' value={progress} />
-                    )}
                     {error.media && <FormHelperText>{error.media}</FormHelperText>}
                   </FormControl>
                 </Grid>
 
                 {/* Content */}
-                <Grid item xs={12} md={11}>
+                <Grid item xs={10}>
                   <TextField
                     value={values.content}
                     name='content'
-                    onChange={({ target:{name, value} }) => ChangeValues(name, value)}
+                    onChange={({ target:{name, value} }) => changeValues(name, value)}
                     rows={5}
                     rowsMax={6}
                     multiline={true}
@@ -310,33 +390,34 @@ export default function AddNews() {
 
         {/* Rigth Card */}
         <Grid item xs={3} className={classes.rightCard}>
-          <Card style={{ width: '100%', height: '70%' }}>
+          <Card style={{ width: '100%', height: '60%' }}>
             <Grid container direction="column">
 
-              <Grid item>
+              <Box>
                 <Typography color='primary' variant='subtitle1'>Alcance del público</Typography>
-              </Grid>
+              </Box>
 
-              <Grid item>
+              <Box>
                 <Typography variant='subtitle2'>13.000 personas</Typography>
-              </Grid>
+              </Box>
 
-              <Grid item display="flex">
-                <Grid item xs={1} style={{ marginTop: '20px', marginLeft: '20px', color: '#4D4F5C' }}>
-                  <InfoIcon fontSize="small" />
-                </Grid>
-                <Grid item xs={10}>
+              <Box display="flex" flexDirection="row">
+                  <Box display="flex" flexWrap="nowrap" pl={2}>
+                  <InfoIcon fontSize="small" style={{ marginTop: '20px', color: '#4D4F5C' }}/>
+                  </Box>
+                  <Box flexGrow={1} pl={2}>
                   <Typography variant='body1'>Tamaño estimado del público que coincide con las características puestas para ver tu noticia</Typography>
-                </Grid>
-              </Grid>
+                  </Box>
+              </Box>
 
-              <Grid item>
-                  <img src={PersonImage} alt="PersonImage" style={{ width: '80%', height: '80%' }}/>
-              </Grid>
+              <Box justifyContent="center">
+                <img src={PersonImage} alt="PersonImage" style={{ width: '90%', height: '80%', paddingLeft: '24px' }}/>
+              </Box>
+
             </Grid>
           </Card>
         </Grid>
       </Grid>
     </>
-  )
+  );
 }
