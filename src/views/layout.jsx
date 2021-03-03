@@ -80,7 +80,7 @@ const useStyles = makeStyles((theme) => ({
     minHeight:'100vh',
     flexDirection:'column',
     padding: theme.spacing(5),
-    paddingTop:theme.mixins.toolbar.minHeight+10,
+    paddingTop:theme.mixins.toolbar.minHeight+30,
   },
 }));
 

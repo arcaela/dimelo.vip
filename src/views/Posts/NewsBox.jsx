@@ -40,15 +40,11 @@ const useStyles = makeStyles(theme=>({
 }));
 
 
-export default React.memo(function NewsBox({ post }){
+export default ({ post })=>{
     const classes = useStyles();
-
-    console.log(post);
-
     const [ wrapContent, __] = React.useState(post.content.length>200);
     const unWrapContent=()=>__(false);
     const content = post?.content?.substring(0, ...(wrapContent?[200]:[]));
-
     return post && (<Card className={classes.root}>
         <CardHeader
             avatar={<Avatar alt={post.autor?.name} src={post.autor?.photoURL || post.autor?.fullname[0]} />}
@@ -61,21 +57,8 @@ export default React.memo(function NewsBox({ post }){
                 {content}
                 {wrapContent && <span href="#" onClick={unWrapContent} children="... ver más." />}
             </Typography>
-            <PhotoGrid images={post.media?.flat()}></PhotoGrid>
+            <PhotoGrid images={ post.media }></PhotoGrid>
         </CardContent>
-        <CardActions className={classes.actions}>
-{/*
-        <div>
-             <IconButton
-                size="small"
-                color={post.likes.me?'secondary':'primary'}
-                children={post.likes.me?<Favorite />:<FavoriteBorderOutlined />} />
-            <span> 15 </span>
-         </div>
-        <Button color="primary" variant="outlined" size="small">
-            Compartir <ShareOutlined color="secondary" />
-        </Button>
- */}
-        </CardActions>
+        <CardActions className={classes.actions}> </CardActions>
     </Card>);
-});
+};

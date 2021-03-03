@@ -119,10 +119,7 @@ export default function AddNews() {
         },
         title: values.title,
         content: values.content,
-        media: {
-            pictures: values.media,
-            videos: [],
-        },
+        media: values.media,
         filters:{
             // Rangos específicos del GPS,
             gps_area: [],
@@ -135,11 +132,8 @@ export default function AddNews() {
 
     try {
       if (isValid) {
-        await api('posts/create', post)
-          .then( $post => {
-            console.log('post created: ', post);
-          })
-          .catch(e=>alert(e))
+        await api('posts/put', post)
+        .catch(e=>alert(e.message))
         setMessage('Publicada');
         setSuccess(!success);
         setLoading(false)
