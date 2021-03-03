@@ -1,9 +1,6 @@
 const { merge, get } = require('lodash');
 const pathToRegex = require('path-to-regex');
 
-
-
-
 /* Api routes */
 const routes = (function _(_ob_, prefix=''){
     return Object.entries(_ob_).reduce((paths, [path, callback])=>(
