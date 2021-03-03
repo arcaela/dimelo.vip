@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory, Link } from 'react-router-dom';
-import FileUploader from 'react-firebase-file-uploader';
 
 import {
   Breadcrumbs,
@@ -8,10 +7,7 @@ import {
   TextField,
   Typography,
   makeStyles,
-  MenuItem,
-  Select,
   FormControl,
-  InputLabel,
   FormHelperText,
   Button,
   Box,
@@ -19,17 +15,13 @@ import {
 } from '@material-ui/core';
 import InfoIcon from '@material-ui/icons/Info';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 
 import TitlePage from '~/components/TitlePage';
 import LinearProgressWithLabel from '~/components/LinearProgressWithLabel';
 import AlertToast from '~/components/AlertToast';
 import ButtonLoading from '~/components/ButtonLoading';
 import PersonImage from '~/images/admin/personas.svg'
-import newsFireBase from './NewstFireBase.jsx';
-import useAuth from '~/ServerLess/hooks/useAuth';
-import { api } from '~/ServerLess'
- import Posts from '~/ServerLess/collections/Posts'
+import Posts from '~/ServerLess/collections/Posts'
 
 const useStyle = makeStyles(theme => ({
   form: {
@@ -40,7 +32,7 @@ const useStyle = makeStyles(theme => ({
     width: '100%',
   },
   goBack: {
-    '& a':{ textDecoration:'none'}
+    '& a':{ textDecoration:'none', color: theme.palette.primary.dark },
   },
   button: {
     background: theme.palette.primary.dark,
@@ -49,6 +41,15 @@ const useStyle = makeStyles(theme => ({
     color: '#fff',
     '&:hover':{
         background: theme.palette.primary.dark,
+    }
+  },
+  chips: {
+    '& .MuiChip-root': {
+      backgroundColor: '#82D827',
+      color: '#FFF',
+    },
+    '& .MuiChip-deleteIcon': {
+      'color': '#FFF',
     }
   },
   input: {
@@ -99,8 +100,6 @@ export default function EditNews({ id }) {
     image: '',
     content: '',
   });
-
-  console.log('values: ', values);
 
   const [error, setError] = useState({
     autor: {
@@ -159,6 +158,10 @@ export default function EditNews({ id }) {
 
   const reset = () => {
     setValues({
+      autor: {
+        uid: '',
+        fullname: '',
+      },
       title: '',
       profiles: '',
       roles: [],
@@ -173,22 +176,16 @@ export default function EditNews({ id }) {
       switch (elem) {
         case 'all':
           return ({ title: 'Todos', value: 'all' });
-          break;
         case 'dominancia':
           return ({ title: 'Independiente Automotivado', value: 'dominancia' });
-          break;
         case 'control':
           return ({ title: 'Analista Pensador', value: 'control' });
-          break;
         case 'influencia':
           return ({ title: 'Promotor Amigable', value: 'influencia' });
-          break;
         case 'estabilidad':
           return ({ title: 'Planificador Perseverante', value: 'estabilidad' });
-          break;
         default:
           return ({ title: 'Todos', value: 'all' });
-          break;
       }
     }) : [];
     return postProfiles;
@@ -199,19 +196,14 @@ export default function EditNews({ id }) {
       switch (elem) {
         case 'all':
           return ({ title: 'Todos', value: 'all' });
-          break;
         case 1:
           return ({ title: 'Líderes de primer nivel', value: 1 });
-          break;
         case 2:
           return ({ title: 'Líderes de celula', value: 2 });
-          break;
         case 3:
           return ({ title: 'Usuario', value: 3 });
-          break;
         default:
           return ({ title: 'Todos', value: 'all' });
-          break;
       }
     }) : [];
     return postRoles;
@@ -221,7 +213,6 @@ export default function EditNews({ id }) {
       if (!id) return;
       try{
         const snap = await Posts.doc(id).get();
-        console.log('snap: ', snap.data());
         if(snap.data()){
           const postData = snap.data();
           setValues({
@@ -259,12 +250,12 @@ export default function EditNews({ id }) {
     }
 
     const isValid = verifyForm();
-    const post = {
+    /*const post = {
         autor: values.autor,
         title: values.title,
         content: values.content,
         media: {
-            pictures: values.media,
+            pictures: values.image,
             videos: [],
         },
         filters:{
@@ -275,16 +266,19 @@ export default function EditNews({ id }) {
             // Roles de usuario
             rol: values.roles.map(elem => elem.value),
         },
-    }
+    }*/
 
     try {
       if (isValid) {
-        await newsFireBase.updateNews(id, post);
-        /*await api('posts/update', post)
-          .then( $post => {
-            console.log('post updated: ', post);
-          })
-          .catch(e=>alert(e))*/
+        /*const snap = await Posts.doc(id).get();
+        snap.ref.update(post);*/
+
+        /*const posts = await Posts.doc(id).update(post)
+        .then( $post => {
+          console.log('post updated: ', post);
+        })
+        .catch(e=>alert(e))*/
+
         setMessage('Publicada');
         setSuccess(!success);
         setLoading(false);
@@ -295,32 +289,6 @@ export default function EditNews({ id }) {
       setLoading(false);
     }
   };
-
-  const handleUploadSuccess = async (filename) => {
-     const storageRef = newsFireBase.getImagenRef();
-     console.log('getImagenRef: ', storageRef);
-
-     const name = await filename;
-     console.log('fliename: ', filename);
-
-     storageRef
-       .child(name)
-       .getDownloadURL()
-       .then(function (url) {
-         console.log('url: ', url);
-         setValues({
-           ...values,
-           image: url,
-         });
-       })
-       .catch(function (error) {
-         console.log(error);
-       });
-   };
-
-  const handlerOnProgress = (progress) => {
-     setProgress(progress);
-   };
 
   const ChangeValues = React.useCallback((key, value)=>setValues(current=>({
     ...current,
@@ -376,6 +344,7 @@ export default function EditNews({ id }) {
                       multiple
                       id="profiles"
                       options={profilesOptions}
+                      className={classes.chips}
                       getOptionLabel={(option) => option.title}
                       renderInput={(params) => (
                         <TextField
@@ -399,6 +368,7 @@ export default function EditNews({ id }) {
                     <Autocomplete
                       multiple
                       id="roles"
+                      className={classes.chips}
                       options={usersTypes}
                       getOptionLabel={(option) => option.title}
                       renderInput={(params) => (
@@ -425,7 +395,6 @@ export default function EditNews({ id }) {
                         multiple
                         type="file"
                         onChange={({target:{ files }})=> {
-                          console.log('image files: ', files);
                           setValues(prev=>({
                             ...prev,
                             image: files
@@ -492,29 +461,30 @@ export default function EditNews({ id }) {
 
         {/* Rigth Card */}
         <Grid item xs={3} className={classes.rightCard}>
-          <Card style={{ width: '100%', height: '70%' }}>
+          <Card style={{ width: '100%', height: '60%' }}>
             <Grid container direction="column">
 
-              <Grid item>
+              <Box item>
                 <Typography color='primary' variant='subtitle1'>Alcance del público</Typography>
-              </Grid>
+              </Box>
 
-              <Grid item>
+              <Box item>
                 <Typography variant='subtitle2'>13.000 personas</Typography>
-              </Grid>
+              </Box>
 
-              <Grid item display="flex">
-                <Grid item xs={1} style={{ marginTop: '20px', marginLeft: '20px', color: '#4D4F5C' }}>
-                  <InfoIcon fontSize="small" />
-                </Grid>
-                <Grid item xs={10}>
+              <Box display="flex" flexDirection="row">
+                  <Box display="flex" flexWrap="nowrap" pl={2}>
+                  <InfoIcon fontSize="small" style={{ marginTop: '20px', color: '#4D4F5C' }}/>
+                  </Box>
+                  <Box flexGrow={1} pl={2}>
                   <Typography variant='body1'>Tamaño estimado del público que coincide con las características puestas para ver tu noticia</Typography>
-                </Grid>
-              </Grid>
+                  </Box>
+              </Box>
 
-              <Grid item>
-                  <img src={PersonImage} alt="PersonImage" style={{ width: '80%', height: '80%' }}/>
-              </Grid>
+              <Box justifyContent="center">
+                <img src={PersonImage} alt="PersonImage" style={{ width: '90%', height: '80%', paddingLeft: '24px' }}/>
+              </Box>
+
             </Grid>
           </Card>
         </Grid>
