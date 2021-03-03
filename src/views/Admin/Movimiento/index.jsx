@@ -76,7 +76,7 @@ export default function Movimiento(){
       const getLeaders = async () => {
         try {
           if(isMountedRef.current){
-            const users = await Users.where('rol', '==', 0).get();
+            const users = await Users.where('followers.size', '>=', 1).get();
             setLeaders(users.docs.map((e) => e.data()));
           }
         } catch (e) {
