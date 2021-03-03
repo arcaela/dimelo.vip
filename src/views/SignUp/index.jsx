@@ -5,19 +5,13 @@ import SignUpMore from './Forms/SignUpMore';
 import useForm from './components/useForm';
 import useStyles from './styles';
 import { Grid, Typography, } from '@material-ui/core';
-import { scopes } from '~/ServerLess';
 
 
 export default function Auth({ ...req }){
     const classes = useStyles();
     const _useForm = useForm();
     const { step, inputs } = _useForm;
-    
-    if( req.params.code?.length ){
-        scopes.users.where('uid', '==', req.params.code).limit(1).get()
-        .then(snap=>(inputs.leader.value=!snap.empty && req.params.code));
-    } else inputs.leader.value=null;
-
+    inputs.leader.value=req.params.code;
     return (<Layout fullPage middleware={['guest']}>
         {step > 2 && <SignUpMore useForm={_useForm} {...req} />}
         {step <=2 && (<Grid container className={classes.root}>
