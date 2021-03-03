@@ -12,16 +12,14 @@ import {
   Grid
 } from '@material-ui/core';
 
-// import InstagramIcon from '@material-ui/icons/Instagram';
-// import TwitterIcon from '@material-ui/icons/Twitter';
-// import FacebookIcon from '@material-ui/icons/Facebook';
-//import MessageIcon from '@material-ui/icons/Message';
+
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 
 import LiderModal from './LiderModal';
 
 import usePatron from '~/hooks/usePatron';
 import Users from '~/ServerLess/collections/Users';
+import SocialIcon from '~/components/SocialIcon';
 
 const styles = makeStyles((theme) => ({
   header: {
@@ -70,7 +68,7 @@ const styles = makeStyles((theme) => ({
     overflow: 'hidden'
   },
   iconContainer: {
-    marginLeft: 50
+    marginLeft: 20
   },
   iconButton: {
     padding: 8,
@@ -100,23 +98,24 @@ export default function LiderCard({ leader }) {
   };
 
   const {
-    direccion = '',
     email = '',
     movil = '',
     voting : {
       point = ''
     },
+    address:{
+      string = ''
+    },
     fullname = '',
     uid = null,
+    social = null
   } = leader;
 
   useEffect(() => {
     const getLeaders = async () => {
       if (!uid) return;
       try {
- 
         const users = await Users.where('leader', '==', uid).get();
-
         setFollowers(users.docs.map((e) => e.data()));
       } catch (e) {
         console.log(e);
@@ -158,7 +157,7 @@ export default function LiderCard({ leader }) {
           <Grid container direction="row" component={ CardContent } className={classes.content}>
             <Grid item xs={ 9 }>
               <Typography color='textSecondary'>
-                Dirección: {direccion}
+                Dirección: {string}
               </Typography>
               <Typography color='textSecondary'>Teléfono : {movil}</Typography>
               <Typography color='textSecondary'>Email: {email}</Typography>
@@ -176,7 +175,11 @@ export default function LiderCard({ leader }) {
         </Grid>
         <Grid className={ classes.footer } item xs={12}>
           <CardActions className={ classes.actions }>
-            <span className={ classes.iconContainer }></span>
+            <span className={ classes.iconContainer }>
+              { social && Object.entries(social).map( link =>(
+                <SocialIcon key={link[0]} type={link[0]} link={link[1]} className={classes.iconButton} />
+              ))}
+            </span>
             <IconButton className={ classes.perfil }>
               { leader?.patron ? patron.label : '' }
             </IconButton>
