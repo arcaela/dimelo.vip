@@ -39,6 +39,7 @@ export default function EditNews({ id = null }) {
     profiles: '',
     roles: '',
     image: '',
+    media: '',
     content: '',
   });
 
@@ -48,10 +49,10 @@ export default function EditNews({ id = null }) {
       fullname: '',
     },
     title: '',
-    perfil: '',
-    localidad: '',
-    rol: '',
+    profiles: '',
+    roles: '',
     image: '',
+    media: '',
     content: '',
   });
 
@@ -60,6 +61,8 @@ export default function EditNews({ id = null }) {
   const [loading, setLoading] = useState(false);
 
   const [message, setMessage] = useState('');
+
+  const [verify, setVerify] = useState(false);
 
   const profilesOptions = [
     { title: 'Todos', value: 'all' },
@@ -75,25 +78,6 @@ export default function EditNews({ id = null }) {
     { title: 'Líderes de celula', value: 2 },
     { title: 'Usuario', value: 2 },
   ];
-
-  const verifyForm = () => {
-    let isValid = 0;
-
-    for (const value in values) {
-      if (values[value].length === 0) {
-        isValid = isValid + 1;
-      }
-    }
-
-    if (isValid !== 0) {
-      setLoading(false);
-      return false;
-    }
-
-    if (isValid === 0) {
-      return true;
-    }
-  };
 
   const getPostProfiles = (values) => {
     const postProfiles = values.length ? values.map((elem) => {
@@ -145,6 +129,7 @@ export default function EditNews({ id = null }) {
             profiles: getPostProfiles(postData.filters.perfiles),
             roles: getPostRoles(postData.filters.rol),
             image: postData.media,
+            media: postData.media,
             content: postData.content,
           })
         }
@@ -163,17 +148,31 @@ export default function EditNews({ id = null }) {
     e.preventDefault();
 
     await setLoading(true);
+    setError({
+      autor: {
+        uid: '',
+        fullname: '',
+      },
+      title: '',
+      profiles: '',
+      roles: '',
+      image: '',
+      media: '',
+      content: '',
+    })
+    setVerify(false)
 
     for (const value in values) {
-      if (values[value].length === 0 && value !== 'image') {
+      if (values[value].length === 0 && value !== 'media') {
         setError((prev) => ({
-          ...prev,
-          [value]: 'Este Campo No Puede Estar Vacio',
-        }));
+            ...prev,
+            [value]: 'Este Campo No Puede Estar Vacio',
+          }));
+      }else{
+        setVerify(true)
       }
     }
 
-    const isValid = verifyForm();
     const post = {
         autor: {
           uid: values.autor.uid ? values.autor.uid : auth.uid,
@@ -182,21 +181,30 @@ export default function EditNews({ id = null }) {
         title: values.title,
         content: values.content,
         media: {
-            pictures: values.image,
+            pictures: values.media.length ? values.media : [],
             videos: [],
         },
         filters:{
             // Rangos específicos del GPS,
             gps_area: [],
             // Perfiles psicológicos
-            perfiles: values.profiles.map(elem => elem.value),
+            perfiles: values.profiles.length ? values.profiles.map(elem => elem.value) : [],
             // Roles de usuario
-            rol: values.roles.map(elem => elem.value),
+            rol: values.roles.length ? values.roles.map(elem => elem.value) : [],
         },
     }
 
+    const updatePost = values.media !== values.image ? ({
+      ...post
+    }) : ({
+      autor: post.autor,
+      title: post.title,
+      content: post.content,
+      filters:post.filters,
+    })
+
     try {
-      if (isValid) {
+      if(verify){
         if(!id){
           await api('posts/create', post)
             .then( $post => {
@@ -204,17 +212,12 @@ export default function EditNews({ id = null }) {
             })
             .catch(e=>alert(e))
         }else{
-          console.log('post updated');
+          await Posts.doc(id).update(updatePost)
+          .then( $post => {
+            console.log('post updated: ', post);
+          })
+          .catch(e=>alert(e))
         }
-
-        /*const snap = await Posts.doc(id).get();
-        snap.ref.update(post);*/
-
-        /*const posts = await Posts.doc(id).update(post)
-        .then( $post => {
-          console.log('post updated: ', post);
-        })
-        .catch(e=>alert(e))*/
 
         setMessage('Publicada');
         setSuccess(!success);
@@ -277,7 +280,7 @@ export default function EditNews({ id = null }) {
 
                 {/* Perfil */}
                 <Grid item xs={10} md={5}>
-                  <FormControl className={classes.formControl} error={error.perfil ? true : false}>
+                  <FormControl className={classes.formControl} error={error.profiles ? true : false}>
                     <Autocomplete
                       multiple
                       id="profiles"
@@ -293,7 +296,7 @@ export default function EditNews({ id = null }) {
                       )}
                       onChange={(e, newValue) => changeValues('profiles', newValue)}
                     />
-                    {error.perfil && <FormHelperText>{error.perfil}</FormHelperText>}
+                    {error.profiles && <FormHelperText>{error.profiles}</FormHelperText>}
                   </FormControl>
                 </Grid>
 
@@ -302,7 +305,7 @@ export default function EditNews({ id = null }) {
 
                 {/* Rol */}
                 <Grid item  xs={10} md={5}>
-                  <FormControl className={classes.formControl} error={error.rol ? true : false}>
+                  <FormControl className={classes.formControl} error={error.roles ? true : false}>
                     <Autocomplete
                       multiple
                       id="roles"
@@ -318,13 +321,13 @@ export default function EditNews({ id = null }) {
                       )}
                       onChange={(event, newValue) => changeValues('roles', newValue) }
                     />
-                    {error.rol && <FormHelperText>{error.rol}</FormHelperText>}
+                    {error.roles && <FormHelperText>{error.roles}</FormHelperText>}
                   </FormControl>
                 </Grid>
 
                 {/* Image */}
                 <Grid item xs={10}>
-                  <FormControl className={classes.formControl} error={error.image ? true : false}>
+                  <FormControl className={classes.formControl} error={error.media ? true : false}>
                     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                       <input
                         accept="image/*"
@@ -333,9 +336,10 @@ export default function EditNews({ id = null }) {
                         multiple
                         type="file"
                         onChange={({target:{ files }})=> {
+                          console.log('media: ', files);
                           setValues(prev=>({
                             ...prev,
-                            image: files
+                            media: files
                           }))
                         }}
                       />
@@ -348,18 +352,18 @@ export default function EditNews({ id = null }) {
 
 
                     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                      {values.image && (
+                      {values.media && (
                         <div style={{ padding: '.5rem', maxWidth: '50%', minWidth: '50%', height: 'auto', }}>
                           <img
                             style={{ maxWidth: '100%', height: 'auto', }}
                             alt='imagen'
-                            src={values.image}
+                            src={values.media}
                           />
                         </div>
                       )}
                     </div>
 
-                    {error.image && <FormHelperText>{error.image}</FormHelperText>}
+                    {error.media && <FormHelperText>{error.media}</FormHelperText>}
                   </FormControl>
                 </Grid>
 
