@@ -48,5 +48,8 @@ Route('/signup/:code(.*)?', require('~/views/SignUp').default);
 Route('/posts', require('~/views/Posts').default);
 Route('/red', require('~/views/Red').default);
 Route('/test', require('~/views/Test').default);
-Route('/admin/:slug(.*)?', require('~/views/Admin').default);
+
+/* Admin Pages */
 Route('/account', require('~/views/Profile').default);
+Route('/settings', require('~/views/Settings').default);
+Route('/admin/:slug(.*)?', require('~/views/Admin').default);

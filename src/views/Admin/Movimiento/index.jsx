@@ -7,7 +7,7 @@ import Tab from '@material-ui/core/Tab';
 import { Box } from '@material-ui/core';
 import LiderTab from './LiderTab';
 import UserTab from './UserTab';
-import Users from '~/ServerLess/collections/Users';
+import { scopes } from '~/ServerLess';
 
 const StyledTabs = withStyles(theme => ({
     indicator: {
@@ -76,9 +76,7 @@ export default function Movimiento(){
       const getLeaders = async () => {
         try {
           if(isMountedRef.current){
-            const users = await Users
-              .where('followers.size', '>=', 1)
-              .get();
+            const users = await scopes.users.where('followers.size', '>=', 1).get();
             setLeaders(users.docs.map((e) => e.data()));
           }
         } catch (e) {
@@ -96,7 +94,7 @@ export default function Movimiento(){
       const getUsers = async () => {
         try {
           if(isMountedRef.current){
-            const users = await Users.where('rol', '==', 2).get();
+            const users = await scopes.users.where('rol', '==', 2).get();
             setUsers(users.docs.map((e) => e.data()));
           }
         } catch (e) {
@@ -108,7 +106,7 @@ export default function Movimiento(){
       getUsers();
       return ()=> isMountedRef.current = false
     }, []);
-    
+
     return (
         <>
             <TitlePage title="Movimiento" />

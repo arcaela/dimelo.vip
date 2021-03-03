@@ -9,7 +9,28 @@ export default makeStyles(theme => ({
     width: '100%',
   },
   goBack: {
-    '& a':{ textDecoration:'none'}
+    '& a':{ textDecoration:'none', color: theme.palette.primary.dark },
+  },
+  button: {
+    background: theme.palette.primary.dark,
+    borderRadius: 4,
+    padding: 8.5,
+    color: '#fff',
+    '&:hover':{
+        background: theme.palette.primary.dark,
+    }
+  },
+  chips: {
+    '& .MuiChip-root': {
+      backgroundColor: '#82D827',
+      color: '#FFF',
+    },
+    '& .MuiChip-deleteIcon': {
+      'color': '#FFF',
+    }
+  },
+  input: {
+   display: 'none',
   },
   rightCard: {
     '& .MuiTypography-root':{ cursor:'default' },

@@ -12,8 +12,10 @@ import PhoneAndroidIcon from '@material-ui/icons/PhoneAndroid';
 import FacebookIcon from '@material-ui/icons/Facebook';
 import InstagramIcon from '@material-ui/icons/Instagram';
 import TwitterIcon from '@material-ui/icons/Twitter';
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import useAuth from '~/ServerLess/hooks/useAuth';
+import { omit } from 'lodash';
+import Users from '~/ServerLess/collections/Users';
 
 const uStyle = makeStyles((theme) => ({
   formControl: {
@@ -23,7 +25,9 @@ const uStyle = makeStyles((theme) => ({
 }));
 
 export default function Account() {
+
   const classes = uStyle();
+
   const account = useAuth();
 
   const [values, setValues] = useState({
@@ -32,26 +36,61 @@ export default function Account() {
       string: '',
     },
     movil: '',
-    facebook: '',
-    instagram: '',
-    twitter: '',
+    social:{
+      facebook: '',
+      instagram: '',
+      twitter: '',
+    }
   });
 
   useEffect(() => {
     if (account) {
-      setValues((v) => {
-        const data = Object.assign(v, account);
-        console.log('data', data);
-        return data;
-      });
+      const data = omit(account, ['birthday','cedula','family','followers','fullname','leader','locked','rol','uid','voting'])
+      setValues( { ...values, ...data } );
     }
   }, [account]);
 
+  const handleSocilLink = (e)=>{
+    setValues({
+      ...values,
+      social:{
+        ...values.social,
+        [e.target.name]: e.target.value
+      }
+    })
+  }
+
+  const handleChange = (e)=>{
+    setValues({
+      ...values,
+        [e.target.name]: e.target.value
+    })
+  }
+
+  const handleAddress = ( e )=>{
+    setValues({
+      ...values,
+      [e.target.name]:{ ...values.address, string : e.target.value }
+    })
+  }
+
+  const handleSubmit = async ( e ) => {
+    e.preventDefault()
+
+    try {
+      await Users.doc(account.uid).update(values)
+      console.log('Me actualice')
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
       <Grid container>
         <Grid style={{
-          marginBottom: 40
+          marginBottom: 40,
+          display: 'none'
         }} container>
           <Grid item xs={12} sm={3}>
 
@@ -69,13 +108,16 @@ export default function Account() {
                 Remover
               </Button>
           </Grid>
-        </Grid>
+        </Grid> 
         <Grid item xs={12} sm={6}>
           <TextField
             value={values.email}
             className={classes.formControl}
+            name="email"
             fullWidth
             label='Correo electrónico'
+            readOnly={ true }
+            disabled={ true }
             InputProps={{
               startAdornment: (
                 <InputAdornment position='start'>
@@ -88,6 +130,8 @@ export default function Account() {
         <Grid item xs={12} sm={6}>
           <TextField
             value={values.address.string}
+            name="address"
+            onChange={ e=> handleAddress(e) }
             className={classes.formControl}
             fullWidth
             label='Dirección'
@@ -103,6 +147,8 @@ export default function Account() {
         <Grid item xs={12} sm={6}>
           <TextField
             value={values.movil}
+            onChange={ e=> handleChange(e) }
+            name="movil"
             className={classes.formControl}
             fullWidth
             label='Teléfono'
@@ -117,9 +163,11 @@ export default function Account() {
         </Grid>
         <Grid item xs={12} sm={6}>
           <TextField
-            className={classes.formControl}
+            className={ classes.formControl }
             fullWidth
-            value={values.facebook}
+            value={ values.social.facebook }
+            onChange={ e=> handleSocilLink(e) }
+            name="facebook"
             label='Facebook'
             InputProps={{
               startAdornment: (
@@ -134,7 +182,9 @@ export default function Account() {
           <TextField
             className={classes.formControl}
             fullWidth
-            value={values.instagram}
+            value={values.social.instagram}
+            name="instagram"
+            onChange={ e=> handleSocilLink(e) }
             label='Instagram'
             InputProps={{
               startAdornment: (
@@ -149,7 +199,9 @@ export default function Account() {
           <TextField
             className={classes.formControl}
             fullWidth
-            value={values.twitter}
+            value={values.social.twitter}
+            name="twitter"
+            onChange={ e=> handleSocilLink(e) }
             label='Twitter'
             InputProps={{
               startAdornment: (
@@ -167,7 +219,7 @@ export default function Account() {
           display='flex'
           justifyContent='flex-end'
         >
-          <Button variant='contained' color='primary'>
+          <Button type="submit" variant='contained' color='primary'>
             Guardar
           </Button>
         </Box>

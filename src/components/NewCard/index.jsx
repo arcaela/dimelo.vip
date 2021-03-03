@@ -13,6 +13,7 @@ import {
 } from '@material-ui/core';
 
 import usePatron from '~/hooks/usePatron';
+import SocialIcon from '../SocialIcon';
 
 
 const styles = makeStyles((theme) => ({
@@ -62,7 +63,7 @@ const styles = makeStyles((theme) => ({
     overflow: 'hidden'
   },
   iconContainer: {
-    marginLeft: 50
+    marginLeft: 20
   },
   iconButton: {
     padding: 8,
@@ -75,13 +76,16 @@ export default function NewCard({ users }) {
   const classes = styles({ color: patron.color });
 
   const {
-    direccion = '',
     email = '',
     movil = '',
     voting : {
       point = ''
     },
+    address:{
+      string = ''
+    },
     fullname = '',
+    social = null
   } = users;
 
   return (
@@ -115,7 +119,7 @@ export default function NewCard({ users }) {
           />
           <CardContent className={classes.content}>
             <Typography color='textSecondary'>
-              Dirección: {direccion}
+              Dirección: {string}
             </Typography>
             <Typography color='textSecondary'>Teléfono : {movil}</Typography>
             <Typography color='textSecondary'>Email: {email}</Typography>
@@ -126,7 +130,11 @@ export default function NewCard({ users }) {
         </Grid>
         <Grid className={ classes.footer } item xs={12}>
           <CardActions className={ classes.actions }>
-            <span className={ classes.iconContainer }></span>
+            <span className={ classes.iconContainer }>
+            { social && Object.entries(social).map( link =>(
+                <SocialIcon key={link[0]} type={link[0]} link={link[1]} className={classes.iconButton} />
+              ))}
+            </span>
             <IconButton className={ classes.perfil }>
               { users?.patron ? patron.label : '' }
             </IconButton>

@@ -1,10 +1,11 @@
+import firebase from './config/firebase';
 import useAuth from './hooks/useAuth';
 import useGetter from './hooks/useGetter';
 import useInputs from './hooks/useInputs';
+import scopes from './scopes';
 import api from './utils/api';
 import error from './utils/error';
 import Google from './utils/Google';
-import firebase from './config/firebase';
 
 
 
@@ -16,11 +17,12 @@ export const reference = function(path){
     return doc.length?t.doc(doc.join('.')):t;
 };
 export {
+    firebase,
     useAuth,
     useGetter,
     useInputs,
+    scopes,
     api,
     error,
     Google,
-    firebase,
 }
