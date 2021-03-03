@@ -130,7 +130,10 @@ export default function Layout({ fullPage=false, middleware=true, children }){
       loading,
       fullPage,
     ]);
-  if(context.auth){
+
+
+
+  if(context.auth!==null){
     const allow = isValidAccess(middleware);
     if(!allow) return <div children="403 | Forbidden" />;
     else if(typeof allow ==='object' && '$redirect' in allow)
