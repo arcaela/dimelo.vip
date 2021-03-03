@@ -1,6 +1,5 @@
 import React from 'react'
-import firebase from '~/ServerLess/config/firebase';
-import Users from '~/ServerLess/collections/Users'
+import { scopes, firebase } from '~/ServerLess';
 
 export const $store = {
     user:null,
@@ -22,7 +21,7 @@ export default function useAuth(){
             $store.unsubscribed = firebase.auth().onAuthStateChanged(auth=>{
                 if(!auth && user===null) setUser(false);
                 else if(auth)
-                    $store.firestore = Users.doc(auth.uid)
+                    $store.firestore = scopes.users.doc(auth.uid)
                         .onSnapshot(snap=>setUser(snap.data()));
             });
         }

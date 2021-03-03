@@ -11,19 +11,15 @@ import {
   ListItemText,
   Toolbar
 } from '@material-ui/core';
-import {
-  //Notifications,
-  Menu as MenuIcon,
-} from '@material-ui/icons';
+import { Menu as MenuIcon, } from '@material-ui/icons';
 import { Link as _Link, useHistory, useLocation, useRouteMatch } from 'react-router-dom';
 
-
-//import useAuth from '~/ServerLess/hooks/useAuth';
+import { api, useAuth } from '~/ServerLess'
 import middlewares from '~/config/middlewares';
-import ButtonProfile from '~/components/ButtonProfile';
-import api from '~/ServerLess/utils/api';
+
+
 import Invitar from '~/components/Invitar';
-import useAuth from '~/ServerLess/hooks/useAuth';
+import ButtonProfile from '~/components/ButtonProfile';
 
 
 
@@ -117,7 +113,6 @@ export default function Layout({ fullPage=false, middleware=true, children }){
     api('auth/signout', ()=>window.location.href='/signin')
       .catch((error)=>console.log(error, alert("Ups! Contacta con el administrador del sitio.")))
   }
-
   const check = (_,__=false)=>((typeof _ === 'function')?_({...context}):(
     (typeof _ ==='string'&&_ in middlewares&&!!__)?check(middlewares[_])
     :((Array.isArray(_))?_.map(c=>check(c,true)):!!_)

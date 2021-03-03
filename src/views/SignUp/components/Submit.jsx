@@ -1,5 +1,4 @@
-import Users from '~/ServerLess/collections/Users';
-import api from '~/ServerLess/utils/api'
+import { api, scopes } from '~/ServerLess'
 
 export default async function Submit (useForm){
     const {
@@ -23,7 +22,7 @@ export default async function Submit (useForm){
         case 1:
             if(!Check('fullname', 'cedula', 'birthday', 'address')) return;
             await setLoading(true);
-            Users.where('cedula','==',inputs.cedula.value).get()
+            scopes.users.where('cedula','==',inputs.cedula.value).get()
             .then(async snap=>{
                 if(snap.empty) await nextStep();
                 else await setInputs({cedula:{error:'La cédula ya está registrada'}});
@@ -32,7 +31,7 @@ export default async function Submit (useForm){
         case 2:
             if(!Check('email', 'password', 'movil', 'phone')) return;
             await setLoading(true);
-            Users.where('email','==', inputs.email.value).get()
+            scopes.users.where('email','==', inputs.email.value).get()
             .then(async snap=>{
                 if(snap.empty) await nextStep();
                 else await setInputs({email:{error:'Email ya registrado'}});

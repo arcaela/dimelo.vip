@@ -5,7 +5,7 @@ import SignUpMore from './Forms/SignUpMore';
 import useForm from './components/useForm';
 import useStyles from './styles';
 import { Grid, Typography, } from '@material-ui/core';
-import Users from '~/ServerLess/collections/Users';
+import { scopes } from '~/ServerLess';
 
 
 export default function Auth({ ...req }){
@@ -14,7 +14,7 @@ export default function Auth({ ...req }){
     const { step, inputs } = _useForm;
     
     if( req.params.code?.length ){
-        Users.where('uid', '==', req.params.code).limit(1).get()
+        scopes.users.where('uid', '==', req.params.code).limit(1).get()
         .then(snap=>(inputs.leader.value=!snap.empty && req.params.code));
     } else inputs.leader.value=null;
 

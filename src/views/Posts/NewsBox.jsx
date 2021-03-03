@@ -3,24 +3,18 @@ import PhotoGrid from 'react-facebook-photo-grid'
 
 import {
     Avatar,
-    // Button,
     Card,
     CardActions,
     CardContent,
     CardHeader,
-    // IconButton,
     makeStyles,
     Typography,
 } from '@material-ui/core';
-// import {
-    // Favorite,
-    // FavoriteBorderOutlined,
-    // ShareOutlined,
-// } from '@material-ui/icons';
 
 
 import TimeAgo from 'javascript-time-ago'
 import es from 'javascript-time-ago/locale/es'
+
 TimeAgo.addDefaultLocale(es);
 const timeAgo = new TimeAgo('es-ES')
 
@@ -46,18 +40,19 @@ const useStyles = makeStyles(theme=>({
 }));
 
 
-export default React.memo(function NewsBox({post=null}){
+export default React.memo(function NewsBox({ post }){
     const classes = useStyles();
-    const [ wrapContent, __] = React.useState(post && post.content.length>200);
-    if(!post) return null;
-    const { autor } = post;
-    const unWrapContent=()=>__(false);
-    const content = post.content.substring(0, ...(wrapContent?[200]:[]));
 
-    return (<Card className={classes.root}>
+    console.log(post);
+
+    const [ wrapContent, __] = React.useState(post.content.length>200);
+    const unWrapContent=()=>__(false);
+    const content = post?.content?.substring(0, ...(wrapContent?[200]:[]));
+
+    return post && (<Card className={classes.root}>
         <CardHeader
-            avatar={<Avatar alt={autor?.name} src={autor?.photoURL || autor?.fullname[0]} />}
-            title={autor?.fullname}
+            avatar={<Avatar alt={post.autor?.name} src={post.autor?.photoURL || post.autor?.fullname[0]} />}
+            title={post.autor?.fullname}
             subheader={timeAgo.format( post.timestamp?.toDate() || new Date() )}
         />
         <CardContent className={classes.content}>

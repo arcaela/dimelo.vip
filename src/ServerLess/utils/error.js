@@ -15,6 +15,6 @@ class Handler extends Error {
 
 
 
-export default function error(data){
+module.exports = function error(data){
     throw new Handler(data);
 }
