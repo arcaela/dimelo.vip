@@ -1,25 +1,23 @@
-import Posts from '~/ServerLess/collections/Posts';
-import firebase from '~/ServerLess/config/firebase'
+import { scopes, firebase } from '~/ServerLess';
+
+
 
 const posts = {
-    async all({user}){
+    async recents({ user, posts=[] }){
         if(!user) return [];
-        return (await Posts.limit(1000)
-                .where('title', '!=', 0)
-                .get())
-            .docs.map(e=>e.data());
+        let query = scopes.posts.orderBy('id', 'desc');
+        if(posts.length) query = query.startAfter( posts.slice(-1)[0].$doc.id );
+        return (await query.limit(2).get()).docs.map(e=>e.data());
     },
-    async create(post){
+
+    async put({ id=null, ...post }){
         const media = [];
-        const doc = Posts.doc();
+        const doc = id?scopes.posts.doc( id ):scopes.posts.doc();
         const folder = firebase.storage().ref(`posts/${doc.id}/media/`);
-        for(const picture of post.media?.pictures)
-            media.push( await (await folder.child(`/pictures/${Date.now()}`).put(picture)).ref.getDownloadURL() )
-        for(const video of post.media?.videos)
-            media.push( await (await folder.child(`/videos/${Date.now()}`).put(video)).ref.getDownloadURL() )
-        const data = { ...post, id:doc.id, media, timestamp:(new Date()).getTime()};
-        await doc.set({...data, timestamp: firebase.firestore.FieldValue.serverTimestamp()});
-        return data;
+        for(const picture of post.media)
+            media.push( await (await folder.child(`/${ Date.now() }`).put(picture)).ref.getDownloadURL())
+        await doc.set({ ...post, media, id:doc.id, timestamp: firebase.firestore.FieldValue.serverTimestamp() });
+        return (await doc.get()).data();
     },
 };
 

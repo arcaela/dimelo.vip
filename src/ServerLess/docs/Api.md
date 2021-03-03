@@ -1,4 +1,4 @@
-# Documentación
+# [Documentación](./README.md)
 
 Saludos muchachos, este es un documento con las especificaciones y estructura del código de la plataforma.
 

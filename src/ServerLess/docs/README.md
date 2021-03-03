@@ -10,12 +10,14 @@ Para acceder a sus funciones o propiedas será necesario importarlas de manera g
     import ServerLess, { useAuth } from '~/ServerLess'
 ```
 
-## Helper | api
-Esta función está mejor documentada en su propio [markdown](Api.md) dentro de este [directorio](./).
+## ScopeBase
+Esta clase está mejor documentada en su propio [markdown](./scopes/README.md) dentro de este [directorio](./scopes/).
 
+## Helper | api
+Esta función está mejor documentada en su propio [markdown](./Api.md) dentro de este [directorio](./).
 
 ## Hook | useAuth
-**useAuth** es un hook construído para conocer el [User](User.md) autenticado actualmente,
+**useAuth** es un hook construído para conocer el [User](./scopes/User.md) autenticado actualmente,
 su valor puede estar estar establecido en 3 posibles resultados:
 ```javascript
     export default function ProfileButton(props){

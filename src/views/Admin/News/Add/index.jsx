@@ -180,10 +180,7 @@ export default function EditNews({ id = null }) {
         },
         title: values.title,
         content: values.content,
-        media: {
-            pictures: values.media.length ? values.media : [],
-            videos: [],
-        },
+        media: values.media,
         filters:{
             // Rangos específicos del GPS,
             gps_area: [],
@@ -204,24 +201,16 @@ export default function EditNews({ id = null }) {
     })
 
     try {
-      if(verify){
-        if(!id){
-          await api('posts/create', post)
-            .then( $post => {
-              console.log('post created: ', post);
-            })
-            .catch(e=>alert(e))
-        }else{
-          await Posts.doc(id).update(updatePost)
-          .then( $post => {
-            console.log('post updated: ', post);
-          })
-          .catch(e=>alert(e))
-        }
-
-        setMessage('Publicada');
-        setSuccess(!success);
-        setLoading(false);
+      if (isValid) {
+        await api('posts/put', post)
+        .then(()=>{
+          setMessage('Publicada');
+          setSuccess(!success);
+        })
+        .catch(e=>alert(e.message))
+        .finally(()=>{
+          setLoading(false);
+        });
       }
     } catch (e) {
       setLoading(false);
