@@ -59,7 +59,7 @@ function a11yProps(index) {
 }
 
 export default function Profile() {
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState(1);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);

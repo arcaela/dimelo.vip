@@ -76,9 +76,7 @@ export default function Movimiento(){
       const getLeaders = async () => {
         try {
           if(isMountedRef.current){
-            const users = await scopes.users
-              .where('followers.size', '>=', 1)
-              .get();
+            const users = await scopes.users.where('followers.size', '>=', 1).get();
             setLeaders(users.docs.map((e) => e.data()));
           }
         } catch (e) {
@@ -108,7 +106,7 @@ export default function Movimiento(){
       getUsers();
       return ()=> isMountedRef.current = false
     }, []);
-    
+
     return (
         <>
             <TitlePage title="Movimiento" />
