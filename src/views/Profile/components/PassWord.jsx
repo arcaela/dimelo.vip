@@ -112,7 +112,7 @@ export default function PassWord() {
           });
           return false;
         }else if( update?.code === 'auth/too-many-requests'){
-          const messageError = "El acceso a esta cuenta se ha desactivado temporalmente debido a muchos intentos para cambiar la contrase#a"
+          // const messageError = "El acceso a esta cuenta se ha desactivado temporalmente debido a muchos intentos para cambiar la contrase#a"
           return false;
         }
 

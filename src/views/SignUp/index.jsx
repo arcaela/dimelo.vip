@@ -11,7 +11,7 @@ export default function Auth({ ...req }){
     const classes = useStyles();
     const _useForm = useForm();
     const { step, inputs } = _useForm;
-    inputs.leader.value=req.params.code;
+    inputs.leader.value=req.params.code || null;
     return (<Layout fullPage middleware={['guest']}>
         {step > 2 && <SignUpMore useForm={_useForm} {...req} />}
         {step <=2 && (<Grid container className={classes.root}>
