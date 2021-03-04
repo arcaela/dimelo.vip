@@ -89,12 +89,12 @@ export default function ActionsButton({ row }) {
         <div className={classes.buttons}>
           <VisibilityIcon />
         </div>
-        <div
+        {/*<div
           onClick={() => router.push('/admin/news/edit/' + row)}
           className={classes.buttons}
         >
           <img src='/images/edit.svg' alt='editar' />
-        </div>
+        </div>*/}
         <div onClick={() => setOpen(!open)} className={classes.buttons}>
           <img src='/images/trash.svg' alt='borrar' />
         </div>
