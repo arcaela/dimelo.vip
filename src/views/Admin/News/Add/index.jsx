@@ -193,7 +193,6 @@ export default function EditNews({ id = null }) {
       if (verify) {
         await api('posts/put', post)
         .then(()=>{
-          console.log('creando');
           setMessage('Publicada');
           setSuccess(!success);
         })

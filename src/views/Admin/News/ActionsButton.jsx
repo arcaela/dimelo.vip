@@ -38,7 +38,7 @@ function SimpleDialog(props) {
     try {
       if (id) {
         await api('posts/delete', { id })
-        .then(()=>{
+        .then((post)=>{
           setBorrando(false);
           handleClose();
         })
