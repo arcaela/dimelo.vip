@@ -87,8 +87,8 @@ export default function TableNews() {
     //   sortable: false,
     // },
     {
-        cell: row  => <ActionsButton row={row.id} />,
-        button: true,
+      cell: row  => <ActionsButton row={row.id} />,
+      button: true,
     },
   ];
 
@@ -105,9 +105,8 @@ export default function TableNews() {
     getNews();
   }, []);
 
-  const filterRow = rows.filter(
-    (item) =>
-      item.title && item.title.toLowerCase().includes(value.toLowerCase())
+  const filterRow = rows.filter((item) =>
+    item.title && item.title.toLowerCase().includes(value.toLowerCase())
   );
 
   return (
@@ -118,11 +117,11 @@ export default function TableNews() {
         setData:setRows
       }}
     >
-      <Box display="flex" mb={ 3 } justifyContent="space-between">
+      <Box display="flex" mb={3} justifyContent="space-between">
         <FilterButton
-          buttonOnClick={ handleClear }
-          valueInput={ value }
-          onChangeInput={ (e) => setValue(e.target.value) }
+          buttonOnClick={handleClear}
+          valueInput={value}
+          onChangeInput={(e) => setValue(e.target.value)}
         />
         <Button
         style={{

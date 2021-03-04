@@ -189,19 +189,11 @@ export default function EditNews({ id = null }) {
         },
     }
 
-    const updatePost = values.media !== values.image ? ({
-      ...post
-    }) : ({
-      autor: post.autor,
-      title: post.title,
-      content: post.content,
-      filters:post.filters,
-    })
-
     try {
       if (verify) {
         await api('posts/put', post)
         .then(()=>{
+          console.log('creando');
           setMessage('Publicada');
           setSuccess(!success);
         })
@@ -323,7 +315,6 @@ export default function EditNews({ id = null }) {
                         multiple
                         type="file"
                         onChange={({target:{ files }})=> {
-                          console.log('media: ', files);
                           setValues(prev=>({
                             ...prev,
                             media: files
