@@ -26,13 +26,12 @@ export default function SignUp({ useForm }){
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
-  const [selectedDate, _setDate] = React.useState( new Date('01/01/2003') );
+  const [selectedDate, _setDate] = React.useState( inputs.birthday.date || new Date('01/01/2003') );
   const handleDateChange = async date=>{
+    inputs.birthday.date=date;
     inputs.birthday.value=date.toLocaleDateString('es-ES');
     await _setDate(date)
   };
-
-  console.log(inputs);
   return (<>
       <DialogTermsConditions open={open} setOpen={setOpen} />
       <div className={classes.root}>
