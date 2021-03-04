@@ -24,7 +24,7 @@ export default function NewsPage(){
         api('posts/recents', {user,posts})
             .then(docs=>setPosts(posts.concat(docs)))
             .finally(()=>setLoading(onproccess.current=false));
-    }, [ user, posts ]);
+    }, [ loading, user, posts ]);
     const AddListener = React.useCallback(()=>{
         if(!onproccess.current && wall.current.getBoundingClientRect().bottom < 640)
             getPosts();

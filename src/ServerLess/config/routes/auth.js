@@ -1,4 +1,5 @@
-import { scopes, error, firebase } from '~/ServerLess';
+import { error, firebase } from '~/ServerLess';
+import scopes from '~/ServerLess/scopes';
 
 const auth = {
     async signUp({ email, password, ...props }){
@@ -14,6 +15,20 @@ const auth = {
         return firebase.auth().signInWithEmailAndPassword(email, password);
     },
     signOut:(callback=()=>{})=>firebase.auth().signOut().then(callback),
+
+    async update({ picture, password, ...props }){
+        const user = await firebase.auth().currentUser;
+        const [ , photoURL ] = await Promise.all([
+            password && user.updatePassword(password),
+            firebase.storage().ref(`/users/${user.uid}/avatar`).put(picture).then(snap=>snap.ref.getDownloadURL()),
+        ]);
+        return scopes.users.doc( user.uid ).update({
+            ...props,
+            photoURL,
+            uid:user.uid,
+        });
+    },
+    
 };
 
 export { auth };
