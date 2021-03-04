@@ -25,6 +25,9 @@ const StyledTab = withStyles((theme) => ({
     fontWeight: theme.typography.fontWeightRegular,
     fontSize: theme.typography.pxToRem(15),
     marginRight: theme.spacing(1),
+    '@media(max-width:599px)':{
+      minWidth: '100%'
+    },
     '&:focus': {
       opacity: 1,
     },
@@ -59,7 +62,8 @@ function a11yProps(index) {
 }
 
 export default function Profile() {
-  const [value, setValue] = useState(1);
+
+  const [value, setValue] = useState( 0 );
 
   const handleChange = (event, newValue) => {
     setValue(newValue);

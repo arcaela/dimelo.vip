@@ -12,19 +12,25 @@ import {
 } from '@material-ui/core';
 import { Visibility, VisibilityOff } from '@material-ui/icons';
 import React, { useState } from 'react';
-import changePass from './ChangePassword';
+
+import { api } from '~/ServerLess';
 
 const uStyle = makeStyles((theme) => ({
   formControl: {
-    //marginBottom: 45,
+    marginTop: 20,
     padding: '.45rem',
+  },
+  w100: {
+    '@media(max-width:599px)': {
+      minWidth: '100%',
+    },
   },
 }));
 
 export default function PassWord() {
   const classes = uStyle();
 
-  const auth = changePass;
+  const [loading, setLoading] = useState(false);
 
   const [shows, setShows] = useState({
     showOldPassword: false,
@@ -61,7 +67,7 @@ export default function PassWord() {
 
   const handlerSubmit = async (e) => {
     e.preventDefault();
-
+    setLoading(true);
     setError({ currentPassword: '', newPassword: '', repeatPassword: '' });
 
     for (const value in values) {
@@ -94,31 +100,16 @@ export default function PassWord() {
 
     try {
       if (verify) {
-
-        const update = await auth.changePassword(
-          values.currentPassword,
-          values.newPassword
-        );
-        if (update?.code === 'auth/wrong-password') {
-          setError({
-            ...error,
-            currentPassword: 'La contraseña no es válida',
-          });
-          return false;
-        }else if( update?.code === 'auth/network-request-failed'){
-          setError({
-            ...error,
-            currentPassword: 'Error en la conexion',
-          });
-          return false;
-        }else if( update?.code === 'auth/too-many-requests'){
-          // const messageError = "El acceso a esta cuenta se ha desactivado temporalmente debido a muchos intentos para cambiar la contrase#a"
-          return false;
-        }
-
+        await api('auth/update', { password: values.onClicknewPassword });
+        console.log('actualizado');
+        setLoading(false);
       }
+      setLoading(false);
     } catch (e) {
       console.log(e);
+      setLoading(false);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -127,7 +118,10 @@ export default function PassWord() {
       <h2>Cambiar Contraseña</h2>
       <Grid container>
         <Grid item xs={12} sm={6}>
-          <FormControl error={error.currentPassword ? true : false}>
+          <FormControl
+            className={classes.w100}
+            error={error.currentPassword ? true : false}
+          >
             <InputLabel htmlFor='contrasena'>Contraseña Actual</InputLabel>
             <Input
               type={shows.showOldPassword ? 'text' : 'password'}
@@ -157,7 +151,10 @@ export default function PassWord() {
         </Grid>
         <Grid item xs={12} sm={6}></Grid>
         <Grid item xs={12} sm={6}>
-          <FormControl error={error.newPassword ? true : false}>
+          <FormControl
+            className={classes.w100}
+            error={error.newPassword ? true : false}
+          >
             <InputLabel htmlFor='nueva-contrasena'>Contraseña Nueva</InputLabel>
             <Input
               type={shows.showPassword ? 'text' : 'password'}
@@ -187,7 +184,10 @@ export default function PassWord() {
           </FormControl>
         </Grid>
         <Grid item xs={12} sm={6}>
-          <FormControl error={error.repeatPassword ? true : false}>
+          <FormControl
+            className={classes.w100}
+            error={error.repeatPassword ? true : false}
+          >
             <InputLabel htmlFor='repetir-contrasena'>
               Repetir Contraseña
             </InputLabel>
@@ -232,8 +232,13 @@ export default function PassWord() {
           display='flex'
           justifyContent='flex-end'
         >
-          <Button type='submit' variant='contained' color='primary'>
-            Guardar
+          <Button
+            type='submit'
+            disabled={loading}
+            variant='contained'
+            color='primary'
+          >
+            {loading ? 'Actualizando' : 'Guardar'}
           </Button>
         </Box>
       </Grid>
