@@ -16,8 +16,7 @@ const auth = {
         return firebase.auth().signInWithEmailAndPassword(email, password);
     },
     signOut:(callback=()=>{})=>firebase.auth().signOut().then(callback),
-
-    async update({ picture, password, ...props }){
+    async update({ picture=null, password=null, ...props }){
         const user = await firebase.auth().currentUser;
         const [ , photoURL ] = await Promise.all([
             password && user.updatePassword(password),
@@ -29,7 +28,6 @@ const auth = {
             ...(photoURL && {photoURL}),
         });
     },
-    
 };
 
 export { auth };
