@@ -1,9 +1,5 @@
 import React from 'react'
 import { merge } from 'lodash';
-
-import '../ServerLess/utils/api';
-
-
 let Inputs = {
     cards:{
         formal:{
