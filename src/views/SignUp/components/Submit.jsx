@@ -31,9 +31,9 @@ export default async function Submit (useForm){
         case 2:
             if(!Check('email', 'password', 'movil', 'phone')) return;
             await setLoading(true);
-            scopes.users.where('email','==', inputs.email.value).get()
+            scopes.users.where('email','==', inputs.email.value).limit(1).get()
             .then(async snap=>{
-                if(snap.empty) await nextStep();
+                if(!snap.docs.length) await nextStep();
                 else await setInputs({email:{error:'Email ya registrado'}});
             }).finally(async ()=>await setLoading(false))
         break;

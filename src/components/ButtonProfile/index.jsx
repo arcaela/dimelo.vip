@@ -12,6 +12,7 @@ import Skeleton from '@material-ui/lab/Skeleton';
 
 import { api } from '~/ServerLess';
 import { Link } from 'react-router-dom';
+import usePatron from '~/hooks/usePatron';
 
 const styles = makeStyles((theme)=>({
   root:{
@@ -44,6 +45,7 @@ const styles = makeStyles((theme)=>({
 export default function ButtonProfile({ auth }){
   const classes = styles()
   const [anchorEl, setAnchorEl] = useState(null);
+  const { label, color } = usePatron(auth?.patron)
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
   const handleClick = (event) => setAnchorEl(event.currentTarget);
@@ -73,8 +75,18 @@ export default function ButtonProfile({ auth }){
               <><Avatar className={classes.large} alt={auth?.email} src={auth?.photoURL} /></> 
               :
               <><Avatar children={auth?.fullname[0]} /></>}
+
               <h3 className={ classes.tile }>{ auth?.fullname }</h3>
               <h4 className={ classes.subtitle }>{ auth?.email }</h4>
+              {label && <h4 
+              style={{
+                background: color,
+                padding: '.45rem',
+                borderRadius: '4px'
+              }}
+              className={ `${classes.subtitle}` }>
+                { label }
+              </h4>}
               <div className={ classes.buttons } >
                 <Button component={Link}
                   to="/account"
