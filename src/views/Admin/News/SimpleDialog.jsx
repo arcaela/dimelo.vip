@@ -17,7 +17,7 @@ export default function SimpleDialog(props) {
       aria-labelledby='simple-dialog-title'
       open={open}
     >
-      <DialogTitle id='simple-dialog-title'>
+      <DialogTitle id='simple-dialog-title' onClose={handleClose}>
         {title}
       </DialogTitle>
       <div>

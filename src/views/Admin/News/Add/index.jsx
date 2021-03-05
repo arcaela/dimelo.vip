@@ -367,10 +367,11 @@ export default function EditNews({ id = null }) {
                 <ButtonLoading
                   loading={loading}
                   variant='contained'
-                  type='submit'
                   value="Publicar"
                   color='secondary'
-                  onClick={() => setOpen(true)}
+                  onClick={() => {
+                    setOpen(true)
+                  }}
                 />
                 <ButtonLoading variant="contained" color="primary" value="Preview" onClick={()=> {
                   setPreview({
@@ -432,8 +433,20 @@ export default function EditNews({ id = null }) {
           onClose={() => setOpenPreview(!openPreview)}
           title={(<Typography>Noticias</Typography>)}
           children={(
-            <Box p={3} display='flex' flexDirection='column'>
+            <Box p={3} display='flex' flexDirection='column' justifyContent='center'>
               <NewsBox post={preview} />
+              <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <ButtonLoading
+                  loading={loading}
+                  variant='contained'
+                  value="Publicar"
+                  color='secondary'
+                  onClick={() => {
+                    setOpen(true)
+                    setOpenPreview(!openPreview)
+                  }}
+                />
+              </div>
             </Box>
           )}
         />
@@ -441,7 +454,7 @@ export default function EditNews({ id = null }) {
         <SimpleDialog
           open={open}
           onClose={() => setOpen(!open)}
-          title={(<Typography>Una vez creada la noticia no es posible editarla</Typography>)}
+          title={(<Typography>Una vez creada la noticia no será posible editarla</Typography>)}
           children={(
             <List>
               <ListItem autoFocus button key='publicar' onClick={() => handlerSubmit()}>
