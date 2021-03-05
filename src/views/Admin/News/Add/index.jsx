@@ -11,9 +11,6 @@ import {
   Button,
   Box,
   Card,
-  List,
-  ListItem,
-  ListItemText,
 } from '@material-ui/core';
 import InfoIcon from '@material-ui/icons/Info';
 import Autocomplete from '@material-ui/lab/Autocomplete';
@@ -62,9 +59,9 @@ export default function EditNews({ id = null }) {
 
   const [openPreview, setOpenPreview] = useState(false);
 
-  const [open, setOpen] = useState(false);
-
   const [message, setMessage] = useState('');
+
+  const [imagePreview, setImagePreview] = useState(null);
 
   const profilesOptions = [
     { title: 'Todos', value: 'all' },
@@ -80,6 +77,21 @@ export default function EditNews({ id = null }) {
     { title: 'Líderes de celula', value: 2 },
     { title: 'Usuario', value: 2 },
   ];
+
+  const handleChangeImage = ({ target : { files }}) => {
+    if(!files.length) return;
+
+    const read = new FileReader();
+    read.onload = () => {
+      setImagePreview(read.result);
+    }
+    read.readAsDataURL(files[0]);
+
+    setValues(prev=>({
+       ...prev,
+       media: files
+     }))
+  }
 
   const getPostProfiles = (values) => {
     const postProfiles = values.length ? values.map((elem) => {
@@ -153,7 +165,6 @@ export default function EditNews({ id = null }) {
           [value]: 'Este Campo No Puede Estar Vacio',
         }));
         setLoading(false);
-        setOpen(false);
         return (false);
       }
     }
@@ -196,7 +207,6 @@ export default function EditNews({ id = null }) {
           setLoading(false);
           setMessage('Publicada');
           setSuccess(!success);
-          setOpen(false);
         })
         .catch(e=>alert(e.message))
         .finally(()=>{
@@ -314,12 +324,7 @@ export default function EditNews({ id = null }) {
                       id="contained-button-file"
                       multiple
                       type="file"
-                      onChange={({target:{ files }})=> {
-                        setValues(prev=>({
-                          ...prev,
-                          media: files
-                        }))
-                      }}
+                      onChange={handleChangeImage}
                     />
                     <label htmlFor="contained-button-file">
                       <Button variant="contained" color="primary" component="span">
@@ -330,14 +335,13 @@ export default function EditNews({ id = null }) {
 
 
                   <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                    {values.media && (
+                    {imagePreview && (
                       <div style={{ padding: '.5rem', maxWidth: '50%', minWidth: '50%', height: 'auto', }}>
-                        {/*  <img
+                          <img
                             style={{ maxWidth: '100%', height: 'auto', }}
                             alt='imagen'
-                            src={values.media}
-                          /> */}
-                        <Typography>{`Has seleccionado ${values.media[0].name}`}</Typography>
+                            src={imagePreview}
+                          />
                       </div>
                     )}
                   </div>
@@ -369,11 +373,13 @@ export default function EditNews({ id = null }) {
                   variant='contained'
                   value="Publicar"
                   color='secondary'
-                  onClick={() => {
-                    setOpen(true)
-                  }}
+                  onClick={handlerSubmit()}
                 />
-                <ButtonLoading variant="contained" color="primary" value="Preview" onClick={()=> {
+                <ButtonLoading
+                  variant="contained"
+                  color="primary"
+                  value="Preview"
+                  onClick={()=> {
                   setPreview({
                     autor: {
                       fullname: auth.fullname,
@@ -382,14 +388,6 @@ export default function EditNews({ id = null }) {
                     title: values.title,
                     content: values.content,
                     media: [],
-                    filters:{
-                        // Rangos específicos del GPS,
-                        gps_area: [],
-                        // Perfiles psicológicos
-                        perfiles: [],
-                        // Roles de usuario
-                        rol: [],
-                    },
                   })
                   setOpenPreview(!openPreview)
                 }} />
@@ -431,42 +429,19 @@ export default function EditNews({ id = null }) {
         <SimpleDialog
           open={openPreview}
           onClose={() => setOpenPreview(!openPreview)}
-          title={(<Typography>Noticias</Typography>)}
-          children={(
-            <Box p={3} display='flex' flexDirection='column' justifyContent='center'>
-              <NewsBox post={preview} />
-              <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <ButtonLoading
-                  loading={loading}
-                  variant='contained'
-                  value="Publicar"
-                  color='secondary'
-                  onClick={() => {
-                    setOpen(true)
-                    setOpenPreview(!openPreview)
-                  }}
-                />
-              </div>
-            </Box>
-          )}
+          children={(<>
+            <NewsBox post={{...preview, media: imagePreview ? [imagePreview] : [] }} />
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <ButtonLoading
+              loading={loading}
+              variant='contained'
+              value="Publicar"
+              color='secondary'
+              onClick={handlerSubmit()}
+            />
+            </div>
+          </>)}
         />
-
-        <SimpleDialog
-          open={open}
-          onClose={() => setOpen(!open)}
-          title={(<Typography>Una vez creada la noticia no será posible editarla</Typography>)}
-          children={(
-            <List>
-              <ListItem autoFocus button key='publicar' onClick={() => handlerSubmit()}>
-                <ListItemText color='primary' primary='Publicar' />
-              </ListItem>
-              <ListItem autoFocus button key='cancelar' onClick={() => setOpen(!open)}>
-                <ListItemText primary='Cancelar' />
-              </ListItem>
-            </List>
-          )}
-        />
-
       </Grid>
     </>
   );

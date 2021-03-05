@@ -1,11 +1,10 @@
 import React from 'react';
 import {
-  Dialog,
-  DialogTitle,
+  Dialog
 } from '@material-ui/core';
 
 export default function SimpleDialog(props) {
-  const { onClose, open, title, children } = props;
+  const { onClose, open, children } = props;
 
   const handleClose = () => {
     onClose();
@@ -16,13 +15,10 @@ export default function SimpleDialog(props) {
       onClose={handleClose}
       aria-labelledby='simple-dialog-title'
       open={open}
+      fullWidth
+      maxWidth='sm'
     >
-      <DialogTitle id='simple-dialog-title' onClose={handleClose}>
-        {title}
-      </DialogTitle>
-      <div>
-        {children}
-      </div>
+      {children}
     </Dialog>
   );
 }
