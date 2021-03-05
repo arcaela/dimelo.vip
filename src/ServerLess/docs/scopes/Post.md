@@ -1,7 +1,4 @@
-# Documentación
-
-Saludos muchachos, este es un documento con las especificaciones y estructura del código de la plataforma.
-
+# [Documentación](../README.md)
 
 ## Post | [ScopeBase](./README.md)
 
