@@ -21,12 +21,12 @@ const auth = {
         const user = await firebase.auth().currentUser;
         const [ , photoURL ] = await Promise.all([
             password && user.updatePassword(password),
-            firebase.storage().ref(`/users/${user.uid}/avatar`).put(picture).then(snap=>snap.ref.getDownloadURL()),
+            picture && firebase.storage().ref(`/users/${user.uid}/avatar`).put(picture).then(snap=>snap.ref.getDownloadURL()),
         ]);
         return scopes.users.doc( user.uid ).update({
             ...props,
-            photoURL,
             uid:user.uid,
+            ...(photoURL && {photoURL}),
         });
     },
     
