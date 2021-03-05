@@ -17,17 +17,20 @@ const auth = {
     },
     signOut:(callback=()=>{})=>firebase.auth().signOut().then(callback),
 
-    async update({ picture, password, ...props }){
-        const user = await firebase.auth().currentUser;
-        const [ , photoURL ] = await Promise.all([
-            password && user.updatePassword(password),
-            firebase.storage().ref(`/users/${user.uid}/avatar`).put(picture).then(snap=>snap.ref.getDownloadURL()),
-        ]);
-        return scopes.users.doc( user.uid ).update({
-            ...props,
-            photoURL,
-            uid:user.uid,
-        });
+    async update({ picture = null, password = null, ...props }){
+        const user = firebase.auth().currentUser;
+        const updateData = { ...props, uid:user.uid }
+
+        if(picture){ 
+            const urlImage = await firebase.storage()
+                                            .ref(`/users/${user.uid}/avatar`)
+                                            .put(picture)
+                                            .then(snap=>snap.ref.getDownloadURL())
+
+            updateData.photoURL = urlImage
+        }
+
+        return scopes.users.doc( user.uid ).update( updateData );
     },
     
 };
