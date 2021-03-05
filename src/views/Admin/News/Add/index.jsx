@@ -173,8 +173,9 @@ export default function EditNews({ id = null }) {
 
     const post = {
         autor: {
-          uid: values.autor.uid ? values.autor.uid : auth.uid,
-          fullname: values.autor.fullname ? values.autor.fullname : auth.fullname,
+          uid: values.autor.uid || auth.uid,
+          fullname: values.autor.fullname || auth.fullname,
+          photoURL: values.autor.photoURL || auth.photoURL,
         },
         title: values.title,
         content: values.content,
