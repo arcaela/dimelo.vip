@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useHistory, Link } from 'react-router-dom';
 
 import {
@@ -21,14 +21,13 @@ import TitlePage from '~/components/TitlePage';
 import AlertToast from '~/components/AlertToast';
 import ButtonLoading from '~/components/ButtonLoading';
 import PersonImage from '~/images/admin/personas.svg'
-import { scopes, api, useAuth } from '~/ServerLess'
+import { api, useAuth } from '~/ServerLess'
 
 import useStyles from './styles';
 
-export default function EditNews({ id = null }) {
+export default function AddNews() {
   const classes = useStyles();
   const auth = useAuth();
-
   const router = useHistory();
 
   const [values, setValues] = useState({
@@ -92,70 +91,6 @@ export default function EditNews({ id = null }) {
        media: files
      }))
   }
-
-  const getPostProfiles = (values) => {
-    const postProfiles = values.length ? values.map((elem) => {
-      switch (elem) {
-        case 'all':
-          return ({ title: 'Todos', value: 'all' });
-        case 'dominancia':
-          return ({ title: 'Independiente Automotivado', value: 'dominancia' });
-        case 'control':
-          return ({ title: 'Analista Pensador', value: 'control' });
-        case 'influencia':
-          return ({ title: 'Promotor Amigable', value: 'influencia' });
-        case 'estabilidad':
-          return ({ title: 'Planificador Perseverante', value: 'estabilidad' });
-        default:
-          return ({ title: 'Todos', value: 'all' });
-      }
-    }) : [];
-    return postProfiles;
-  }
-
-  const getPostRoles = (values) => {
-    const postRoles = values.length ? values.map((elem) => {
-      switch (elem) {
-        case 'all':
-          return ({ title: 'Todos', value: 'all' });
-        case 1:
-          return ({ title: 'Líderes de primer nivel', value: 1 });
-        case 2:
-          return ({ title: 'Líderes de celula', value: 2 });
-        case 3:
-          return ({ title: 'Usuario', value: 3 });
-        default:
-          return ({ title: 'Todos', value: 'all' });
-      }
-    }) : [];
-    return postRoles;
-  }
-
-  const getPostById = async () => {
-      if (!id) return;
-      try{
-        const snap = await scopes.posts.doc(id).get();
-        if(snap.data()){
-          const postData = snap.data();
-          setValues({
-            autor: postData.autor,
-            title: postData.title,
-            profiles: getPostProfiles(postData.filters.perfiles),
-            roles: getPostRoles(postData.filters.rol),
-            media: postData.media,
-            content: postData.content,
-          })
-        }
-      }catch (error){
-        console.log(error);
-      }
-    }
-
-  useEffect(() => {
-    if(!values.autor.uid){
-      getPostById()
-    }
-  })
 
   const verifyValues = () => {
     for (const value in values) {
@@ -238,13 +173,13 @@ export default function EditNews({ id = null }) {
         />
       )}
 
-      <TitlePage title={!id ? 'Agregar noticia' : 'Editar noticia'} />
+      <TitlePage title='Agregar noticia' />
 
       {/* Breadcrumbs and Go back */}
       <Box display="flex" justifyContent="space-between" style={{ marginBottom: '20px' }}>
         <Breadcrumbs separator=">">
           <Typography>Noticias</Typography>
-          <Typography color='textPrimary'>{!id ? 'Agregar noticia' : 'Editar noticia'}</Typography>
+          <Typography color='textPrimary'>Agregar noticia</Typography>
         </Breadcrumbs>
         <Typography color='textPrimary' className={classes.goBack}> <Link to="/admin/news/">Volver</Link> </Typography>
       </Box>
@@ -373,7 +308,7 @@ export default function EditNews({ id = null }) {
                   variant='contained'
                   value="Publicar"
                   color='secondary'
-                  onClick={handlerSubmit()}
+                  onClick={() => handlerSubmit()}
                 />
                 <ButtonLoading
                   variant="contained"
@@ -437,7 +372,7 @@ export default function EditNews({ id = null }) {
               variant='contained'
               value="Publicar"
               color='secondary'
-              onClick={handlerSubmit()}
+              onClick={() => handlerSubmit()}
             />
             </div>
           </>)}
