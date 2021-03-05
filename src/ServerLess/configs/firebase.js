@@ -2,7 +2,7 @@ import { firebase, FirebaseLoad } from '@arcaela/aurora/firebase'
 import 'firebase/auth'
 import 'firebase/firestore'
 FirebaseLoad({
-    'BETA_APP':{
+    '[DEFAULT]':{
       apiKey: "AIzaSyCmHdID5CITtQitGXu-NwK1OWVCouHM3oo",
       authDomain: "dimelo-vip-col.firebaseapp.com",
       databaseURL: "https://dimelo-vip-col-default-rtdb.firebaseio.com",
