@@ -13,7 +13,7 @@ const posts = {
     async delete({ id }){ return scopes.posts.doc(id).delete(); },
     async put({user=null, ...post}){
         if(!user || !user.uid) return error("Se requiere un usuario.");
-        post.autor = {uid:user.uid,fullname:user.fullname};
+        post.autor = {uid:user.uid,fullname:user.fullname,photoURL:user.photoURL,};
         const media = [];
         const doc = scopes.posts.doc();
         const folder = firebase.storage().ref(`posts/${doc.id}/media/`);
