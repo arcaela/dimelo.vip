@@ -3,14 +3,9 @@ import { Link } from 'react-router-dom';
 import useStyles from '../styles/SignUp';
 import Submit from '../components/Submit';
 import GoogleAddress from '../components/GoogleAddress';
+import { KeyboardDatePicker } from '@material-ui/pickers';
 import DialogTermsConditions from '../components/DialogTermsConditions';
 import { Button, CircularProgress, FormControl, FormHelperText, Grid, Toolbar, Typography, } from '@material-ui/core';
-
-
-
-// import esLocale from "date-fns/locale/es";
-// import DateFnsUtils from '@date-io/date-fns';
-import { KeyboardDatePicker } from '@material-ui/pickers';
 
 
 const ucfirst=(str)=>str.toLowerCase().replace(/^([a-z\u00E0-\u00FC])|\s+([a-z\u00E0-\u00FC])/g,($1)=>$1.toUpperCase());
