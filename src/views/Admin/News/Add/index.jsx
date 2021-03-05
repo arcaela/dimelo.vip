@@ -38,6 +38,7 @@ export default function EditNews({ id = null }) {
     autor: {
       uid: '',
       fullname: '',
+      photoURL: '',
     },
     title: '',
     profiles: '',
@@ -170,7 +171,11 @@ export default function EditNews({ id = null }) {
     const verify = verifyValues();
 
     const post = {
-        user: auth,
+        user: {
+          uid: values.autor.uid || auth.uid,
+          fullname: values.autor.fullname || auth.fullname,
+          photoURL: values.autor.photoURL || auth.photoURL,
+        },
         title: values.title,
         content: values.content,
         media: values.media,
@@ -191,6 +196,7 @@ export default function EditNews({ id = null }) {
           setLoading(false);
           setMessage('Publicada');
           setSuccess(!success);
+          setOpen(false);
         })
         .catch(e=>alert(e.message))
         .finally(()=>{
@@ -309,7 +315,6 @@ export default function EditNews({ id = null }) {
                       multiple
                       type="file"
                       onChange={({target:{ files }})=> {
-                        console.log('files: ', files);
                         setValues(prev=>({
                           ...prev,
                           media: files
