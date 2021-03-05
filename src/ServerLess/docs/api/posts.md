@@ -9,7 +9,7 @@
 ```javascript
     // @request
     const toCreate = {
-        user: Object | User Object,
+        user:UserObject,
         title: String,
         content: String,
         media: [
@@ -30,7 +30,7 @@
     // @request
     const params = {
         id: Number | Post ID,
-        user: Object | User Object,
+        user:UserObject,
     }
 ```
 <div style="margin-top:50px;" />
@@ -40,10 +40,8 @@
 ```javascript
     // @request
     const params = {
-        posts: [
-            (...) // Ultimas publicaciones listadas
-        ],
-        user: Object | User Object,
+        after: Object || null, // Ultima publicación cargada
+        user:UserObject,
     }
 ```
 <div style="margin-top:50px;" />
