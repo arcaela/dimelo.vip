@@ -3,7 +3,7 @@
 Saludos muchachos, este es un documento con las especificaciones y estructura del código de la plataforma.
 
 
-## Post | [ScopeBase](./)
+## Post | [ScopeBase](./README.md)
 
 Las publicaciones se pueden buscar en su colección referente, la consulta la haces directamente a un **scope**.
 
@@ -38,7 +38,7 @@ Las publicaciones se pueden buscar en su colección referente, la consulta la ha
 ```
 
 
-## Helpers | [ScopeBase](./)
+## Helpers | [ScopeBase](./README.md)
 Es importante aclarar que los helpers deben estar precedidos por un **$** lo cual indica que es un _helper_, no utilizar esa condición en algún campo que refiera a una propiedad de información del usuario.
 Estos helpers ya están incorporados en el objeto obtenido.
-Su documentación la puedes leer [aquí](./)
+Su documentación la puedes leer [aquí](./README.md)

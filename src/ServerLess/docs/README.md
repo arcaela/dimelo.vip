@@ -1,13 +1,12 @@
 # ServerLess
 
-En este documento les explicaré un poco de la estructura del Back - Front(ServerLess)de la plataforma.
+En este documento les explicaré un poco de la estructura del Back - Front (ServerLess) de la plataforma.
 
 ## Importación
 Para acceder a sus funciones o propiedas será necesario importarlas de manera genérica o específica:
 ```javascript
     import { useAuth } from '~/ServerLess'
     import * as ServerLess from '~/ServerLess'
-    import ServerLess, { useAuth } from '~/ServerLess'
 ```
 
 ## Helper | [api](./api/README.md)
@@ -100,20 +99,9 @@ teniendo en cuenta que se resuelven en promesas.
     }
 ```
 
-
-## [ DEPRECATED ] | reference
-Con esta función te ahorras tener que hacer una petición específica a **firestore** ya que solo debes pasar la ruta específica de la colección, documento e incluso del campo.
-```javascript
-const users = await reference('users').get();
-const user = await reference(`users/${uid}`).get();
-const name = await reference(`users/${uid}.fullname`).get();
-```
-
-
 ## Throw | error
 Función destinada a causar throws sin llamar instancias de Error para ello.
 ```javascript
-
     async function Buscar(){
         const user = await Promise.resolve({});
         // Antes

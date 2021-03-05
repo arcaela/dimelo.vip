@@ -4,11 +4,16 @@ import AuroraJS from '@arcaela/aurora';
 import './config/themes'
 import './config/routes'
 import './config/firebase'
-import { MuiPickersUtilsProvider } from '@material-ui/pickers';
-import DateFnsUtils from '@date-io/date-fns';
+
+import esLocale from "date-fns/locale/es";
+import DateFnsUtils from "@date-io/date-fns";
+import { MuiPickersUtilsProvider } from "@material-ui/pickers";
+
+import '~/ServerLess'
+
 
 ReactDOM.render(<React.StrictMode>
-    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+    <MuiPickersUtilsProvider utils={DateFnsUtils} locale={esLocale}>
         <AuroraJS />
     </MuiPickersUtilsProvider>
 </React.StrictMode>, document.getElementById('app'));

@@ -1,7 +1,7 @@
 import React from 'react'
 import { scopes, firebase } from '~/ServerLess';
 
-export const $store = {
+const $store = {
     user:null,
     firestore:false,
     unsubscribed:false,

@@ -5,7 +5,8 @@ import {
     Popover,
     Card,
     CardContent,
-    makeStyles
+    makeStyles,
+    Hidden
 } from '@material-ui/core';
 import Skeleton from '@material-ui/lab/Skeleton';
 
@@ -32,6 +33,10 @@ const styles = makeStyles((theme)=>({
       color:'white',
       '&:last-child':{ marginLeft:10, },
     },
+  },
+  large: {
+    width: '120px',
+    height: '120px',
   }
 }))
 
@@ -47,18 +52,28 @@ export default function ButtonProfile({ auth }){
   return (
     <div className={classes.root}> 
       <Button aria-describedby={id} onClick={handleClick} aria-haspopup='true'>
-        <span>
-          { !auth ? <Skeleton width={120} height={40} variant="text" /> : auth?.fullname }
-        </span>&nbsp;
-        {!auth ? <Skeleton variant="circle" width={40} height={40} /> : <Avatar children={auth?.fullname[0]} />}
+        <Hidden smDown>
+          <span>
+            { !auth ? <Skeleton width={120} height={40} variant="text" /> : auth?.fullname }
+          </span>&nbsp;
+        </Hidden>
+
+        {!auth ? <Skeleton variant="circle" width={40} height={40} /> : auth?.photoURL ? 
+          <><Avatar className={classes.large} alt={auth?.email} src={auth?.photoURL} /></> 
+          :
+          <><Avatar className={classes.large} children={auth?.fullname[0]} /></>
+        }
       </Button>
       {auth && <Popover id={id} open={open} anchorEl={anchorEl} onClose={handleClose}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'left', }}
         transformOrigin={{ vertical: 'top', horizontal: 'right', }} >
           <Card className={ classes.card }>
             <CardContent className={classes.cardContent}>
-              <Avatar className={ classes.avatar } children={auth?.fullname[0]} />
-              <h3 className={ classes.tile }>{ auth.name }&nbsp;{ auth.lastname }</h3>
+              {auth?.photoURL ? 
+              <><Avatar className={classes.large} alt={auth?.email} src={auth?.photoURL} /></> 
+              :
+              <><Avatar children={auth?.fullname[0]} /></>}
+              <h3 className={ classes.tile }>{ auth?.fullname }</h3>
               <h4 className={ classes.subtitle }>{ auth?.email }</h4>
               <div className={ classes.buttons } >
                 <Button component={Link}

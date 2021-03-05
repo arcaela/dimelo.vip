@@ -85,7 +85,8 @@ export default function NewCard({ users }) {
       string = ''
     },
     fullname = '',
-    social = null
+    social = null,
+    photoURL = null
   } = users;
 
   return (
@@ -95,10 +96,17 @@ export default function NewCard({ users }) {
     }}>
       <Grid container spacing={1}>
         <Grid className={classes.avatarContainer} item xs={2}>
-          <Avatar
+        { photoURL ?
+            <Avatar
             className={classes.large}
-            children={fullname ? fullname[0] : ''}
-          />
+            src={ photoURL }
+            /> 
+            : 
+            <Avatar
+              className={classes.large}
+              children={fullname ? fullname[0] : ''}
+              />
+          }
         </Grid>
         <Grid item xs={10}>
           <CardHeader

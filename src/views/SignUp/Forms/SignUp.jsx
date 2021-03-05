@@ -2,13 +2,15 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import useStyles from '../styles/SignUp';
 import Submit from '../components/Submit';
-
-import esLocale from "date-fns/locale/es";
-import DateFnsUtils from '@date-io/date-fns';
 import GoogleAddress from '../components/GoogleAddress';
 import DialogTermsConditions from '../components/DialogTermsConditions';
 import { Button, CircularProgress, FormControl, FormHelperText, Grid, Toolbar, Typography, } from '@material-ui/core';
-import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
+
+
+
+// import esLocale from "date-fns/locale/es";
+// import DateFnsUtils from '@date-io/date-fns';
+import { KeyboardDatePicker } from '@material-ui/pickers';
 
 
 const ucfirst=(str)=>str.toLowerCase().replace(/^([a-z\u00E0-\u00FC])|\s+([a-z\u00E0-\u00FC])/g,($1)=>$1.toUpperCase());
@@ -23,8 +25,10 @@ export default function SignUp({ useForm }){
   } = useForm;
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
-  const [date, _setDate] = React.useState('01-01-2002');
-  const setDate = async date=>{
+
+  const [selectedDate, _setDate] = React.useState( inputs.birthday.date || new Date('01/01/2003') );
+  const handleDateChange = async date=>{
+    inputs.birthday.date=date;
     inputs.birthday.value=date.toLocaleDateString('es-ES');
     await _setDate(date)
   };
@@ -41,22 +45,25 @@ export default function SignUp({ useForm }){
             <InputField bind="cedula" label="Cédula" type="number" />
             <Grid container justify="space-between" spacing={1}>
               <Grid item xs={12} sm={4}>
-                <FormControl error={!!inputs.birthday.error}>
+                <FormControl error={!!inputs.birthday.error} variant="outlined">
                   <FormHelperText>{ inputs.birthday.error || "Fecha de nacimiento" }</FormHelperText>
-                  <MuiPickersUtilsProvider utils={DateFnsUtils} locale={esLocale}>
-                    <DatePicker
-                      openTo="year"
-                      disableFuture
-                      onChange={setDate}
-                      format="dd/MM/yyyy"
-                      inputVariant="outlined"
-                      value={ new Date( date ) }
-                      error={!!inputs.birthday.error}
-                      minDate={ new Date('01-01-1930') }
-                      maxDate={ new Date('01-01-2005') }
-                      views={["year", "month", "date"]}
-                    />
-                  </MuiPickersUtilsProvider>
+                  <KeyboardDatePicker
+                    required
+                    openTo="year"
+                    disableFuture
+                    format="dd/MM/yyyy"
+                    value={selectedDate}
+                    inputVariant="outlined"
+                    placeholder="10/10/2018"
+                    views={['year','month', 'date']}
+                    minDate={new Date('01/01/1950')}
+                    maxDate={new Date('01/01/2005')}
+                    invalidDateMessage="Fecha incorrecta"
+                    KeyboardButtonProps={{color:'inherit'}}
+                    onError={err=>inputs.birthday.error=err}
+                    onChange={date => handleDateChange(date)}
+                    onAccept={()=>inputs.birthday.error=null}
+                  />
                 </FormControl>
               </Grid>
               <Grid item xs={12} sm={8}>

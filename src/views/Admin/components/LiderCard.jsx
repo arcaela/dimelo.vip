@@ -17,8 +17,8 @@ import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 
 import LiderModal from './LiderModal';
 
-import usePatron from '~/hooks/usePatron';
 import { scopes } from '~/ServerLess';
+import usePatron from '~/hooks/usePatron';
 import SocialIcon from '~/components/SocialIcon';
 
 const styles = makeStyles((theme) => ({
@@ -108,8 +108,10 @@ export default function LiderCard({ leader }) {
     },
     fullname = '',
     uid = null,
-    social = null
+    social = null,
+    photoURL = null
   } = leader;
+
 
   useEffect(() => {
     const getLeaders = async () => {
@@ -132,17 +134,24 @@ export default function LiderCard({ leader }) {
     }}>
       <Grid container spacing={1}>
         <Grid className={classes.avatarContainer} item xs={2}>
-          <Avatar
+          { photoURL ?
+            <Avatar
             className={classes.large}
-            children={fullname ? fullname[0] : ''}
-          />
+            src={ photoURL }
+            /> 
+            : 
+            <Avatar
+              className={classes.large}
+              children={fullname ? fullname[0] : ''}
+              />
+          }
         </Grid>
         <Grid item xs={10}>
           <CardHeader
             className={classes.header}
             title={fullname}
             action={
-              leader.rol === 0 ?
+              false ?
               <>
                 <IconButton>
                   <img src='/images/edit.svg' alt='' />

@@ -33,4 +33,11 @@ const posted = api('posts/create', post : Object)
     .then( post => Object)
 
 ```
-Estas rutas son un ejemplo de integración, para conocer las rutas reales se debe revisar el documento de rutas en el directorio del servidor.
+
+
+<div style="margin-top:50px;" />
+
+# <summary>Rutas disponibles</summary>
+
+- **[auth/](./auth.md)**
+- **[posts/](./posts.md)**

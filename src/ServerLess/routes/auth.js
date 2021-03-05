@@ -1,5 +1,6 @@
-import { error, firebase } from '~/ServerLess';
-import scopes from '~/ServerLess/scopes';
+import { scopes, error, firebase } from '~/ServerLess';
+
+
 
 const auth = {
     async signUp({ email, password, ...props }){

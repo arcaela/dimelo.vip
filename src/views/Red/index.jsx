@@ -1,14 +1,12 @@
 import Layout from '~/views/layout';
 import TitlePage from '~/components/TitlePage';
 import { makeStyles } from '@material-ui/core/styles';
-
 import { useEffect, useState, useRef } from 'react';
 import Grid from '@material-ui/core/Grid';
 import SelectSearch from '~/components/SelectSearch';
-import useAuth from '~/ServerLess/hooks/useAuth';
 import Loading from '~/components/Loading';
 import NewCard from '~/components/NewCard';
-import { scopes } from '~/ServerLess';
+import { scopes, useAuth } from '~/ServerLess';
 
 const gridStyles = makeStyles((theme) => ({
   root: {

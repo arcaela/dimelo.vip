@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import {
   Box,
   Dialog,
@@ -10,9 +11,9 @@ import {
 } from '@material-ui/core';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 
-import newsFireBase from './NewstFireBase.jsx';
 import { TableContext } from './TableNews';
-import { useHistory } from 'react-router-dom';
+import newsFireBase from './NewstFireBase.jsx';
+import { scopes, api, useAuth } from '~/ServerLess'
 
 const uStyle = makeStyles((theme) => ({
   buttons: {
@@ -35,11 +36,17 @@ function SimpleDialog(props) {
   const handlerDelete = async (id) => {
     setBorrando(true);
     try {
-      await newsFireBase.deleteNews(id);
-      setBorrando(false);
-      handleClose();
+      if (id) {
+        await api('posts/delete', { id })
+        .then((post)=>{
+          setBorrando(false);
+          handleClose();
+        })
+        .catch(e=>alert(e.message))
+      }
       const newData = data.filter((data) => data.id !== id);
       setData(newData);
+
     } catch (error) {
       console.log(error);
     }
@@ -89,12 +96,12 @@ export default function ActionsButton({ row }) {
         <div className={classes.buttons}>
           <VisibilityIcon />
         </div>
-        <div
+        {/*<div
           onClick={() => router.push('/admin/news/edit/' + row)}
           className={classes.buttons}
         >
           <img src='/images/edit.svg' alt='editar' />
-        </div>
+        </div>*/}
         <div onClick={() => setOpen(!open)} className={classes.buttons}>
           <img src='/images/trash.svg' alt='borrar' />
         </div>
