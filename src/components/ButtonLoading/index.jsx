@@ -7,7 +7,7 @@ const useStyles = makeStyles((theme) => ({
     position: 'relative',
   },
   button: {
-    background: theme.palette.secondary.main,
+    //background: theme.palette.secondary.main,
     color: '#fff',
   },
   buttonProgress: {
@@ -26,6 +26,7 @@ export default function ButtonLoading({
   variant,
   color,
   type,
+  onClick,
 }) {
   const classes = useStyles();
 
@@ -36,6 +37,7 @@ export default function ButtonLoading({
         variant={variant}
         color={color}
         className={classes.button}
+        onClick={() => onClick()}
       >
         {value}
       </Button>

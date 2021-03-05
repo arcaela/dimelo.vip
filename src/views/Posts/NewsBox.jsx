@@ -43,6 +43,9 @@ const useStyles = makeStyles(theme=>({
 
 
 export default function NewsBox({ post }){
+    if(post){
+      console.log('post: ', post);
+    }
     const classes = useStyles();
     const [ wrapContent, __] = React.useState(post.content.length>200);
     const unWrapContent=()=>__(false);
@@ -50,7 +53,7 @@ export default function NewsBox({ post }){
     return post && (<Card className={classes.root}>
         <CardHeader
             title={post.autor.fullname}
-            subheader={ timeAgo.format( post.timestamp.toDate() ) }
+            subheader={ post.timestamp ? timeAgo.format( post.timestamp.toDate() ) : 'Hace unos segundos' }
             avatar={<Avatar alt={post.autor?.name} src={ post.autor.photoURL || post.autor.fullname[0] } />}
         />
         <CardContent className={classes.content}>
