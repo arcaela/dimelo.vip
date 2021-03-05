@@ -1,8 +1,7 @@
 # [Documentación](./README.md)
 
 ## Accounts
-La ruta **auth/** está orientada a la consulta y manipulación de datos de los usuarios.
-
+> La ruta **auth/** está orientada a la consulta y manipulación de datos de los usuarios.
 <div style="margin-top:50px;" />
 
 ## SignUp | Registrarse

@@ -1,8 +1,7 @@
 # [Documentación](./README.md)
 
 ## Publicaciones
-La ruta **posts/** está orientada a la consulta y manipulación de datos de las publicaciones.
-
+> La ruta **posts/** está orientada a la consulta y manipulación de datos de las publicaciones.
 <div style="margin-top:50px;" />
 
 ## PUT | Crear

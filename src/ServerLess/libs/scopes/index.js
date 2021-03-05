@@ -4,6 +4,8 @@ import PostClass from './Posts';
 
 /* Scopes */
 const scopes = {
+    $store:{},
+    
     users:firebase.firestore().collection('users').withConverter({
         fromFirestore:(snap,options)=>new UserClass({snap, options}),
         toFirestore(_class) { return (_class instanceof UserClass)?_class.toJSON():_class; },

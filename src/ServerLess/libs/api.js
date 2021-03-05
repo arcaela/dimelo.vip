@@ -17,6 +17,7 @@ const routes = (function reduce(props, prefix=''){
 })([
     require('~/ServerLess/routes/auth'),
     require('~/ServerLess/routes/posts'),
+    require('~/ServerLess/routes/manage'),
 ])
 
 const values = Object.values(routes);
