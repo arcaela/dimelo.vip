@@ -10,7 +10,7 @@ export const manage = {
             if(!user || user.rol>0) error("Se requiere ser administrador.");
             let query = scopes.users.where('rol', 'in', hasRole);
             if(after) query=query.startAfter(after.$doc);
-            return scopes.users.limit(limit).get().then(snap=>snap.docs.map(e=>e.data()));
+            return query.limit(limit).get().then(snap=>snap.docs.map(e=>e.data()));
         },
     },
 
