@@ -173,8 +173,9 @@ export default function EditNews({ id = null }) {
 
     const post = {
         autor: {
-          uid: values.autor.uid ? values.autor.uid : auth.uid,
-          fullname: values.autor.fullname ? values.autor.fullname : auth.fullname,
+          uid: values.autor.uid || auth.uid,
+          fullname: values.autor.fullname || auth.fullname,
+          photoURL: values.autor.photoURL || auth.photoURL,
         },
         title: values.title,
         content: values.content,
@@ -188,15 +189,6 @@ export default function EditNews({ id = null }) {
             rol: values.roles.length ? values.roles.map(elem => elem.value) : [],
         },
     }
-
-    const updatePost = values.media !== values.image ? ({
-      ...post
-    }) : ({
-      autor: post.autor,
-      title: post.title,
-      content: post.content,
-      filters:post.filters,
-    })
 
     try {
       if (verify) {
@@ -323,7 +315,6 @@ export default function EditNews({ id = null }) {
                         multiple
                         type="file"
                         onChange={({target:{ files }})=> {
-                          console.log('media: ', files);
                           setValues(prev=>({
                             ...prev,
                             media: files

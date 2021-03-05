@@ -81,6 +81,10 @@ const useStyles = makeStyles((theme) => ({
     flexDirection:'column',
     padding: theme.spacing(5),
     paddingTop:theme.mixins.toolbar.minHeight+30,
+    [theme.breakpoints.down('sm')]:{
+      paddingLeft: theme.spacing(1),
+      paddingRight: theme.spacing(1),
+    },
   },
 }));
 

@@ -28,7 +28,7 @@
   "scripts": {
     "build": "craco build",
     "start-dev": "craco start",
-    "start-prod": "npm run build && serve -s build",
+    "start-prod": "serve -s build",
     "hosting-deploy": "craco build && firebase deploy --only hosting",
     "update-arcaela": "npm update @arcaela/aurora"
   },

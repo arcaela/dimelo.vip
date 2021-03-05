@@ -3,16 +3,17 @@ import { scopes, firebase } from '~/ServerLess';
 
 
 const posts = {
-    async recents({ user, posts=[] }){
+    async recents({ user, after=null }){
         if(!user) return [];
-        let query = scopes.posts.orderBy('id', 'desc');
-        if(posts.length) query = query.startAfter( posts.slice(-1)[0].$doc.id );
+        after = after && ((Array.isArray(after)?after.slice(-1)[0]:after)?.$doc);
+        let query = scopes.posts.orderBy('timestamp');
+        if(after) query = query.startAfter(after);
         return (await query.limit(2).get()).docs.map(e=>e.data());
     },
-
-    async put({ id=null, ...post }){
+    async delete({ id }){ return scopes.posts.doc(id).delete(); },
+    async put(post){
         const media = [];
-        const doc = id?scopes.posts.doc( id ):scopes.posts.doc();
+        const doc = scopes.posts.doc();
         const folder = firebase.storage().ref(`posts/${doc.id}/media/`);
         for(const picture of post.media)
             media.push( await (await folder.child(`/${ Date.now() }`).put(picture)).ref.getDownloadURL())

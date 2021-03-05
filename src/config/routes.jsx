@@ -7,7 +7,7 @@ require('~/views/layout').layout.routes.push(
     {
         path:'/posts',
         icon:Announcement,
-        label:'Noticias'
+        label:'Noticias',
     },
     {
         path:'/messages',
@@ -45,6 +45,7 @@ Route('/signin', require('~/views/SignIn').default);
 Route('/signup/:code(.*)?', require('~/views/SignUp').default);
 
 /* Pages */
+// Route('/posts').redirect('/test')
 Route('/posts', require('~/views/Posts').default);
 Route('/red', require('~/views/Red').default);
 Route('/test', require('~/views/Test').default);

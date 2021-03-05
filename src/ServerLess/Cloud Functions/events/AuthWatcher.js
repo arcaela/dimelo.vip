@@ -2,7 +2,6 @@ const { functions, admin } = require('../config');
 const Users = admin.firestore().collection('users');
 const Posts = admin.firestore().collection('posts');
 
-
 exports.onDeleteAccounts = functions.auth.user().onDelete(async snap=>{
   const uid = snap.uid;
   return await Promise.all([

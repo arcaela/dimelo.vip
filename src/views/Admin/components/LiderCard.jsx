@@ -17,8 +17,8 @@ import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 
 import LiderModal from './LiderModal';
 
-import usePatron from '~/hooks/usePatron';
 import { scopes } from '~/ServerLess';
+import usePatron from '~/hooks/usePatron';
 import SocialIcon from '~/components/SocialIcon';
 
 const styles = makeStyles((theme) => ({

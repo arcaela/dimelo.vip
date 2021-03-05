@@ -1,20 +1,19 @@
 # ServerLess
 
-En este documento les explicaré un poco de la estructura del Back - Front(ServerLess)de la plataforma.
+En este documento les explicaré un poco de la estructura del Back - Front (ServerLess) de la plataforma.
 
 ## Importación
 Para acceder a sus funciones o propiedas será necesario importarlas de manera genérica o específica:
 ```javascript
     import { useAuth } from '~/ServerLess'
     import * as ServerLess from '~/ServerLess'
-    import ServerLess, { useAuth } from '~/ServerLess'
 ```
 
-## ScopeBase
-Esta clase está mejor documentada en su propio [markdown](./scopes/README.md) dentro de este [directorio](./scopes/).
+## Helper | [api](./api/README.md)
+Esta función está mejor documentada en su propio [markdown](./api/README.md).
 
-## Helper | api
-Esta función está mejor documentada en su propio [markdown](./Api.md) dentro de este [directorio](./).
+## Class | [ScopeBase](./scopes/README.md)
+Esta clase está mejor documentada en su propio [markdown](./scopes/README.md).
 
 ## Hook | useAuth
 **useAuth** es un hook construído para conocer el [User](./scopes/User.md) autenticado actualmente,
@@ -77,10 +76,12 @@ allí vamos guardando de manera temporal la información que enviarémos luego a
         const { inputs } = useInputs();
         const enviar = ()=>fetch('/',{
             email:inputs.email,
+            email:inputs.password,
         });
         
         return (<form onsubmit={ enviar }>
             <input onkeyup={ inputs.email=this.value } />
+            <input onkeyup={ inputs('password', this.value) } />
             <button type="submit" />
         </form>);
     }
@@ -93,25 +94,14 @@ teniendo en cuenta que se resuelven en promesas.
 ```javascript
     async function BuscarCiudad(ciudad){
         return Google.ready(google=>{
-            return google.maps.places.getByPlaceId(ciudad);
+            return google.maps[...]
         });
     }
 ```
 
-
-## Helper | reference
-Con esta función te ahorras tener que hacer una petición específica a **firestore** ya que solo debes pasar la ruta específica de la colección, documento e incluso del campo.
-```javascript
-const users = await reference('users').get();
-const user = await reference(`users/${uid}`).get();
-const name = await reference(`users/${uid}.fullname`).get();
-```
-
-
 ## Throw | error
 Función destinada a causar throws sin llamar instancias de Error para ello.
 ```javascript
-
     async function Buscar(){
         const user = await Promise.resolve({});
         // Antes

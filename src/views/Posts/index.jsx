@@ -1,43 +1,45 @@
 import React from "react";
 import NewsBox from "./NewsBox";
 import Layout from "~/views/layout";
-import api from "~/ServerLess/utils/api";
-import useAuth from "~/ServerLess/hooks/useAuth";
-import { CircularProgress, Container, makeStyles } from "@material-ui/core";
+import WelcomeCard from "./WelcomeCard";
+import { api, useAuth } from "~/ServerLess";
+import { Button, CircularProgress, Container } from "@material-ui/core";
 
 
-const useStyles = makeStyles(()=>({
-    loading:{
-        padding:'10px 0',
-        textAlign:'center',
-    },
-}));
-const onproccess = {current:false};
+
+const $posts = [];
 export default function NewsPage(){
     const user = useAuth();
-    const classes = useStyles();
     const wall = React.useRef(null);
-    const [ posts, setPosts ] = React.useState([]);
-    const [ loading, setLoading ] = React.useState(false);
+    const [ posts, setPosts ] = React.useState($posts);
+    const [ loading, setLoading ] = React.useState(null);
     const getPosts = React.useCallback(()=>{
-        if(!loading) setLoading(onproccess.current=true);
-        api('posts/recents', {user,posts})
-            .then(docs=>setPosts(posts.concat(docs)))
-            .finally(()=>setLoading(onproccess.current=false));
-    }, [ loading, user, posts ]);
-    const AddListener = React.useCallback(()=>{
-        if(!onproccess.current && wall.current.getBoundingClientRect().bottom < 640)
-            getPosts();
-    }, [ wall, getPosts ])
+        if(!loading) setLoading(true);
+        api('posts/recents', { user, after:posts })
+            .then(docs=>{
+                $posts.push(...docs);
+                setPosts($posts);
+            })
+            .finally(()=>setLoading(false));
+    }, [ loading, user, posts, setPosts ]);
+
     React.useEffect(()=>{
-        if(user && !posts.length) getPosts();
-        window.addEventListener('scroll', AddListener);
-        return ()=> window.removeEventListener('scroll', AddListener);
-    });
+        if(loading===null) 
+            getPosts();
+    }, [ loading, getPosts ]);
+
     return (<Layout middleware={['auth']}>
         <Container ref={wall} maxWidth="sm">
+            { !posts.length && <WelcomeCard /> }
             { posts.map((post)=><NewsBox post={post} key={post.id} />) }
-            { loading && <div className={ classes.loading } children={<CircularProgress size={25} />} /> }
+            <Button
+                fullWidth
+                color="primary"
+                variant="outlined"
+                disabled={ loading }
+                style={{marginTop:10}}
+                onClick={()=>getPosts()}
+                children={ loading?<CircularProgress size={20} />:'Cargar más' } />
         </Container>
     </Layout>);
 }

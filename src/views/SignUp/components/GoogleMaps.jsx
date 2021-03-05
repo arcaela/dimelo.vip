@@ -1,6 +1,6 @@
 import React from 'react'
 import CircularProgress from '~/components/CircularProgress';
-import Google from '~/ServerLess/utils/Google';
+import { Google } from '~/ServerLess';
 
 
 

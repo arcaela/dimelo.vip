@@ -1,12 +1,10 @@
 import React from 'react'
-import PhotoGrid from 'react-facebook-photo-grid'
-
 import {
     Avatar,
     Card,
-    CardActions,
     CardContent,
     CardHeader,
+    CardMedia,
     makeStyles,
     Typography,
 } from '@material-ui/core';
@@ -37,6 +35,10 @@ const useStyles = makeStyles(theme=>({
             margin:'10px 0',
         },
     },
+    media: {
+        height: 0,
+        paddingTop: '56.25%', // 16:9
+    },
 }));
 
 
@@ -44,12 +46,12 @@ export default function NewsBox({ post }){
     const classes = useStyles();
     const [ wrapContent, __] = React.useState(post.content.length>200);
     const unWrapContent=()=>__(false);
-    const content = post?.content?.substring(0, ...(wrapContent?[200]:[]));
+    const content = post.content.substring(0, ...(wrapContent?[200]:[]));
     return post && (<Card className={classes.root}>
         <CardHeader
-            avatar={<Avatar alt={post.autor?.name} src={post.autor?.photoURL || post.autor?.fullname[0]} />}
-            title={post.autor?.fullname}
-            subheader={timeAgo.format( post.timestamp?.toDate() || new Date() )}
+            title={post.autor.fullname}
+            subheader={ timeAgo.format( post.timestamp.toDate() ) }
+            avatar={<Avatar alt={post.autor?.name} src={ post.autor.photoURL || post.autor.fullname[0] } />}
         />
         <CardContent className={classes.content}>
             <Typography variant="body1" children={post.title} gutterBottom />
@@ -57,8 +59,7 @@ export default function NewsBox({ post }){
                 {content}
                 {wrapContent && <span href="#" onClick={unWrapContent} children="... ver más." />}
             </Typography>
-            <PhotoGrid images={ post.media }></PhotoGrid>
         </CardContent>
-        <CardActions className={classes.actions}> </CardActions>
+        { post.media?.length && <CardMedia className={classes.media} image={ post.media[0] } title={post.title} /> }
     </Card>);
 };

@@ -1,7 +1,4 @@
-# [Documentación](./README.md)
-
-Saludos muchachos, este es un documento con las especificaciones y estructura del código de la plataforma.
-
+# [Documentación](../README.md)
 
 ## Api | Function
 La función de api es la unión de distintas funciones que interpretan rutas locales, estas funciones pueden ser modificadas en el archivo de rutas.
@@ -33,4 +30,11 @@ const posted = api('posts/create', post : Object)
     .then( post => Object)
 
 ```
-Estas rutas son un ejemplo de integración, para conocer las rutas reales se debe revisar el documento de rutas en el directorio del servidor.
+
+
+<div style="margin-top:50px;" />
+
+# <summary>Rutas disponibles</summary>
+
+- **[auth/](./auth.md)**
+- **[posts/](./posts.md)**
