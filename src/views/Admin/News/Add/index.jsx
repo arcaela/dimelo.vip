@@ -100,6 +100,7 @@ export default function AddNews() {
           [value]: 'Este Campo No Puede Estar Vacio',
         }));
         setLoading(false);
+        setOpenPreview(false);
         return (false);
       }
     }
