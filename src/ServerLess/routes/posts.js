@@ -1,4 +1,4 @@
-import { scopes, firebase } from '~/ServerLess';
+import { error, scopes, firebase } from '~/ServerLess';
 
 
 
@@ -11,7 +11,9 @@ const posts = {
         return (await query.limit(2).get()).docs.map(e=>e.data());
     },
     async delete({ id }){ return scopes.posts.doc(id).delete(); },
-    async put(post){
+    async put({user=null, ...post}){
+        if(!user || !user.uid) return error("Se requiere un usuario.");
+        post.autor = {uid:user.uid,fullname:user.fullname};
         const media = [];
         const doc = scopes.posts.doc();
         const folder = firebase.storage().ref(`posts/${doc.id}/media/`);
