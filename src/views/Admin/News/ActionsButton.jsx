@@ -1,5 +1,4 @@
 import React, { useContext, useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import {
   Box,
   Dialog,
@@ -12,8 +11,7 @@ import {
 import VisibilityIcon from '@material-ui/icons/Visibility';
 
 import { TableContext } from './TableNews';
-import newsFireBase from './NewstFireBase.jsx';
-import { scopes, api, useAuth } from '~/ServerLess'
+import { api } from '~/ServerLess'
 
 const uStyle = makeStyles((theme) => ({
   buttons: {
@@ -84,8 +82,6 @@ export default function ActionsButton({ row }) {
   const classes = uStyle();
 
   const [open, setOpen] = useState(false);
-
-  const router = useHistory();
 
   return (
     <>

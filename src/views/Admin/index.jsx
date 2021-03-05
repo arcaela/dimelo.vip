@@ -4,7 +4,6 @@ import AdminPage from './Home'
 import AddNews from './News/Add'
 import Movimiento from './Movimiento'
 import ManagerNews from './News/ManagerNews'
-import { useRouteMatch } from 'react-router-dom'
 
 export default function Admin({ params}) {
     return (
