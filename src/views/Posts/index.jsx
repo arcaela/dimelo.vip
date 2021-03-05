@@ -26,7 +26,7 @@ export default function NewsPage(){
     React.useEffect(()=>{
         if(loading===null) 
             getPosts();
-    }, []);
+    }, [ loading, getPosts ]);
 
     return (<Layout middleware={['auth']}>
         <Container ref={wall} maxWidth="sm">
