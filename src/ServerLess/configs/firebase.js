@@ -11,6 +11,7 @@ FirebaseLoad({
       messagingSenderId: "909520655494",
       appId: "1:909520655494:web:f1f178d8e564789ea22d07"
     },
+    firestore:null,
 });
 
 export default firebase;

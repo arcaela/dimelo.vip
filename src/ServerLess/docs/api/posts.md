@@ -5,7 +5,7 @@ La ruta **posts/** está orientada a la consulta y manipulación de datos de las
 
 <div style="margin-top:50px;" />
 
-## PUT | Crear / Eliminar
+## PUT | Crear
 > `api('posts/put', params)`
 ```javascript
     // @request
@@ -22,10 +22,17 @@ La ruta **posts/** está orientada a la consulta y manipulación de datos de las
             rol: Array,
         },
     }
-    const toDelete = {
+```
+<div style="margin-top:50px;" />
+
+## DELETE | Eliminar
+> `api('posts/delete', params)`
+```javascript
+    // @request
+    const params = {
         id: Number | Post ID,
         user: Object | User Object,
-    };
+    }
 ```
 <div style="margin-top:50px;" />
 
