@@ -28,9 +28,10 @@ Los usuarios se pueden buscar en su colección referente, la consulta la haces d
         birthday: Date String | 'dd/MM/yyy',
         movil: Number,
         phone: Number,
+        socials: Object,
         address:{
-        string: String,
-        maps: Object,
+            string: String,
+            maps: Object,
         },
         family:{
             adults: Number,
