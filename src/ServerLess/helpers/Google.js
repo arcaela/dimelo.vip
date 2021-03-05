@@ -15,4 +15,4 @@ Google.__promise__ = new Promise((s,e)=>{ Google.__resolve__=s; Google.__reject_
 window.googleReady = ()=>Google.__resolve__(Google.__google__=window.google);
 
 
-module.exports = Google;
+export default Google;

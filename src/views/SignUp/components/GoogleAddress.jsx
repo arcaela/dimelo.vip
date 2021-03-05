@@ -1,12 +1,11 @@
 import React from 'react';
+import { Google } from '~/ServerLess';
 import throttle from 'lodash/throttle';
-import { TextField, Grid, Typography, makeStyles, FormControl, FormHelperText, } from '@material-ui/core';
-import { Autocomplete } from '@material-ui/lab';
-
 import parse from 'autosuggest-highlight/parse';
-import LocationOnIcon from '@material-ui/icons/LocationOn';
+import { Autocomplete } from '@material-ui/lab';
 import useForm from '~/views/SignUp/components/useForm';
-import Google from '~/ServerLess/utils/Google';
+import LocationOnIcon from '@material-ui/icons/LocationOn';
+import { TextField, Grid, Typography, makeStyles, FormControl, FormHelperText, } from '@material-ui/core';
 
 
 const autocompleteService = { current: null };

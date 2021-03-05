@@ -1,11 +1,9 @@
-import React from 'react'
 import clsx from 'clsx';
-import { Button, makeStyles, Typography } from '@material-ui/core'
+import React from 'react'
 import { merge } from 'lodash';
 import { Home, Repeat } from '@material-ui/icons'
-import { reference } from '~/ServerLess'
-import firebase from '~/config/firebase'
-import useAuth from '~/ServerLess/hooks/useAuth';
+import { scopes, useAuth, firebase } from '~/ServerLess';
+import { Button, makeStyles, Typography } from '@material-ui/core'
 
 
 
@@ -46,8 +44,8 @@ export default function StepResult({setStep, ...inputs}){
     .reduce((profile, current)=>(current.points>profile.points?current:profile),{points:0});
   if(auth && state.loading && profile.points>0){
     const batch = firebase.firestore().batch();
-    batch.update(reference(`users/${auth.uid}`),{ patron:profile.name, });
-    batch.set(reference(`tests/${auth.uid}`),{ ...inputs, user:auth.uid, });
+    batch.update(scopes.users.doc(auth.uid),{ patron:profile.name, });
+    batch.set(firebase.firestore().collection('tests').doc(auth.uid),{ ...inputs, user:auth.uid, });
     batch.commit().then(()=>setState({loading:false,profiles:{}}));
   }
   return (<article className={clsx(classes.root, (!auth || state.loading) && classes.loading)}>

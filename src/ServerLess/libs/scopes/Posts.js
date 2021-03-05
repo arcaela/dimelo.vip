@@ -1,4 +1,4 @@
-import ScopeBase from '~/ServerLess/scopes/ScopeBase'
+import ScopeBase from '~/ServerLess/libs/scopes/ScopeBase'
 
 
 
