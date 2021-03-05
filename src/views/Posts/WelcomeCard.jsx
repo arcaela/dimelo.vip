@@ -12,8 +12,7 @@ import DimeloIcon from '~/images/logo/32x32.png';
 import DimeloWallpaper from '~/images/WELCOME.png';
 
 
-
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   root: { },
   media: {
     height: 0,
@@ -23,7 +22,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function RecipeReviewCard() {
   const classes = useStyles();
-
   return (
     <Card className={classes.root}>
       <CardHeader
@@ -31,11 +29,7 @@ export default function RecipeReviewCard() {
         title="Dimelo VIP"
         subheader="Administrador del sitio"
       />
-      <CardMedia
-        className={classes.media}
-        image={ DimeloWallpaper }
-        title="Paella dish"
-      />
+      <CardMedia className={classes.media} image={ DimeloWallpaper } title="Paella dish" />
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">
             El equipo de desarrollo de <a href="/">dímelo.vip</a> te brinda una cordial bienvenida a la plataforma,

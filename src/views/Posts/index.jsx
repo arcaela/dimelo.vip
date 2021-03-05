@@ -22,6 +22,12 @@ export default function NewsPage(){
             })
             .finally(()=>setLoading(false));
     }, [ loading, user, posts, setPosts ]);
+
+    React.useEffect(()=>{
+        if(loading===null) 
+            getPosts();
+    }, []);
+
     return (<Layout middleware={['auth']}>
         <Container ref={wall} maxWidth="sm">
             { !posts.length && <WelcomeCard /> }
