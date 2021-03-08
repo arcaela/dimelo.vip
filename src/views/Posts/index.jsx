@@ -24,7 +24,7 @@ export default function NewsPage(){
     }, [ loading, user, posts, setPosts ]);
 
     React.useEffect(()=>{
-        if(loading===null) 
+        if(loading===null)
             getPosts();
     }, [ loading, getPosts ]);
 

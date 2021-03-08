@@ -24,8 +24,8 @@ export default function SignUp({ useForm }){
   const [selectedDate, _setDate] = React.useState( inputs.birthday.date || new Date('01/01/2003') );
   const handleDateChange = async date=>{
     inputs.birthday.date=date;
-    inputs.birthday.value=date.toLocaleDateString('es-ES');
-    await _setDate(date)
+    inputs.birthday.value=date?.toLocaleDateString('es-ES');
+    await _setDate(date || new Date('01/01/2003'))
   };
   return (<>
       <DialogTermsConditions open={open} setOpen={setOpen} />

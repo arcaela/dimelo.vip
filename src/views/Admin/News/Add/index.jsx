@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useHistory, Link } from 'react-router-dom';
 
 import {
@@ -15,15 +15,17 @@ import {
 import InfoIcon from '@material-ui/icons/Info';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 
+import SimpleDialog from '../SimpleDialog';
+import NewsBox from "../../../Posts/NewsBox";
 import TitlePage from '~/components/TitlePage';
 import AlertToast from '~/components/AlertToast';
 import ButtonLoading from '~/components/ButtonLoading';
 import PersonImage from '~/images/admin/personas.svg'
-import { scopes, api, useAuth } from '~/ServerLess'
+import { api, useAuth } from '~/ServerLess'
 
 import useStyles from './styles';
 
-export default function EditNews({ id = null }) {
+export default function AddNews() {
   const classes = useStyles();
   const auth = useAuth();
   const router = useHistory();
@@ -32,25 +34,21 @@ export default function EditNews({ id = null }) {
     autor: {
       uid: '',
       fullname: '',
+      photoURL: '',
     },
     title: '',
     profiles: '',
     roles: '',
-    image: '',
     media: '',
     content: '',
   });
 
+  const [preview, setPreview] = useState({});
+
   const [error, setError] = useState({
-    autor: {
-      uid: '',
-      fullname: '',
-    },
     title: '',
     profiles: '',
     roles: '',
-    image: '',
-    media: '',
     content: '',
   });
 
@@ -58,9 +56,11 @@ export default function EditNews({ id = null }) {
 
   const [loading, setLoading] = useState(false);
 
+  const [openPreview, setOpenPreview] = useState(false);
+
   const [message, setMessage] = useState('');
 
-  const [verify, setVerify] = useState(false);
+  const [imagePreview, setImagePreview] = useState(null);
 
   const profilesOptions = [
     { title: 'Todos', value: 'all' },
@@ -77,102 +77,48 @@ export default function EditNews({ id = null }) {
     { title: 'Usuario', value: 2 },
   ];
 
-  const getPostProfiles = (values) => {
-    const postProfiles = values.length ? values.map((elem) => {
-      switch (elem) {
-        case 'all':
-          return ({ title: 'Todos', value: 'all' });
-        case 'dominancia':
-          return ({ title: 'Independiente Automotivado', value: 'dominancia' });
-        case 'control':
-          return ({ title: 'Analista Pensador', value: 'control' });
-        case 'influencia':
-          return ({ title: 'Promotor Amigable', value: 'influencia' });
-        case 'estabilidad':
-          return ({ title: 'Planificador Perseverante', value: 'estabilidad' });
-        default:
-          return ({ title: 'Todos', value: 'all' });
-      }
-    }) : [];
-    return postProfiles;
+  const handleChangeImage = ({ target : { files }}) => {
+    if(!files.length) return;
+
+    const read = new FileReader();
+    read.onload = () => {
+      setImagePreview(read.result);
+    }
+    read.readAsDataURL(files[0]);
+
+    setValues(prev=>({
+       ...prev,
+       media: files
+     }))
   }
 
-  const getPostRoles = (values) => {
-    const postRoles = values.length ? values.map((elem) => {
-      switch (elem) {
-        case 'all':
-          return ({ title: 'Todos', value: 'all' });
-        case 1:
-          return ({ title: 'Líderes de primer nivel', value: 1 });
-        case 2:
-          return ({ title: 'Líderes de celula', value: 2 });
-        case 3:
-          return ({ title: 'Usuario', value: 3 });
-        default:
-          return ({ title: 'Todos', value: 'all' });
+  const verifyValues = () => {
+    for (const value in values) {
+      if (values[value].length === 0 && value !== 'media' && value !== 'autor') {
+        setError((prev) => ({
+          ...prev,
+          [value]: 'Este Campo No Puede Estar Vacio',
+        }));
+        setLoading(false);
+        setOpenPreview(false);
+        return (false);
       }
-    }) : [];
-    return postRoles;
+    }
+    return (true);
   }
 
-  const getPostById = async () => {
-      if (!id) return;
-      try{
-        const snap = await scopes.posts.doc(id).get();
-        if(snap.data()){
-          const postData = snap.data();
-          setValues({
-            autor: postData.autor,
-            title: postData.title,
-            profiles: getPostProfiles(postData.filters.perfiles),
-            roles: getPostRoles(postData.filters.rol),
-            image: postData.media,
-            media: postData.media,
-            content: postData.content,
-          })
-        }
-      }catch (error){
-        console.log(error);
-      }
-    }
-
-  useEffect(() => {
-    if(!values.autor.uid){
-      getPostById()
-    }
-  })
-
-  const handlerSubmit = async (e) => {
-    e.preventDefault();
-
-    await setLoading(true);
+  const handlerSubmit = async () => {
+    setLoading(true);
     setError({
-      autor: {
-        uid: '',
-        fullname: '',
-      },
       title: '',
       profiles: '',
       roles: '',
-      image: '',
-      media: '',
       content: '',
     })
-    setVerify(false)
-
-    for (const value in values) {
-      if (values[value].length === 0 && value !== 'media') {
-        setError((prev) => ({
-            ...prev,
-            [value]: 'Este Campo No Puede Estar Vacio',
-          }));
-      }else{
-        setVerify(true)
-      }
-    }
+    const verify = verifyValues();
 
     const post = {
-        autor: {
+        user: {
           uid: values.autor.uid || auth.uid,
           fullname: values.autor.fullname || auth.fullname,
           photoURL: values.autor.photoURL || auth.photoURL,
@@ -194,6 +140,7 @@ export default function EditNews({ id = null }) {
       if (verify) {
         await api('posts/put', post)
         .then(()=>{
+          setLoading(false);
           setMessage('Publicada');
           setSuccess(!success);
         })
@@ -227,13 +174,13 @@ export default function EditNews({ id = null }) {
         />
       )}
 
-      <TitlePage title={!id ? 'Agregar noticia' : 'Editar noticia'} />
+      <TitlePage title='Agregar noticia' />
 
       {/* Breadcrumbs and Go back */}
       <Box display="flex" justifyContent="space-between" style={{ marginBottom: '20px' }}>
         <Breadcrumbs separator=">">
           <Typography>Noticias</Typography>
-          <Typography color='textPrimary'>{!id ? 'Agregar noticia' : 'Editar noticia'}</Typography>
+          <Typography color='textPrimary'>Agregar noticia</Typography>
         </Breadcrumbs>
         <Typography color='textPrimary' className={classes.goBack}> <Link to="/admin/news/">Volver</Link> </Typography>
       </Box>
@@ -242,138 +189,146 @@ export default function EditNews({ id = null }) {
         {/* Left Card */}
         <Grid item xs={9}>
           <Card style={{ height: '100%' }}>
-            <form onSubmit={(e) => handlerSubmit(e)} className={classes.form}>
-              <Grid spacing={5} container justify='space-around'>
-                {/* Title */}
-                <Grid item xs={10} md={5}>
-                  <TextField
-                    value={values.title}
-                    name='title'
-                    label='Titulo de la noticia'
-                    onChange={({ target:{name, value} }) => changeValues(name, value)}
-                    fullWidth
-                    error={error.title ? true : false}
-                    helperText={error.title ? error.title : ''}
-                  />
-                </Grid>
+            <Grid spacing={5} container justify='space-around' className={classes.form}>
+              {/* Title */}
+              <Grid item xs={10} md={5}>
+                <TextField
+                  value={values.title}
+                  name='title'
+                  label='Titulo de la noticia'
+                  onChange={({ target:{name, value} }) => changeValues(name, value)}
+                  fullWidth
+                  error={error.title ? true : false}
+                  helperText={error.title ? error.title : ''}
+                />
+              </Grid>
 
-                {/* Perfil */}
-                <Grid item xs={10} md={5}>
-                  <FormControl className={classes.formControl} error={error.profiles ? true : false}>
-                    <Autocomplete
-                      multiple
-                      id="profiles"
-                      options={profilesOptions}
-                      className={classes.chips}
-                      getOptionLabel={(option) => option.title}
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          variant="standard"
-                          label="Tipo de personalidad"
-                        />
-                      )}
-                      onChange={(e, newValue) => changeValues('profiles', newValue)}
-                    />
-                    {error.profiles && <FormHelperText>{error.profiles}</FormHelperText>}
-                  </FormControl>
-                </Grid>
-
-
-                <Grid item xs={10} md={5}></Grid>
-
-                {/* Rol */}
-                <Grid item  xs={10} md={5}>
-                  <FormControl className={classes.formControl} error={error.roles ? true : false}>
-                    <Autocomplete
-                      multiple
-                      id="roles"
-                      className={classes.chips}
-                      options={usersTypes}
-                      getOptionLabel={(option) => option.title}
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          variant="standard"
-                          label="Enviar a:"
-                        />
-                      )}
-                      onChange={(event, newValue) => changeValues('roles', newValue) }
-                    />
-                    {error.roles && <FormHelperText>{error.roles}</FormHelperText>}
-                  </FormControl>
-                </Grid>
-
-                {/* Image */}
-                <Grid item xs={10}>
-                  <FormControl className={classes.formControl} error={error.media ? true : false}>
-                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                      <input
-                        accept="image/*"
-                        className={classes.input}
-                        id="contained-button-file"
-                        multiple
-                        type="file"
-                        onChange={({target:{ files }})=> {
-                          setValues(prev=>({
-                            ...prev,
-                            media: files
-                          }))
-                        }}
+              {/* Perfil */}
+              <Grid item xs={10} md={5}>
+                <FormControl className={classes.formControl} error={error.profiles ? true : false}>
+                  <Autocomplete
+                    multiple
+                    id="profiles"
+                    options={profilesOptions}
+                    className={classes.chips}
+                    getOptionLabel={(option) => option.title}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        variant="standard"
+                        label="Tipo de personalidad"
                       />
-                      <label htmlFor="contained-button-file">
-                        <Button variant="contained" color="primary" component="span">
-                          Elija el archivo
-                        </Button>
-                      </label>
-                    </div>
+                    )}
+                    onChange={(e, newValue) => changeValues('profiles', newValue)}
+                  />
+                  {error.profiles && <FormHelperText>{error.profiles}</FormHelperText>}
+                </FormControl>
+              </Grid>
 
 
-                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                      {values.media && (
-                        <div style={{ padding: '.5rem', maxWidth: '50%', minWidth: '50%', height: 'auto', }}>
+              <Grid item xs={10} md={5}></Grid>
+
+              {/* Rol */}
+              <Grid item  xs={10} md={5}>
+                <FormControl className={classes.formControl} error={error.roles ? true : false}>
+                  <Autocomplete
+                    multiple
+                    id="roles"
+                    className={classes.chips}
+                    options={usersTypes}
+                    getOptionLabel={(option) => option.title}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        variant="standard"
+                        label="Enviar a:"
+                      />
+                    )}
+                    onChange={(event, newValue) => changeValues('roles', newValue) }
+                  />
+                  {error.roles && <FormHelperText>{error.roles}</FormHelperText>}
+                </FormControl>
+              </Grid>
+
+              {/* Image */}
+              <Grid item xs={10}>
+                <FormControl className={classes.formControl} error={error.media ? true : false}>
+                  <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <input
+                      accept="image/*"
+                      className={classes.input}
+                      id="contained-button-file"
+                      multiple
+                      type="file"
+                      onChange={handleChangeImage}
+                    />
+                    <label htmlFor="contained-button-file">
+                      <Button variant="contained" color="primary" component="span">
+                        Elija el archivo
+                      </Button>
+                    </label>
+                  </div>
+
+
+                  <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    {imagePreview && (
+                      <div style={{ padding: '.5rem', maxWidth: '50%', minWidth: '50%', height: 'auto', }}>
                           <img
                             style={{ maxWidth: '100%', height: 'auto', }}
                             alt='imagen'
-                            src={values.media}
+                            src={imagePreview}
                           />
-                        </div>
-                      )}
-                    </div>
+                      </div>
+                    )}
+                  </div>
 
-                    {error.media && <FormHelperText>{error.media}</FormHelperText>}
-                  </FormControl>
-                </Grid>
-
-                {/* Content */}
-                <Grid item xs={10}>
-                  <TextField
-                    value={values.content}
-                    name='content'
-                    onChange={({ target:{name, value} }) => changeValues(name, value)}
-                    rows={5}
-                    rowsMax={6}
-                    multiline={true}
-                    label='Contenido'
-                    fullWidth
-                    error={error.content ? true : false}
-                    helperText={error.content ? error.content : ''}
-                  />
-                </Grid>
-
-                {/* Button */}
-                <Grid justify='center' container>
-                  <ButtonLoading
-                    loading={ loading }
-                    variant='contained'
-                    type='submit'
-                    value="Publicar"
-                    color='secondary'>
-                      Enviar
-                  </ButtonLoading>
-                </Grid>
+                  {error.media && <FormHelperText>{error.media}</FormHelperText>}
+                </FormControl>
               </Grid>
-            </form>
+
+              {/* Content */}
+              <Grid item xs={10}>
+                <TextField
+                  value={values.content}
+                  name='content'
+                  onChange={({ target:{name, value} }) => changeValues(name, value)}
+                  rows={5}
+                  rowsMax={6}
+                  multiline={true}
+                  label='Contenido'
+                  fullWidth
+                  error={error.content ? true : false}
+                  helperText={error.content ? error.content : ''}
+                />
+              </Grid>
+
+              {/* Button */}
+              <Grid justify='center' container>
+                <ButtonLoading
+                  loading={loading}
+                  variant='contained'
+                  value="Publicar"
+                  color='secondary'
+                  onClick={() => handlerSubmit()}
+                />
+                <ButtonLoading
+                  variant="contained"
+                  color="primary"
+                  value="Preview"
+                  onClick={()=> {
+                  setPreview({
+                    autor: {
+                      fullname: auth.fullname,
+                      photoURL: auth.photoURL,
+                    },
+                    title: values.title,
+                    content: values.content,
+                    media: [],
+                  })
+                  setOpenPreview(!openPreview)
+                }} />
+              </Grid>
+            </Grid>
           </Card>
         </Grid>
 
@@ -406,6 +361,23 @@ export default function EditNews({ id = null }) {
             </Grid>
           </Card>
         </Grid>
+
+        <SimpleDialog
+          open={openPreview}
+          onClose={() => setOpenPreview(!openPreview)}
+          children={(<>
+            <NewsBox post={{...preview, media: imagePreview ? [imagePreview] : [] }} />
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <ButtonLoading
+              loading={loading}
+              variant='contained'
+              value="Publicar"
+              color='secondary'
+              onClick={() => handlerSubmit()}
+            />
+            </div>
+          </>)}
+        />
       </Grid>
     </>
   );
