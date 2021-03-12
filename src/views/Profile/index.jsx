@@ -3,6 +3,7 @@ import { useState } from 'react';
 import TitlePage from '~/components/TitlePage';
 import Layout from '~/views/layout';
 import Account from './components/Account';
+import Address from './components/Address';
 import PassWord from './components/PassWord';
 
 const StyledTabs = withStyles((theme) => ({
@@ -62,35 +63,25 @@ function a11yProps(index) {
 }
 
 export default function Profile() {
-
   const [value, setValue] = useState( 0 );
-
-  const handleChange = (event, newValue) => {
+  const handleChange = (...[, newValue]) => {
     setValue(newValue);
   };
-
   return (
     <Layout>
       <TitlePage title='Mi Cuenta' />
       <Grid container>
         <Grid item xs={12} sm={4}>
-          <StyledTabs
-            value={value}
-            onChange={handleChange}
-            orientation='vertical'
-            variant='scrollable'
-          >
+          <StyledTabs value={value} onChange={handleChange} orientation='vertical' variant='scrollable' >
             <StyledTab label='Datos personales' {...a11yProps(0)} />
-            <StyledTab label='Cambiar contraseña' {...a11yProps(1)} />
+            <StyledTab label='Dirección y Ubicación' {...a11yProps(1)} />
+            <StyledTab label='Cambiar contraseña' {...a11yProps(2)} />
           </StyledTabs>
         </Grid>
         <Grid item xs={12} sm={8}>
-          <TabPanel value={value} index={0}>
-            <Account />
-          </TabPanel>
-          <TabPanel value={value} index={1}>
-            <PassWord />
-          </TabPanel>
+          <TabPanel value={value} index={0} children={ <Account /> } />
+          <TabPanel value={value} index={1} children={ <Address /> } />
+          <TabPanel value={value} index={2} children={ <PassWord /> } />
         </Grid>
       </Grid>
     </Layout>

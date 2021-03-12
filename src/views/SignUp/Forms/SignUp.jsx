@@ -51,8 +51,8 @@ export default function SignUp({ useForm }){
                     inputVariant="outlined"
                     placeholder="10/10/2018"
                     views={['year','month', 'date']}
-                    minDate={new Date('01/01/1950')}
-                    maxDate={new Date('01/01/2005')}
+                    minDate={new Date('01/01/1900')}
+                    maxDate={new Date('01/01/2021')}
                     invalidDateMessage="Fecha incorrecta"
                     KeyboardButtonProps={{color:'inherit'}}
                     onError={err=>inputs.birthday.error=err}

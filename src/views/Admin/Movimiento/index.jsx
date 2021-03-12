@@ -1,4 +1,5 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState } from 'react'
+import { merge } from 'lodash'
 import TitlePage from '~/components/TitlePage';
 
 import { withStyles } from '@material-ui/core/styles';
@@ -8,6 +9,7 @@ import { Box } from '@material-ui/core';
 import LiderTab from './LiderTab';
 import UserTab from './UserTab';
 import { scopes } from '~/ServerLess';
+import Loading from '~/components/Loading';
 
 const StyledTabs = withStyles(theme => ({
     indicator: {
@@ -60,74 +62,40 @@ function a11yProps(index) {
     };
 }
 
+const $inputs = {
+  users:[],
+  loading:true,
+};
 export default function Movimiento(){
-
     const [value, setValue] = useState(0);
-    const [leaders, setLeaders] = useState([]);
-    const [users, setUsers] = useState([]);
-    const isMountedRef = useRef(null)
-
-    const handleChange = (event, newValue) => {
-      setValue(newValue);
+    const [inputs, _reset] = useState($inputs);
+    const setInputs = React.useCallback((value)=>_reset(p=>({...merge($inputs, p, value)})), [ _reset ]);
+    const red = {
+      count:inputs.users.length,
+      leaders:inputs.users.filter(user=>user.rol<2),
+      users:inputs.users.filter(user=>user.rol>1),
     };
+    useEffect(()=>{
+      if(!inputs.users.length){
+        scopes.users.get()
+          .then((snap)=>setInputs({loading:false,users:snap.docs.map(e=>e.data())}))
+          .catch(()=>setInputs({loading:false}))
+      }
+      return undefined;
+    }, [ inputs, setInputs ]);
 
-    useEffect(() => {
-      isMountedRef.current = true
-      const getLeaders = async () => {
-        try {
-          if(isMountedRef.current){
-            const users = await scopes.users.where('followers.size', '>=', 1).get();
-            setLeaders(users.docs.map((e) => e.data()));
-          }
-        } catch (e) {
-          if(isMountedRef.current){
-            console.log(e);
-          }
-        }
-      };
-      getLeaders();
-      return ()=> isMountedRef.current = false
-    }, []);
-
-    useEffect(() => {
-      isMountedRef.current = true
-      const getUsers = async () => {
-        try {
-          if(isMountedRef.current){
-            const users = await scopes.users.where('rol', '==', 2).get();
-            setUsers(users.docs.map((e) => e.data()));
-          }
-        } catch (e) {
-          if(isMountedRef.current){
-            console.log(e);
-          }
-        }
-      };
-      getUsers();
-      return ()=> isMountedRef.current = false
-    }, []);
-
-    return (
-        <>
-            <TitlePage title="Movimiento" />
-            <div className="">
-            <StyledTabs value={value} onChange={handleChange} aria-label="styled tabs example">
-                <StyledTab label="Lideres de Celula" {...a11yProps(0)} />
-                <StyledTab label="Usuarios" {...a11yProps(1)} />
-            </StyledTabs>
-            <div style={{
-                marginTop: 30,
-                marginBottom: 60
-            }}>
-                
-            </div>
-            </div>
-            <TabPanel value={value} index={0}>
-                <LiderTab leaders={leaders} />
-            </TabPanel>
-            <TabPanel value={value} index={1}>
-                <UserTab users={users} />
-            </TabPanel>
-        </>
-    )
+    return (<>
+      <TitlePage title="Movimiento" />
+      <div className="">
+        <StyledTabs value={value} onChange={(...[,nValue])=>setValue(nValue)} aria-label="styled tabs example">
+          <StyledTab label={`Lideres de Celula (${red.leaders.length})`} {...a11yProps(0)} />
+          <StyledTab label={`Usuarios (${red.users.length})`} {...a11yProps(1)} />
+        </StyledTabs>
+        <div style={{ marginTop: 30, marginBottom: 60 }} />
+      </div>
+      { inputs.loading ? <Loading /> : (<>
+        <TabPanel value={value} index={0} children={()=><LiderTab users={red.leaders} />} />
+        <TabPanel value={value} index={1} children={()=><UserTab users={red.users} />} />
+      </>) }
+    </>);
 };

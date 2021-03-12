@@ -47,7 +47,7 @@ export default function PageTest(){
   const { inputs, step, setStep, nextStep, StepComponent } =  useTest();
   return (<Layout middleware={['auth']}>
     <Container maxWidth="xs" className={classes.root} >
-      { step === 0 && (<article style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', textAlign: 'center', alignItems: 'center', }}>
+      { step === 0 && (<article style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-around', textAlign: 'center', alignItems: 'center', }}>
         <img src={WelcomeImage} alt="Bienvenido al test de personalidad"/>
         <Typography paragraph>
           Queremos saber un poco más de ti, así podremos potenciar todas las cualidades de nuestro equipo de trabajo en toda la ciudad.

@@ -8,7 +8,6 @@ import {
   Avatar
 } from '@material-ui/core';
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
-import PlaceIcon from '@material-ui/icons/Place';
 import PhoneAndroidIcon from '@material-ui/icons/PhoneAndroid';
 import FacebookIcon from '@material-ui/icons/Facebook';
 import InstagramIcon from '@material-ui/icons/Instagram';
@@ -65,13 +64,6 @@ export default function Account() {
     setValues({
       ...values,
       [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleAddress = (e) => {
-    setValues({
-      ...values,
-      [e.target.name]: { ...values.address, string: e.target.value },
     });
   };
 
@@ -196,23 +188,6 @@ export default function Account() {
               startAdornment: (
                 <InputAdornment position='start'>
                   <MailOutlineIcon />
-                </InputAdornment>
-              ),
-            }}
-          />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            value={values.address.string}
-            name='address'
-            onChange={(e) => handleAddress(e)}
-            className={classes.formControl}
-            fullWidth
-            label='Dirección'
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position='start'>
-                  <PlaceIcon />
                 </InputAdornment>
               ),
             }}

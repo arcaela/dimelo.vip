@@ -150,18 +150,6 @@ export default function LiderCard({ leader }) {
           <CardHeader
             className={classes.header}
             title={fullname}
-            action={
-              false ?
-              <>
-                <IconButton>
-                  <img src='/images/edit.svg' alt='' />
-                </IconButton>
-                <IconButton>
-                  <img src='/images/trash.svg' alt='' />
-                </IconButton>
-              </>
-              : ''
-            }
           />
           <Grid container direction="row" component={ CardContent } className={classes.content}>
             <Grid item xs={ 9 }>

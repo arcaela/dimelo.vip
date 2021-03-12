@@ -15,11 +15,11 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(2),
   },
 }));
-export default function GoogleAdress() {
+export default function GoogleAdress(props) {
     const classes = useStyles();
     const { inputs, } = useForm();
     const [ options, setOptions ] = React.useState([]);
-    const [ current, setCurrent ] = React.useState(inputs('address.value.string') || '');
+    const [ current, setCurrent ] = React.useState( inputs('address.value.string') || props.value );
     const fetch = React.useMemo(()=>throttle((request, callback) => {
       autocompleteService.current.getPlacePredictions(request, callback);
     }, 200),[],);
@@ -45,7 +45,7 @@ export default function GoogleAdress() {
       await setCurrent(inputs.address.value?.string);
     };
 
-    return (<FormControl error={!!inputs.address.error} style={{maxWidth:'unset',width:'100%'}}>
+    return (<FormControl error={!!inputs.address.error} style={{maxWidth:'unset',width:'100%'}} {...(props.FormControlProps || {})}>
         <FormHelperText> { inputs.address.error || 'Dirección de residencia: ' } </FormHelperText>
         <Autocomplete
             freeSolo

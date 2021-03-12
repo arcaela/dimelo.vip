@@ -2,33 +2,23 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import LiderCard from '../components/LiderCard';
-import Loading from '~/components/Loading';
 
-const gridStyles = makeStyles((theme) => ({
+const gridStyles = makeStyles(() => ({
   root: {
     flexGrow: 1,
   },
 }));
-
-export default function LiderTab({leaders}) {
+export default function LiderTab({users=[]}) {
   const grid = gridStyles();
-  return (
-    <div className={grid.root}>
-        <Grid container spacing={3}>
-          { !leaders && <Loading /> }
-          { ( leaders && leaders?.length > 0 ) && leaders.map( leader => (
-              <Grid key={ leader.uid } item xs={12} md={6}>
-                  <LiderCard leader={ leader } />
-              </Grid>
-          )) }
-          { ( leaders?.length === 0 )  && (
-              <Grid  item xs={12} >
-                <h1 style={{
-                  textAlign: 'center'
-                }}>No hay Líderes Registrados</h1>
-              </Grid>
-          ) }
+  return (<div className={grid.root}>
+    <Grid container spacing={3}>
+      {!users.length?(<Grid  item xs={12} >
+        <h1 style={{textAlign: 'center'}}>No hay líderes registrados.</h1>
+      </Grid>):users.map(user=>(
+        <Grid key={ user.uid } item xs={12} md={6}>
+          <LiderCard leader={ user } />
         </Grid>
-    </div>
-  );
+      ))}
+    </Grid>
+  </div>);
 }
