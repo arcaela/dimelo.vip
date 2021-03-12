@@ -19,7 +19,7 @@ const $store = {
         /* Step 1 */
         leader:{name:'leader', value:'', error:null, invalid(){ return null; }, },
         fullname:{ name:'fullname', value:'', error:null,
-            invalid(){ return !this.value?'¿Cual es tu nombre?':(this.value.match(/[^a-zA-Z\s+]/gi)?'Tu nombre tiene caracteres inválidos':null); },
+            invalid(){ return !this.value?'¿Cual es tu nombre?':( !this.value.match(/^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/gi)?'Tu nombre tiene caracteres inválidos':( this.value.split(' ').length<2?'Especifica tu nombre y apellido':null )); },
         },
         cedula:{name:'cedula', value:'', error:null,
             invalid(){ return !this.value?'¿Cual es tu cédula de identidad?':(this.value.match(/[^0-9.-\s+]/gi)?'Intenta con números unicamente':( this.value<100000?'Cédula inválida':null )); },

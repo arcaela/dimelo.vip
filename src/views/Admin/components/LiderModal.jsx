@@ -13,8 +13,6 @@ import List from '@material-ui/core/List';
 import { makeStyles } from '@material-ui/core/styles';
 import { useCardLider } from './lider.styles';
 
-import Delete from '~/images/trash.svg';
-
 import LiderCardModal from './LiderCardModal';
 
 
@@ -82,15 +80,13 @@ export default function LiderModal({ open, setOpen, followers, leader, patron })
             </div>
             <div className={classes.cardContainer}>
               <div  className={classes.pRelative}>
-                <CardHeader title={fullname} />
-                <div className={classes.actionsHeader}>
-                  <IconButton>
-                    <img src={Delete} alt='eliminar' />
-                  </IconButton>
+                <CardHeader title={fullname}
+                  action={
                   <IconButton onClick={() => setOpen(!open)}>
                     <CloseIcon />
                   </IconButton>
-                </div>
+                  }
+                />
               </div>
               <CardContent style={{
                 paddingTop: 0 

@@ -152,7 +152,7 @@ export default function Layout({ fullPage=false, middleware=true, children }){
   return (<Page children={fullPage?children:(<>
     <AppBar color="inherit" variant="outlined" position="fixed" className={classes.appBar}>
       <Toolbar variant="dense" className={classes.toolbar}>
-        <IconButton onClick={()=>setDrawerOpen(on=>!on)} className={classes.drawerButton}>
+        <IconButton style={{margin:0}} onClick={()=>setDrawerOpen(on=>!on)} className={classes.drawerButton}>
           <MenuIcon />
         </IconButton>
         <img alt="" src="/images/brand.svg" className="brand" />

@@ -37,8 +37,8 @@ export default makeStyles(theme=>({
                 fontWeight:300,
                 maxWidth:'unset',
                 margin:'20px auto 0 auto',
-                '& > .MuiIconButton-root':{ color:'white',fontWeight:300 },
-                '& .MuiFormHelperText-root:not(.Mui-error), & .MuiInputBase-root':{
+                '&:not(.is-ligth) > .MuiIconButton-root':{ color:'white',fontWeight:300 },
+                '&:not(.is-ligth) .MuiFormHelperText-root:not(.Mui-error), &:not(.is-ligth) .MuiInputBase-root':{
                     color:'white',
                     fontWeight:'inherit',
                     '&:not(.Mui-error)':{ '& fieldset':{ borderColor:'white', }, },
