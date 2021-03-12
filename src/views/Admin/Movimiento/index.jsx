@@ -1,4 +1,5 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState } from 'react'
+import { merge } from 'lodash'
 import TitlePage from '~/components/TitlePage';
 
 import { withStyles } from '@material-ui/core/styles';
@@ -9,7 +10,6 @@ import LiderTab from './LiderTab';
 import UserTab from './UserTab';
 import { scopes } from '~/ServerLess';
 import Loading from '~/components/Loading';
-import useInputs from '~/ServerLess/hooks/useInputs';
 
 const StyledTabs = withStyles(theme => ({
     indicator: {
@@ -62,28 +62,27 @@ function a11yProps(index) {
     };
 }
 
-const loading = {current:true};
+const $inputs = {
+  users:[],
+  loading:true,
+};
 export default function Movimiento(){
     const [value, setValue] = useState(0);
-    const { inputs, setInputs } = useInputs({
-      users:[],
-      loading:true,
-    });
+    const [inputs, _reset] = useState($inputs);
+    const setInputs = React.useCallback((value)=>_reset(p=>({...merge($inputs, p, value)})), [ _reset ]);
     const red = {
       count:inputs.users.length,
       leaders:inputs.users.filter(user=>user.rol<2),
       users:inputs.users.filter(user=>user.rol>1),
     };
-
     useEffect(()=>{
-      let active=true;
       if(!inputs.users.length){
         scopes.users.get()
-          .then(async (snap)=>(active&&await setInputs({loading:false,users:snap.docs.map(e=>e.data())})))
-          .catch(async ()=>await setInputs({loading:false}))
+          .then((snap)=>setInputs({loading:false,users:snap.docs.map(e=>e.data())}))
+          .catch(()=>setInputs({loading:false}))
       }
-      return ()=>active=false;
-    }, []);
+      return undefined;
+    }, [ inputs, setInputs ]);
 
     return (<>
       <TitlePage title="Movimiento" />
